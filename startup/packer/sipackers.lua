@@ -1,14 +1,22 @@
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 基础数据 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
 SIPackers =
 {
 }
 
-
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 封装数据 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 function SIPackers.CreatePack( sourceData )
 	return { isPack = true , data = sourceData }
 end
 
-
+-- ------------------------------------------------------------------------------------------------
+-- ------- 创建 icon 数据 -------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 function SIPackers.IconPack( iconPath , tint , mipmaps )
 	return SIPackers.CreatePack( SIPackers.Icon( iconPath , tint , mipmaps ) )
@@ -29,7 +37,9 @@ function SIPackers.Icon( iconPath , tint , mipmaps )
 	return icon
 end
 
-
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建能源数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 function SIPackers.EnergySourcePack( energySourceType , parameters )
 	return SIPackers.CreatePack( SIPackers.EnergySource( energySourceType , parameters ) )
@@ -120,7 +130,9 @@ function SIPackers.FluidEnergySource( fluidBox , smoke , lightFlicker , effectiv
 	return source
 end
 
-
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建原料数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 function SIPackers.SingleItemIngredientsPack( name , count )
 	return SIPackers.CreatePack{ SIPackers.SingleItemIngredient( name , count ) }
@@ -169,7 +181,9 @@ function SIPackers.AppendIngredients( ingredientsData , newIngredients )
 	return ingredientsData
 end
 
-
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建产物数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 function SIPackers.SingleItemProductsPack( name , count , probability , minCount , maxCount )
 	return SIPackers.CreatePack{ SIPackers.SingleItemProduct( name , count , probability , minCount , maxCount ) }
@@ -232,7 +246,9 @@ function SIPackers.AppendProducts( productsData , newProducts )
 	return ingredientsData
 end
 
-
+-- ------------------------------------------------------------------------------------------------
+-- ------- 创建科技瓶数据 -------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 function SIPackers.UnitPack( ingredients , time , count )
 	return SIPackers.CreatePack( SIPackers.Unit( ingredients , time , count ) )
@@ -283,7 +299,9 @@ function SIPackers.SingleIngredientUnit( name , count )
 	return unitItem
 end
 
-
+-- ------------------------------------------------------------------------------------------------
+-- ------ 创建科技效果数据 ------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 function SIPackers.RecipeModifiersPack( recipeList )
 	return SIPackers.CreatePack( SIPackers.RecipeModifiers( recipeList ) )
@@ -333,7 +351,9 @@ function SIPackers.SingleModifier( modifierType , param1 , param2 )
 	return modifier
 end
 
-
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建边框数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 function SIPackers.BoundBoxPack( width , height )
 	return SIPackers.CreatePack( SIPackers.BoundBox( width , height ) )
@@ -358,7 +378,9 @@ function SIPackers.CollisionBoundBox( width , height )
 	return { { -halfWidth , -halfHeight } , { halfWidth , halfHeight } }
 end
 
-
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建抗性数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 function SIPackers.ResistancesPack( name , decrease , percent )
 	return SIPackers.CreatePack{ SIPackers.Resistance( name , decrease , percent ) }
