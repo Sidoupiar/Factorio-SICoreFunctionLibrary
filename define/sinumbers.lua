@@ -1,0 +1,25 @@
+SINumbers =
+{
+	lineMax = 10 ,
+	
+	iconSize = 64 ,
+	iconSizeGroup = 64 ,
+	iconSizeTechnology = 128 ,
+	mipMaps = 4 ,
+	
+	pictureHrScale = 2.0 ,
+	
+	machinePictureSize = 32 ,
+	machinePictureTotalWidth = 8 ,
+	machinePictureTotalHeight = 8 ,
+	machineAnimationSpeed = 1 / 6 ,
+	
+	healthToMiningTime = 800 ,
+	lightSizeMult = 2.4 ,
+	
+	ticksPerDay = 25000 ,
+	ticksPerHalfDay = 12500
+}
+
+SINumbers.machinePictureSize_hr = SINumbers.machinePictureSize * SINumbers.pictureHrScale
+SINumbers.machinePictureTotalFrameCount = SINumbers.machinePictureTotalWidth * SINumbers.machinePictureTotalHeight
