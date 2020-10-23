@@ -1,4 +1,4 @@
-# SICoreFunctionLibrary
+# SICoreFunctionLibrary_0.2.5
 系列 MOD 的核心框架库。
 
 主要功能有以下几个方面：
