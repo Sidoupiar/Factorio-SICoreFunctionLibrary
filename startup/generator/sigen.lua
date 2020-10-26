@@ -545,7 +545,7 @@ function SIGen.Fill()
 		e( "模块构建 : 当前没有创建过实体时不能使用 Fill 方法" )
 		return SIGen
 	end
-	if not currentData:HasFill() then
+	if currentData:HasFill() then
 		e( "模块构建 : 当前实体已经使用过 Fill 方法了" )
 		return SIGen
 	end
@@ -606,7 +606,7 @@ function SIGen.SetSpeed( speed )
 end
 
 function SIGen.SetEnergy( energyUsage , energySource )
-	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	if energyUsage or energySource then currentData:SetEnergy( energyUsage , energySource ) end
 	return SIGen
 end

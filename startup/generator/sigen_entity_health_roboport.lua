@@ -10,9 +10,6 @@ end
 
 
 function entity:SetImage( path )
-	local _ , picture = self:GetParam( "picture" )
-	if picture then return self end
-	
 	return self
 end
 

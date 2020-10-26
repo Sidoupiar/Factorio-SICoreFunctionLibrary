@@ -37,6 +37,11 @@ function entity:SetStackSize( stackSize )
 	return self:SetParam( "stack_size" , stackSize )
 end
 
+function entity:SetEnergy( energyUsage , energySource )
+	return self:SetParam( "fuel_value" , energyUsage )
+	:SetParam( "fuel_category" , energySource )
+end
+
 
 
 function entity:SetResults( resultOrResultsOrPack , resultType , count )

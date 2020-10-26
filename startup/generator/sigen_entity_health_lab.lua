@@ -10,12 +10,9 @@ end
 
 
 function entity:SetImage( path )
-	local _ , onAnimation = self:GetParam( "on_animation" )
-	if onAnimation then return self end
-	
 	local width = self:GetWidth()
 	local height = self:GetHeight()
-	if not width or not height then return self end
+	if not width or width <= 0 or not height or height <= 0 then return self end
 	
 	local baseName = self:GetBaseName()
 	local imagePath = path .. "entity/" .. baseName .. "/"

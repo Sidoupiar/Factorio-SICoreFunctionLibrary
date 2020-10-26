@@ -10,9 +10,6 @@ end
 
 
 function entity:SetImage( path )
-	local _ , animation = self:GetParam( "animation" )
-	if animation then return self end
-	
 	return self
 end
 

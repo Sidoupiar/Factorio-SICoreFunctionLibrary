@@ -54,9 +54,10 @@ function entity:New( type , name , data )
 	self:SetBaseName( name )
 	self.sourceMod = currentConstantsData.class
 	if data then self:Import( data ) end
-	return self:SetParam( "type" , type )
+	self:SetParam( "type" , type )
 	:SetParam( "name" , currentConstantsData.autoName and currentConstantsData.realname..SIKeyw[type].."-"..name or name )
-	:SetImage( currentConstantsData.picturePath )
+	if data then return self
+	else return self:SetImage( currentConstantsData.picturePath ) end
 end
 
 function entity:Extend()
