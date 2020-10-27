@@ -17,6 +17,7 @@ entity:AddDefaultValue( "baseName" , "none" )
 :AddDefaultValue( "hasFill" , false )
 :AddDefaultValue( "hasExtend" , false )
 :AddDefaultValue( "data" , {} )
+:AddDefaultValue( "isEntity" , true )
 
 
 
@@ -466,6 +467,10 @@ function entity:SetCorpse( corpse , explosion , triggerEffect )
 end
 
 function entity:SetLevel( level , maxLevel )
+	return self
+end
+
+function entity:SetMainRecipe( recipeOrDataOrEntityOrPack )
 	return self
 end
 

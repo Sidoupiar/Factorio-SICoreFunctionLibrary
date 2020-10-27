@@ -647,6 +647,12 @@ function SIGen.SetLevel( level , maxLevel )
 	return SIGen
 end
 
+function SIGen.SetMainRecipe( recipeOrDataOrEntityOrPack )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:SetMainRecipe( recipeOrDataOrEntityOrPack )
+	return SIGen
+end
+
 
 
 function SIGen.SetFlags( flagOrFlagsOrPack )
