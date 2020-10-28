@@ -55,26 +55,42 @@ function SIPackers.EnergySource( energySourceType , parameters )
 		if parameters.isPack then parameters = table.deepcopy( parameters.data )
 		else parameters = table.deepcopy( parameters ) end
 	end
-	if energySourceType == SITypes.energy.electric then
-		if dataType ~= "table" then parameters = { usage_priority = parameters } end
-		return SIPackers.ElectricEnergySource( parameters.usage_priority , parameters.buffer_capacity , parameters.drain , parameters.input_flow_limit , parameters.output_flow_limit , parameters.emissions_per_second_per_watt )
-	elseif energySourceType == SITypes.energy.burner then
-		if dataType ~= "table" then parameters = { fuel_inventory_size = parameters }
-		elseif parameters.fuel_category and not parameters.fuel_categories then parameters.fuel_categories = { parameters.fuel_category } end
-		return SIPackers.BurnerEnergySource( parameters.fuel_inventory_size , parameters.burnt_inventory_size , parameters.smoke , parameters.light_flicker , parameters.effectivity , parameters.fuel_categories )
-	elseif energySourceType == SITypes.energy.heat then
-		if dataType ~= "table" then parameters = { specific_heat = parameters , max_transfer = parameters , max_temperature = 1000 } end
-		return SIPackers.HeatEnergySource( parameters.specific_heat , parameters.max_transfer , parameters.max_temperature , parameters.default_temperature , parameters.min_temperature_gradient , parameters.min_working_temperature , parameters.minimum_glow_temperature , parameters.pipe_covers , parameters.heat_pipe_covers , parameters.heat_picture , parameters.heat_glow , parameters.connections )
-	elseif energySourceType == SITypes.energy.fluid then
-		if dataType ~= "table" then parameters = { fluid_box = parameters } end
-		return SIPackers.FluidEnergySource( parameters.fluid_box , parameters.smoke , parameters.light_flicker , parameters.effectivity , parameters.burns_fluid , parameters.scale_fluid_usage , parameters.fluid_usage_per_tick , parameters.maximum_temperature )
+	if energySourceType == SITypes.energy.electric then return SIPackers.ElectricEnergySourceWithParameters( parameters , dataType )
+	elseif energySourceType == SITypes.energy.burner then return SIPackers.BurnerEnergySourceWithParameters( parameters , dataType )
+	elseif energySourceType == SITypes.energy.heat then return SIPackers.HeatEnergySourceWithParameters( parameters , dataType )
+	elseif energySourceType == SITypes.energy.fluid then return SIPackers.FluidEnergySourceWithParameters( parameters , dataType )
 	else return { type = SITypes.energy.void } end
+end
+
+function SIPackers.ElectricEnergySourceWithParameters( parameters , dataType )
+	if not dataType then dataType = type( parameters ) end
+	if dataType ~= "table" then parameters = { usage_priority = parameters } end
+	return SIPackers.ElectricEnergySource( parameters.usage_priority , parameters.buffer_capacity , parameters.drain , parameters.input_flow_limit , parameters.output_flow_limit , parameters.emissions_per_second_per_watt )
+end
+
+function SIPackers.BurnerEnergySourceWithParameters( parameters , dataType )
+	if not dataType then dataType = type( parameters ) end
+	if dataType ~= "table" then parameters = { fuel_inventory_size = parameters }
+	elseif parameters.fuel_category and not parameters.fuel_categories then parameters.fuel_categories = { parameters.fuel_category } end
+	return SIPackers.BurnerEnergySource( parameters.fuel_inventory_size , parameters.burnt_inventory_size , parameters.smoke , parameters.light_flicker , parameters.effectivity , parameters.fuel_categories )
+end
+
+function SIPackers.HeatEnergySourceWithParameters( parameters , dataType )
+	if not dataType then dataType = type( parameters ) end
+	if dataType ~= "table" then parameters = { specific_heat = parameters , max_transfer = parameters , max_temperature = 1000 } end
+	return SIPackers.HeatEnergySource( parameters.specific_heat , parameters.max_transfer , parameters.max_temperature , parameters.default_temperature , parameters.min_temperature_gradient , parameters.min_working_temperature , parameters.minimum_glow_temperature , parameters.pipe_covers , parameters.heat_pipe_covers , parameters.heat_picture , parameters.heat_glow , parameters.connections )
+end
+
+function SIPackers.FluidEnergySourceWithParameters( parameters , dataType )
+	if not dataType then dataType = type( parameters ) end
+	if dataType ~= "table" then parameters = { fluid_box = parameters } end
+	return SIPackers.FluidEnergySource( parameters.fluid_box , parameters.smoke , parameters.light_flicker , parameters.effectivity , parameters.burns_fluid , parameters.scale_fluid_usage , parameters.fluid_usage_per_tick , parameters.maximum_temperature )
 end
 
 -- 必要 : usage
 function SIPackers.ElectricEnergySource( usage , buffer , drain , inputLimit , outputLimit , emissions )
 	local source = { type = SITypes.energy.electric }
-	if not usage then source.usage_priority = "secondary-input"
+	if not usage then source.usage_priority = SITypes.electricUsagePriority.secondaryInput
 	else source.usage_priority = usage end
 	if buffer then source.buffer_capacity = buffer end
 	if drain then source.drain = drain end
@@ -128,6 +144,16 @@ function SIPackers.FluidEnergySource( fluidBox , smoke , lightFlicker , effectiv
 	if fluidUsage then source.fluid_usage_per_tick = fluidUsage end
 	if maxTemperature then source.maximum_temperature = maxTemperature end
 	return source
+end
+
+function SIPackers.EnergySourceOtherSettings( energySourceOrPack , emissions , render_noPowerIcon , render_noNetworkIcon )
+	local energySource = {}
+	if energySourceOrPack.isPack then energySource = energySourceOrPack.data
+	else energySource = energySourceOrPack end
+	energySource.emissions_per_minute = emissions
+	energySource.render_no_power_icon = render_noPowerIcon
+	energySource.render_no_network_icon = render_noNetworkIcon
+	return energySourceOrPack
 end
 
 -- ------------------------------------------------------------------------------------------------

@@ -15,6 +15,16 @@ function entity:SetSlotCount( inputSlotCount , outputSlotCount )
 	return self
 end
 
+function entity:SetLogisticMode( logisticMode )
+	return self:SetParam( "logistic_mode" , logisticMode )
+end
+
+
+
+function entity:SetRender_notInNetworkIcon( trueOrFalse )
+	return self:SetParam( "render_not_in_network_icon" , trueOrFalse )
+end
+
 
 
 function entity:Init( currentEntity )

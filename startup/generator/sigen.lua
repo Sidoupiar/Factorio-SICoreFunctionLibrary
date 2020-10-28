@@ -506,11 +506,12 @@ function SIGen.NewContainer( name , container )
 	return SIGen
 end
 
-function SIGen.NewContainerLogic( name , containerLogic )
+function SIGen.NewContainerLogic( name , containerLogic , logisticMode )
 	FinishData()
 	if not CheckData() then return SIGen end
 	currentData = SIGen.ContainerLogic:New( name , containerLogic )
 	InitEntity()
+	if logisticMode then currentData:SetLogisticMode( logisticMode ) end
 	return SIGen
 end
 
@@ -653,6 +654,12 @@ function SIGen.SetMainRecipe( recipeOrDataOrEntityOrPack )
 	return SIGen
 end
 
+function SIGen.SetLogisticMode( logisticMode )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:SetLogisticMode( logisticMode )
+	return SIGen
+end
+
 
 
 function SIGen.SetFlags( flagOrFlagsOrPack )
@@ -791,5 +798,13 @@ end
 function SIGen.ClearResults()
 	if not CheckEntityData( SIGen.dataFlags.result ) then return SIGen end
 	currentData:ClearResults()
+	return SIGen
+end
+
+
+
+function SIGen.SetRender_notInNetworkIcon( trueOrFalse )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:SetRender_notInNetworkIcon( trueOrFalse )
 	return SIGen
 end

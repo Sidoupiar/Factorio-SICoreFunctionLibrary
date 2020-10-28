@@ -294,6 +294,24 @@ SITypes =
 		roboport       = "roboport-equipment" ,
 		belt_immune    = "belt-immunity-equipment"
 	} ,
+	logisticMode =
+	{
+		passive        = "passive-provider" , -- 红箱
+		storage        = "storage" ,          -- 黄箱
+		buffer         = "buffer" ,           -- 绿箱
+		requester      = "requester" ,        -- 蓝箱
+		active         = "active-provider"    -- 紫箱
+	} ,
+	electricUsagePriority =
+	{
+		primaryInput = "primary-input" ,
+		primaryOutput = "primary-output" ,
+		secondaryInput = "secondary-input" ,
+		secondaryOutput = "secondary-output" ,
+		tertiary = "tertiary" ,
+		solar = "solar" ,
+		lamp = "lamp"
+	} ,
 	modifier =
 	{
 		unlockRecipe                            = "unlock-recipe" ,

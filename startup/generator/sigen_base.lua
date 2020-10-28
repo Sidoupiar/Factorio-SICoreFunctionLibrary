@@ -474,6 +474,10 @@ function entity:SetMainRecipe( recipeOrDataOrEntityOrPack )
 	return self
 end
 
+function entity:SetLogicType( logicType )
+	return self
+end
+
 
 
 function entity:SetResidences( residenceOrResidencesOrPack )
@@ -545,6 +549,12 @@ function entity:AddResults( resultOrResultsOrPack , count )
 end
 
 function entity:ClearResults()
+	return self
+end
+
+
+
+function entity:SetRender_notInNetworkIcon( trueOrFalse )
 	return self
 end
 
