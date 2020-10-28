@@ -202,6 +202,14 @@ end
 
 
 
+function entity:AddLastLevel( count )
+	local name = self:GetName()
+	if name:Level() > 1 then SIGen.AddTechnologies{ name:LastLevel() } end
+	return self
+end
+
+
+
 function entity:Fill( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Fill( currentEntity )

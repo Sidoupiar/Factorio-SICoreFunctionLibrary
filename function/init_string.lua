@@ -34,3 +34,11 @@ function string:Spos( pos )
 	self = self or ""
 	return self .. pos.x .. "," .. pos.y
 end
+
+function string:Level()
+	return tonumber( self:sub( -1 ) )
+end
+
+function string:LastLevel()
+	return self:sub( 0 , -1 ) .. ( self:Level() - 1 )
+end

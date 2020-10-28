@@ -131,6 +131,14 @@ end
 
 
 
+function entity:AddLastLevel( count )
+	local name = self:GetBaseName()
+	if name:Level() > 1 then SIGen.AddCosts( name:LastLevel() , count ) end
+	return self
+end
+
+
+
 function entity:Fill( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Fill( currentEntity )

@@ -558,6 +558,10 @@ function entity:SetRender_notInNetworkIcon( trueOrFalse )
 	return self
 end
 
+function entity:AddLastLevel( count )
+	return self
+end
+
 
 
 function entity:Init( currentEntity )

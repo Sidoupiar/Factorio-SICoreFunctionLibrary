@@ -541,6 +541,11 @@ function SIGen.SetItemName( itemName )
 	return SIGen
 end
 
+function SIGen.AddLastLevel( count )
+	currentData:AddLastLevel( count )
+	return SIGen
+end
+
 function SIGen.Fill()
 	if not currentData then
 		e( "模块构建 : 当前没有创建过实体时不能使用 Fill 方法" )
