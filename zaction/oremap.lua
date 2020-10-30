@@ -1,5 +1,8 @@
+-- 创建数据
+CreateGlobalTable( "oremap" )
+
 -- 左键圈选
-SIEventBus.add( SIEvents.on_player_selected_area , function( event )
+SIEventBus.Add( SIEvents.on_player_selected_area , function( event )
 	if event.item == "sicfl-item-oremap" then
 		for i , v in pairs( event.entities ) do
 			if v.prototype == SITypes.entity.resource then
@@ -10,7 +13,7 @@ SIEventBus.add( SIEvents.on_player_selected_area , function( event )
 end )
 
 -- shift+左键圈选
-SIEventBus.add( SIEvents.on_player_alt_selected_area , function( event )
+SIEventBus.Add( SIEvents.on_player_alt_selected_area , function( event )
 	if event.item == "sicfl-item-oremap" then
 		local index = event.player_index
 		local settings = oremap[index]

@@ -22,17 +22,14 @@ end
 -- ----------- 初始化 -----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function OnInit()
+SIEventBus.Init( function()
 	local damageTypes = CreateDamageType( game.damage_prototypes )
 	SetGlobalData( "SIDamageType" , damageTypes )
 	-- 发送通知
 	script.on_nth_tick( 30 , message )
-end
+end )
 
 function message( event )
 	sip{ "SICFL.changed" , { "SICFL.data" } , date.FormatDateByTick( event.tick ) }
 	script.on_nth_tick( nil )
 end
-
-script.on_init( OnInit )
-script.on_configuration_changed( OnInit )

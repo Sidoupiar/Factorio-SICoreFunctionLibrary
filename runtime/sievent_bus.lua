@@ -2,9 +2,25 @@
 -- ---------- 基础数据 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+-- list 内的元素结构
+-- eventId =
+-- {
+--   isSet = bool ,
+--   funcs = { id = function }
+-- }
 SIEventBus =
 {
 	order = 1 ,
+	init = 
+	{
+		notAdd = true ,
+		funcs = {}
+	} ,
+	load =
+	{
+		notAdd = true ,
+		funcs = {}
+	} ,
 	list = {}
 }
 
@@ -12,7 +28,47 @@ SIEventBus =
 -- ---------- 事件操作 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIEventBus.add( eventId , func , id )
+function SIEventBus.Init( func , id )
+	if not func then
+		e( "事件总线 : 不能添加空的初始化方法" )
+		return SIEventBus
+	end
+	if not id then
+		id = SIEventBus.order
+		SIEventBus.order = SIEventBus.order + 1
+	end
+	SIEventBus.init.funcs[id] = func
+	if SIEventBus.init.notAdd then
+		SIEventBus.init.notAdd = false
+		local baseFunc = function()
+			for id , func in pairs( SIEventBus.init.funcs ) do func( id ) end
+		end
+		script.on_init( baseFunc )
+		script.on_configuration_changed( baseFunc )
+	end
+	return SIEventBus
+end
+
+function SIEventBus.Load( func , id )
+	if not func then
+		e( "事件总线 : 不能添加空的载入存档方法" )
+		return SIEventBus
+	end
+	if not id then
+		id = SIEventBus.order
+		SIEventBus.order = SIEventBus.order + 1
+	end
+	SIEventBus.load.funcs[id] = func
+	if SIEventBus.load.notAdd then
+		SIEventBus.load.notAdd = false
+		script.on_load( function()
+			for id , func in pairs( SIEventBus.load.funcs ) do func( id ) end
+		end )
+	end
+	return SIEventBus
+end
+
+function SIEventBus.Add( eventId , func , id )
 	if not func then
 		e( "事件总线 : 不能添加空的事件方法" )
 		return SIEventBus
@@ -24,12 +80,12 @@ function SIEventBus.add( eventId , func , id )
 	local baseFunc = script.get_event_handler( eventId )
 	if baseFunc then
 		local data = SIEventBus.list[eventId]
-		if data.isSet then data.events[id] = func
+		if data.isSet then data.funcs[id] = func
 		else
 			data.isSet = true
-			data.events[id] = func
+			data.funcs[id] = func
 			script.on_event( eventId , function( event )
-				for id , func in pairs( SiEventBus.list[event.name] ) do func( event , id ) end
+				for id , func in pairs( SIEventBus.list[event.name].funcs ) do func( event , id ) end
 			end )
 		end
 	else
@@ -39,13 +95,13 @@ function SIEventBus.add( eventId , func , id )
 			data = SIEventBus.list[eventId]
 		end
 		data.isSet = false
-		data.events = { [id] = func }
+		data.funcs = { [id] = func }
 		script.on_event( eventId , func )
 	end
 	return SIEventBus
 end
 
-function SIEventBus.set( eventId , func , id )
+function SIEventBus.Set( eventId , func , id )
 	if not func then
 		e( "事件总线 : 不能设置空的事件方法" )
 		return SIEventBus
@@ -59,20 +115,20 @@ function SIEventBus.set( eventId , func , id )
 		e( "事件总线 : 当前 eventId 指定的事件列表没有记录数据" )
 		return SIEventBus
 	end
-	local oldFunc = data.events[id]
+	local oldFunc = data.funcs[id]
 	if not oldFunc then
 		e( "事件总线 : 设置事件方法时必须使用列表中存在的 id" )
 		return SIEventBus
 	end
-	if data.isSet then data.events[id] = func
+	if data.isSet then data.funcs[id] = func
 	else
-		data.events = { [id] = func }
+		data.funcs = { [id] = func }
 		script.on_event( eventId , func )
 	end
 	return SIEventBus
 end
 
-function SIEventBus.remove( eventId , id )
+function SIEventBus.Remove( eventId , id )
 	if not id then
 		e( "事件总线 : 移除事件方法时必须使用明确的 id" )
 		return SIEventBus
@@ -82,25 +138,25 @@ function SIEventBus.remove( eventId , id )
 		e( "事件总线 : 当前 eventId 指定的事件列表没有记录数据" )
 		return SIEventBus
 	end
-	local oldFunc = data.events[id]
+	local oldFunc = data.funcs[id]
 	if not oldFunc then
 		e( "事件总线 : 设置事件方法时必须使用列表中存在的 id" )
 		return SIEventBus
 	end
 	if data.isSet then
-		local events = {}
+		local funcs = {}
 		local count = 0
-		for oldId , oldFunc in pairs( data.events ) do
+		for oldId , oldFunc in pairs( data.funcs ) do
 			if oldId ~= id then
-				events[oldId] = oldFunc
+				funcs[oldId] = oldFunc
 				count = count + 1
 			end
 		end
-		data.events = events
+		data.funcs = funcs
 		if count < 2 then
 			data.isSet = false
 			local func = nil
-			for oldId , oldFunc in pairs( data.events ) do
+			for oldId , oldFunc in pairs( data.funcs ) do
 				if oldFunc then
 					func = oldFunc
 					break
@@ -108,11 +164,11 @@ function SIEventBus.remove( eventId , id )
 			end
 			if func then script.on_event( eventId , func ) end
 		end
-	else SIEventBus.clear( eventId ) end
+	else SIEventBus.Clear( eventId ) end
 	return SIEventBus
 end
 
-function SIEventBus.clear( eventId )
+function SIEventBus.Clear( eventId )
 	local data = SIEventBus.list[eventId]
 	if data then SIEventBus.list[eventId] = nil end
 	script.on_event( eventId )
