@@ -13,3 +13,8 @@ function table.Has( data , value )
 	for k , v in pairs( data ) do if v == value then return true end end
 	return false
 end
+
+function table.GetWithName( data , name )
+	for k , v in pairs( data ) do if v.name == name then return v end end
+	return nil
+end

@@ -23,8 +23,7 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 SIEventBus.Init( function()
-	local damageTypes = CreateDamageType( game.damage_prototypes )
-	SetGlobalData( "SIDamageType" , damageTypes )
+	SetGlobalData( "SIDamageType" , CreateDamageType( game.damage_prototypes ) )
 	-- 发送通知
 	script.on_nth_tick( 30 , message )
 end )

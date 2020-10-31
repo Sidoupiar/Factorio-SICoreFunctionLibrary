@@ -91,8 +91,8 @@ function SIEventBus.Add( eventId , func , id )
 	else
 		local data = SIEventBus.list[eventId]
 		if not data then
-			SIEventBus.list[eventId] = {}
-			data = SIEventBus.list[eventId]
+			data = {}
+			SIEventBus.list[eventId] = data
 		end
 		data.isSet = false
 		data.funcs = { [id] = func }

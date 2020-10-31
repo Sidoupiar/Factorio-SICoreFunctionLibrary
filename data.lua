@@ -21,5 +21,7 @@ load( constants )
 SIGen
 .Init( SICFL )
 .NewGroup( "others" )
+.NewSubGroup( "debug" )
+.NewItem( "empty" , 1000 )
 .NewGroup( "extensions" )
 .Finish()

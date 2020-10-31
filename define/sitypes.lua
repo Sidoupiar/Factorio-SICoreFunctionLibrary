@@ -67,6 +67,7 @@ SITypes =
 	equipmentGrid = "equipment-grid" ,
 	beam          = "beam" ,
 	decorative    = "optimized-decorative" ,
+	input         = "custom-input" ,
 	entity =
 	{
 		fire           = "fire" ,

@@ -150,10 +150,19 @@ end
 
 -- 强制输出日志
 function sil( msg )
-	log( "SICFL: "..msg )
+	log( "SICoreFunctionLibrary: "..msg )
 end
 
 -- 强制输出 debug 信息
 function sip( msg )
 	game.print( { "SICFL.m-xt" , msg } , SIColors.printColor.green )
+end
+
+-- 输出警告
+function alert( player , customMessage )
+	if SILoadingDatas then sil( msg )
+	else
+		if not player then player = game end
+		player.print( { "SICFL.m-jg" , customMessage } , SIColors.printColor.red )
+	end
 end

@@ -9,7 +9,8 @@ end
 function ExDestroy( entity , remnant )
 	local surface = entity.surface
 	if entity.health then
-		surface.create_entity{ name = "medium-explosion" , position = entity.position }
+		if entity.prototype.dying_explosion then surface.create_entity{ name = entity.prototype.dying_explosion , position = entity.position }
+		else surface.create_entity{ name = "medium-explosion" , position = entity.position } end
 		if remnant then
 			if entity.prototype.corpses then
 				for n , m in pairs( entity.prototype.corpses ) do

@@ -2,7 +2,7 @@
 SIEventBus.Add( SIEvents.on_player_selected_area , function( event )
 	if event.item == "sicfl-item-delmap" then
 		for i , v in pairs( event.entities ) do
-			if v and v.valid and v.prototype and v.prototype.type ~= "character" then ExDestroy( v , true ) end
+			if v.valid and v.type ~= "character" then ExDestroy( v , true ) end
 		end
 	end
 end )

@@ -21,15 +21,19 @@ globalTableList = {}
 function CreateGlobalTable( name )
 	table.insert( globalTableList , name )
 	if not globalTableFuncAdded then
-		SIEventBus.Init( CreateGlobalTableOnInit , globalTableFuncId ).Load( CreateGlobalTableOnLoad , globalTableFuncId )
 		globalTableFuncAdded = true
+		SIEventBus.Init( CreateGlobalTableOnInit , globalTableFuncId ).Load( CreateGlobalTableOnLoad , globalTableFuncId )
 	end
 end
 
 function CreateGlobalTableOnInit()
 	for i , name in pairs( globalTableList ) do
-		local oldData = GetGlobalData( name )
-		if not oldData then SetGlobalData( name , {} ) end
+		local data = GetGlobalData( name )
+		if not data then
+			data = {}
+			_G[name] = data
+			SetGlobalData( name , data )
+		end
 	end
 end
 
