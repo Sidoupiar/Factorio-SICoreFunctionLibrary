@@ -397,7 +397,11 @@ end
 
 
 
-function entity:InsertIcon( iconData )
+function entity:Change_ClearIcon( needClearIcon )
+	return self:DeleteParam( "icon" ):self.DeleteParam( "icons" )
+end
+
+function entity:Inserter_InsertIcon( iconData )
 	if not iconData then
 		e( "模块构建：不能插入空的图标数据" )
 		return self

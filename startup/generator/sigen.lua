@@ -22,11 +22,6 @@ local savedSubGroupData =
 	subGroupDataList = {}
 }
 
-local insertData =
-{
-	Icon = nil
-}
-
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 内部处理 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
@@ -72,11 +67,7 @@ end
 local function FinishData()
 	if currentData then
 		if not currentData:HasFill() then currentData:Fill() end
-		for k , v in pairs( insertData ) do
-			if v then
-				for n , m in pairs( v ) do currentData["Insert"..k]( currentData , m ) end
-			end
-		end
+		SIGen.Inserter.InsertData( currentData )
 		currentData:Extend():Finish()
 	end
 end
@@ -130,7 +121,16 @@ end
 
 SIGen =
 {
-	dataFlags = {} ,
+	dataFlags =
+	{
+		all          = SIUtils.MapAllValueToList( SITypes.all ) ,
+		item         = SIUtils.MapValueToList( SITypes.item ) ,
+		entity       = SIUtils.MapValueToList( SITypes.entity ) ,
+		machine      = SIUtils.MapValueToList( SITypes.machine ) ,
+		recipe       = { SITypes.recipe } ,
+		technology   = { SITypes.technology } ,
+		result       = { SITypes.item.item , SITypes.item.item_e , SITypes.recipe , SITypes.technology }
+	} ,
 	resultType =
 	{
 		none         = "none" ,
@@ -143,6 +143,8 @@ SIGen =
 		technology   = "tech"
 	}
 }
+
+SIGen.Inserter = need( "sigen_inserter" )
 
 SIGen.Base = need( "sigen_base" )
 SIGen.Group = need( "sigen_group" )
@@ -164,26 +166,6 @@ SIGen.Container = need( "sigen_entity_health_container" )
 SIGen.ContainerLogic = need( "sigen_entity_health_container_logic" )
 SIGen.Recipe = need( "sigen_recipe" )
 SIGen.Technology = need( "sigen_technology" )
-
-SIGen.dataFlags.all = SIUtils.MapAllValueToList( SITypes.all )
-SIGen.dataFlags.item = SIUtils.MapValueToList( SITypes.item )
-SIGen.dataFlags.entity = SIUtils.MapValueToList( SITypes.entity )
-SIGen.dataFlags.machine = SIUtils.MapValueToList( SITypes.machine )
-SIGen.dataFlags.recipe =
-{
-	SITypes.recipe
-}
-SIGen.dataFlags.technology =
-{
-	SITypes.technology
-}
-SIGen.dataFlags.result =
-{
-	SITypes.item.item ,
-	SITypes.item.item_e ,
-	SITypes.recipe ,
-	SITypes.technology
-}
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 获取数据 ----------------------------------------------------------------------------
@@ -301,7 +283,7 @@ end
 function SIGen.Finish()
 	FinishData()
 	DefaultValues()
-	return SIGen.ClearInsert()
+	return SIGen.Inserter.Clear()
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -333,6 +315,7 @@ function SIGen.NewGroup( name , group )
 end
 
 function SIGen.NewSubGroup( name , subgroup )
+	FinishData()
 	if not currentConstantsData then
 		e( "模块构建 : 创建实体时基础信息(ConstantsData)不能为空" )
 		return SIGen
@@ -358,25 +341,6 @@ function SIGen.NewSubGroup( name , subgroup )
 		currentSubGroup_order = currentSubGroup_order + 1
 		currentData_order = 1
 	end
-	return SIGen
-end
-
--- ------------------------------------------------------------------------------------------------
--- -------- 创建附加数据 --------------------------------------------------------------------------
--- ------------------------------------------------------------------------------------------------
-
-function SIGen.InsertIcon( index , iconPath , tint , mipmaps )
-	local icon = insertData.Icon
-	if not icon then
-		icon = {}
-	end
-	table.insert( icon , { index = index , iconPath = iconPath , tint = tint , mipmaps = mipmaps } )
-	insertData.Icon = icon
-	return SIGen
-end
-
-function SIGen.ClearInsert()
-	for k , v in pairs( insertData ) do if v then insertData[k] = nil end end
 	return SIGen
 end
 
@@ -569,6 +533,11 @@ function SIGen.Fill()
 		return SIGen
 	end
 	currentData:Fill()
+	return SIGen
+end
+
+function SIGen.FinishData()
+	FinishData()
 	return SIGen
 end
 

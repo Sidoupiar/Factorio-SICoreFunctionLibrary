@@ -34,6 +34,7 @@ function SIPackers.Icon( iconPath , tint , mipmaps )
 		if iconPath.tint or tint then icon.tint = iconPath.tint or tint end
 		if iconPath.mipmaps or mipmaps then icon.icon_mipmaps = iconPath.mipmaps or mipmaps end
 	end
+	if not icon.icon_mipmaps then icon.icon_mipmaps = 4 end
 	return icon
 end
 
