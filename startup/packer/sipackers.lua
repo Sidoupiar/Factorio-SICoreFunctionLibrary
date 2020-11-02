@@ -211,40 +211,48 @@ end
 -- -------- 创建产物数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIPackers.SingleItemProductsPack( name , count , probability , minCount , maxCount )
-	return SIPackers.CreatePack{ SIPackers.SingleItemProduct( name , count , probability , minCount , maxCount ) }
+function SIPackers.SingleItemProductsPack( name , countOrProbability , minCount , maxCount , catalystCount )
+	return SIPackers.CreatePack{ SIPackers.SingleItemProduct( name , countOrProbability , minCount , maxCount , catalystCount ) }
 end
 
-function SIPackers.SingleItemProductPack( name , count , probability , minCount , maxCount )
-	return SIPackers.CreatePack( SIPackers.SingleItemProduct( name , count , probability , minCount , maxCount ) )
+function SIPackers.SingleItemProductPack( name , countOrProbability , minCount , maxCount , catalystCount )
+	return SIPackers.CreatePack( SIPackers.SingleItemProduct( name , countOrProbability , minCount , maxCount , catalystCount ) )
 end
 
-function SIPackers.SingleFluidProductsPack( name , count , probability , minCount , maxCount , temperature )
-	return SIPackers.CreatePack{ SIPackers.SingleFluidProduct( name , count , probability , minCount , maxCount , temperature ) }
+function SIPackers.SingleFluidProductsPack( name , countOrProbability , minCount , maxCount , temperature , catalystCount )
+	return SIPackers.CreatePack{ SIPackers.SingleFluidProduct( name , countOrProbability , minCount , maxCount , temperature , catalystCount ) }
 end
 
-function SIPackers.SingleFluidProductPack( name , count , probability , minCount , maxCount , temperature )
-	return SIPackers.CreatePack( SIPackers.SingleFluidProduct( name , count , probability , minCount , maxCount , temperature ) )
+function SIPackers.SingleFluidProductPack( name , countOrProbability , minCount , maxCount , temperature , catalystCount )
+	return SIPackers.CreatePack( SIPackers.SingleFluidProduct( name , countOrProbability , minCount , maxCount , temperature , catalystCount ) )
 end
 
-function SIPackers.SingleItemProduct( name , count , probability , minCount , maxCount )
+function SIPackers.SingleItemProduct( name , countOrProbability , minCount , maxCount , catalystCount )
 	local product = { type = SITypes.item.item , name = name }
-	if count then product.amount = count
-	else product.amount = 1 end
-	if probability then product.probability = probability end
-	if minCount then product.amount_min = minCount end
-	if maxCount then product.amount_max = maxCount end
+	if minCount and maxCount then
+		product.probability = countOrProbability
+		product.amount_min = minCount
+		product.amount_max = maxCount
+	else
+		if countOrProbability then product.amount = countOrProbability
+		else product.amount = 1 end
+	end
+	if catalystCount then product.catalyst_amount = catalystCount end
 	return product
 end
 
-function SIPackers.SingleFluidProduct( name , count , probability , minCount , maxCount , temperature )
+function SIPackers.SingleFluidProduct( name , countOrProbability , minCount , maxCount , temperature , catalystCount )
 	local product = { type = SITypes.fluid , name = name }
-	if count then product.amount = count
-	else product.amount = 1 end
-	if probability then product.probability = probability end
-	if minCount then product.amount_min = minCount end
-	if maxCount then product.amount_max = maxCount end
+	if minCount and maxCount then
+		product.probability = countOrProbability
+		product.amount_min = minCount
+		product.amount_max = maxCount
+	else
+		if countOrProbability then product.amount = countOrProbability
+		else product.amount = 1 end
+	end
 	if temperature then product.temperature = temperature end
+	if catalystCount then product.catalyst_amount = catalystCount end
 	return product
 end
 
