@@ -460,6 +460,10 @@ function entity:SetEffectRadius( effectRadius , linkRadius , connectRadius )
 	return self
 end
 
+function entity:SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy )
+	return self
+end
+
 function entity:SetModuleData( slotCount , iconShift )
 	return self
 end

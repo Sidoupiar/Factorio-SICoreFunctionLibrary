@@ -8,6 +8,9 @@ SIMods =
 		
 		SIEXInfinityTechnologies = "SI EX 无尽科技[SI EX Infinity Technologies]" ,
 		SIEXHyperspaceTeleporter = "SI EX 超空间传送机[SI EX Hyperspace Teleporter]" ,
+		SIEXPipeAndBarrel = "SI EX 管道和装桶[SI EX Pipe And Barrel]" ,
+		
+		SIBasicTechnologies = "SI 基础技术[SI Basic Technologies]" ,
 		
 		SIAgriculture = "SI 农业[SI Agriculture]" ,
 		SIAnimalHusbandry = "SI 牧业[SI Animal Husbandry]" ,

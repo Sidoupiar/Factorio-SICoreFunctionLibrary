@@ -622,6 +622,12 @@ function SIGen.SetEffectRadius( effectRadius , linkRadius , connectRadius )
 	return SIGen
 end
 
+function SIGen.SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	if effectEnergy or linkEnergy or connectEnergy then currentData:SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy ) end
+	return SIGen
+end
+
 function SIGen.SetModuleData( slotCount , iconShift )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	if slotCount or iconShift then currentData:SetModuleData( slotCount , iconShift ) end

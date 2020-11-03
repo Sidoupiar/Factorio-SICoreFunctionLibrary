@@ -13,6 +13,18 @@ function entity:SetSpeed( speed )
 	return self:SetParam( "rotation_speed" , speed )
 end
 
+function entity:SetEffectRadius( effectRadius , linkRadius , connectRadius )
+	if effectRadius then self:SetParam( "max_distance_of_nearby_sector_revealed" , effectRadius ) end
+	if linkRadius then self:SetParam( "max_distance_of_sector_revealed" , linkRadius ) end
+	return self
+end
+
+function entity:SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy )
+	if effectEnergy then self:SetParam( "energy_per_nearby_scan" , effectEnergy ) end
+	if linkEnergy then self:SetParam( "energy_per_sector" , linkEnergy ) end
+	return self
+end
+
 
 
 function entity:Init( currentEntity )
