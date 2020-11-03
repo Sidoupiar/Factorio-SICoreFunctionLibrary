@@ -1,3 +1,4 @@
+
 local function hit_effects_entity( offset_deviation , offset )
 	local offset = offet or { 0 , 1 }
 	return
@@ -22,15 +23,12 @@ for i = 2 , 6 , 1 do table.insert( sounds_generic_impact , { filename = "__base_
 
 
 local function add_pic_radar( r , l , p , w )
+	SIGen.NewRadar( name )
+	.SetProperties( 3 , 3 , 100 , 0.01 , "10MW" , SIPackers.EnergySource() )
+	.SetCorpse( "radar-remnants" , "radar-explosion" )
+	.AddArmor()
+	
 	sicfl_armor_base_data( r )
-	r.flags = { "placeable-player" , "player-creation" }
-	r.rotation_speed = 0.01
-	r.energy_usage = "10MW"
-	r.collision_box = { { -1.2 , -1.2 } , { 1.2 , 1.2 } }
-	r.selection_box = { { -1.5 , -1.5 } , { 1.5 , 1.5 } }
-	r.corpse = "radar-remnants"
-	r.dying_explosion = "radar-explosion"
-	r.energy_source = { type = "void" }
 	r.radius_minimap_visualisation_color = { r = 0.059 , g = 0.092 , b = 0.235 , a = 0.275 }
 	r.damaged_trigger_effect = hit_effects_entity()
 	r.vehicle_impact_sound = sounds_generic_impact

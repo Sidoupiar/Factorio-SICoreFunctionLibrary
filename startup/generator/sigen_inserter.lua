@@ -7,11 +7,11 @@ local inserter =
 	hasData = false ,
 	changeData =
 	{
-		ClearIcon = nil
+		clearIcon = nil
 	} ,
 	insertData =
 	{
-		InsertIcons = nil
+		insertIcons = nil
 	}
 }
 
@@ -43,12 +43,12 @@ end
 -- ----------- 数据器 -----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function inserter.GetInsertData_InsertIcons()
-	local icons = inserter.insertData.InsertIcons
+function inserter.GetInsertData_insertIcons()
+	local icons = inserter.insertData.insertIcons
 	if not icons then
 		icons = {}
 		inserter.hasData = true
-		inserter.insertData.InsertIcons = icons
+		inserter.insertData.insertIcons = icons
 	end
 	return icons
 end
@@ -65,9 +65,9 @@ function inserter.Clear()
 end
 
 function inserter.ClearIcon()
-	if not inserter.changeData.ClearIcon then
+	if not inserter.changeData.clearIcon then
 		inserter.hasData = true
-		inserter.changeData.ClearIcon = true
+		inserter.changeData.clearIcon = true
 	end
 	return SIGen
 end
@@ -75,7 +75,7 @@ end
 function inserter.InsertIcon( index , iconPath , tint , mipmaps , scale , shift , size )
 	local iconData = SIPackers.Icon( iconPath , tint , mipmaps , scale , shift , size )
 	iconData.index = index
-	table.insert( inserter.GetInsertData_InsertIcons() , iconData )
+	table.insert( inserter.GetInsertData_insertIcons() , iconData )
 	return SIGen
 end
 

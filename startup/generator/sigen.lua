@@ -22,6 +22,8 @@ local savedSubGroupData =
 	subGroupDataList = {}
 }
 
+local armorDataList = {}
+
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 内部处理 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
@@ -161,9 +163,10 @@ SIGen.Furnace = need( "sigen_entity_health_furnace" )
 SIGen.Machine = need( "sigen_entity_health_machine" )
 SIGen.Lab = need( "sigen_entity_health_lab" )
 SIGen.Beacon = need( "sigen_entity_health_beacon" )
-SIGen.Roboport = need( "sigen_entity_health_roboport" )
 SIGen.Container = need( "sigen_entity_health_container" )
 SIGen.ContainerLogic = need( "sigen_entity_health_container_logic" )
+SIGen.Roboport = need( "sigen_entity_health_roboport" )
+SIGen.Radar = need( "sigen_entity_health_radar" )
 SIGen.Recipe = need( "sigen_recipe" )
 SIGen.Technology = need( "sigen_technology" )
 
@@ -467,14 +470,6 @@ function SIGen.NewBeacon( name , beacon )
 	return SIGen
 end
 
-function SIGen.NewRoboport( name , roboport )
-	FinishData()
-	if not CheckData() then return SIGen end
-	currentData = SIGen.Roboport:New( name , roboport )
-	InitEntity()
-	return SIGen
-end
-
 function SIGen.NewContainer( name , container )
 	FinishData()
 	if not CheckData() then return SIGen end
@@ -489,6 +484,22 @@ function SIGen.NewContainerLogic( name , containerLogic , logisticMode )
 	currentData = SIGen.ContainerLogic:New( name , containerLogic )
 	InitEntity()
 	if logisticMode then currentData:SetLogisticMode( logisticMode ) end
+	return SIGen
+end
+
+function SIGen.NewRoboport( name , roboport )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.Roboport:New( name , roboport )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewRadar( name , radar )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.Radar:New( name , radar )
+	InitEntity()
 	return SIGen
 end
 
@@ -794,4 +805,35 @@ function SIGen.SetRender_notInNetworkIcon( trueOrFalse )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	currentData:SetRender_notInNetworkIcon( trueOrFalse )
 	return SIGen
+end
+
+function SIGen.AddLastLevel( count )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:AddLastLevel( count )
+	return SIGen
+end
+
+function SIGen.AddArmor()
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:AddArmor()
+	table.insert( armorDataList , { currentData:GetType() , currentData:GetName() } )
+	return SIGen
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- --------- 最终构建 ------------ ( 此处方法均为为自动调用 , 不能手动调用 ) ----------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIGen.FinalScript_createArmor()
+	if #armorDataList > 0 then
+		local resistances = {}
+		for name , damage in pairs( SIGen.GetList( SITypes.damageType ) ) do
+			table.insert( resistances , { type = name , decrease = 35 , percent = 98 } )
+		end
+		for i , settings in pairs( armorDataList ) do
+			local data = SIGen.GetData( settings[1] , settings[2] )
+			data.max_health = data.max_health * 100
+			data.resistances = resistances
+		end
+	end
 end

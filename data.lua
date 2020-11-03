@@ -21,7 +21,20 @@ load( constants )
 SIGen
 .Init( SICFL )
 .NewGroup( "others" )
-.NewSubGroup( "debug" )
+.NewSubGroup( "debug-things" )
 .NewItem( "empty" , 1000 )
-.NewGroup( "extensions" )
-.Finish()
+
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 测试工具 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+if SIStartup.SICFL.debug_tools() then
+	SIGen.NewSubGroup( "debug-tools" )
+	need( "zprototype/delmap" )
+	need( "zprototype/oremap" )
+	need( "zprototype/radars" )
+	--need( "zprototype/roboports" )
+	--need( "zprototype/robots" )
+end
+
+SIGen.NewGroup( "extensions" ).Finish()

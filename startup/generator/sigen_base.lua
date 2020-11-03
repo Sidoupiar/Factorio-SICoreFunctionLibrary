@@ -397,12 +397,12 @@ end
 
 
 
-function entity:Change_ClearIcon( needClearIcon )
+function entity:Change_clearIcon( needClearIcon )
 	if needClearIcon then return self:DeleteParam( "icon" ):self.DeleteParam( "icons" )
 	else return self end
 end
 
-function entity:Inserter_InsertIcon( iconData )
+function entity:Inserter_insertIcon( iconData )
 	if not iconData then
 		e( "模块构建：不能插入空的图标数据" )
 		return self
@@ -565,6 +565,10 @@ function entity:SetRender_notInNetworkIcon( trueOrFalse )
 end
 
 function entity:AddLastLevel( count )
+	return self
+end
+
+function entity:AddArmor()
 	return self
 end
 

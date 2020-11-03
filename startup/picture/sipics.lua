@@ -12,7 +12,7 @@ function SIPics.BaseAnimLayer( path , baseName , width , height , scale , hasHr 
 		filename = path .. baseName .. ".png" ,
 		width = width * scale * pixelPerLength ,
 		height = height * scale * pixelPerLength ,
-		shift = util.by_pixel( 0.0 , 0.0 )
+		shift = util.by_pixel( 0 , 0 )
 	}
 	if hasHr then
 		layer.hr_version = SIPics.BaseAnimLayer( path , baseName.."-hr" , width , height , scale , false , SINumbers.machinePictureSize_hr )
@@ -39,13 +39,13 @@ end
 function SIPics.OnAnimLayerShadow( path , baseName , width , height , scale , hasHr , totalHeight , pixelPerLength )
 	if not totalHeight then totalHeight = 0.0 end
 	local layer = SIPics.OnAnimLayer( path , baseName.."-shadow" , width , height , scale , hasHr , pixelPerLength )
-	layer.shift = util.by_pixel( totalHeight , totalHeight )
+	layer.shift = util.by_pixel( totalHeight , 0 )
 	layer.repeat_count = layer.frame_count
 	layer.line_length = 1
 	layer.frame_count = 1
 	layer.draw_as_shadow = true
 	if hasHr then
-		layer.hr_version.shift = util.by_pixel( totalHeight*SINumbers.pictureHrScale , totalHeight*SINumbers.pictureHrScale )
+		layer.hr_version.shift = util.by_pixel( totalHeight*SINumbers.pictureHrScale , 0 )
 		layer.hr_version.repeat_count = layer.hr_version.frame_count
 		layer.hr_version.line_length = 1
 		layer.hr_version.frame_count = 1
@@ -66,11 +66,11 @@ end
 function SIPics.OffAnimLayerShadow( path , baseName , width , height , scale , hasHr , totalHeight , pixelPerLength )
 	if not totalHeight then totalHeight = 0.0 end
 	local layer = SIPics.OffAnimLayer( path , baseName.."-shadow" , width , height , scale , hasHr , pixelPerLength )
-	layer.shift = util.by_pixel( totalHeight , totalHeight )
+	layer.shift = util.by_pixel( totalHeight , 0 )
 	layer.frame_count = 1
 	layer.draw_as_shadow = true
 	if hasHr then
-		layer.hr_version.shift = util.by_pixel( totalHeight*SINumbers.pictureHrScale , totalHeight*SINumbers.pictureHrScale )
+		layer.hr_version.shift = util.by_pixel( totalHeight*SINumbers.pictureHrScale , 0 )
 		layer.hr_version.frame_count = 1
 		layer.hr_version.draw_as_shadow = true
 	end
