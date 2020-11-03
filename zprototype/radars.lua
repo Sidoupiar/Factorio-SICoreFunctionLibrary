@@ -24,6 +24,6 @@ local function CreateRadar( name , nearRadius , farRadius , nearEnergy , farEner
 	.AddArmor()
 end
 
-CreateRadar( "strategic" , 24 , 0 , "20MJ" , "1TJ" )
-CreateRadar( "sky-eye" , 60 , 0 , "20MJ" , "1TJ" )
-CreateRadar( "overload" , 150 , 0 , "20MJ" , "1TJ" )
+CreateRadar( "radar-strategic" , 24 , 0 , "20MJ" , "1TJ" )
+CreateRadar( "radar-sky-eye" , 60 , 0 , "20MJ" , "1TJ" )
+CreateRadar( "radar-overload" , 150 , 0 , "20MJ" , "1TJ" )
