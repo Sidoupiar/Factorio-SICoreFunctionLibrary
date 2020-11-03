@@ -9,6 +9,19 @@ end
 
 
 
+function entity:SetImage( path )
+	local width = self:GetWidth()
+	local height = self:GetHeight()
+	if not width or width <= 0 or not height or height <= 0 then return self end
+	
+	local baseName = self:GetBaseName()
+	local imagePath = path .. "entity/" .. baseName .. "/"
+	
+	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
+	:SetParam( "icon_size" , SINumbers.iconSize )
+	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
+end
+
 function entity:SetSpeed( speed )
 	return self:SetParam( "rotation_speed" , speed )
 end
