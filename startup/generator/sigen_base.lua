@@ -398,7 +398,8 @@ end
 
 
 function entity:Change_ClearIcon( needClearIcon )
-	return self:DeleteParam( "icon" ):self.DeleteParam( "icons" )
+	if needClearIcon then return self:DeleteParam( "icon" ):self.DeleteParam( "icons" )
+	else return self end
 end
 
 function entity:Inserter_InsertIcon( iconData )
@@ -414,7 +415,8 @@ function entity:Inserter_InsertIcon( iconData )
 		icons = {}
 		table.insert( icons , SIPackers.Icon( icon , nil , mipmaps ) )
 	end
-	table.insert( icons , iconData.index , SIPackers.Icon( iconData , nil , mipmaps ) )
+	if iconData.index < 1 or iconData.index > #icons then table.insert( icons , iconData )
+	else table.insert( icons , iconData.index , iconData ) end
 	return self:SetParam( "icons" , icons )
 end
 

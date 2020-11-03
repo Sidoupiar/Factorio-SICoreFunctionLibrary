@@ -22,19 +22,15 @@ function SIPackers.IconPack( iconPath , tint , mipmaps )
 	return SIPackers.CreatePack( SIPackers.Icon( iconPath , tint , mipmaps ) )
 end
 
-function SIPackers.Icon( iconPath , tint , mipmaps )
+function SIPackers.Icon( iconPath , tint , mipmaps , scale , shift , size )
 	local icon = {}
-	local dataType = type( iconPath )
-	if dataType == "string" then
-		if iconPath then icon.icon = iconPath end
-		if tint then icon.tint = tint end
-		if mipmaps then icon.icon_mipmaps = mipmaps end
-	elseif dataType == "table" then
-		if iconPath.iconPath then icon.icon = iconPath.iconPath end
-		if iconPath.tint or tint then icon.tint = iconPath.tint or tint end
-		if iconPath.mipmaps or mipmaps then icon.icon_mipmaps = iconPath.mipmaps or mipmaps end
-	end
-	if not icon.icon_mipmaps then icon.icon_mipmaps = 4 end
+	if iconPath then icon.icon = iconPath end
+	if tint then icon.tint = tint end
+	if mipmaps then icon.icon_mipmaps = mipmaps
+	else icon.icon_mipmaps = 4 end
+	if scale then icon.scale = scale end
+	if shift then icon.shift = shift end
+	if size then icon.icon_size = size end
 	return icon
 end
 

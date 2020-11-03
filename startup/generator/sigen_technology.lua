@@ -84,6 +84,8 @@ end
 
 function entity:AddTechnologies( technologyOrTechnologiesOrPack )
 	if not self:CheckData( technologyOrTechnologiesOrPack ) then return self end
+	local _ , prerequisites = self:GetParam( "prerequisites" )
+	if not prerequisites then self:SetParam( "prerequisites" , {} ) end
 	local dataType = type( technologyOrTechnologiesOrPack )
 	if dataType == "string" then
 		return self:AddParamItem( "prerequisites" , technologyOrTechnologiesOrPack )

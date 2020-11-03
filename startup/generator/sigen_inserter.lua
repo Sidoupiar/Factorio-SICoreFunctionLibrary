@@ -11,7 +11,7 @@ local inserter =
 	} ,
 	insertData =
 	{
-		InsertIcon = nil
+		InsertIcons = nil
 	}
 }
 
@@ -40,6 +40,20 @@ function inserter.InsertData( entity )
 end
 
 -- ------------------------------------------------------------------------------------------------
+-- ----------- 数据器 -----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function inserter.GetInsertData_InsertIcons()
+	local icons = inserter.insertData.InsertIcons
+	if not icons then
+		icons = {}
+		inserter.hasData = true
+		inserter.insertData.InsertIcons = icons
+	end
+	return icons
+end
+
+-- ------------------------------------------------------------------------------------------------
 -- -------- 创建附加数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
@@ -51,17 +65,37 @@ function inserter.Clear()
 end
 
 function inserter.ClearIcon()
-	
+	if not inserter.changeData.ClearIcon then
+		inserter.hasData = true
+		inserter.changeData.ClearIcon = true
+	end
+	return SIGen
 end
 
-function inserter.InsertIcon( index , iconPath , tint , mipmaps )
-	local icon = inserter.insertData.InsertIcon
-	if not icon then
-		icon = {}
-		inserter.hasData = true
-		inserter.insertData.InsertIcon = icon
+function inserter.InsertIcon( index , iconPath , tint , mipmaps , scale , shift , size )
+	local iconData = SIPackers.Icon( iconPath , tint , mipmaps , scale , shift , size )
+	iconData.index = index
+	table.insert( inserter.GetInsertData_InsertIcons() , iconData )
+	return SIGen
+end
+
+function inserter.InsertIconFromIconList( index , list , scale , shift )
+	index = index - 1
+	for i , icon in pairs( list ) do
+		local iconScale = scale
+		local iconShift = table.deepcopy( shift )
+		if icon.shift then
+			for k , v in pairs( iconShift ) do iconShift[k] = v + icon.shift[k] * iconScale end
+		end
+		if icon.scale then iconScale = iconScale * icon.scale end
+		inserter.InsertIcon( index+i , icon.icon , icon.tint , icon.icon_mipmaps , iconScale , iconShift , icon.icon_size )
 	end
-	table.insert( icon , { index = index , iconPath = iconPath , tint = tint , mipmaps = mipmaps } )
+	return SIGen
+end
+
+function inserter.InsertIconFromData( index , data , scale , shift )
+	if data.icon then inserter.InsertIcon( index , data.icon , nil , data.icon_mipmaps , scale , shift , data.icon_size )
+	elseif data.icons then inserter.InsertIconFromIconList( index , data.icons , scale , shift ) end
 	return SIGen
 end
 
