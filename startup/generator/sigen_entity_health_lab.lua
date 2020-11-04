@@ -16,12 +16,13 @@ function entity:SetImage( path )
 	
 	local baseName = self:GetBaseName()
 	local imagePath = path .. "entity/" .. baseName .. "/"
+	local totalHeight = self:GetTotalHeight()
 	local onLayers = {}
 	local offLayers = {}
 	table.insert( onLayers , SIPics.OnAnimLayer( imagePath , baseName , width , height ) )
-	table.insert( onLayers , SIPics.OnAnimLayerShadow( imagePath , baseName , width , height , 1.0 , false , self:GetTotalHeight() ) )
+	table.insert( onLayers , SIPics.OnAnimLayerShadow( imagePath , baseName , width , height , 1.0 , false , totalHeight ) )
 	table.insert( offLayers , SIPics.OffAnimLayer( imagePath , baseName , width , height ) )
-	table.insert( offLayers , SIPics.OffAnimLayerShadow( imagePath , baseName , width , height , 1.0 , false , self:GetTotalHeight() ) )
+	table.insert( offLayers , SIPics.OffAnimLayerShadow( imagePath , baseName , width , height , 1.0 , false , totalHeight ) )
 	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
 	:SetParam( "icon_size" , SINumbers.iconSize )
 	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
