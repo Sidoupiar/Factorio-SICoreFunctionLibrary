@@ -16,13 +16,21 @@ function entity:SetImage( path )
 	
 	local baseName = self:GetBaseName()
 	local imagePath = path .. "entity/" .. baseName .. "/"
-	local totalHeight = self:GetTotalHeight()
+	local file = imagePath .. baseName
+	local addenWidth = self:GetAddenWidth()
+	local addenHeight = self:GetAddenHeight()
+	local shadowWidth = self:GetShadowWidth()
+	local shadowHeight = self:GetShadowHeight()
+	local hasHr = self:GetHasHr()
+	local animShadow = self:GetAnimShadow()
+	
 	local onLayers = {}
 	local offLayers = {}
-	table.insert( onLayers , SIPics.OnAnimLayer( imagePath , baseName , width , height ) )
-	table.insert( onLayers , SIPics.OnAnimLayerShadow( imagePath , baseName , width , height , 1.0 , false , totalHeight ) )
-	table.insert( offLayers , SIPics.OffAnimLayer( imagePath , baseName , width , height ) )
-	table.insert( offLayers , SIPics.OffAnimLayerShadow( imagePath , baseName , width , height , 1.0 , false , totalHeight ) )
+	table.insert( onLayers , SIPics.OnAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ) )
+	if animShadow then table.insert( onLayers , SIPics.OnAnimLayerShadow( file , width , height , hasHr , shadowWidth , shadowHeight ) )
+	else table.insert( onLayers , SIPics.OnAnimLayerShadowSingle( file , width , height , hasHr , shadowWidth , shadowHeight ) ) end
+	table.insert( offLayers , SIPics.OffAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ) )
+	table.insert( offLayers , SIPics.OffAnimLayerShadow( file , width , height , hasHr , shadowWidth , shadowHeight ) )
 	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
 	:SetParam( "icon_size" , SINumbers.iconSize )
 	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
@@ -39,7 +47,6 @@ end
 function entity:Init( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Init( currentEntity )
-	currentEntity:SetTotalHeight( 15 )
 	currentEntity:SetStackSize( 100 )
 	return self
 end

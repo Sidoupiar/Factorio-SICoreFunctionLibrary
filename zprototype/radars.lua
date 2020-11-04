@@ -14,6 +14,10 @@ local customData =
 
 local function CreateRadar( name , nearRadius , farRadius , nearEnergy , farEnergy )
 	SIGen.NewRadar( name )
+	.E.SetAddenSize( 2 , 32 )
+	.E.SetShadowSize( 76 , -2 )
+	.E.SetAnimShadow( true )
+	.E.SetWaterLocation( 5 , 35 )
 	.SetProperties( 3 , 3 , 100 , 0.01 , "10MW" , SIPackers.EnergySource() )
 	.SetEffectRadius( nearRadius , farRadius )
 	.SetEffectEnergy( nearEnergy , farEnergy )

@@ -1,15 +1,69 @@
 local entity = SIGen.Base:Copy( "entity" )
 entity:AddDefaultValue( "width" , 0 )
 :AddDefaultValue( "height" , 0 )
-:AddDefaultValue( "totalHeight" , 0 )
+:AddDefaultValue( "addenWidth" , 0 )
+:AddDefaultValue( "addenHeight" , 0 )
+:AddDefaultValue( "shadowWidth" , 0 )
+:AddDefaultValue( "shadowHeight" , 0 )
+:AddDefaultValue( "hasHr" , false )
+:AddDefaultValue( "animShadow" , false )
+:AddDefaultValue( "patchLocation" , nil )
+:AddDefaultValue( "waterLocation" , nil )
 :AddDefaultValue( "itemStackSize" , 0 )
 :AddDefaultValue( "itemName" , nil )
 :AddDefaultValue( "item" , nil )
 
 
 
-function entity:SetTotalHeight( totalHeight )
-	self.totalHeight = totalHeight
+function entity:SetAddenSize( addenWidth , addenHeight )
+	self.addenWidth = addenWidth
+	self.addenHeight = addenHeight
+	return self
+end
+
+function entity:SetAddenWidth( addenWidth )
+	self.addenWidth = addenWidth
+	return self
+end
+
+function entity:SetAddenHeight( addenHeight )
+	self.addenHeight = addenHeight
+	return self
+end
+
+function entity:SetShadowSize( shadowWidth , shadowHeight )
+	self.shadowWidth = shadowWidth
+	self.shadowHeight = shadowHeight
+	return self
+end
+
+function entity:SetShadowWidth( shadowWidth )
+	self.shadowWidth = shadowWidth
+	return self
+end
+
+function entity:SetShadowHeight( shadowHeight )
+	self.shadowHeight = shadowHeight
+	return self
+end
+
+function entity:SetHasHr( hasHr )
+	self.hasHr = hasHr
+	return self
+end
+
+function entity:SetAnimShadow( animShadow )
+	self.animShadow = animShadow
+	return self
+end
+
+function entity:SetPatchLocation( x , y )
+	self.patchLocation = { x , y }
+	return self
+end
+
+function entity:SetWaterLocation( x , y )
+	self.waterLocation = { x , y }
 	return self
 end
 
@@ -26,8 +80,36 @@ function entity:GetHeight()
 	return self.height
 end
 
-function entity:GetTotalHeight()
-	return self.totalHeight
+function entity:GetAddenWidth()
+	return self.addenWidth
+end
+
+function entity:GetAddenHeight()
+	return self.addenHeight
+end
+
+function entity:GetShadowWidth()
+	return self.shadowWidth
+end
+
+function entity:GetShadowHeight()
+	return self.shadowHeight
+end
+
+function entity:GetHasHr()
+	return self.hasHr
+end
+
+function entity:GetAnimShadow()
+	return self.animShadow
+end
+
+function entity:GetPatchLocation()
+	return self.patchLocation
+end
+
+function entity:GetWaterLocation()
+	return self.waterLocation
 end
 
 function entity:GetItemStackSize()

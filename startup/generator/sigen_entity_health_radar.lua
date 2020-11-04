@@ -16,10 +16,27 @@ function entity:SetImage( path )
 	
 	local baseName = self:GetBaseName()
 	local imagePath = path .. "entity/" .. baseName .. "/"
+	local file = imagePath .. baseName
+	local addenWidth = self:GetAddenWidth()
+	local addenHeight = self:GetAddenHeight()
+	local shadowWidth = self:GetShadowWidth()
+	local shadowHeight = self:GetShadowHeight()
+	local hasHr = self:GetHasHr()
+	local animShadow = self:GetAnimShadow()
 	
+	local patchLocation = self:GetPatchLocation()
+	local waterLocation = self:GetWaterLocation()
+	if patchLocation then :SetParam( "integration_patch" , SIPics.Patch( file , width , height , hasHr , addenWidth , addenHeight , patchLocation ) ) end
+	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( file , width , height , waterLocation ) ) end
+	
+	local layers = {}
+	table.insert( layers , SIPics.OnAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ) )
+	if animShadow then table.insert( layers , SIPics.OnAnimLayerShadow( file , width , height , hasHr , shadowWidth , shadowHeight ) )
+	else table.insert( layers , SIPics.OnAnimLayerShadowSingle( file , width , height , hasHr , shadowWidth , shadowHeight ) ) end
 	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
 	:SetParam( "icon_size" , SINumbers.iconSize )
 	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
+	:SetParam( "pictures" , { layers = layers } )
 end
 
 function entity:SetSpeed( speed )
@@ -43,7 +60,6 @@ end
 function entity:Init( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Init( currentEntity )
-	currentEntity:SetTotalHeight( 15 )
 	currentEntity:SetStackSize( 100 )
 	return self
 end

@@ -7,7 +7,8 @@ SINumbers =
 	iconSizeTechnology = 128 ,
 	mipMaps = 4 ,
 	
-	pictureHrScale = 2.0 ,
+	pictureHrScale = 2 ,
+	pictureHrScaleDown = 0.5 ,
 	
 	machinePictureSize = 32 ,
 	machinePictureTotalWidth = 8 ,

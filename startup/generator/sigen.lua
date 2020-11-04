@@ -123,6 +123,7 @@ end
 
 SIGen =
 {
+	E = {} , -- 快速填充专用前缀
 	dataFlags =
 	{
 		all          = SIUtils.MapAllValueToList( SITypes.all ) ,
@@ -823,6 +824,60 @@ function SIGen.AddArmor()
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	currentData:AddArmor()
 	table.insert( armorDataList , { currentData:GetType() , currentData:GetName() } )
+	return SIGen
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 快速填充 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIGen.E.SetAddenSize( addenWidth , addenHeight )
+	if currentData.SetAddenSize then currentData:SetAddenSize( addenWidth , addenHeight ) end
+	return SIGen
+end
+
+function SIGen.E.SetAddenWidth( addenWidth )
+	if currentData.SetAddenWidth then currentData:SetAddenWidth( addenWidth ) end
+	return SIGen
+end
+
+function SIGen.E.SetAddenWidth( addenWidth )
+	if currentData.SetAddenWidth then currentData:SetAddenWidth( addenWidth ) end
+	return SIGen
+end
+
+function SIGen.E.SetShadowSize( shadowWidth , shadowHeight )
+	if currentData.SetShadowSize then currentData:SetShadowSize( shadowWidth , shadowHeight ) end
+	return SIGen
+end
+
+function SIGen.E.SetShadowWidth( shadowWidth )
+	if currentData.SetShadowWidth then currentData:SetShadowWidth( shadowWidth ) end
+	return SIGen
+end
+
+function SIGen.E.SetShadowHeight( shadowHeight )
+	if currentData.SetShadowHeight then currentData:SetShadowHeight( shadowHeight ) end
+	return SIGen
+end
+
+function SIGen.E.SetHasHr( hasHr )
+	if currentData.SetHasHr then currentData:SetHasHr( hasHr ) end
+	return SIGen
+end
+
+function SIGen.E.SetAnimShadow( animShadow )
+	if currentData.SetAnimShadow then currentData:SetAnimShadow( animShadow ) end
+	return SIGen
+end
+
+function SIGen.E.SetPatchLocation( x , y )
+	if currentData.SetPatchLocation then currentData:SetPatchLocation( x , y ) end
+	return SIGen
+end
+
+function SIGen.E.SetWaterLocation( x , y )
+	if currentData.SetWaterLocation then currentData:SetWaterLocation( x , y ) end
 	return SIGen
 end
 
