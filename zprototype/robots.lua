@@ -107,6 +107,10 @@ SIGen.NewRobotLogistic( "robot-logistic" )
 
 
 
+
+
+
+
 local animation_shift = { 0 , 0 }
 local shadow_shift = { -0.75 , -0.4 }
 
