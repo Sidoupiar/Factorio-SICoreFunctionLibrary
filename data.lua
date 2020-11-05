@@ -34,7 +34,7 @@ if SIStartup.SICFL.debug_tools() then
 	need( "zprototype/oremap" )
 	need( "zprototype/radars" )
 	need( "zprototype/roboports" )
-	--need( "zprototype/robots" )
+	need( "zprototype/robots" )
 end
 
 SIGen.NewGroup( "extensions" ).Finish()

@@ -1,38 +1,27 @@
-local function hit_effects_flying_robot( offset_deviation , offset )
-	local offset = offset or { 0 , 0 }
-	return
-	{
-		type = "create-entity" ,
-		entity_name = "flying-robot-damaged-explosion" ,
-		offset_deviation = offset_deviation or { { -0.25 , -0.25 } , { 0.25 , 0.25 } } ,
-		offsets = { offset } ,
-		damage_type_filters = "fire"
-	}
-end
-
-local function sounds_construction_robot( volume )
-	local sound = {}
-	for i = 1 , 9 , 1 do table.insert( sound , { filename = "__base__/sound/construction-robot-" .. i .. ".ogg" , volume = volume } ) end
-	return
-	{
-		sound = sound ,
-		max_sounds_per_type = 5 ,
-		audible_distance_modifier = 1 ,
-		probability = 1 / 600
-	}
-end
-
-local function sounds_flying_robot( volume )
-	local sound = {}
-	for i = 1 , 5 , 1 do table.insert( sound , { filename = "__base__/sound/flying-robot-" .. i .. ".ogg" , volume = volume } ) end
-	return
-	{
-		sound = sound ,
-		max_sounds_per_type = 5 ,
-		audible_distance_modifier = 1 ,
-		probability = 1 / 600
-	}
-end
+local hitEffect =
+{
+	type = "create-entity" ,
+	entity_name = "flying-robot-damaged-explosion" ,
+	offset_deviation = offset_deviation or { { -0.25 , -0.25 } , { 0.25 , 0.25 } } ,
+	offsets = { { 0 , 0 } } ,
+	damage_type_filters = "fire"
+}
+local constructionSound =
+{
+	sound = {} ,
+	max_sounds_per_type = 5 ,
+	audible_distance_modifier = 1 ,
+	probability = 1 / 600
+}
+for i = 1 , 9 , 1 do table.insert( constructionSound.sound , { filename = "__base__/sound/construction-robot-" .. i .. ".ogg" , volume = volume } ) end
+local flyingSound =
+{
+	sound = {} ,
+	max_sounds_per_type = 5 ,
+	audible_distance_modifier = 1 ,
+	probability = 1 / 600
+}
+for i = 1 , 5 , 1 do table.insert( flyingSound.sound , { filename = "__base__/sound/flying-robot-" .. i .. ".ogg" , volume = volume } ) end
 
 
 
