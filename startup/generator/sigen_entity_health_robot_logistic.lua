@@ -1,5 +1,5 @@
-local entity = SIGen.HealthEntity:Copy( "mining" )
-entity:AddDefaultValue( "defaultType" , SITypes.entity.mining )
+local entity = SIGen.HealthEntity:Copy( "logistic" )
+entity:AddDefaultValue( "defaultType" , SITypes.entity.robotLogistic )
 
 
 

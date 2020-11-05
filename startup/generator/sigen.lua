@@ -167,6 +167,10 @@ SIGen.Lab = need( "sigen_entity_health_lab" )
 SIGen.Beacon = need( "sigen_entity_health_beacon" )
 SIGen.Container = need( "sigen_entity_health_container" )
 SIGen.ContainerLogic = need( "sigen_entity_health_container_logic" )
+SIGen.Robot = need( "sigen_entity_health_robot" )
+SIGen.RobotConstruction = need( "sigen_entity_health_robot_construction" )
+SIGen.RobotLogistic = need( "sigen_entity_health_robot_logistic" )
+SIGen.RobotCombat = need( "sigen_entity_health_robot_combat" )
 SIGen.Roboport = need( "sigen_entity_health_roboport" )
 SIGen.Radar = need( "sigen_entity_health_radar" )
 SIGen.Recipe = need( "sigen_recipe" )
@@ -503,6 +507,38 @@ function SIGen.NewContainerLogic( name , containerLogic , logisticMode )
 	currentData = SIGen.ContainerLogic:New( name , containerLogic )
 	InitEntity()
 	if logisticMode then currentData:SetLogisticMode( logisticMode ) end
+	return SIGen
+end
+
+function SIGen.NewRobot( name , robot )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.Robot:New( name , robot )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewRobotConstruction( name , robotConstruction )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.RobotConstruction:New( name , robotConstruction )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewRobotLogistic( name , robotLogistic )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.RobotLogistic:New( name , robotLogistic )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewRobotCombat( name , robotCombat )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.RobotCombat:New( name , robotCombat )
+	InitEntity()
 	return SIGen
 end
 
