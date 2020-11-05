@@ -297,6 +297,13 @@ end
 
 
 
+function entity:SetPic( key , layer )
+	if key and layer then return self:SetParam( key , layer )
+	else return self end
+end
+
+
+
 function entity:SetParam( key , value )
 	if not self:Check() then return self end
 	self.data[key] = value

@@ -24,11 +24,11 @@ function entity:SetImage( path )
 	local hasHr = self:GetHasHr()
 	
 	local waterLocation = self:GetWaterLocation()
-	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( file , width , height , waterLocation ) ) end
+	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( file , width , height , waterLocation ).Get() ) end
 	
 	local layers = {}
-	table.insert( layers , SIPics.BaseAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ) )
-	table.insert( layers , SIPics.Shadow( SIPics.BaseAnimLayer( file , width , height , hasHr , shadowWidth , shadowHeight ) ) )
+	table.insert( layers , SIPics.BaseAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ).Get() )
+	table.insert( layers , SIPics.BaseAnimLayer( file , width , height , hasHr , shadowWidth , shadowHeight ).Shadow().Get() )
 	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
 	:SetParam( "icon_size" , SINumbers.iconSize )
 	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )

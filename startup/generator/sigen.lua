@@ -240,6 +240,23 @@ function SIGen.GetCurrentEntityName()
 	return currentData:GetName()
 end
 
+function SIGen.GetIconFile()
+	if not currentData then
+		e( "模块构建 : 当前没有创建过实体时不能使用 GetIconFile 方法" )
+		return nil
+	end
+	return currentConstantsData.picturePath .. "item/" .. currentData:GetBaseName()
+end
+
+function SIGen.GetLayerFile()
+	if not currentData then
+		e( "模块构建 : 当前没有创建过实体时不能使用 GetLayerFile 方法" )
+		return nil
+	end
+	local baseName = currentData:GetBaseName()
+	return currentConstantsData.picturePath .. "entity/" .. baseName .. "/" .. baseName
+end
+
 function SIGen.GetCurrentEntityItemName()
 	if not currentData then
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetCurrentEntityItemName 方法" )
@@ -831,6 +848,14 @@ function SIGen.AddSuperArmor()
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	currentData:AddSuperArmor()
 	table.insert( superArmorDataList , { currentData:GetType() , currentData:GetName() } )
+	return SIGen
+end
+
+
+
+function SIGen.SetPic( key , layer )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:SetPic( key , layer )
 	return SIGen
 end
 

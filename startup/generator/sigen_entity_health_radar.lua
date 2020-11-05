@@ -26,13 +26,13 @@ function entity:SetImage( path )
 	
 	local patchLocation = self:GetPatchLocation()
 	local waterLocation = self:GetWaterLocation()
-	if patchLocation then :SetParam( "integration_patch" , SIPics.Patch( file , width , height , hasHr , addenWidth , addenHeight , patchLocation ) ) end
-	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( file , width , height , waterLocation ) ) end
+	if patchLocation then :SetParam( "integration_patch" , SIPics.Patch( file , width , height , hasHr , addenWidth , addenHeight , patchLocation ).Get() ) end
+	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( file , width , height , waterLocation ).Get() ) end
 	
 	local layers = {}
-	table.insert( layers , SIPics.OnAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ) )
-	if animShadow then table.insert( layers , SIPics.OnAnimLayerShadow( file , width , height , hasHr , shadowWidth , shadowHeight ) )
-	else table.insert( layers , SIPics.OnAnimLayerShadowSingle( file , width , height , hasHr , shadowWidth , shadowHeight ) ) end
+	table.insert( layers , SIPics.OnAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ).Get() )
+	if animShadow then table.insert( layers , SIPics.OnAnimLayerShadow( file , width , height , hasHr , shadowWidth , shadowHeight ).Get() )
+	else table.insert( layers , SIPics.OnAnimLayerShadowSingle( file , width , height , hasHr , shadowWidth , shadowHeight ).Get() ) end
 	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
 	:SetParam( "icon_size" , SINumbers.iconSize )
 	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )

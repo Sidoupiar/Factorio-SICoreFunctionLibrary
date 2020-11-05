@@ -50,107 +50,14 @@ local function Create( name , radius )
 	.SetLight()
 	.SetCorpse( "roboport-remnants" , "roboport-explosion" )
 	.SetSignalWire( 64 , define.points , define.sprites , signals )
+	.SetPic( "base_patch" , SIPics.Layer( SIGen.GetLayerFile().."-patch" , 69 , 50 ).Frame().Get() )
+	.SetPic( "base_animation" , SIPics.Layer( SIGen.GetLayerFile().."-animation" , 42 , 31 ).Anim( 1 , 8 , 0.5 ).Get() )
+	.SetPic( "door_animation_up" , SIPics.Layer( SIGen.GetLayerFile().."-door-up" , 52 , 20 ).Frame( 16 ).Get() )
+	.SetPic( "door_animation_down" , SIPics.Layer( SIGen.GetLayerFile().."-door-down" , 52 , 22 ).Frame( 16 ).Get() )
+	.SetPic( "recharging_animation" , SIPics.Layer( SIGen.GetLayerFile().."-recharging" , 37 , 35 , 1.5 ).Anim( 1 , 16 , 0.5 ).Priority( "high" ).Get() )
 	.SetCustomData( customData )
 	.AddSuperArmor()
 end
 
 Create( "roboport-broad" , 128 )
 Create( "roboport-vast" , 3200 )
-
-local ptl =
-{
-	"__SICoreFunctionLibrary__/zpics/entities/ancient-armor-roboport/ancient-armor-roboport-base" ,
-	"__SICoreFunctionLibrary__/zpics/entities/ancient-armor-roboport/ancient-armor-roboport-shadow"
-}
-
-local ptp =
-{
-	base_patch = "__SICoreFunctionLibrary__/zpics/entities/ancient-armor-roboport/ancient-armor-roboport-base-patch" ,
-	base_animation = "__SICoreFunctionLibrary__/zpics/entities/ancient-armor-roboport/ancient-armor-roboport-base-animation" ,
-	door_animation_up = "__SICoreFunctionLibrary__/zpics/entities/ancient-armor-roboport/ancient-armor-roboport-door-up" ,
-	door_animation_down = "__SICoreFunctionLibrary__/zpics/entities/ancient-armor-roboport/ancient-armor-roboport-door-down" ,
-	recharging_animation = "__SICoreFunctionLibrary__/zpics/entities/ancient-armor-roboport/ancient-armor-roboport-recharging"
-}
-
-pt.base_patch =
-{
-	width = 69 ,
-	height = 50 ,
-	frame_count = 1 ,
-	shift = { 0.03125 , 0.203125 } ,
-	hr_version =
-	{
-		width = 138 ,
-		height = 100 ,
-		frame_count = 1 ,
-		shift = util.by_pixel( 1.5 , 5 ) ,
-		scale = 0.5
-	}
-}
-pt.base_animation =
-{
-	width = 42 ,
-	height = 31 ,
-	frame_count = 8 ,
-	animation_speed = 0.5 ,
-	shift = { -0.5315 , -1.9375 } ,
-	hr_version =
-	{
-		width = 83 ,
-		height = 59 ,
-		frame_count = 8 ,
-		animation_speed = 0.5 ,
-		shift = util.by_pixel( -17.75 , -61.25 )
-	}
-}
-pt.door_animation_up =
-{
-	width = 52 ,
-	height = 20 ,
-	frame_count = 16 , 
-	shift = { 0.015625 , -0.890625 } ,
-	hr_version =
-	{
-		width = 97 ,
-		height = 38 ,
-		frame_count = 16 ,
-		shift = util.by_pixel( -0.25 , -29.5 )
-	}
-}
-pt.door_animation_down =
-{
-	width = 52 ,
-	height = 22 ,
-	frame_count = 16 ,
-	shift = { 0.015625 , -0.234375 } ,
-	hr_version =
-	{
-		width = 97 ,
-		height = 41 ,
-		frame_count = 16 ,
-		shift = util.by_pixel( -0.25 , -9.75 )
-	}
-}
-pt.recharging_animation =
-{
-	priority = "high" ,
-	width = 37 ,
-	height = 35 ,
-	frame_count = 16 ,
-	scale = 1.5 ,
-	animation_speed = 0.5
-}
-pt.water_reflection =
-{
-	pictures =
-	{
-		priority = "extra-high" ,
-		width = 28 ,
-		height = 28 ,
-		shift = util.by_pixel( 0 ,75 ) ,
-		variation_count = 1 ,
-		scale = 5
-	} ,
-	rotate = false ,
-	orientation_to_variation = false
-}
