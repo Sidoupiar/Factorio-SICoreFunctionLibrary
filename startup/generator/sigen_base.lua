@@ -572,7 +572,7 @@ function entity:AddLastLevel( count )
 	return self
 end
 
-function entity:AddArmor()
+function entity:AddSuperArmor()
 	return self
 end
 

@@ -23,7 +23,7 @@ local function CreateRadar( name , nearRadius , farRadius , nearEnergy , farEner
 	.SetEffectEnergy( nearEnergy , farEnergy )
 	.SetCorpse( "radar-remnants" , "radar-explosion" )
 	.SetCustomData( customData )
-	.AddArmor()
+	.AddSuperArmor()
 end
 
 CreateRadar( "radar-strategic" , 24 , 0 , "20MJ" , "1TJ" )

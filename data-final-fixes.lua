@@ -3,4 +3,4 @@
 -- ------------------------------------------------------------------------------------------------
 
 SIGen.GetData( SITypes.fluid , "steam" ).max_temperature = 3000
-SIGen.FinalScript_createArmor()
+for name , func in pairs( SIGen.F ) do func() end

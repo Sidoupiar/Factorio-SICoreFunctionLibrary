@@ -22,7 +22,7 @@ local savedSubGroupData =
 	subGroupDataList = {}
 }
 
-local armorDataList = {}
+local superArmorDataList = {}
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 内部处理 ----------------------------------------------------------------------------
@@ -124,6 +124,7 @@ end
 SIGen =
 {
 	E = {} , -- 快速填充专用前缀
+	F = {} , -- 自动填充专用前缀 ( 此处方法均为为自动调用 , 不能手动调用 )
 	dataFlags =
 	{
 		all          = SIUtils.MapAllValueToList( SITypes.all ) ,
@@ -820,10 +821,10 @@ function SIGen.AddLastLevel( count )
 	return SIGen
 end
 
-function SIGen.AddArmor()
+function SIGen.AddSuperArmor()
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:AddArmor()
-	table.insert( armorDataList , { currentData:GetType() , currentData:GetName() } )
+	currentData:AddSuperArmor()
+	table.insert( superArmorDataList , { currentData:GetType() , currentData:GetName() } )
 	return SIGen
 end
 
@@ -885,13 +886,13 @@ end
 -- --------- 最终构建 ------------ ( 此处方法均为为自动调用 , 不能手动调用 ) ----------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIGen.FinalScript_createArmor()
-	if #armorDataList > 0 then
+function SIGen.F.CreateArmor()
+	if #superArmorDataList > 0 then
 		local resistances = {}
 		for name , damage in pairs( SIGen.GetList( SITypes.damageType ) ) do
 			table.insert( resistances , { type = name , decrease = 35 , percent = 98 } )
 		end
-		for i , settings in pairs( armorDataList ) do
+		for i , settings in pairs( superArmorDataList ) do
 			local data = SIGen.GetData( settings[1] , settings[2] )
 			data.max_health = data.max_health * 100
 			data.resistances = resistances
