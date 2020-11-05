@@ -56,12 +56,20 @@ end
 -- -------- 补充图片结构 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+function SIPics.Shadow( layer )
+	layer.draw_as_shadow = true
+	if layer.hr_version then layer.hr_version.draw_as_shadow = true end
+	return layer
+end
+
 function SIPics.Patch( file , width , height , hasHr , addenWidth , addenHeight , location )
 	local layer = SIPics.BaseAnimLayer( file.."-patch" , width , height , hasHr , addenWidth , addenHeight )
 	layer.priority = "low"
+	frame_count = 1
 	layer.direction_count = 1
 	if hasHr then
 		layer.hr_version.priority = "low"
+		layer.hr_version.frame_count = 1
 		layer.hr_version.direction_count = 1
 	end
 	if location then layer = SIPics.ShiftMerge( layer , util.by_pixel( location[1] , location[2] ) ) end
@@ -100,24 +108,19 @@ function SIPics.OnAnimLayer( file , width , height , hasHr , addenWidth , addenH
 end
 
 function SIPics.OnAnimLayerShadow( file , width , height , hasHr , addenWidth , addenHeight , lineLength , frameCount , animSpeed )
-	local layer = SIPics.OnAnimLayer( file.."-shadow" , width , height , hasHr , addenWidth , addenHeight , lineLength , frameCount , animSpeed )
-	layer.draw_as_shadow = true
-	if hasHr then layer.hr_version.draw_as_shadow = true end
-	return layer
+	return SIPics.Shadow( SIPics.OnAnimLayer( file.."-shadow" , width , height , hasHr , addenWidth , addenHeight , lineLength , frameCount , animSpeed ) )
 end
 
 function SIPics.OnAnimLayerShadowSingle( file , width , height , hasHr , addenWidth , addenHeight , frameCount )
 	frameCount = frameCount or SINumbers.machinePictureTotalFrameCount
-	local layer = SIPics.BaseAnimLayer( file.."-shadow" , width , height , hasHr , addenWidth , addenHeight )
+	local layer = SIPics.Shadow( SIPics.BaseAnimLayer( file.."-shadow" , width , height , hasHr , addenWidth , addenHeight ) )
 	layer.repeat_count = frameCount
 	layer.line_length = 1
 	layer.frame_count = 1
-	layer.draw_as_shadow = true
 	if hasHr then
 		layer.hr_version.repeat_count = frameCount
 		layer.hr_version.line_length = 1
 		layer.hr_version.frame_count = 1
-		layer.hr_version.draw_as_shadow = true
 	end
 	return layer
 end
@@ -130,8 +133,5 @@ function SIPics.OffAnimLayer( file , width , height , hasHr , addenWidth , adden
 end
 
 function SIPics.OffAnimLayerShadow( file , width , height , hasHr , addenWidth , addenHeight )
-	local layer = SIPics.OffAnimLayer( file.."-shadow" , width , height , hasHr , addenWidth , addenHeight )
-	layer.draw_as_shadow = true
-	if hasHr then layer.hr_version.draw_as_shadow = true end
-	return layer
+	return SIPics.Shadow( SIPics.OffAnimLayer( file.."-shadow" , width , height , hasHr , addenWidth , addenHeight ) )
 end

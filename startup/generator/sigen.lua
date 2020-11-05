@@ -666,6 +666,12 @@ function SIGen.SetLogisticMode( logisticMode )
 	return SIGen
 end
 
+function SIGen.SetSignalWire( distance , points , sprites , signals )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:SetSignalWire( distance , points , sprites , signals )
+	return SIGen
+end
+
 
 
 function SIGen.SetFlags( flagOrFlagsOrPack )
@@ -888,10 +894,7 @@ end
 
 function SIGen.F.CreateArmor()
 	if #superArmorDataList > 0 then
-		local resistances = {}
-		for name , damage in pairs( SIGen.GetList( SITypes.damageType ) ) do
-			table.insert( resistances , { type = name , decrease = 35 , percent = 98 } )
-		end
+		local resistances = SIPackers.ResistancesWithDamageTypes( SIGen.GetList( SITypes.damageType ) , 35 , 98 )
 		for i , settings in pairs( superArmorDataList ) do
 			local data = SIGen.GetData( settings[1] , settings[2] )
 			data.max_health = data.max_health * 100

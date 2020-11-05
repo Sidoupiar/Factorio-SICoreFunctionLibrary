@@ -159,10 +159,10 @@ function entity:SetSize( width , height )
 end
 
 function entity:SetLight( intensity , size , color )
-	if not intensity then intensity = 0.75 end
-	if not size then size = math.max( self:GetWidth() , self:GetHeight() )*SINumbers.lightSizeMult end
-	if not color then color = SIColors.baseColor.baseWhite end
-	return self:SetParam( "light" , { intensity = intensity , size = size , color = color } )
+	intensity = intensity or 0.75
+	size = size or ( math.max( self:GetWidth() , self:GetHeight() ) * SINumbers.lightSizeMult )
+	color = color or SIColors.baseColor.baseWhite
+	return self:SetParam( "light" , SIPackers.Light( intensity , size , color ) )
 end
 
 

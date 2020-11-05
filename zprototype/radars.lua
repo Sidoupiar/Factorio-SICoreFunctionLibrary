@@ -12,7 +12,7 @@ local customData =
 	}
 }
 
-local function CreateRadar( name , nearRadius , farRadius , nearEnergy , farEnergy )
+local function Create( name , nearRadius , farRadius , nearEnergy , farEnergy )
 	SIGen.NewRadar( name )
 	.E.SetAddenSize( 2 , 32 )
 	.E.SetShadowSize( 76 , -2 )
@@ -26,6 +26,6 @@ local function CreateRadar( name , nearRadius , farRadius , nearEnergy , farEner
 	.AddSuperArmor()
 end
 
-CreateRadar( "radar-strategic" , 24 , 0 , "20MJ" , "1TJ" )
-CreateRadar( "radar-sky-eye" , 60 , 0 , "20MJ" , "1TJ" )
-CreateRadar( "radar-overload" , 150 , 0 , "20MJ" , "1TJ" )
+Create( "radar-strategic" , 24 , 0 , "20MJ" , "1TJ" )
+Create( "radar-sky-eye" , 60 , 0 , "20MJ" , "1TJ" )
+Create( "radar-overload" , 150 , 0 , "20MJ" , "1TJ" )

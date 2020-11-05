@@ -484,7 +484,11 @@ function entity:SetMainRecipe( recipeOrDataOrEntityOrPack )
 	return self
 end
 
-function entity:SetLogicType( logicType )
+function entity:SetLogisticMode( logicType )
+	return self
+end
+
+function entity:SetSignalWire( distance , points , sprites , signals )
 	return self
 end
 

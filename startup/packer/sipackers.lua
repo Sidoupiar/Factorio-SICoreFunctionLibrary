@@ -35,6 +35,33 @@ function SIPackers.Icon( iconPath , tint , mipmaps , scale , shift , size )
 end
 
 -- ------------------------------------------------------------------------------------------------
+-- -------- 创建边框数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.BoundBoxPack( width , height )
+	return SIPackers.CreatePack( SIPackers.BoundBox( width , height ) )
+end
+
+function SIPackers.CollisionBoundBoxPack( width , height )
+	return SIPackers.CreatePack( SIPackers.CollisionBoundBox( width , height ) )
+end
+
+function SIPackers.BoundBox( width , height )
+	if not height then height = width end
+	halfWidth = width / 2.0
+	halfHeight = height / 2.0
+	return { { -halfWidth , -halfHeight } , { halfWidth , halfHeight } }
+end
+
+function SIPackers.CollisionBoundBox( width , height )
+	width = width * 0.95
+	if not height then height = width end
+	halfWidth = width / 2.0
+	halfHeight = height / 2.0
+	return { { -halfWidth , -halfHeight } , { halfWidth , halfHeight } }
+end
+
+-- ------------------------------------------------------------------------------------------------
 -- -------- 创建能源数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
@@ -151,6 +178,64 @@ function SIPackers.EnergySourceOtherSettings( energySourceOrPack , emissions , r
 	energySource.render_no_power_icon = render_noPowerIcon
 	energySource.render_no_network_icon = render_noNetworkIcon
 	return energySourceOrPack
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建光线数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.LightPack( intensity , size , color )
+	return SIPackers.CreatePack( SIPackers.Light( intensity , size , color ) )
+end
+
+function SIPackers.Light( intensity , size , color )
+	return { intensity = intensity , size = size , color = color }
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建信号数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.SignalsPack( name )
+	return SIPackers.CreatePack{ SIPackers.Signal( name ) }
+end
+
+function SIPackers.SignalPack( name )
+	return SIPackers.CreatePack( SIPackers.Signal( name ) )
+end
+
+function SIPackers.Signal( name )
+	return { type = "virtual" , name = name }
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建抗性数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.ResistancesPack( name , decrease , percent )
+	return SIPackers.CreatePack{ SIPackers.Resistance( name , decrease , percent ) }
+end
+
+function SIPackers.ResistancePack( name , decrease , percent )
+	return SIPackers.CreatePack( SIPackers.Resistance( name , decrease , percent ) )
+end
+
+function SIPackers.Resistance( name , decrease , percent )
+	local resistance = { type = name }
+	if decrease then resistance.decrease = decrease end
+	if percent then resistance.percent = percent end
+	if not resistance.decrease and not resistance.percent then resistance.decrease = 10 end
+	return resistance
+end
+
+function SIPackers.ResistanceWithDamageType( damageType , decrease , percent )
+	return SIPackers.Resistance( damageType.name , decrease , percent )
+end
+
+function SIPackers.ResistancesWithDamageTypes( damageTypeList , decrease , percent )
+	local resistances = {}
+	for i , v in pairs( damageTypeList ) do table.insert( resistances , SIPackers.ResistanceWithDamageType( v , decrease , percent ) ) end
+	return resistances
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -380,51 +465,4 @@ function SIPackers.SingleModifier( modifierType , param1 , param2 )
 		modifier.effect_description = param1
 	else modifier.modifier = param1 end
 	return modifier
-end
-
--- ------------------------------------------------------------------------------------------------
--- -------- 创建边框数据 --------------------------------------------------------------------------
--- ------------------------------------------------------------------------------------------------
-
-function SIPackers.BoundBoxPack( width , height )
-	return SIPackers.CreatePack( SIPackers.BoundBox( width , height ) )
-end
-
-function SIPackers.CollisionBoundBoxPack( width , height )
-	return SIPackers.CreatePack( SIPackers.CollisionBoundBox( width , height ) )
-end
-
-function SIPackers.BoundBox( width , height )
-	if not height then height = width end
-	halfWidth = width / 2.0
-	halfHeight = height / 2.0
-	return { { -halfWidth , -halfHeight } , { halfWidth , halfHeight } }
-end
-
-function SIPackers.CollisionBoundBox( width , height )
-	width = width * 0.95
-	if not height then height = width end
-	halfWidth = width / 2.0
-	halfHeight = height / 2.0
-	return { { -halfWidth , -halfHeight } , { halfWidth , halfHeight } }
-end
-
--- ------------------------------------------------------------------------------------------------
--- -------- 创建抗性数据 --------------------------------------------------------------------------
--- ------------------------------------------------------------------------------------------------
-
-function SIPackers.ResistancesPack( name , decrease , percent )
-	return SIPackers.CreatePack{ SIPackers.Resistance( name , decrease , percent ) }
-end
-
-function SIPackers.ResistancePack( name , decrease , percent )
-	return SIPackers.CreatePack( SIPackers.Resistance( name , decrease , percent ) )
-end
-
-function SIPackers.Resistance( name , decrease , percent )
-	local resistance = { type = name }
-	if decrease then resistance.decrease = decrease end
-	if percent then resistance.percent = percent end
-	if not resistance.decrease and not resistance.percent then resistance.decrease = 10 end
-	return resistance
 end
