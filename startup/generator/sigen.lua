@@ -123,8 +123,8 @@ end
 
 SIGen =
 {
-	E = {} , -- 快速填充专用前缀
-	F = {} , -- 自动填充专用前缀 ( 此处方法均为为自动调用 , 不能手动调用 )
+	E = {} , -- 批量快速填充专用前缀
+	F = {} , -- 内部自动填充专用前缀 ( 此处方法均为为自动调用 , 不能手动调用 )
 	dataFlags =
 	{
 		all          = SIUtils.MapAllValueToList( SITypes.all ) ,
