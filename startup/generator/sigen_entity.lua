@@ -1,10 +1,14 @@
 local entity = SIGen.Base:Copy( "entity" )
-entity:AddDefaultValue( "width" , 0 )
-:AddDefaultValue( "height" , 0 )
+entity:AddDefaultValue( "width" , -1 )
+:AddDefaultValue( "height" , -1 )
 :AddDefaultValue( "addenWidth" , 0 )
 :AddDefaultValue( "addenHeight" , 0 )
 :AddDefaultValue( "shadowWidth" , 0 )
 :AddDefaultValue( "shadowHeight" , 0 )
+:AddDefaultValue( "addenShiftX" , 0 )
+:AddDefaultValue( "addenShiftY" , 0 )
+:AddDefaultValue( "shadowShiftX" , 0 )
+:AddDefaultValue( "shadowShiftY" , 0 )
 :AddDefaultValue( "hasHr" , false )
 :AddDefaultValue( "animShadow" , false )
 :AddDefaultValue( "patchLocation" , nil )
@@ -44,6 +48,38 @@ end
 
 function entity:SetShadowHeight( shadowHeight )
 	self.shadowHeight = shadowHeight
+	return self
+end
+
+function entity:SetAddenShift( x , y )
+	self.addenShiftX = x
+	self.addenShiftY = y
+	return self
+end
+
+function entity:SetAddenShiftX( x )
+	self.addenShiftX = x
+	return self
+end
+
+function entity:SetAddenShiftY( y )
+	self.addenShiftY = y
+	return self
+end
+
+function entity:SetShadowShift( x , y )
+	self.shadowShiftX = x
+	self.shadowShiftY = y
+	return self
+end
+
+function entity:SetShadowShiftX( x )
+	self.shadowShiftX = x
+	return self
+end
+
+function entity:SetShadowShiftY( y )
+	self.shadowShiftY = y
 	return self
 end
 
@@ -96,6 +132,22 @@ function entity:GetShadowHeight()
 	return self.shadowHeight
 end
 
+function entity:GetAddenShiftX()
+	return self.addenShiftX
+end
+
+function entity:GetAddenShiftY()
+	return self.addenShiftY
+end
+
+function entity:GetShadowShiftX()
+	return self.shadowShiftX
+end
+
+function entity:GetShadowShiftY()
+	return self.shadowShiftY
+end
+
 function entity:GetHasHr()
 	return self.hasHr
 end
@@ -138,15 +190,7 @@ function entity:SetStackSize( stackSize )
 end
 
 function entity:SetSize( width , height )
-	if not width or width <= 0 then
-		e( "模块构建 : 实体的宽度(width)不能为 0 或负数" )
-		return self
-	end
 	if not height then height = width end
-	if height <= 0 then
-		e( "模块构建 : 实体的高度(height)不能为 0 或负数" )
-		return self
-	end
 	local currentWidth = self.width
 	local currentHeight = self.height
 	if currentWidth ~= width or currentHeight ~= height then

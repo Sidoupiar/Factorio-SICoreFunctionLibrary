@@ -23,11 +23,26 @@ function SIPics.NewLayer( file , width , height , scale , hasHr )
 	if hasHr then
 		currentLayer.hr_version =
 		{
-			file .. ".png" ,
+			filename = file .. "-hr.png" ,
 			width = width * SINumbers.pictureHrScale ,
 			height = height * SINumbers.pictureHrScale ,
 			scale = scale * SINumbers.pictureHrScaleDown
 		}
+	end
+	return SIPics
+end
+
+function SIPics.LoadLayer( layer , file , width , height , scale )
+	currentLayer = table.deepcopy( layer )
+	if file then currentLayer.filename = file .. ".png" end
+	if width then currentLayer.width = width end
+	if height then currentLayer.height = height end
+	if scale and scale ~= 1 then currentLayer.scale = scale end
+	if currentLayer.hr_version then
+		if file then currentLayer.hr_version.filename = file .. "-hr.png" end
+		if width then currentLayer.hr_version.width = width * SINumbers.pictureHrScale end
+		if height then currentLayer.hr_version.height = height * SINumbers.pictureHrScale end
+		if scale then currentLayer.hr_version.scale = scale * SINumbers.pictureHrScaleDown end
 	end
 	return SIPics
 end
@@ -40,26 +55,38 @@ end
 -- ---------- 基础操作 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIPics.Shift( shiftWidth , shiftHeight )
-	shiftWidth = shiftWidth or 0
-	shiftHeight = shiftHeight or 0
-	if shiftWidth or shiftHeight then
-		currentLayer.shift = util.by_pixel( shiftWidth , shiftHeight )
-		if currentLayer.hr_version then currentLayer.hr_version.shift = currentLayer.shift end
-	end
-	return SIPics
-end
-
-function SIPics.ShiftMerge( newShift )
-	local shift = currentLayer.shift or { 0 , 0 }
-	currentLayer.shift = { shift[1]+newShift[1] , shift[2]+newShift[2] }
-	if currentLayer.hr_version then currentLayer.hr_version.shift = currentLayer.shift end
+function SIPics.AddHr()
+	currentLayer.hr_version =
+	{
+		filename = currentLayer.filename:substring( 0 , -4 ) .. "-hr.png" ,
+		width = currentLayer.width * SINumbers.pictureHrScale ,
+		height = currentLayer.height * SINumbers.pictureHrScale ,
+		scale = ( currentLayer.scale or 1 ) * SINumbers.pictureHrScaleDown
+	}
 	return SIPics
 end
 
 function SIPics.Priority( priority )
 	currentLayer.priority = priority
 	if currentLayer.hr_version then currentLayer.hr_version.priority = priority end
+	return SIPics
+end
+
+function SIPics.Shift( shiftX , shiftY )
+	shiftX = shiftX or 0
+	shiftY = shiftY or 0
+	if shiftX or shiftY then
+		currentLayer.shift = util.by_pixel( shiftX , shiftY )
+		if currentLayer.hr_version then currentLayer.hr_version.shift = currentLayer.shift end
+	end
+	return SIPics
+end
+
+function SIPics.ShiftMerge( shiftX , shiftY )
+	local shift = currentLayer.shift or { 0 , 0 }
+	local newShift = util.by_pixel( shiftX , shiftY )
+	currentLayer.shift = { shift[1]+newShift[1] , shift[2]+newShift[2] }
+	if currentLayer.hr_version then currentLayer.hr_version.shift = currentLayer.shift end
 	return SIPics
 end
 
@@ -70,30 +97,54 @@ function SIPics.Frame( frameCount )
 	return SIPics
 end
 
-function SIPics.Anim( lineLength , frameCount , animSpeed )
+function SIPics.Anim( lineLength , frameCount , animSpeed , directionCount )
 	lineLength = lineLength or 1
 	frameCount = frameCount or 1
-	animSpeed = animSpeed or 1
 	currentLayer.line_length = lineLength
 	currentLayer.frame_count = frameCount
-	currentLayer.animation_speed = animSpeed
+	if animSpeed then currentLayer.animation_speed = animSpeed end
+	if directionCount then currentLayer.direction_count = directionCount end
 	if currentLayer.hr_version then
 		currentLayer.hr_version.line_length = lineLength
 		currentLayer.hr_version.frame_count = frameCount
-		currentLayer.hr_version.animation_speed = animSpeed
+		if animSpeed then currentLayer.hr_version.animation_speed = animSpeed end
+		if directionCount then currentLayer.hr_version.direction_count = directionCount end
 	end
+	return SIPics
+end
+
+function SIPics.Variation( variationCount )
+	variationCount = variationCount or 1
+	currentLayer.variation_count = variationCount
+	if currentLayer.hr_version then currentLayer.hr_version.variation_count = variationCount end
+	return SIPics
+end
+
+function SIPics.Y( y )
+	y = y or 0
+	currentLayer.y = y
+	if currentLayer.hr_version then currentLayer.hr_version.y = y end
 	return SIPics
 end
 
 function SIPics.Repeat( frameCount )
 	frameCount = frameCount or 1
 	currentLayer.repeat_count = frameCount
-	currentLayer.line_length = 1
 	currentLayer.frame_count = 1
+	if not currentLayer.line_length then currentLayer.line_length = 1 end
 	if currentLayer.hr_version then
 		currentLayer.hr_version.repeat_count = frameCount
-		currentLayer.hr_version.line_length = 1
 		currentLayer.hr_version.frame_count = 1
+		if not currentLayer.hr_version.line_length then currentLayer.hr_version.line_length = 1 end
+	end
+	return SIPics
+end
+
+function SIPics.Tint( red , green , blue , alpha )
+	local color = SIPackers.Color( red , green , blue , alpha )
+	if color then
+		currentLayer.tint = color
+		if currentLayer.hr_version then currentLayer.hr_version.tint = color end
 	end
 	return SIPics
 end
@@ -128,13 +179,12 @@ function SIPics.Patch( file , width , height , hasHr , addenWidth , addenHeight 
 		currentLayer.hr_version.frame_count = 1
 		currentLayer.hr_version.direction_count = 1
 	end
-	if location then SIPics.ShiftMerge( util.by_pixel( location[1] , location[2] ) ) end
+	if location then SIPics.ShiftMerge( location[1] , location[2] ) end
 	return SIPics
 end
 
 function SIPics.WaterReflection( file , width , height , location , rotate , orientation )
-	SIPics.BaseAnimLayer( file.."-reflection" , width , height )
-	currentLayer.variation_count = 1
+	SIPics.BaseAnimLayer( file.."-reflection" , width , height ).Variation()
 	if location then currentLayer.shift = util.by_pixel( location[1] , location[2] ) end
 	return
 	{
@@ -161,7 +211,7 @@ end
 
 function SIPics.OnAnimLayerShadowSingle( file , width , height , hasHr , addenWidth , addenHeight , frameCount )
 	frameCount = frameCount or SINumbers.machinePictureTotalFrameCount
-	return SIPics.BaseAnimLayer( file.."-shadow" , width , height , hasHr , addenWidth , addenHeight ).Shadow().Repeat( frameCount )
+	return SIPics.BaseAnimLayer( file.."-shadow" , width , height , hasHr , addenWidth , addenHeight ).Repeat( frameCount ).Shadow()
 end
 
 function SIPics.OffAnimLayer( file , width , height , hasHr , addenWidth , addenHeight )
@@ -170,4 +220,18 @@ end
 
 function SIPics.OffAnimLayerShadow( file , width , height , hasHr , addenWidth , addenHeight )
 	return SIPics.OffAnimLayer( file.."-shadow" , width , height , hasHr , addenWidth , addenHeight ).Shadow()
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- -------- 贴图图片结构 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPics.PictureLayer( file , width , height , hasHr , addenWidth , addenHeight , lineLength , directionCount )
+	lineLength = lineLength or SINumbers.machinePictureTotalWidth
+	directionCount = directionCount or SINumbers.machinePictureTotalFrameCount
+	return SIPics.BaseAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ).Anim( lineLength , 1 , nil , directionCount )
+end
+
+function SIPics.PictureShadow( file , width , height , hasHr , addenWidth , addenHeight , lineLength , directionCount )
+	return SIPics.PictureLayer( file.."-shadow" , width , height , hasHr , addenWidth , addenHeight , lineLength , directionCount ).Shadow()
 end

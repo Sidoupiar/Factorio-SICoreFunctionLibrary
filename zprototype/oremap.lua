@@ -47,7 +47,7 @@ local view =
 		parent = "frame" ,
 		minimal_width = 100 ,
 		minimal_height = 100 ,
-		maximal_height = 600
+		maximal_height = 700
 	} ,
 	["sicfl-oremap-list"] =
 	{

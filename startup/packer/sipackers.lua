@@ -15,6 +15,18 @@ function SIPackers.CreatePack( sourceData )
 end
 
 -- ------------------------------------------------------------------------------------------------
+-- -------- 创建颜色数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.Color( red , green , blue , alpha )
+	local color = {}
+	if red then color.r = red end
+	if green then color.g = green end
+	if blue then color.b = blue end
+	if alpha then color.a = alpha end
+	return color
+end
+-- ------------------------------------------------------------------------------------------------
 -- ------- 创建 icon 数据 -------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
@@ -55,7 +67,8 @@ end
 
 function SIPackers.CollisionBoundBox( width , height )
 	width = width * 0.95
-	if not height then height = width end
+	if not height then height = width
+	else height = height * 0.95 end
 	halfWidth = width / 2.0
 	halfHeight = height / 2.0
 	return { { -halfWidth , -halfHeight } , { halfWidth , halfHeight } }

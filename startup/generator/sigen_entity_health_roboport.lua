@@ -21,21 +21,23 @@ function entity:SetImage( path )
 	local addenHeight = self:GetAddenHeight()
 	local shadowWidth = self:GetShadowWidth()
 	local shadowHeight = self:GetShadowHeight()
+	local addenShiftX = self:GetAddenShiftX()
+	local addenShiftY = self:GetAddenShiftY()
+	local shadowShiftX = self:GetShadowShiftX()
+	local shadowShiftY = self:GetShadowShiftY()
 	local hasHr = self:GetHasHr()
 	
 	local waterLocation = self:GetWaterLocation()
-	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( file , width , height , waterLocation ).Get() ) end
+	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( file , width , height , waterLocation ) ) end
 	
 	local layers = {}
-	table.insert( layers , SIPics.BaseAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ).Get() )
-	table.insert( layers , SIPics.BaseAnimLayer( file , width , height , hasHr , shadowWidth , shadowHeight ).Shadow().Get() )
+	table.insert( layers , SIPics.BaseAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ).ShiftMerge( addenShiftX , addenShiftY ).Get() )
+	table.insert( layers , SIPics.BaseAnimLayer( file.."-shadow" , width , height , hasHr , shadowWidth , shadowHeight ).ShiftMerge( shadowShiftX , shadowShiftY ).Shadow().Get() )
 	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
 	:SetParam( "icon_size" , SINumbers.iconSize )
 	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
 	:SetParam( "base" , { layers = layers } )
 end
-
-
 
 function entity:SetSlotCount( inputSlotCount , outputSlotCount )
 	if inputSlotCount then self:SetParam( "robot_slots_count" , inputSlotCount ) end
@@ -53,6 +55,7 @@ end
 function entity:SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy )
 	if effectEnergy then self:SetParam( "charging_energy" , effectEnergy ) end
 	if linkEnergy then self:SetParam( "recharge_minimum" , linkEnergy ) end
+	if connectEnergy then self:SetParam( "charge_approach_distance" , connectEnergy ) end
 	return self
 end
 
@@ -72,7 +75,7 @@ function entity:SetSignalWire( distance , points , sprites , signals )
 			local signal = nil
 			local dataType = type( v )
 			if dataType == "string" then signal = SIPackers.Signal( v )
-			else dataType == "table" then signal = v end
+			elseif dataType == "table" then signal = v end
 			if signal then self:SetParam( k , signal ) end
 		end
 	end

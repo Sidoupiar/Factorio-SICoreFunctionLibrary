@@ -67,7 +67,7 @@ local function DefaultValues()
 end
 
 local function FinishData()
-	if currentData then
+	if currentData and not currentData:HasExtend() then
 		if not currentData:HasFill() then currentData:Fill() end
 		SIGen.Inserter.InsertData( currentData )
 		currentData:Extend():Finish()
@@ -167,6 +167,10 @@ SIGen.Lab = need( "sigen_entity_health_lab" )
 SIGen.Beacon = need( "sigen_entity_health_beacon" )
 SIGen.Container = need( "sigen_entity_health_container" )
 SIGen.ContainerLogic = need( "sigen_entity_health_container_logic" )
+SIGen.Robot = need( "sigen_entity_health_robot" )
+SIGen.RobotConstruction = need( "sigen_entity_health_robot_construction" )
+SIGen.RobotLogistic = need( "sigen_entity_health_robot_logistic" )
+SIGen.RobotCombat = need( "sigen_entity_health_robot_combat" )
 SIGen.Roboport = need( "sigen_entity_health_roboport" )
 SIGen.Radar = need( "sigen_entity_health_radar" )
 SIGen.Recipe = need( "sigen_recipe" )
@@ -503,6 +507,38 @@ function SIGen.NewContainerLogic( name , containerLogic , logisticMode )
 	currentData = SIGen.ContainerLogic:New( name , containerLogic )
 	InitEntity()
 	if logisticMode then currentData:SetLogisticMode( logisticMode ) end
+	return SIGen
+end
+
+function SIGen.NewRobot( name , robot )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.Robot:New( name , robot )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewRobotConstruction( name , robotConstruction )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.RobotConstruction:New( name , robotConstruction )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewRobotLogistic( name , robotLogistic )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.RobotLogistic:New( name , robotLogistic )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewRobotCombat( name , robotCombat )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.RobotCombat:New( name , robotCombat )
+	InitEntity()
 	return SIGen
 end
 
@@ -893,6 +929,36 @@ function SIGen.E.SetShadowHeight( shadowHeight )
 	return SIGen
 end
 
+function SIGen.E.SetAddenShift( x , y )
+	if currentData.SetAddenShift then currentData:SetAddenShift( x , y ) end
+	return SIGen
+end
+
+function SIGen.E.SetAddenShiftX( x )
+	if currentData.SetAddenShiftX then currentData:SetAddenShiftX( x ) end
+	return SIGen
+end
+
+function SIGen.E.SetAddenShiftY( y )
+	if currentData.SetAddenShiftY then currentData:SetAddenShiftY( y ) end
+	return SIGen
+end
+
+function SIGen.E.SetShadowShift( x , y )
+	if currentData.SetShadowShift then currentData:SetShadowShift( x , y ) end
+	return SIGen
+end
+
+function SIGen.E.SetShadowShiftX( x )
+	if currentData.SetShadowShiftX then currentData:SetShadowShiftX( x ) end
+	return SIGen
+end
+
+function SIGen.E.SetShadowShiftY( y )
+	if currentData.SetShadowShiftY then currentData:SetShadowShiftY( y ) end
+	return SIGen
+end
+
 function SIGen.E.SetHasHr( hasHr )
 	if currentData.SetHasHr then currentData:SetHasHr( hasHr ) end
 	return SIGen
@@ -910,6 +976,11 @@ end
 
 function SIGen.E.SetWaterLocation( x , y )
 	if currentData.SetWaterLocation then currentData:SetWaterLocation( x , y ) end
+	return SIGen
+end
+
+function SIGen.E.SetItemStackSize( itemStackSize )
+	if currentData.SetStackSize then currentData:SetStackSize( itemStackSize ) end
 	return SIGen
 end
 

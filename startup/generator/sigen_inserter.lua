@@ -7,7 +7,7 @@ local inserter =
 	hasData = false ,
 	changeData =
 	{
-		clearIcon = nil
+		clearIcons = nil
 	} ,
 	insertData =
 	{
@@ -59,15 +59,15 @@ end
 
 function inserter.Clear()
 	inserter.hasData = false
-	or k , v in pairs( inserter.changeData ) do if v then inserter.changeData[k] = nil end end
+	for k , v in pairs( inserter.changeData ) do if v then inserter.changeData[k] = nil end end
 	for k , v in pairs( inserter.insertData ) do if v then inserter.insertData[k] = nil end end
 	return SIGen
 end
 
-function inserter.ClearIcon()
-	if not inserter.changeData.clearIcon then
+function inserter.ClearIcons()
+	if not inserter.changeData.clearIcons then
 		inserter.hasData = true
-		inserter.changeData.clearIcon = true
+		inserter.changeData.clearIcons = true
 	end
 	return SIGen
 end

@@ -75,7 +75,7 @@ function entity:Extend()
 		return nil
 	end
 	if self.hasExtend then
-		e( "模块提交 : 不能重复提交已经提交过的数据 , 必须重新创建" )
+		e( "模块提交 : 不能重复提交已经提交过的数据 , 必须重新创建 : "..self:GetName() )
 		return nil
 	end
 	self.data.sourceMod = self.sourceMod
@@ -426,12 +426,12 @@ end
 -- -------- 批量快速填充 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function entity:Change_clearIcon( needClearIcon )
-	if needClearIcon then return self:DeleteParam( "icon" ):self.DeleteParam( "icons" )
+function entity:Change_clearIcons( needClearIcons )
+	if needClearIcons then return self:DeleteParam( "icon" ):DeleteParam( "icons" )
 	else return self end
 end
 
-function entity:Inserter_insertIcon( iconData )
+function entity:Inserter_insertIcons( iconData )
 	if not iconData then
 		e( "模块构建：不能插入空的图标数据" )
 		return self
