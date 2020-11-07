@@ -8,6 +8,12 @@ end
 
 
 
+function entity:SetImage( path )
+	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
+	:SetParam( "icon_size" , SINumbers.iconSize )
+	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
+end
+
 function entity:SetSpeed( speed )
 	return self:SetParam( "speed" , speed )
 end

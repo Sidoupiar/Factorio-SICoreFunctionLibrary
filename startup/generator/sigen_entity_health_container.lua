@@ -13,8 +13,6 @@ function entity:SetImage( path )
 	return self
 end
 
-
-
 function entity:SetSlotCount( inputSlotCount , outputSlotCount )
 	return self:SetParam( "inventory_size" , inputSlotCount )
 end

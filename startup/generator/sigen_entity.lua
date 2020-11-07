@@ -5,6 +5,10 @@ entity:AddDefaultValue( "width" , -1 )
 :AddDefaultValue( "addenHeight" , 0 )
 :AddDefaultValue( "shadowWidth" , 0 )
 :AddDefaultValue( "shadowHeight" , 0 )
+:AddDefaultValue( "addenShiftX" , 0 )
+:AddDefaultValue( "addenShiftY" , 0 )
+:AddDefaultValue( "shadowShiftX" , 0 )
+:AddDefaultValue( "shadowShiftY" , 0 )
 :AddDefaultValue( "hasHr" , false )
 :AddDefaultValue( "animShadow" , false )
 :AddDefaultValue( "patchLocation" , nil )
@@ -44,6 +48,38 @@ end
 
 function entity:SetShadowHeight( shadowHeight )
 	self.shadowHeight = shadowHeight
+	return self
+end
+
+function entity:SetAddenShift( x , y )
+	self.addenShiftX = x
+	self.addenShiftY = y
+	return self
+end
+
+function entity:SetAddenShiftX( x )
+	self.addenShiftX = x
+	return self
+end
+
+function entity:SetAddenShiftY( y )
+	self.addenShiftY = y
+	return self
+end
+
+function entity:SetShadowShift( x , y )
+	self.shadowShiftX = x
+	self.shadowShiftY = y
+	return self
+end
+
+function entity:SetShadowShiftX( x )
+	self.shadowShiftX = x
+	return self
+end
+
+function entity:SetShadowShiftY( y )
+	self.shadowShiftY = y
 	return self
 end
 
@@ -94,6 +130,22 @@ end
 
 function entity:GetShadowHeight()
 	return self.shadowHeight
+end
+
+function entity:GetAddenShiftX()
+	return self.addenShiftX
+end
+
+function entity:GetAddenShiftY()
+	return self.addenShiftY
+end
+
+function entity:GetShadowShiftX()
+	return self.shadowShiftX
+end
+
+function entity:GetShadowShiftY()
+	return self.shadowShiftY
 end
 
 function entity:GetHasHr()

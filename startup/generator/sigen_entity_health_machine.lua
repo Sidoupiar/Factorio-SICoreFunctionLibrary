@@ -13,8 +13,6 @@ function entity:SetImage( path )
 	return self
 end
 
-
-
 function entity:SetSpeed( speed )
 	return self:SetParam( "crafting_speed" , speed )
 end

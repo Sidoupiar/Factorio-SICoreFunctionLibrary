@@ -21,8 +21,6 @@ end
 
 
 
-
-
 function entity:Init( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Init( currentEntity )

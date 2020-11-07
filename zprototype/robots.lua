@@ -15,7 +15,7 @@ local dyingEffect =
 }
 local waterReflection =
 {
-	pictures = SIPics.NewLayer( "__base__/graphics/entity/construction-robot/construction-robot-reflection.png" , 12 , 12 , 5 ).Priority( "extra-high" ).Shift( 0 , 105 ).Variation( 1 ).Get() ,
+	pictures = SIPics.NewLayer( "__base__/graphics/entity/construction-robot/construction-robot-reflection" , 12 , 12 , 5 ).Priority( "extra-high" ).Shift( 0 , 105 ).Variation().Get() ,
 	rotate = false ,
 	orientation_to_variation = false
 }
@@ -39,7 +39,7 @@ local customData =
 
 local function CreateSpark( sparkList )
 	local sparks = {}
-	for i , v in pairs( sparkList ) do table.insert( sparks , SIPics.NewLayer( "__base__/graphics/entity/sparks/sparks-0"..i..".png" , v[1] , v[2] ).Shift( v[3] , v[4] ).Anim( 19 , 19 , 0.3 ).Tint( 1 , 0.9 , 0 , 1 ).Get() ) end
+	for i , v in pairs( sparkList ) do table.insert( sparks , SIPics.NewLayer( "__base__/graphics/entity/sparks/sparks-0"..i , v[1] , v[2] ).Shift( v[3] , v[4] ).Anim( 19 , 19 , 0.3 ).Tint( 1 , 0.9 , 0 , 1 ).Get() ) end
 	return sparks
 end
 
@@ -61,13 +61,13 @@ SIGen.NewRobotConstruction( "robot-construction" )
 .E.SetItemStackSize( 10000 )
 .SetProperties( 0 , 0 , 100 , 0.45 , "1J" , { "0J" , "0J" } , 1 )
 .SetCorpse( nil , "construction-robot-explosion" , dyingEffect )
-.SetPic( "smoke" , SIPics.NewLayer( "__base__/graphics/entity/smoke-construction/smoke-01.png" , 39 , 32 ).Anim( 19 , 19 , 0.3 ).Get() )
+.SetPic( "smoke" , SIPics.NewLayer( "__base__/graphics/entity/smoke-construction/smoke-01" , 39 , 32 ).Anim( 19 , 19 , 0.3 ).Get() )
 .SetPic( "idle" , SIPics.NewLayer( SIGen.GetLayerFile() , 32 , 36 ).Priority( "high" ).Shift( 0 , -4.5 ).Anim( 16 , 1 , nil , 16 ).Get() )
 .SetPic( "in_motion" , SIPics.NewLayer( SIGen.GetLayerFile() , 32 , 36 ).Priority( "high" ).Shift( 0 , -4.5 ).Anim( 16 , 1 , nil , 16 ).Y( 36 ).Get() )
-.SetPic( "shadow_idle" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 53 , 35 ).Priority( "high" ).Shift( 33.5 , 18.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
-.SetPic( "shadow_in_motion" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 53 , 35 ).Priority( "high" ).Shift( 33.5 , 18.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
+.SetPic( "shadow_idle" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 50 , 24 ).Priority( "high" ).Shift( 33.5 , 18.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
+.SetPic( "shadow_in_motion" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 50 , 24 ).Priority( "high" ).Shift( 33.5 , 18.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
 .SetPic( "working" , SIPics.NewLayer( SIGen.GetLayerFile().."-working" , 28 , 36 ).Priority( "high" ).Shift( -0.25 , -5 ).Anim( 2 , 2 , 0.3 , 16 ).Get() )
-.SetPic( "shadow_working" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 53 , 35 ).Priority( "high" ).Shift( 33.5 , 18.5 ).Anim( 16 , 1 , nil , 16 ).Repeat( 2 ).Shadow().Get() )
+.SetPic( "shadow_working" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 50 , 24 ).Priority( "high" ).Shift( 33.5 , 18.5 ).Anim( 16 , 1 , nil , 16 ).Repeat( 2 ).Shadow().Get() )
 .SetPic( "water_reflection" , waterReflection )
 .SetCustomData( customData )
 .SetCustomData
@@ -96,10 +96,10 @@ SIGen.NewRobotLogistic( "robot-logistic" )
 .SetPic( "idle_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Get() )
 .SetPic( "in_motion" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Y( 126 ).Get() )
 .SetPic( "in_motion_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Y( 84 ).Get() )
-.SetPic( "shadow_idle" ,SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 58 , 29 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Y( 29 ).Shadow().Get()  )
-.SetPic( "shadow_idle_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 58 , 29 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
-.SetPic( "shadow_in_motion" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 58 , 29 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Y( 29 ).Shadow().Get() )
-.SetPic( "shadow_in_motion_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 58 , 29 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
+.SetPic( "shadow_idle" ,SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 59 , 23 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Y( 23 ).Shadow().Get()  )
+.SetPic( "shadow_idle_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 59 , 23 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
+.SetPic( "shadow_in_motion" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 59 , 23 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Y( 23 ).Shadow().Get() )
+.SetPic( "shadow_in_motion_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 59 , 23 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
 .SetPic( "water_reflection" , waterReflection )
 .SetCustomData( customData )
 .SetCustomData

@@ -7,8 +7,6 @@ function entity:SetImage( path )
 	return self
 end
 
-
-
 function entity:SetSlotCount( inputSlotCount , outputSlotCount )
 	if inputSlotCount then self:SetParam( "inventory_size" , inputSlotCount ) end
 	if outputSlotCount then self:SetParam( "logistic_slots_count" , outputSlotCount ) end

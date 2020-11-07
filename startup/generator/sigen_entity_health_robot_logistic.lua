@@ -1,4 +1,4 @@
-local entity = SIGen.HealthEntity:Copy( "logistic" )
+local entity = SIGen.Robot:Copy( "logistic" )
 entity:AddDefaultValue( "defaultType" , SITypes.entity.robotLogistic )
 
 

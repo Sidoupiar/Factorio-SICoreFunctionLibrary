@@ -929,6 +929,36 @@ function SIGen.E.SetShadowHeight( shadowHeight )
 	return SIGen
 end
 
+function SIGen.E.SetAddenShift( x , y )
+	if currentData.SetAddenShift then currentData:SetAddenShift( x , y ) end
+	return SIGen
+end
+
+function SIGen.E.SetAddenShiftX( x )
+	if currentData.SetAddenShiftX then currentData:SetAddenShiftX( x ) end
+	return SIGen
+end
+
+function SIGen.E.SetAddenShiftY( y )
+	if currentData.SetAddenShiftY then currentData:SetAddenShiftY( y ) end
+	return SIGen
+end
+
+function SIGen.E.SetShadowShift( x , y )
+	if currentData.SetShadowShift then currentData:SetShadowShift( x , y ) end
+	return SIGen
+end
+
+function SIGen.E.SetShadowShiftX( x )
+	if currentData.SetShadowShiftX then currentData:SetShadowShiftX( x ) end
+	return SIGen
+end
+
+function SIGen.E.SetShadowShiftY( y )
+	if currentData.SetShadowShiftY then currentData:SetShadowShiftY( y ) end
+	return SIGen
+end
+
 function SIGen.E.SetHasHr( hasHr )
 	if currentData.SetHasHr then currentData:SetHasHr( hasHr ) end
 	return SIGen

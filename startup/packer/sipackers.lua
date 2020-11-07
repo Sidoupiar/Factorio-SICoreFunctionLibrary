@@ -67,7 +67,8 @@ end
 
 function SIPackers.CollisionBoundBox( width , height )
 	width = width * 0.95
-	if not height then height = width end
+	if not height then height = width
+	else height = height * 0.95 end
 	halfWidth = width / 2.0
 	halfHeight = height / 2.0
 	return { { -halfWidth , -halfHeight } , { halfWidth , halfHeight } }
