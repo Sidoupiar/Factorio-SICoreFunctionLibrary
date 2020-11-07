@@ -59,7 +59,7 @@ for i = 1 , 9 , 1 do table.insert( constructionSound , { filename = "__base__/so
 
 SIGen.NewRobotConstruction( "robot-construction" )
 .E.SetItemStackSize( 10000 )
-.SetProperties( 0 , 0 , 100 , 0.45 , "1J" , { "0J" , "0J" } , 1 )
+.SetProperties( 0 , 0 , 100 , 0.46 , "1J" , { "0J" , "0J" } , 1 )
 .SetCorpse( nil , "construction-robot-explosion" , dyingEffect )
 .SetPic( "smoke" , SIPics.NewLayer( "__base__/graphics/entity/smoke-construction/smoke-01" , 39 , 32 ).Anim( 19 , 19 , 0.3 ).Get() )
 .SetPic( "idle" , SIPics.NewLayer( SIGen.GetLayerFile() , 32 , 36 ).Priority( "high" ).Shift( 0 , -4.5 ).Anim( 16 , 1 , nil , 16 ).Get() )
@@ -90,7 +90,7 @@ for i = 1 , 5 , 1 do table.insert( flyingSound , { filename = "__base__/sound/fl
 
 SIGen.NewRobotLogistic( "robot-logistic" )
 .E.SetItemStackSize( 10000 )
-.SetProperties( 0 , 0 , 100 , 0.45 , "1J" , { "0J" , "0J" } , 10 )
+.SetProperties( 0 , 0 , 100 , 0.46 , "1J" , { "0J" , "0J" } , 10 )
 .SetCorpse( nil , "logistic-robot-explosion" , dyingEffect )
 .SetPic( "idle" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Y( 42 ).Get() )
 .SetPic( "idle_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Get() )
