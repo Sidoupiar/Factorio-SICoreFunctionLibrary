@@ -24,7 +24,7 @@ function entity:SetImage( path )
 	local hasHr = self:GetHasHr()
 	
 	local waterLocation = self:GetWaterLocation()
-	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( file , width , height , waterLocation ).Get() ) end
+	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( file , width , height , waterLocation ) ) end
 	
 	local layers = {}
 	table.insert( layers , SIPics.BaseAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ).Get() )
@@ -72,7 +72,7 @@ function entity:SetSignalWire( distance , points , sprites , signals )
 			local signal = nil
 			local dataType = type( v )
 			if dataType == "string" then signal = SIPackers.Signal( v )
-			else dataType == "table" then signal = v end
+			elseif dataType == "table" then signal = v end
 			if signal then self:SetParam( k , signal ) end
 		end
 	end

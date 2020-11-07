@@ -1,6 +1,6 @@
 local entity = SIGen.Base:Copy( "entity" )
-entity:AddDefaultValue( "width" , 0 )
-:AddDefaultValue( "height" , 0 )
+entity:AddDefaultValue( "width" , -1 )
+:AddDefaultValue( "height" , -1 )
 :AddDefaultValue( "addenWidth" , 0 )
 :AddDefaultValue( "addenHeight" , 0 )
 :AddDefaultValue( "shadowWidth" , 0 )
@@ -138,15 +138,7 @@ function entity:SetStackSize( stackSize )
 end
 
 function entity:SetSize( width , height )
-	if not width or width <= 0 then
-		e( "模块构建 : 实体的宽度(width)不能为 0 或负数" )
-		return self
-	end
 	if not height then height = width end
-	if height <= 0 then
-		e( "模块构建 : 实体的高度(height)不能为 0 或负数" )
-		return self
-	end
 	local currentWidth = self.width
 	local currentHeight = self.height
 	if currentWidth ~= width or currentHeight ~= height then

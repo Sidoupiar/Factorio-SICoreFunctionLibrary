@@ -67,7 +67,7 @@ local function DefaultValues()
 end
 
 local function FinishData()
-	if currentData then
+	if currentData and not currentData:HasExtend() then
 		if not currentData:HasFill() then currentData:Fill() end
 		SIGen.Inserter.InsertData( currentData )
 		currentData:Extend():Finish()
@@ -946,6 +946,11 @@ end
 
 function SIGen.E.SetWaterLocation( x , y )
 	if currentData.SetWaterLocation then currentData:SetWaterLocation( x , y ) end
+	return SIGen
+end
+
+function SIGen.E.SetItemStackSize( itemStackSize )
+	if currentData.SetStackSize then currentData:SetStackSize( itemStackSize ) end
 	return SIGen
 end
 

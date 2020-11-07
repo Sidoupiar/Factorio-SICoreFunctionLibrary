@@ -54,7 +54,7 @@ local function Create( name , radius )
 	.SetPic( "base_animation" , SIPics.NewLayer( SIGen.GetLayerFile().."-animation" , 42 , 31 ).Anim( 1 , 8 , 0.5 ).Get() )
 	.SetPic( "door_animation_up" , SIPics.NewLayer( SIGen.GetLayerFile().."-door-up" , 52 , 20 ).Frame( 16 ).Get() )
 	.SetPic( "door_animation_down" , SIPics.NewLayer( SIGen.GetLayerFile().."-door-down" , 52 , 22 ).Frame( 16 ).Get() )
-	.SetPic( "recharging_animation" , SIPics.NewLayer( SIGen.GetLayerFile().."-recharging" , 37 , 35 , 1.5 ).Anim( 1 , 16 , 0.5 ).Priority( "high" ).Get() )
+	.SetPic( "recharging_animation" , SIPics.NewLayer( SIGen.GetLayerFile().."-recharging" , 37 , 35 , 1.5 ).Priority( "high" ).Anim( 1 , 16 , 0.5 ).Get() )
 	.SetCustomData( customData )
 	.AddSuperArmor()
 end

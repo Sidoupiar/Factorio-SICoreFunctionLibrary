@@ -23,7 +23,7 @@ function SIPics.NewLayer( file , width , height , scale , hasHr )
 	if hasHr then
 		currentLayer.hr_version =
 		{
-			file .. ".png" ,
+			filename = file .. "-hr.png" ,
 			width = width * SINumbers.pictureHrScale ,
 			height = height * SINumbers.pictureHrScale ,
 			scale = scale * SINumbers.pictureHrScaleDown
@@ -39,6 +39,12 @@ end
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础操作 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
+
+function SIPics.Priority( priority )
+	currentLayer.priority = priority
+	if currentLayer.hr_version then currentLayer.hr_version.priority = priority end
+	return SIPics
+end
 
 function SIPics.Shift( shiftWidth , shiftHeight )
 	shiftWidth = shiftWidth or 0
@@ -57,12 +63,6 @@ function SIPics.ShiftMerge( newShift )
 	return SIPics
 end
 
-function SIPics.Priority( priority )
-	currentLayer.priority = priority
-	if currentLayer.hr_version then currentLayer.hr_version.priority = priority end
-	return SIPics
-end
-
 function SIPics.Frame( frameCount )
 	frameCount = frameCount or 1
 	currentLayer.frame_count = frameCount
@@ -70,30 +70,54 @@ function SIPics.Frame( frameCount )
 	return SIPics
 end
 
-function SIPics.Anim( lineLength , frameCount , animSpeed )
+function SIPics.Anim( lineLength , frameCount , animSpeed , directionCount )
 	lineLength = lineLength or 1
 	frameCount = frameCount or 1
-	animSpeed = animSpeed or 1
 	currentLayer.line_length = lineLength
 	currentLayer.frame_count = frameCount
-	currentLayer.animation_speed = animSpeed
+	if animSpeed then currentLayer.animation_speed = animSpeed end
+	if directionCount then currentLayer.direction_count = directionCount end
 	if currentLayer.hr_version then
 		currentLayer.hr_version.line_length = lineLength
 		currentLayer.hr_version.frame_count = frameCount
-		currentLayer.hr_version.animation_speed = animSpeed
+		if animSpeed then currentLayer.hr_version.animation_speed = animSpeed end
+		if directionCount then currentLayer.hr_version.direction_count = directionCount end
 	end
+	return SIPics
+end
+
+function SIPics.Variation( variationCount )
+	variationCount = variationCount or 1
+	currentLayer.variation_count = variationCount
+	if currentLayer.hr_version then currentLayer.hr_version.variation_count = variationCount end
+	return SIPics
+end
+
+function SIPics.Y( y )
+	y = y or 0
+	currentLayer.y = y
+	if currentLayer.hr_version then currentLayer.hr_version.y = y end
 	return SIPics
 end
 
 function SIPics.Repeat( frameCount )
 	frameCount = frameCount or 1
 	currentLayer.repeat_count = frameCount
-	currentLayer.line_length = 1
 	currentLayer.frame_count = 1
+	if not currentLayer.line_length then currentLayer.line_length = 1 end
 	if currentLayer.hr_version then
 		currentLayer.hr_version.repeat_count = frameCount
-		currentLayer.hr_version.line_length = 1
 		currentLayer.hr_version.frame_count = 1
+		if not currentLayer.hr_version.line_length then currentLayer.hr_version.line_length = 1 end
+	end
+	return SIPics
+end
+
+function SIPics.Tint( red , green , blue , alpha )
+	local color = SIPackers.Color( red , green , blue , alpha )
+	if color then
+		currentLayer.tint = color
+		if currentLayer.hr_version then currentLayer.hr_version.tint = color end
 	end
 	return SIPics
 end
