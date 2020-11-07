@@ -60,4 +60,4 @@ local function Create( name , radius )
 end
 
 Create( "roboport-broad" , 128 )
-Create( "roboport-vast" , 3200 )
+Create( "roboport-vast" , 4800 )
