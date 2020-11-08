@@ -142,6 +142,10 @@ end
 function entity:Fill( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Fill( currentEntity )
+	local _ , iconSize = currentEntity:GetParam( "icon_size" )
+	if not iconSize then currentEntity:SetParam( "icon_size" , SINumbers.iconSize ) end
+	local _ , mipmaps = currentEntity:GetParam( "icon_mipmaps" )
+	if not mipmaps then currentEntity:SetParam( "icon_mipmaps" , SINumbers.mipMaps ) end
 	local _ , ingredients = currentEntity:GetParam( "ingredients" )
 	if not ingredients then currentEntity:SetParam( "ingredients" , {} ) end
 	local _ , overload = currentEntity:GetParam( "overload_multiplier" )

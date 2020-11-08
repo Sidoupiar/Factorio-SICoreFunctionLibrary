@@ -440,9 +440,11 @@ function entity:Inserter_insertIcons( iconData )
 	local _ , icons = self:GetParam( "icons" )
 	local _ , mipmaps = self:GetParam( "icon_mipmaps" )
 	if icon then
-		self:DeleteParam( "icon" )
 		icons = {}
+		self:DeleteParam( "icon" )
 		table.insert( icons , SIPackers.Icon( icon , nil , mipmaps ) )
+	else
+		if not icons then icons = {} end
 	end
 	if iconData.index < 1 or iconData.index > #icons then table.insert( icons , iconData )
 	else table.insert( icons , iconData.index , iconData ) end

@@ -26,9 +26,7 @@ end
 function inserter.InsertData( entity )
 	if inserter.HasData() then
 		for k , v in pairs( inserter.changeData ) do
-			if v then
-				for n , m in pairs( v ) do entity["Change_"..k]( entity , m ) end
-			end
+			if v then entity["Change_"..k]( entity , v ) end
 		end
 		for k , v in pairs( inserter.insertData ) do
 			if v then
