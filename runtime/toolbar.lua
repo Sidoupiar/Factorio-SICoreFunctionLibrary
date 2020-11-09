@@ -32,6 +32,10 @@ CreateGlobalTable( "SIToolbarViews" )
 -- ------------------------------------------------------------------------------------------------
 
 function SIToolbar.AddTool( id , buttonName , iconItemName , localizedName , tooltips , interfaceName , functionName )
+	for i , toolData in pairs( SIToolbar.toolData ) do
+		if toolData.id == id then return end
+	end
+	if not game.item_prototypes[iconItemName] then iconItemName = "sicfl-item-empty" end
 	local order = SIToolbar.order
 	SIToolbar.order = SIToolbar.order + 1
 	local toolData =
@@ -39,8 +43,8 @@ function SIToolbar.AddTool( id , buttonName , iconItemName , localizedName , too
 		id = id ,
 		buttonName = buttonName ,
 		iconItemName = iconItemName ,
-		localizedName = localizedName ,
-		tooltips , tooltips ,
+		localizedName = { localizedName } ,
+		tooltips = { tooltips } ,
 		interfaceName = interfaceName ,
 		functionName = functionName ,
 		order = order
@@ -76,11 +80,14 @@ function SIToolbar.OpenView( playerIndex , viewData )
 			
 			local player = game.players[playerIndex]
 			local view = player.gui.top.add{ type = "frame" , name = "sicfl-toolbar-view" , direction = "horizontal" , style = "sicfl-toolbar-view" }
-			local list = view.add{ type = "scroll-pane" , vertical_scroll_policy = "auto-and-reserve-space" , horizontal_scroll_policy = "never" }.add{ type = "table" , column_count = 2 , style = "sicfl-toolbar-list" }
+			view.add{ type = "sprite-button" , name = "sicfl-toolbar-button" , sprite = "item/sicfl-item-toolbar" , tooltip = { "SICFL.toolbar-close" } , style = "sicfl-toolbar-close" }
+			local list = view.add{ type = "scroll-pane" , vertical_scroll_policy = "never" , horizontal_scroll_policy = "never" }.add{ type = "table" , column_count = 10 , style = "sicfl-toolbar-list" }
 			
 			viewData.open = true
 			viewData.view = view
 			viewData.list = list
+			
+			SIToolbar.FreshList( list )
 		end
 	end
 end
@@ -91,7 +98,7 @@ function SIToolbar.CloseView( playerIndex , viewData )
 			if viewData.view then viewData.view.destroy() end
 			
 			local player = game.players[playerIndex]
-			local view = player.gui.top..add{ type = "sprite-button" , name = "sicfl-toolbar-button" , sprite = "item/sicfl-item-toolbar" , tooltip = { "SICFL.toolbar-open" } , style = "sicfl-toolbar-open" }
+			local view = player.gui.top.add{ type = "sprite-button" , name = "sicfl-toolbar-button" , sprite = "item/sicfl-item-toolbar" , tooltip = { "SICFL.toolbar-open" } , style = "sicfl-toolbar-open" }
 			
 			viewData.open = false
 			viewData.view = view
@@ -104,14 +111,16 @@ end
 -- ---------- 功能方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIToolbar.ShowViewByPlayerIndex( playerIndex )
+function SIToolbar.ShowViewByPlayerIndex( playerIndex , force )
 	local viewData = SIToolbarViews[playerIndex]
 	if not viewData then
 		viewData = table.deepcopy( SIToolbar.playerViewData )
 		SIToolbarViews[playerIndex] = viewData
 	end
-	if viewData.open then SIToolbar.OpenView( playerIndex , viewData )
-	else SIToolbar.CloseView( playerIndex , viewData ) end
+	if force or #SIToolbar.toolData > 1 then
+		if viewData.open then SIToolbar.OpenView( playerIndex , viewData )
+		else SIToolbar.CloseView( playerIndex , viewData ) end
+	end
 end
 
 function SIToolbar.HideViewByPlayerIndex( playerIndex )
@@ -125,7 +134,7 @@ function SIToolbar.HideViewByPlayerIndex( playerIndex )
 end
 
 function SIToolbar.ShowViews()
-	for playerIndex , viewData in pairs( SIToolbarViews ) do SIToolbar.ShowViewByPlayerIndex( playerIndex ) end
+	for playerIndex , viewData in pairs( SIToolbarViews ) do SIToolbar.ShowViewByPlayerIndex( playerIndex , true ) end
 end
 
 function SIToolbar.HideViews()
@@ -146,7 +155,6 @@ end
 function SIToolbar.FreshList( list )
 	if list then
 		list.clear()
-		list.add{ type = "sprite-button" , name = "sicfl-toolbar-button" , sprite = "item/sicfl-item-toolbar" , tooltip = { "SICFL.toolbar-close" } , style = "sicfl-toolbar-close" }
 		for i , toolData in pairs( SIToolbar.toolData ) do
 			list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..toolData.iconItemName , tooltip = toolData.tooltips , style = "sicfl-toolbar-icon" }
 		end
@@ -162,20 +170,23 @@ function SIToolbar.OnPlayerCreate( event )
 end
 
 function SIToolbar.OnClick( event )
-	local name = event.element.name
-	if name == "sicfl-toolbar-button" then
-		local playerIndex = event.player_index
-		local viewData = SIToolbarViews[playerIndex]
-		if viewData.open then SIToolbar.CloseView( playerIndex , viewData )
-		else SIToolbar.OpenView( playerIndex , viewData ) end
-		return
-	end
-	for i , toolData in pairs( SIToolbar.toolData ) do
-		if name == toolData.buttonName then
-			if toolData.interfaceName and toolData.functionName then
-				remote.call( toolData.interfaceName , toolData.functionName , name , toolData.id , toolData.order )
-			end
+	local element = event.element
+	if element.valid then
+		local name = element.name
+		if name == "sicfl-toolbar-button" then
+			local playerIndex = event.player_index
+			local viewData = SIToolbarViews[playerIndex]
+			if viewData.open then SIToolbar.CloseView( playerIndex , viewData )
+			else SIToolbar.OpenView( playerIndex , viewData ) end
 			return
+		end
+		for i , toolData in pairs( SIToolbar.toolData ) do
+			if name == toolData.buttonName then
+				if toolData.interfaceName and toolData.functionName then
+					remote.call( toolData.interfaceName , toolData.functionName , name , toolData.id , toolData.order )
+				end
+				return
+			end
 		end
 	end
 end
@@ -187,4 +198,10 @@ end
 SIEventBus.Add( SIEvents.on_player_created , SIToolbar.OnPlayerCreate )
 SIEventBus.Add( SIEvents.on_gui_click , SIToolbar.OnClick )
 
-remote.add_interface( "sicfl-toolbar" , { AddTool = SIToolbar.AddTool , RemoveTool = SIToolbar.RemoveTool } )
+remote.add_interface( "sicfl-toolbar" ,
+{
+	AddTool = SIToolbar.AddTool ,
+	RemoveTool = SIToolbar.RemoveTool ,
+	ShowViews = SIToolbar.ShowViews ,
+	HideViews = SIToolbar.HideViews
+} )

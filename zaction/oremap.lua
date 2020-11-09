@@ -132,22 +132,25 @@ function OreMapCloseView( event )
 end
 
 function OreMapClickView( event )
-	local name = event.element.name
-	if name == "sicfl-oremap-sort-name" then OreMapSortOreData( event.player_index , "name" )
-	elseif name == "sicfl-oremap-sort-count" then OreMapSortOreData( event.player_index , "count" )
-	elseif name == "sicfl-oremap-fresh" then OreMapFreshList( OreMapGetSettings( event.player_index ) )
-	elseif name == "sicfl-oremap-clean" then OreMapCleanOreData( event.player_index )
-	elseif name == "sicfl-oremap-create" then
-		local index = event.player_index
-		local settings = OreMapGetSettings( index )
-		OreMapSaveSettings( settings )
-		if OreMapSpawnOre( game.players[index] , settings ) then OreMapCloseView( event ) end
-	elseif name == "sicfl-oremap-close" then
-		OreMapCloseView( event )
-	elseif name:find( oreMapIconRegex ) then
-		local settings = OreMapGetSettings( event.player_index )
-		settings.selectedOreName = name:sub( oreMapIconPosition )
-		OreMapFreshList( settings )
+	local element = event.element
+	if element.valid then
+		local name = element.name
+		if name == "sicfl-oremap-sort-name" then OreMapSortOreData( event.player_index , "name" )
+		elseif name == "sicfl-oremap-sort-count" then OreMapSortOreData( event.player_index , "count" )
+		elseif name == "sicfl-oremap-fresh" then OreMapFreshList( OreMapGetSettings( event.player_index ) )
+		elseif name == "sicfl-oremap-clean" then OreMapCleanOreData( event.player_index )
+		elseif name == "sicfl-oremap-create" then
+			local index = event.player_index
+			local settings = OreMapGetSettings( index )
+			OreMapSaveSettings( settings )
+			if OreMapSpawnOre( game.players[index] , settings ) then OreMapCloseView( event ) end
+		elseif name == "sicfl-oremap-close" then
+			OreMapCloseView( event )
+		elseif name:find( oreMapIconRegex ) then
+			local settings = OreMapGetSettings( event.player_index )
+			settings.selectedOreName = name:sub( oreMapIconPosition )
+			OreMapFreshList( settings )
+		end
 	end
 end
 

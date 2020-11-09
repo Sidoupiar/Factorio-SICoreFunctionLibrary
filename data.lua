@@ -22,9 +22,8 @@ SIGen
 .Init( SICFL )
 .NewGroup( "others" )
 .NewSubGroup( "debug-things" )
-.NewItem( "empty" , 1000 )
-.NewItem( "toolbar" , 1000 )
 
+need( "zprototype/base/common" )
 need( "zprototype/base/toolbar" )
 
 -- ------------------------------------------------------------------------------------------------

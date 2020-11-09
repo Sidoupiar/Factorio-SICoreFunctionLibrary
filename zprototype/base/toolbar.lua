@@ -1,26 +1,33 @@
+SIGen.NewItem( "toolbar" , 1000 )
+
 local view =
 {
 	["sicfl-toolbar-view"] =
 	{
 		type = "frame_style" ,
 		parent = "frame" ,
-		minimal_width = 136 ,
-		minimal_height = 68 ,
-		maximal_height = 68
+		
+		top_padding = 5 ,
+		right_padding = 5 ,
+		bottom_padding = 5 ,
+		left_padding = 5 ,
+		
+		minimal_width = 50 ,
+		minimal_height = 50
 	} ,
 	["sicfl-toolbar-list"] =
 	{
 		type = "table_style" ,
-		cell_spacing = 2 ,
-		horizontal_spacing = 1 ,
-		vertical_spacing = 1
+		cell_spacing = 3 ,
+		horizontal_spacing = 3 ,
+		vertical_spacing = 3
 	} ,
 	["sicfl-toolbar-open"] =
 	{
 		type = "button_style" ,
 		parent = "button" ,
-		minimal_width = 32 ,
-		minimal_height = 32 ,
+		minimal_width = 50 ,
+		minimal_height = 50 ,
 		top_padding = 0 ,
 		right_padding = 0 ,
 		bottom_padding = 0 ,
@@ -30,8 +37,8 @@ local view =
 	{
 		type = "button_style" ,
 		parent = "button" ,
-		minimal_width = 32 ,
-		minimal_height = 32 ,
+		minimal_width = 50 ,
+		minimal_height = 50 ,
 		top_padding = 0 ,
 		right_padding = 0 ,
 		bottom_padding = 0 ,
@@ -41,8 +48,8 @@ local view =
 	{
 		type = "button_style" ,
 		parent = "button" ,
-		minimal_width = 32 ,
-		minimal_height = 32 ,
+		minimal_width = 40 ,
+		minimal_height = 40 ,
 		top_padding = 0 ,
 		right_padding = 0 ,
 		bottom_padding = 0 ,
