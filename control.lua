@@ -2,7 +2,10 @@ require( "util" )
 
 need( "define/load" )
 need( "function/load" )
-need( "runtime/load" )
+
+needlist( "runtime/structure" , "sievent_bus" , "global_data"" )
+need( "runtime/function/functions" )
+needlist( "runtime/remote" , "toolbar" , "wiki" )
 
 local constants = need( "constants" )
 local constantsData = need( "constants_data" )

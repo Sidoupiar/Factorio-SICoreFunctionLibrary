@@ -33,6 +33,14 @@ function need( name , notself )
 	return require( path..name )
 end
 
+function needlist( basePath , ... )
+	local result = {}
+	for i , path in pairs{ ... } do
+		if path then result[path] = need( basePath.."/"..path ) end
+	end
+	return result
+end
+
 
 
 SIOrderCode = -1000

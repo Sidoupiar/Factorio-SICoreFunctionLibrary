@@ -4,10 +4,8 @@ SILoadingDatas = true
 
 need( "define/load" )
 need( "function/load" )
-need( "startup/generator/load" )
-need( "startup/packer/load" )
-need( "startup/picture/load" )
-need( "startup/sound/load" )
+
+needlist( "startup" , "generator/sigen" , "packer/sipackers" , "picture/sipics" , "sound/sisounds" )
 
 local constants = need( "constants" )
 local constantsData = need( "constants_data" )
