@@ -200,7 +200,7 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 function SIOremap.OnInit()
-	remote.call( "sicfl-toolbar" , "AddTool" , SIOremap.toolbarButtonId , SIOremap.toolbarButtonName , SIOremap.itemName , "SICFL.oremap-toolbar-button" , "SICFL.oremap-toolbar-tooltip" , SIOremap.interfaceId , "OpenView" )
+	remote.call( "sicfl-toolbar" , "AddTool" , SIOremap.toolbarButtonId , SIOremap.toolbarButtonName , SIOremap.itemName , "SICFL.oremap-toolbar-button" , "SICFL.oremap-toolbar-tooltip" , SIOremap.interfaceId , "ShowViewByPlayerIndex" )
 end
 
 function SIOremap.OnSelect( event )
@@ -284,6 +284,6 @@ SIEventBus
 
 remote.add_interface( SIOremap.interfaceId ,
 {
-	OpenView = SIOremap.OpenView ,
-	CloseView = SIOremap.CloseView
+	ShowViewByPlayerIndex = SIOremap.OpenView ,
+	HideViewByPlayerIndex = SIOremap.CloseView
 } )
