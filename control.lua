@@ -4,7 +4,7 @@ need( "define/load" )
 need( "function/load" )
 
 needlist( "runtime/structure" , "sievent_bus" , "global_data"" )
-need( "runtime/function/functions" )
+needlist( "runtime/function" , "functions" )
 needlist( "runtime/remote" , "toolbar" , "wiki" )
 
 local constants = need( "constants" )

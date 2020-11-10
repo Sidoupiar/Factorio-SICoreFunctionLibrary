@@ -90,28 +90,28 @@ function OreMapOpenView( event )
 		flow = view.add{ type = "flow" , direction = "horizontal" }
 		flow.add{ type = "label" , caption = { "SICFL.oremap-view-settings" } , style = "sicfl-oremap-label-text" }
 		flow = view.add{ type = "flow" , direction = "horizontal" }
-		settings.elements.useSettingsAsDefault = flow.add{ type = "checkbox" , state = settings.useSettingsAsDefault , caption = { "SICFL.oremap-view-settings-value-use-settings-as-default" } , tooltip = { "SICFL.oremap-view-settings-tooltip-use-settings-as-default" } , style="checkbox" }
+		settings.elements.useSettingsAsDefault = flow.add{ type = "checkbox" , state = settings.useSettingsAsDefault , caption = { "SICFL.oremap-view-settings-value-use-settings-as-default" } , tooltip = { "SICFL.oremap-view-settings-tooltip-use-settings-as-default" } , style = "checkbox" }
 		flow = view.add{ type = "flow" , direction = "horizontal" }
-		settings.elements.totalMode = flow.add{ type = "checkbox" , state = settings.totalMode , caption = { "SICFL.oremap-view-settings-value-total-mode" } , tooltip = { "SICFL.oremap-view-settings-tooltip-total-mode" } , style="checkbox" }
+		settings.elements.totalMode = flow.add{ type = "checkbox" , state = settings.totalMode , caption = { "SICFL.oremap-view-settings-value-total-mode" } , tooltip = { "SICFL.oremap-view-settings-tooltip-total-mode" } , style = "checkbox" }
 		flow = view.add{ type = "flow" , direction = "horizontal" }
 		flow.add{ type = "label" , caption = { "SICFL.oremap-view-settings-value-count" } , tooltip = { "SICFL.oremap-view-settings-tooltip-count" } , style = "sicfl-oremap-label-short" }
-		settings.elements.count = flow.add{ type = "textfield" , text = tostring( settings.count ) , numeric = true , tooltip = { "SICFL.oremap-view-settings-tooltip-count" } , style="long_number_textfield" }
+		settings.elements.count = flow.add{ type = "textfield" , text = tostring( settings.count ) , numeric = true , tooltip = { "SICFL.oremap-view-settings-tooltip-count" } , style = "long_number_textfield" }
 		
 		view.add{ type = "line" , direction = "horizontal" }
 		
 		flow = view.add{ type = "flow" , name = "sicfl-oremap-flow-button" , direction = "horizontal" }
-		flow.add{ type = "button" , name = "sicfl-oremap-clean" , caption={ "SICFL.oremap-view-clean" } , style = "sicfl-oremap-button-gray" }
-		flow.add{ type = "button" , name = "sicfl-oremap-fresh" , caption={ "SICFL.oremap-view-fresh" } , style = "sicfl-oremap-button-gray" }
-		flow.add{ type = "button" , name = "sicfl-oremap-sort-count" , caption={ "SICFL.oremap-view-sort-count" } , style = "sicfl-oremap-button-green" }
-		flow.add{ type = "button" , name = "sicfl-oremap-sort-name" , caption={ "SICFL.oremap-view-sort-name" } , style = "sicfl-oremap-button-green" }
-		settings.elements.list = view.add{ type = "scroll-pane" , name = "sicfl-oremap-scroll" , vertical_scroll_policy = "auto-and-reserve-space" , horizontal_scroll_policy = "never" }.add{ type = "table" , name = "sicfl-oremap-list" , column_count = 3 , style = "sicfl-oremap-list" }
+		flow.add{ type = "button" , name = "sicfl-oremap-clean" , caption = { "SICFL.oremap-view-clean" } , style = "sicfl-oremap-button-gray" }
+		flow.add{ type = "button" , name = "sicfl-oremap-fresh" , caption = { "SICFL.oremap-view-fresh" } , style = "sicfl-oremap-button-gray" }
+		flow.add{ type = "button" , name = "sicfl-oremap-sort-count" , caption = { "SICFL.oremap-view-sort-count" } , style = "sicfl-oremap-button-green" }
+		flow.add{ type = "button" , name = "sicfl-oremap-sort-name" , caption = { "SICFL.oremap-view-sort-name" } , style = "sicfl-oremap-button-green" }
+		settings.elements.list = view.add{ type = "scroll-pane" , name = "sicfl-oremap-scroll" , horizontal_scroll_policy = "never" , vertical_scroll_policy = "auto-and-reserve-space" }.add{ type = "table" , name = "sicfl-oremap-list" , column_count = 3 , style = "sicfl-oremap-list" }
 		OreMapFreshList( settings )
 		
 		view.add{ type = "line" , direction = "horizontal" }
 		
 		flow = view.add{ type = "flow" , name = "sicfl-oremap-flow-confirm" , direction = "horizontal" }
-		flow.add{ type = "button" , name = "sicfl-oremap-close" , caption={ "SICFL.oremap-view-close" } , style = "sicfl-oremap-button-red" }
-		if settings.tiles then flow.add{ type = "button" , name = "sicfl-oremap-create" , caption={ "SICFL.oremap-view-create" } , style = "sicfl-oremap-button-green" } end
+		flow.add{ type = "button" , name = "sicfl-oremap-close" , caption = { "SICFL.oremap-view-close" } , style = "sicfl-oremap-button-red" }
+		if settings.tiles then flow.add{ type = "button" , name = "sicfl-oremap-create" , caption = { "SICFL.oremap-view-create" } , style = "sicfl-oremap-button-green" } end
 		
 		settings.view = view
 	end
@@ -228,23 +228,23 @@ function OreMapFreshList( settings )
 	if settings.elements.list then
 		local list = settings.elements.list
 		list.clear()
-		list.add{ type = "label" , caption = { "SICFL.oremap-view-label-icon" } , style="sicfl-oremap-label-icon" }
-		list.add{ type = "label" , caption = { "SICFL.oremap-view-label-name" } , style="sicfl-oremap-label-long" }
-		list.add{ type = "label" , caption = { "SICFL.oremap-view-label-count" } , style="sicfl-oremap-label-long" }
+		list.add{ type = "label" , caption = { "SICFL.oremap-view-label-icon" } , style = "sicfl-oremap-label-icon" }
+		list.add{ type = "label" , caption = { "SICFL.oremap-view-label-name" } , style = "sicfl-oremap-label-long" }
+		list.add{ type = "label" , caption = { "SICFL.oremap-view-label-count" } , style = "sicfl-oremap-label-long" }
 		if #settings.oreData < 1 then
 			list.add{ type = "sprite-button" , sprite = "item/sicfl-item-empty" , style = "sicfl-oremap-list-icon" }
-			list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-none" } , style="sicfl-oremap-label-long" }
-			list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-count-infinity" } , style="sicfl-oremap-label-long" }
+			list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-none" } , style = "sicfl-oremap-label-long" }
+			list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-count-infinity" } , style = "sicfl-oremap-label-long" }
 		else
 			for i , v in pairs( settings.oreData ) do
 				if v.name == settings.selectedOreName then
 					list.add{ type = "sprite-button" , sprite = "entity/"..v.name , style = "sicfl-oremap-list-icon" }
-					list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-colored" , game.entity_prototypes[v.name].localised_name } , style="sicfl-oremap-label-long" }
-					list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-colored" , { "SICFL.oremap-view-ore-count" , v.count } } , style="sicfl-oremap-label-long" }
+					list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-colored" , game.entity_prototypes[v.name].localised_name } , style = "sicfl-oremap-label-long" }
+					list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-colored" , { "SICFL.oremap-view-ore-count" , v.count } } , style = "sicfl-oremap-label-long" }
 				else
 					list.add{ type = "sprite-button" , name = "sicfl-oremap-ore-"..v.name , sprite = "entity/"..v.name , style = "sicfl-oremap-list-icon" }
-					list.add{ type = "label" , caption = game.entity_prototypes[v.name].localised_name , style="sicfl-oremap-label-long" }
-					list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-count" , v.count } , style="sicfl-oremap-label-long" }
+					list.add{ type = "label" , caption = game.entity_prototypes[v.name].localised_name , style = "sicfl-oremap-label-long" }
+					list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-count" , v.count } , style = "sicfl-oremap-label-long" }
 				end
 			end
 		end

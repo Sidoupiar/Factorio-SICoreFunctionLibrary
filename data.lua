@@ -21,8 +21,7 @@ SIGen
 .NewGroup( "others" )
 .NewSubGroup( "debug-things" )
 
-need( "zprototype/base/common" )
-need( "zprototype/base/toolbar" )
+needlist( "zprototype/base" , "common" , "toolbar" , "wiki" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 测试工具 ----------------------------------------------------------------------------
@@ -30,11 +29,7 @@ need( "zprototype/base/toolbar" )
 
 if SIStartup.SICFL.debug_tools() then
 	SIGen.NewSubGroup( "debug-tools" )
-	need( "zprototype/debug/delmap" )
-	need( "zprototype/debug/oremap" )
-	need( "zprototype/debug/radars" )
-	need( "zprototype/debug/roboports" )
-	need( "zprototype/debug/robots" )
+	needlist( "zprototype/debug" , "delmap" , "oremap" , "radars" , "roboports" , "robots" )
 end
 
 SIGen.NewGroup( "extensions" ).Finish()

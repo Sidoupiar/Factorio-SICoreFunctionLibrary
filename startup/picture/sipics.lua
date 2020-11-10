@@ -56,7 +56,7 @@ function SIPics.Copy()
 end
 
 function SIPics.GetWaterReflection( rotate , orientationToVariation )
-	return SIPackers.WaterReflection( SIPics.Priority( "extra-high" ).Variation().Get() , rotate , orientationToVariation )
+	return SIPackers.WaterReflection( SIPics.Priority( "extra-high" ).Get() , rotate , orientationToVariation )
 end
 
 -- ------------------------------------------------------------------------------------------------

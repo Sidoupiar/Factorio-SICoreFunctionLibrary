@@ -15,6 +15,7 @@
 -- }
 SIToolbar =
 {
+	interfaceId = "sicfl-toolbar" ,
 	order = 1 ,
 	toolData = {} ,
 	playerViewData =
@@ -81,7 +82,7 @@ function SIToolbar.OpenView( playerIndex , viewData )
 			local player = game.players[playerIndex]
 			local view = player.gui.top.add{ type = "frame" , name = "sicfl-toolbar-view" , direction = "horizontal" , style = "sicfl-toolbar-view" }
 			view.add{ type = "sprite-button" , name = "sicfl-toolbar-button" , sprite = "item/sicfl-item-toolbar" , tooltip = { "SICFL.toolbar-close" } , style = "sicfl-toolbar-close" }
-			local list = view.add{ type = "scroll-pane" , vertical_scroll_policy = "never" , horizontal_scroll_policy = "never" }.add{ type = "table" , column_count = 10 , style = "sicfl-toolbar-list" }
+			local list = view.add{ type = "scroll-pane" , horizontal_scroll_policy = "never" , vertical_scroll_policy = "never" }.add{ type = "table" , column_count = 10 , style = "sicfl-toolbar-list" }
 			
 			viewData.open = true
 			viewData.view = view
@@ -155,19 +156,13 @@ end
 function SIToolbar.FreshList( list )
 	if list then
 		list.clear()
-		for i , toolData in pairs( SIToolbar.toolData ) do
-			list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..toolData.iconItemName , tooltip = toolData.tooltips , style = "sicfl-toolbar-icon" }
-		end
+		for i , toolData in pairs( SIToolbar.toolData ) do list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..toolData.iconItemName , tooltip = toolData.tooltips , style = "sicfl-toolbar-icon" } end
 	end
 end
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 公用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
-
-function SIToolbar.OnPlayerCreate( event )
-	SIToolbar.ShowViewByPlayerIndex( event.player_index )
-end
 
 function SIToolbar.OnClick( event )
 	local element = event.element
@@ -182,9 +177,7 @@ function SIToolbar.OnClick( event )
 		end
 		for i , toolData in pairs( SIToolbar.toolData ) do
 			if name == toolData.buttonName then
-				if toolData.interfaceName and toolData.functionName then
-					remote.call( toolData.interfaceName , toolData.functionName , name , toolData.id , toolData.order )
-				end
+				if toolData.interfaceName and toolData.functionName then remote.call( toolData.interfaceName , toolData.functionName , event.player_index , name , toolData.id , toolData.order ) end
 				return
 			end
 		end
@@ -195,13 +188,14 @@ end
 -- ---------- 方法注册 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-SIEventBus.Add( SIEvents.on_player_created , SIToolbar.OnPlayerCreate )
 SIEventBus.Add( SIEvents.on_gui_click , SIToolbar.OnClick )
 
-remote.add_interface( "sicfl-toolbar" ,
+remote.add_interface( SIToolbar.interfaceId ,
 {
 	AddTool = SIToolbar.AddTool ,
 	RemoveTool = SIToolbar.RemoveTool ,
+	ShowViewByPlayerIndex = SIToolbar.ShowViewByPlayerIndex ,
+	HideViewByPlayerIndex = SIToolbar.HideViewByPlayerIndex ,
 	ShowViews = SIToolbar.ShowViews ,
 	HideViews = SIToolbar.HideViews
 } )

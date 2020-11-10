@@ -26,23 +26,19 @@ local view =
 	{
 		type = "button_style" ,
 		parent = "button" ,
-		minimal_width = 50 ,
-		minimal_height = 50 ,
-		top_padding = 0 ,
-		right_padding = 0 ,
-		bottom_padding = 0 ,
-		left_padding = 0
-	} ,
-	["sicfl-toolbar-close"] =
-	{
-		type = "button_style" ,
-		parent = "button" ,
-		minimal_width = 50 ,
-		minimal_height = 50 ,
+		
 		top_padding = 0 ,
 		right_padding = 0 ,
 		bottom_padding = 0 ,
 		left_padding = 0 ,
+		
+		minimal_width = 50 ,
+		minimal_height = 50
+	} ,
+	["sicfl-toolbar-close"] =
+	{
+		type = "button_style" ,
+		parent = "sicfl-toolbar-open" ,
 		default_graphical_set = { base = { position = { 136 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
 		hovered_graphical_set = { base = { position = { 170 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt , glow = SIStyles.greenDirt } ,
 		clicked_graphical_set = { base = { position = { 187 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
@@ -51,13 +47,9 @@ local view =
 	["sicfl-toolbar-icon"] =
 	{
 		type = "button_style" ,
-		parent = "button" ,
+		parent = "sicfl-toolbar-open" ,
 		minimal_width = 40 ,
-		minimal_height = 40 ,
-		top_padding = 0 ,
-		right_padding = 0 ,
-		bottom_padding = 0 ,
-		left_padding = 0
+		minimal_height = 40
 	}
 }
 
