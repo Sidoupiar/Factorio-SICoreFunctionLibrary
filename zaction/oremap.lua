@@ -102,6 +102,22 @@ end
 -- ---------- 功能方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+function SIOremap.ShowViewByPlayerIndex( playerIndex )
+	SIOremap.OpenView( playerIndex )
+end
+
+function SIOremap.HideViewByPlayerIndex( playerIndex )
+	SIOremap.CloseView( playerIndex )
+end
+
+function SIOremap.ShowViews()
+	for playerIndex , settings in pairs( oremap ) do SIOremap.OpenView( playerIndex ) end
+end
+
+function SIOremap.HideViews()
+	for playerIndex , settings in pairs( oremap ) do SIOremap.CloseView( playerIndex ) end
+end
+
 function SIOremap.GetSettings( playerIndex )
 	local settings = oremap[playerIndex]
 	if not settings then
@@ -284,6 +300,8 @@ SIEventBus
 
 remote.add_interface( SIOremap.interfaceId ,
 {
-	ShowViewByPlayerIndex = SIOremap.OpenView ,
-	HideViewByPlayerIndex = SIOremap.CloseView
+	ShowViewByPlayerIndex = SIOremap.ShowViewByPlayerIndex ,
+	HideViewByPlayerIndex = SIOremap.HideViewByPlayerIndex ,
+	ShowViews = SIOremap.ShowViews ,
+	HideViews = SIOremap.HideViews
 } )

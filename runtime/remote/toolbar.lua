@@ -142,7 +142,6 @@ function SIToolbar.FreshViews()
 		-- 添加/移除工具按钮
 		if SIToolbar.addToolData and #SIToolbar.addToolData > 0 then
 			for i , toolData in pairs( SIToolbar.addToolData ) do
-				if not game.item_prototypes[toolData.iconItemName] then toolData.iconItemName = "sicfl-item-empty" end
 				local hasData = false
 				for j , oldToolData in pairs( SIToolbarToolData ) do
 					if oldToolData.id == toolData.id then
@@ -165,6 +164,10 @@ function SIToolbar.FreshViews()
 				end
 			end
 			SIToolbar.removeToolData = {}
+		end
+		-- 处理物品按钮
+		for i , toolData in pairs( SIToolbarToolData ) do
+			if not game.item_prototypes[toolData.iconItemName] then toolData.iconItemName = "sicfl-item-empty" end
 		end
 		-- 控制显示隐藏主按钮
 		local count = #SIToolbarToolData
