@@ -113,11 +113,7 @@ end
 
 function SIWiki.ShowViewByPlayerIndex( playerIndex )
 	local viewData = SIWikiViews[playerIndex]
-	if not viewData then
-		viewData = table.deepcopy( SIWiki.playerViewData )
-		SIWikiViews[playerIndex] = viewData
-	end
-	SIWiki.OpenView( playerIndex , viewData )
+	if viewData then SIWiki.OpenView( playerIndex , viewData ) end
 end
 
 function SIWiki.HideViewByPlayerIndex( playerIndex )
@@ -169,6 +165,11 @@ end
 -- ---------- 公用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+function SIWiki.OnInitPlayer( event )
+	local playerIndex = event.player_index
+	if not SIWikiViews[playerIndex] then SIWikiViews[playerIndex] = table.deepcopy( SIWiki.playerViewData ) end
+end
+
 function SIWiki.OnClick( event )
 	local element = event.element
 	if element.valid then
@@ -200,7 +201,9 @@ end
 -- ---------- 方法注册 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-SIEventBus.Add( SIEvents.on_gui_click , SIWiki.OnClick )
+SIEventBus
+.Add( SIEvents.on_player_joined_game , SIWiki.OnInitPlayer )
+.Add( SIEvents.on_gui_click , SIWiki.OnClick )
 
 remote.add_interface( SIWiki.interfaceId ,
 {

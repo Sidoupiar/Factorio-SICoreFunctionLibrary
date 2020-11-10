@@ -40,7 +40,7 @@ local view =
 		type = "button_style" ,
 		parent = "sicfl-toolbar-open" ,
 		default_graphical_set = { base = { position = { 136 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
-		hovered_graphical_set = { base = { position = { 170 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt , glow = SIStyles.greenDirt } ,
+		hovered_graphical_set = { base = { position = { 170 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt , glow = SIStyles.redDirt } ,
 		clicked_graphical_set = { base = { position = { 187 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
 		disabled_graphical_set = { base = { position = { 153 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt }
 	} ,

@@ -21,6 +21,11 @@ SIEventBus =
 		notAdd = true ,
 		funcs = {}
 	} ,
+	wait =
+	{
+		notAdd = true ,
+		funcs = {}
+	}  ,
 	list = {}
 }
 
@@ -63,6 +68,26 @@ function SIEventBus.Load( func , id )
 		SIEventBus.load.notAdd = false
 		script.on_load( function()
 			for id , func in pairs( SIEventBus.load.funcs ) do func( id ) end
+		end )
+	end
+	return SIEventBus
+end
+
+function SIEventBus.AddWaitFunction( id , func )
+	if not func then
+		e( "事件总线 : 不能添加空的缓执行方法" )
+		return SIEventBus
+	end
+	if not id then
+		id = SIEventBus.order
+		SIEventBus.order = SIEventBus.order + 1
+	end
+	SIEventBus.wait.funcs[id] = func
+	if SIEventBus.wait.notAdd then
+		SIEventBus.wait.notAdd = false
+		script.on_nth_tick( 1 , function( event )
+			for id , func in pairs( SIEventBus.wait.funcs ) do func( event , id ) end
+			script.on_nth_tick( 1 , nil )
 		end )
 	end
 	return SIEventBus

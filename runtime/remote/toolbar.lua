@@ -2,7 +2,7 @@
 -- ---------- 基础数据 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
--- toolData 内的元素结构
+-- addToolData / SIToolbarToolData 内的元素结构
 -- {
 --   id = id ,
 --   buttonName = buttonName ,
@@ -16,8 +16,11 @@
 SIToolbar =
 {
 	interfaceId = "sicfl-toolbar" ,
+	waitFunctionId = "sicfl-toolbar" ,
+	
 	order = 1 ,
-	toolData = {} ,
+	addToolData = {} ,
+	removeToolData = {} ,
 	playerViewData =
 	{
 		open = false ,
@@ -26,6 +29,7 @@ SIToolbar =
 	}
 }
 
+CreateGlobalTable( "SIToolbarToolData" )
 CreateGlobalTable( "SIToolbarViews" )
 
 -- ------------------------------------------------------------------------------------------------
@@ -33,10 +37,9 @@ CreateGlobalTable( "SIToolbarViews" )
 -- ------------------------------------------------------------------------------------------------
 
 function SIToolbar.AddTool( id , buttonName , iconItemName , localizedName , tooltips , interfaceName , functionName )
-	for i , toolData in pairs( SIToolbar.toolData ) do
+	for i , toolData in pairs( SIToolbar.addToolData ) do
 		if toolData.id == id then return end
 	end
-	if not game.item_prototypes[iconItemName] then iconItemName = "sicfl-item-empty" end
 	local order = SIToolbar.order
 	SIToolbar.order = SIToolbar.order + 1
 	local toolData =
@@ -50,24 +53,17 @@ function SIToolbar.AddTool( id , buttonName , iconItemName , localizedName , too
 		functionName = functionName ,
 		order = order
 	}
-	table.insert( SIToolbar.toolData , toolData )
+	table.insert( SIToolbar.addToolData , toolData )
 	SIToolbar.FreshViews()
 	return order
 end
 
 function SIToolbar.RemoveTool( id )
 	local index = 0
-	for i , toolData in pairs( SIToolbar.toolData ) do
-		if toolData.id == id then
-			index = i
-			break
-		end
-	end
-	if index > 0 then
-		table.remove( SIToolbar.toolData , index )
-		SIToolbar.FreshViews()
-		return true
-	else return false end
+	if table.Has( SIToolbar.removeToolData , id ) then return false end
+	table.insert( SIToolbar.removeToolData , id )
+	SIToolbar.FreshViews()
+	return true
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -114,13 +110,11 @@ end
 
 function SIToolbar.ShowViewByPlayerIndex( playerIndex , force )
 	local viewData = SIToolbarViews[playerIndex]
-	if not viewData then
-		viewData = table.deepcopy( SIToolbar.playerViewData )
-		SIToolbarViews[playerIndex] = viewData
-	end
-	if force or #SIToolbar.toolData > 1 then
-		if viewData.open then SIToolbar.OpenView( playerIndex , viewData )
-		else SIToolbar.CloseView( playerIndex , viewData ) end
+	if viewData then
+		if force or #SIToolbarToolData > 0 then
+			if viewData.open then SIToolbar.OpenView( playerIndex , viewData )
+			else SIToolbar.CloseView( playerIndex , viewData ) end
+		end
 	end
 end
 
@@ -143,12 +137,43 @@ function SIToolbar.HideViews()
 end
 
 function SIToolbar.FreshViews()
-	local count = #SIToolbar.toolData
-	for playerIndex , viewData in pairs( SIToolbarViews ) do
-		if count < 1 then SIToolbar.HideViewByPlayerIndex( playerIndex )
-		else
-			SIToolbar.ShowViewByPlayerIndex( playerIndex )
-			if viewData.open then SIToolbar.FreshList( viewData.list ) end
+	if not SIToolbarViews then SIEventBus.AddWaitFunction( SIToolbar.waitFunctionId , SIToolbar.FreshViews )
+	else
+		-- 添加/移除工具按钮
+		if SIToolbar.addToolData and #SIToolbar.addToolData > 0 then
+			for i , toolData in pairs( SIToolbar.addToolData ) do
+				if not game.item_prototypes[toolData.iconItemName] then toolData.iconItemName = "sicfl-item-empty" end
+				local hasData = false
+				for j , oldToolData in pairs( SIToolbarToolData ) do
+					if oldToolData.id == toolData.id then
+						hasData = true
+						SIToolbarToolData[j] = toolData
+						break
+					end
+				end
+				if not hasData then table.insert( SIToolbarToolData , toolData ) end
+			end
+			SIToolbar.addToolData = {}
+		end
+		if SIToolbar.removeToolData and #SIToolbar.removeToolData > 0 then
+			for i , id in pairs( SIToolbar.removeToolData ) do
+				for j , oldToolData in pairs( SIToolbarToolData ) do
+					if oldToolData.id == id then
+						table.remove( SIToolbarToolData , j )
+						break
+					end
+				end
+			end
+			SIToolbar.removeToolData = {}
+		end
+		-- 控制显示隐藏主按钮
+		local count = #SIToolbarToolData
+		for playerIndex , viewData in pairs( SIToolbarViews ) do
+			if count < 1 then SIToolbar.HideViewByPlayerIndex( playerIndex )
+			else
+				SIToolbar.ShowViewByPlayerIndex( playerIndex )
+				if viewData.open then SIToolbar.FreshList( viewData.list ) end
+			end
 		end
 	end
 end
@@ -156,13 +181,19 @@ end
 function SIToolbar.FreshList( list )
 	if list then
 		list.clear()
-		for i , toolData in pairs( SIToolbar.toolData ) do list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..toolData.iconItemName , tooltip = toolData.tooltips , style = "sicfl-toolbar-icon" } end
+		for i , toolData in pairs( SIToolbarToolData ) do list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..toolData.iconItemName , tooltip = toolData.tooltips , style = "sicfl-toolbar-icon" } end
 	end
 end
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 公用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
+
+function SIToolbar.OnInitPlayer( event )
+	local playerIndex = event.player_index
+	if not SIToolbarViews[playerIndex] then SIToolbarViews[playerIndex] = table.deepcopy( SIToolbar.playerViewData ) end
+	SIToolbar.ShowViewByPlayerIndex( playerIndex )
+end
 
 function SIToolbar.OnClick( event )
 	local element = event.element
@@ -175,7 +206,7 @@ function SIToolbar.OnClick( event )
 			else SIToolbar.OpenView( playerIndex , viewData ) end
 			return
 		end
-		for i , toolData in pairs( SIToolbar.toolData ) do
+		for i , toolData in pairs( SIToolbarToolData ) do
 			if name == toolData.buttonName then
 				if toolData.interfaceName and toolData.functionName then remote.call( toolData.interfaceName , toolData.functionName , event.player_index , name , toolData.id , toolData.order ) end
 				return
@@ -188,7 +219,9 @@ end
 -- ---------- 方法注册 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-SIEventBus.Add( SIEvents.on_gui_click , SIToolbar.OnClick )
+SIEventBus
+.Add( SIEvents.on_player_joined_game , SIToolbar.OnInitPlayer )
+.Add( SIEvents.on_gui_click , SIToolbar.OnClick )
 
 remote.add_interface( SIToolbar.interfaceId ,
 {
