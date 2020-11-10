@@ -13,12 +13,6 @@ local dyingEffect =
 		offsets = { { 0 , 0.5 } }
 	}
 }
-local waterReflection =
-{
-	pictures = SIPics.NewLayer( "__base__/graphics/entity/construction-robot/construction-robot-reflection" , 12 , 12 , 5 ).Priority( "extra-high" ).Shift( 0 , 105 ).Variation().Get() ,
-	rotate = false ,
-	orientation_to_variation = false
-}
 local customData =
 {
 	selection_box = { { -0.5 , -0.5 } , { 0.5 , -0.5 } } ,
@@ -36,16 +30,7 @@ local customData =
 		damage_type_filters = "fire"
 	}
 }
-
-local function CreateSpark( sparkList )
-	local sparks = {}
-	for i , v in pairs( sparkList ) do table.insert( sparks , SIPics.NewLayer( "__base__/graphics/entity/sparks/sparks-0"..i , v[1] , v[2] ).Shift( v[3] , v[4] ).Anim( 19 , 19 , 0.3 ).Tint( 1 , 0.9 , 0 , 1 ).Get() ) end
-	return sparks
-end
-
-
-
-local constructionSparks =
+local sparkList =
 {
 	{ 39 , 34 , -0.109375 , 0.3125 } ,
 	{ 36 , 32 , 0.03125 , 0.125 } ,
@@ -54,62 +39,46 @@ local constructionSparks =
 	{ 39 , 29 , -0.109375 , 0.171875 } ,
 	{ 44 , 36 , 0.03125 , 0.3125 }
 }
-local constructionSound = {}
-for i = 1 , 9 , 1 do table.insert( constructionSound , { filename = "__base__/sound/construction-robot-" .. i .. ".ogg" , volume = 0.7 } ) end
+local sparks = {}
+for i , v in pairs( sparkList ) do table.insert( sparks , SIPics.NewLayer( "__base__/graphics/entity/sparks/sparks-0"..i , v[1] , v[2] ).Shift( v[3] , v[4] ).Anim( 19 , 19 , 0.3 ).Tint( 1 , 0.9 , 0 , 1 ).Get() ) end
+
+
 
 SIGen.NewRobotConstruction( "robot-construction" )
 .E.SetItemStackSize( 10000 )
 .SetProperties( 0 , 0 , 100 , 0.46 , "1J" , { "0J" , "0J" } , 1 )
 .SetCorpse( nil , "construction-robot-explosion" , dyingEffect )
 .SetPic( "smoke" , SIPics.NewLayer( "__base__/graphics/entity/smoke-construction/smoke-01" , 39 , 32 ).Anim( 19 , 19 , 0.3 ).Get() )
-.SetPic( "idle" , SIPics.NewLayer( SIGen.GetLayerFile() , 32 , 36 ).Priority( "high" ).Shift( 0 , -4.5 ).Anim( 16 , 1 , nil , 16 ).Get() )
-.SetPic( "in_motion" , SIPics.NewLayer( SIGen.GetLayerFile() , 32 , 36 ).Priority( "high" ).Shift( 0 , -4.5 ).Anim( 16 , 1 , nil , 16 ).Y( 36 ).Get() )
-.SetPic( "shadow_idle" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 50 , 24 ).Priority( "high" ).Shift( 33.5 , 18.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
-.SetPic( "shadow_in_motion" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 50 , 24 ).Priority( "high" ).Shift( 33.5 , 18.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
+.SetPic( "idle" , SIPics.NewLayer( SIGen.GetLayerFile() , 32 , 36 ).Priority( "high" ).Shift( 0 , -4.5 ).Anim( 16 , 1 , nil , 16 ).Copy() )
+.SetPic( "in_motion" , SIPics.Y( 36 ).Get() )
 .SetPic( "working" , SIPics.NewLayer( SIGen.GetLayerFile().."-working" , 28 , 36 ).Priority( "high" ).Shift( -0.25 , -5 ).Anim( 2 , 2 , 0.3 , 16 ).Get() )
-.SetPic( "shadow_working" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 50 , 24 ).Priority( "high" ).Shift( 33.5 , 18.5 ).Anim( 16 , 1 , nil , 16 ).Repeat( 2 ).Shadow().Get() )
-.SetPic( "water_reflection" , waterReflection )
+.SetPic( "shadow_idle" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 50 , 24 ).Priority( "high" ).Shift( 33.5 , 18.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Copy() )
+.SetPic( "shadow_in_motion" , SIPics.Copy() )
+.SetPic( "shadow_working" , SIPics.Repeat( 2 ).Get() )
+.SetPic( "water_reflection" , SIPics.NewLayer( SIGen.GetLayerFile().."-reflection" , 12 , 12 , 5 ).Shift( 0 , 105 ).GetWaterReflection() )
 .SetCustomData( customData )
 .SetCustomData
 {
 	repair_speed_modifier = 100 ,
 	construction_vector = { 0.3 , 0.22 } ,
-	sparks = CreateSpark( constructionSparks ) ,
-	working_sound =
-	{
-		sound = constructionSound ,
-		max_sounds_per_type = 5 ,
-		audible_distance_modifier = 1 ,
-		probability = 1 / 600
-	}
+	sparks = sparks ,
+	working_sound = SISounds.Working( SISounds.BaseSoundList( "construction-robot" , 9 , 0.7 ) )
 }
 .AddSuperArmor()
-
-local flyingSound = {}
-for i = 1 , 5 , 1 do table.insert( flyingSound , { filename = "__base__/sound/flying-robot-" .. i .. ".ogg" , volume = 0.5 } ) end
 
 SIGen.NewRobotLogistic( "robot-logistic" )
 .E.SetItemStackSize( 10000 )
 .SetProperties( 0 , 0 , 100 , 0.46 , "1J" , { "0J" , "0J" } , 10 )
 .SetCorpse( nil , "logistic-robot-explosion" , dyingEffect )
-.SetPic( "idle" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Y( 42 ).Get() )
-.SetPic( "idle_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Get() )
-.SetPic( "in_motion" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Y( 126 ).Get() )
-.SetPic( "in_motion_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Y( 84 ).Get() )
-.SetPic( "shadow_idle" ,SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 59 , 23 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Y( 23 ).Shadow().Get()  )
-.SetPic( "shadow_idle_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 59 , 23 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
-.SetPic( "shadow_in_motion" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 59 , 23 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Y( 23 ).Shadow().Get() )
-.SetPic( "shadow_in_motion_with_cargo" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 59 , 23 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Shadow().Get() )
-.SetPic( "water_reflection" , waterReflection )
+.SetPic( "idle" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Y( 42 ).Copy() )
+.SetPic( "idle_with_cargo" , SIPics.Y().Copy() )
+.SetPic( "in_motion" , SIPics.Y( 126 ).Copy() )
+.SetPic( "in_motion_with_cargo" , SIPics.Y( 84 ).Get() )
+.SetPic( "shadow_idle" , SIPics.NewLayer( SIGen.GetLayerFile().."-shadow" , 59 , 23 ).Priority( "high" ).Shift( 32 , 19.5 ).Anim( 16 , 1 , nil , 16 ).Y( 23 ).Shadow().Copy() )
+.SetPic( "shadow_idle_with_cargo" , SIPics.Y().Copy() )
+.SetPic( "shadow_in_motion" , SIPics.Y( 23 ).Copy() )
+.SetPic( "shadow_in_motion_with_cargo" , SIPics.Y().Get() )
+.SetPic( "water_reflection" , SIPics.NewLayer( SIGen.GetLayerFile().."-reflection" , 12 , 12 , 5 ).Shift( 0 , 105 ).GetWaterReflection() )
 .SetCustomData( customData )
-.SetCustomData
-{
-	working_sound =
-	{
-		sound = flyingSound ,
-		max_sounds_per_type = 5 ,
-		audible_distance_modifier = 1 ,
-		probability = 1 / 600
-	}
-}
+.SetCustomData{ working_sound = SISounds.Working( SISounds.BaseSoundList( "flying-robot" , 5 , 0.5 ) ) }
 .AddSuperArmor()

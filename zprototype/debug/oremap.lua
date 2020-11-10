@@ -13,31 +13,9 @@ SIGen
 	alt_selection_mode = { "any-tile" } ,
 	alt_selection_cursor_box_type = "copy"
 }
-
 .NewInput( "oremap" , "SHIFT + O" )
 
-local fnc = {}
-local hnc = {}
-local def = { 0.01 , 0.01 , 0.01 , 0.4 }
-local gra = { 0.9 , 0.9 , 0.3 , 0.5 }
-local gre = { 0.35 , 1 , 0.35 , 0.5 }
-local red = { 1 , 0.35 , 0.35 , 0.5 }
 
-local function def_glow( tint_value , scale_value )
-	return
-	{
-		position = { 200 , 128 } ,
-		corner_size = 8 ,
-		tint = tint_value ,
-		scale = scale_value ,
-		draw_type = "outer"
-	}
-end
-
-local def_dirt = def_glow( def , 0.5 )
-local gra_dirt = def_glow( gra , 0.5 )
-local gre_dirt = def_glow( gre , 0.5 )
-local red_dirt = def_glow( red , 0.5 )
 
 local view =
 {
@@ -93,7 +71,7 @@ local view =
 	}
 }
 
-local function color_button( loc , dirt )
+local function color_button( location , dirt )
 	return
 	{
 		type = "button_style" ,
@@ -108,28 +86,28 @@ local function color_button( loc , dirt )
 		minimal_width = 108 ,
 		minimal_height = 28 ,
 		clicked_vertical_offset = 1 ,
-		default_font_color = fnc ,
-		hovered_font_color = hnc ,
-		clicked_font_color = hnc ,
+		default_font_color = SIColors.fontColor.black ,
+		hovered_font_color = SIColors.fontColor.black ,
+		clicked_font_color = SIColors.fontColor.black ,
 		disabled_font_color = { 0.7 , 0.7 , 0.7 } ,
-		selected_font_color = hnc ,
-		selected_hovered_font_color = hnc ,
-		selected_clicked_font_color = hnc ,
+		selected_font_color = SIColors.fontColor.black ,
+		selected_hovered_font_color = SIColors.fontColor.black ,
+		selected_clicked_font_color = SIColors.fontColor.black ,
 		strikethrough_color = { 0.5 , 0.5 , 0.5 } ,
 		pie_progress_color = { 1 , 1 , 1 } ,
-		default_graphical_set = { base = { position = { loc , 17 } , corner_size = 8 } , shadow = def_dirt } ,
-		hovered_graphical_set = { base = { position = { loc+34 , 17 } , corner_size = 8 } , shadow = def_dirt , glow = dirt } ,
-		clicked_graphical_set = { base = { position = { loc+51 , 17 } , corner_size = 8 } , shadow = def_dirt } ,
-		disabled_graphical_set = { base = { position = { loc+17 , 17 } , corner_size = 8 } , shadow = def_dirt } ,
-		selected_graphical_set = { base = { position = { 225 , 17 } , corner_size = 8 } , shadow = def_dirt } ,
-		selected_hovered_graphical_set = { base = { position = { 369 , 17 } , corner_size = 8 } , shadow = def_dirt } ,
-		selected_clicked_graphical_set = { base = { position = { 352 , 17 } , corner_size = 8 } , shadow = def_dirt } ,
+		default_graphical_set = { base = { position = { location , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
+		hovered_graphical_set = { base = { position = { location+34 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt , glow = dirt } ,
+		clicked_graphical_set = { base = { position = { location+51 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
+		disabled_graphical_set = { base = { position = { location+17 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
+		selected_graphical_set = { base = { position = { 225 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
+		selected_hovered_graphical_set = { base = { position = { 369 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
+		selected_clicked_graphical_set = { base = { position = { 352 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
 		left_click_sound = { { filename = "__core__/sound/gui-click.ogg" ,  volume = 1 } }
 	}
 end
 
-view["sicfl-oremap-button-gray"] = color_button( 0 , gra_dirt )
-view["sicfl-oremap-button-green"] = color_button( 68 , gre_dirt )
-view["sicfl-oremap-button-red"] = color_button( 136 , red_dirt )
+view["sicfl-oremap-button-gray"] = color_button( 0 , SIStyles.grayDirt )
+view["sicfl-oremap-button-green"] = color_button( 68 , SIStyles.greenDirt )
+view["sicfl-oremap-button-red"] = color_button( 136 , SIStyles.redDirt )
 
 for k , v in pairs( view ) do data.raw["gui-style"]["default"][k] = v end

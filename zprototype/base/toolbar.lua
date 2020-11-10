@@ -42,7 +42,11 @@ local view =
 		top_padding = 0 ,
 		right_padding = 0 ,
 		bottom_padding = 0 ,
-		left_padding = 0
+		left_padding = 0 ,
+		default_graphical_set = { base = { position = { 136 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
+		hovered_graphical_set = { base = { position = { 170 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt , glow = SIStyles.greenDirt } ,
+		clicked_graphical_set = { base = { position = { 187 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt } ,
+		disabled_graphical_set = { base = { position = { 153 , 17 } , corner_size = 8 } , shadow = SIStyles.defaultDirt }
 	} ,
 	["sicfl-toolbar-icon"] =
 	{

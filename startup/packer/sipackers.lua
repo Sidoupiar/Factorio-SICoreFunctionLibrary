@@ -479,3 +479,22 @@ function SIPackers.SingleModifier( modifierType , param1 , param2 )
 	else modifier.modifier = param1 end
 	return modifier
 end
+
+-- ------------------------------------------------------------------------------------------------
+-- -------- 水面反射数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.WaterReflectionPack( layer , rotate , orientationToVariation )
+	return SIPackers.CreatePack( SIPackers.WaterReflection( layer , rotate , orientationToVariation ) )
+end
+
+function SIPackers.WaterReflection( layer , rotate , orientationToVariation )
+	rotate = rotate or false
+	orientationToVariation = orientationToVariation or false
+	return
+	{
+		pictures = layer ,
+		rotate = rotate ,
+		orientation_to_variation = orientationToVariation
+	}
+end
