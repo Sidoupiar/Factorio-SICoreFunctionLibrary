@@ -1,5 +1,8 @@
-SIGen
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 基础数据 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
+SIGen
 .NewItem( "oremap" , 1 )
 .AddFlags{ SIFlags.itemFlags.notStackable , SIFlags.itemFlags.hidden }
 .SetCustomData
@@ -15,7 +18,9 @@ SIGen
 }
 .NewInput( "oremap" , "SHIFT + O" )
 
-
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 创建界面 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 local view =
 {
@@ -71,7 +76,7 @@ local view =
 	}
 }
 
-local function color_button( location , dirt )
+local function ColorButton( location , dirt )
 	return
 	{
 		type = "button_style" ,
@@ -106,8 +111,8 @@ local function color_button( location , dirt )
 	}
 end
 
-view["sicfl-oremap-button-gray"] = color_button( 0 , SIStyles.grayDirt )
-view["sicfl-oremap-button-green"] = color_button( 68 , SIStyles.greenDirt )
-view["sicfl-oremap-button-red"] = color_button( 136 , SIStyles.redDirt )
+view["sicfl-oremap-button-gray"] = ColorButton( 0 , SIStyles.grayDirt )
+view["sicfl-oremap-button-green"] = ColorButton( 68 , SIStyles.greenDirt )
+view["sicfl-oremap-button-red"] = ColorButton( 136 , SIStyles.redDirt )
 
 for k , v in pairs( view ) do data.raw["gui-style"]["default"][k] = v end

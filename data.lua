@@ -1,7 +1,6 @@
 require( "util" )
 
 SILoadingDatas = true
-
 need( "define/load" )
 need( "function/load" )
 

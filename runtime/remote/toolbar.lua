@@ -29,8 +29,8 @@ SIToolbar =
 	}
 }
 
-CreateGlobalTable( "SIToolbarToolData" )
-CreateGlobalTable( "SIToolbarViews" )
+SIGlobal.Create( "SIToolbarToolData" )
+SIGlobal.Create( "SIToolbarViews" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 图标操作 ----------------------------------------------------------------------------
