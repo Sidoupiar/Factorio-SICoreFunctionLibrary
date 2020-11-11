@@ -43,12 +43,14 @@ local view =
 	{
 		type = "button_style" ,
 		parent = "button" ,
-		minimal_width = 32 ,
-		minimal_height = 32 ,
+		
 		top_padding = 0 ,
 		right_padding = 0 ,
 		bottom_padding = 0 ,
-		left_padding = 0
+		left_padding = 0 ,
+		
+		minimal_width = 32 ,
+		minimal_height = 32
 	} ,
 	["sicfl-oremap-label-icon"] =
 	{
