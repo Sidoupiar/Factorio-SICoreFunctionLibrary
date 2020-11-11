@@ -275,8 +275,7 @@ function SIOremap.OnClickView( event )
 			local settings = SIOremap.GetSettings( playerIndex )
 			SIOremap.SaveSettings( settings )
 			if SIOremap.SpawnOre( game.players[playerIndex] , settings ) then SIOremap.CloseView( playerIndex ) end
-		elseif name == "sicfl-oremap-close" then
-			SIOremap.CloseView( event.player_index )
+		elseif name == "sicfl-oremap-close" then SIOremap.CloseView( event.player_index )
 		elseif name:find( SIOremap.iconRegex ) then
 			local settings = SIOremap.GetSettings( event.player_index )
 			settings.selectedOreName = name:sub( SIOremap.iconPosition )
