@@ -19,6 +19,10 @@ function e( msg )
 	error( "_____ :: "..output..msg )
 end
 
+function ee( tableData )
+	e( debug.TableToString( tableData ) )
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 引用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
@@ -28,7 +32,18 @@ SINeedlist = {}
 
 function need( name , notself )
 	local source = debug.getinfo( 2 , "S" ).source
-	if notself then for i = 3 , 10 , 1 do source = debug.getinfo( i , "S" ).source if not source:find( "__SICoreFunctionLibrary__" ) then break end end end
+	if notself then
+		for i = 3 , 10 , 1 do
+			source = debug.getinfo( i , "S" )
+			if source then
+				source = source.source
+				if not source:find( "__SICoreFunctionLibrary__" ) then break end
+			else
+				source = debug.getinfo( i-1 , "S" ).source
+				break
+			end
+		end
+	end
 	source = name:find( "__" ) and source:sub( source:find( "__" , 3 )+3 , -1 ) or source:sub( 2 , -1 )
 	local path = SINeedlist[source]
 	if not path then
@@ -39,11 +54,9 @@ function need( name , notself )
 end
 
 function needlist( basePath , ... )
-	local result = {}
-	for i , path in pairs{ ... } do
-		if path then result[path] = need( basePath.."/"..path ) end
-	end
-	return result
+	local results = {}
+	for i , path in pairs{ ... } do if path then results[path] = need( basePath.."/"..path , true ) end end
+	return results
 end
 
 -- ------------------------------------------------------------------------------------------------

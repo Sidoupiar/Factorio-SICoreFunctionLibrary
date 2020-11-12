@@ -4,7 +4,14 @@ entity:AddDefaultValue( "defaultType" , SITypes.entity.containerLogic )
 
 
 function entity:SetImage( path )
-	return self
+	local width = self:GetWidth()
+	local height = self:GetHeight()
+	if not width or width <= 0 or not height or height <= 0 then return self end
+	
+	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
+	:SetParam( "icon_size" , SINumbers.iconSize )
+	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
+	:SetParam( "picture" , SIPics.BaseAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName() , width , height ).Get() )
 end
 
 function entity:SetSlotCount( inputSlotCount , outputSlotCount )

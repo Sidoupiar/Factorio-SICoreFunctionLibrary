@@ -193,6 +193,15 @@ function SIPackers.EnergySourceOtherSettings( energySourceOrPack , emissions , r
 	return energySourceOrPack
 end
 
+function SIPackers.AddEnergySourceUsage( energySourceOrPack , usage )
+	local energySource = {}
+	if energySourceOrPack.isPack then energySource = energySourceOrPack.data
+	else energySource = energySourceOrPack end
+	if not usage then energySource.usage_priority = SITypes.electricUsagePriority.secondaryInput
+	else energySource.usage_priority = usage end
+	return energySourceOrPack
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- -------- 创建光线数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
