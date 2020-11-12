@@ -145,7 +145,7 @@ function entity:CheckData( data )
 		return false
 	end
 	if not data then
-		e( "模块构建 : 不能导入空的数据" )
+		l( "模块构建 : 加入了空的数据 : "..self::GetCodeName().." , "..self:GetBaseName() )
 		return false
 	end
 	return true

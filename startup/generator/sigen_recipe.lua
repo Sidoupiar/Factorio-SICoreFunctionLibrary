@@ -70,8 +70,10 @@ function entity:AddCosts( costOrCostsOrPack , count )
 	if dataType == "string" then
 		return self:AddParamItem( "ingredients" , SIPackers.SingleItemIngredient( costOrCostsOrPack , count ) )
 	elseif dataType == "table" then
-		if costOrCostsOrPack.isPack then
-			return self:AddParamItem( "ingredients" , costOrCostsOrPack.data )
+		if costOrCostsOrPack.isPack then costOrCostsOrPack = costOrCostsOrPack.data end
+		if costOrCostsOrPack[1] and type( costOrCostsOrPack[1] ) == "table" then
+			for i , v in pairs( costOrCostsOrPack ) do self:AddParamItem( "ingredients" , v ) end
+			return self
 		else
 			return self:AddParamItem( "ingredients" , costOrCostsOrPack )
 		end
@@ -114,8 +116,10 @@ function entity:AddResults( resultOrResultsOrPack , count )
 	if dataType == "string" then
 		return self:AddParamItem( "results" , SIPackers.SingleItemProduct( resultOrResultsOrPack , count ) )
 	elseif dataType == "table" then
-		if resultOrResultsOrPack.isPack then
-			return self:AddParamItem( "results" , resultOrResultsOrPack.data )
+		if resultOrResultsOrPack.isPack then resultOrResultsOrPack = resultOrResultsOrPack.data end
+		if resultOrResultsOrPack[1] and type( resultOrResultsOrPack[1] ) == "table" then
+			for i , v in pairs( resultOrResultsOrPack ) do self:AddParamItem( "results" , v ) end
+			return self
 		else
 			return self:AddParamItem( "results" , resultOrResultsOrPack )
 		end

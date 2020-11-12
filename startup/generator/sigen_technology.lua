@@ -187,8 +187,10 @@ function entity:AddResults( resultOrResultsOrPack , count )
 		if count then return self:AddParamItem( "effects" , SIPackers.SingleModifier( resultOrResultsOrPack , count ) )
 		else return self:AddParamItem( "effects" , SIPackers.SingleModifier( SITypes.modifier.unlockRecipe , resultOrResultsOrPack ) ) end
 	elseif dataType == "table" then
-		if resultOrResultsOrPack.isPack then
-			return self:AddParamItem( "effects" , resultOrResultsOrPack.data )
+		if resultOrResultsOrPack.isPack then resultOrResultsOrPack = resultOrResultsOrPack.data end
+		if resultOrResultsOrPack[1] and type( resultOrResultsOrPack[1] ) == "table" then
+			for i , v in pairs( resultOrResultsOrPack ) do self:AddParamItem( "effects" , v ) end
+			return self
 		else
 			return self:AddParamItem( "effects" , resultOrResultsOrPack )
 		end

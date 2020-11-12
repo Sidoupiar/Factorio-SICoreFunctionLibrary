@@ -302,6 +302,16 @@ function SIPackers.AppendIngredients( ingredientsData , newIngredients )
 	return ingredientsData
 end
 
+function SIPackers.IngredientsWithList( dataList )
+	if not dataList then return nil end
+	local ingredients = {}
+	for i , v in pairs( dataList ) do
+		if v[1] == "fluid" then table.insert( ingredients , SIPackers.SingleFluidIngredient( v[2] , v[3] , v[4] , v[5] ) )
+		else table.insert( ingredients , SIPackers.SingleItemIngredient( v[1] , v[2] ) ) end
+	end
+	return ingredients
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- -------- 创建产物数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
