@@ -52,6 +52,7 @@ for i , v in pairs( sparkList ) do table.insert( sparks , SIPics.NewLayer( "__ba
 
 SIGen.NewRobotConstruction( "robot-construction" )
 .E.SetItemStackSize( 10000 )
+.E.AddItemFlags( SIFlags.itemFlags.hidden )
 .SetProperties( 0 , 0 , 100 , 0.46 , "1J" , { "0J" , "0J" } , 1 )
 .SetCorpse( nil , "construction-robot-explosion" , dyingEffect )
 .SetPic( "smoke" , SIPics.NewLayer( "__base__/graphics/entity/smoke-construction/smoke-01" , 39 , 32 ).Anim( 19 , 19 , 0.3 ).Get() )
@@ -74,6 +75,7 @@ SIGen.NewRobotConstruction( "robot-construction" )
 
 SIGen.NewRobotLogistic( "robot-logistic" )
 .E.SetItemStackSize( 10000 )
+.E.AddItemFlags( SIFlags.itemFlags.hidden )
 .SetProperties( 0 , 0 , 100 , 0.46 , "1J" , { "0J" , "0J" } , 10 )
 .SetCorpse( nil , "logistic-robot-explosion" , dyingEffect )
 .SetPic( "idle" , SIPics.NewLayer( SIGen.GetLayerFile() , 41 , 42 ).Priority( "high" ).Shift( 0 , -3 ).Anim( 16 , 1 , nil , 16 ).Y( 42 ).Copy() )

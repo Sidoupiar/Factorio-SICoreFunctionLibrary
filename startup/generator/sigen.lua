@@ -984,6 +984,21 @@ function SIGen.E.SetItemStackSize( itemStackSize )
 	return SIGen
 end
 
+function SIGen.E.SetItemFlags( flagOrFlagsOrPack )
+	if currentData.SetItemFlags then currentData:SetItemFlags( flagOrFlagsOrPack ) end
+	return SIGen
+end
+
+function SIGen.E.AddItemFlags( flagOrFlagsOrPack )
+	if currentData.AddItemFlags then currentData:AddItemFlags( flagOrFlagsOrPack ) end
+	return SIGen
+end
+
+function SIGen.E.ClearItemFlags()
+	if currentData.ClearItemFlags then currentData:ClearItemFlags() end
+	return SIGen
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- --------- 最终构建 ------------ ( 此处方法均为为自动调用 , 不能手动调用 ) ----------------------
 -- ------------------------------------------------------------------------------------------------

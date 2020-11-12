@@ -14,6 +14,7 @@ entity:AddDefaultValue( "width" , -1 )
 :AddDefaultValue( "patchLocation" , nil )
 :AddDefaultValue( "waterLocation" , nil )
 :AddDefaultValue( "itemStackSize" , 0 )
+:AddDefaultValue( "itemFlags" , {} )
 :AddDefaultValue( "itemName" , nil )
 :AddDefaultValue( "item" , nil )
 
@@ -103,6 +104,33 @@ function entity:SetWaterLocation( x , y )
 	return self
 end
 
+function entity:SetItemFlags( flagOrFlagsOrPack )
+	if not flagOrFlagsOrPack then return self end
+	local dataType = type( flagOrFlagsOrPack )
+	if dataType == "string" then self.itemFlags = { flagOrFlagsOrPack }
+	elseif dataType == "table" then
+		if flagOrFlagsOrPack.isPack then self.itemFlags = flagOrFlagsOrPack.data
+		else self.itemFlags = flagOrFlagsOrPack end
+	else e( "模块构建 : SetItemFlags 方法参数必须使用字符串/数组格式" ) end
+	return self
+end
+
+function entity:AddItemFlags( flagOrFlagsOrPack )
+	if not flagOrFlagsOrPack then return self end
+	local dataType = type( flagOrFlagsOrPack )
+	if dataType == "string" then table.insert( self.itemFlags , flagOrFlagsOrPack )
+	elseif dataType == "table" then
+		if flagOrFlagsOrPack.isPack then flagOrFlagsOrPack = flagOrFlagsOrPack.data end
+		for i , v in pairs( flagOrFlagsOrPack ) do table.insert( self.itemFlags , v ) end
+	else e( "模块构建 : AddItemFlags 方法参数必须使用字符串/数组格式" ) end
+	return self
+end
+
+function entity:ClearItemFlags()
+	self.itemFlags = {}
+	return self
+end
+
 function entity:SetItemName( itemName )
 	self.itemName = itemName
 	return self
@@ -168,6 +196,10 @@ function entity:GetItemStackSize()
 	return self.itemStackSize
 end
 
+function entity:GetItemFlags()
+	return self.itemFlags
+end
+
 function entity:GetItemName()
 	return self.itemName
 end
@@ -223,6 +255,7 @@ function entity:Fill( currentEntity )
 			:DefaultFlags()
 			:SetGroup( SIGen.GetCurrentSubGroupEntity() )
 			:SetOrder( SIGen.GetCurrentDataOrder() )
+			:AddFlags( currentEntity.itemFlags )
 			:SetStackSize( stackSize )
 			:SetResults( currentEntity:GetName() , SIGen.resultType.entity )
 			:Fill()

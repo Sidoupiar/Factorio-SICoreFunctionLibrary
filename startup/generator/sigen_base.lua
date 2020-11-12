@@ -273,18 +273,12 @@ end
 function entity:SetFlags( flagOrFlagsOrPack )
 	if not self:CheckData( flagOrFlagsOrPack ) then return self end
 	local dataType = type( flagOrFlagsOrPack )
-	if dataType == "string" then
-		return self:SetParam( "flags" , { flagOrFlagsOrPack } )
+	if dataType == "string" then self:SetParam( "flags" , { flagOrFlagsOrPack } )
 	elseif dataType == "table" then
-		if flagOrFlagsOrPack.isPack then
-			return self:SetParam( "flags" , flagOrFlagsOrPack.data )
-		else
-			return self:SetParam( "flags" , flagOrFlagsOrPack )
-		end
-	else
-		e( "模块构建 : SetFlags 方法参数必须使用字符串/数组格式" )
-		return self
-	end
+		if flagOrFlagsOrPack.isPack then self:SetParam( "flags" , flagOrFlagsOrPack.data )
+		else self:SetParam( "flags" , flagOrFlagsOrPack ) end
+	else e( "模块构建 : SetFlags 方法参数必须使用字符串/数组格式" ) end
+	return self
 end
 
 function entity:AddFlags( flagOrFlagsOrPack )
@@ -292,21 +286,12 @@ function entity:AddFlags( flagOrFlagsOrPack )
 	local _ , flags = self:GetParam( "flags" )
 	if not flags then self:SetParam( "flags" , {} ) end
 	local dataType = type( flagOrFlagsOrPack )
-	if dataType == "string" then
-		return self:AddParamItem( "flags" , flagOrFlagsOrPack )
+	if dataType == "string" then self:AddParamItem( "flags" , flagOrFlagsOrPack )
 	elseif dataType == "table" then
-		local list = {}
-		if flagOrFlagsOrPack.isPack then
-			list = flagOrFlagsOrPack.data
-		else
-			list = flagOrFlagsOrPack
-		end
-		for i , v in pairs( list ) do self:AddParamItem( "flags" , v ) end
-		return self
-	else
-		e( "模块构建 : AddFlags 方法参数必须使用字符串/数组格式" )
-		return self
-	end
+		if flagOrFlagsOrPack.isPack then flagOrFlagsOrPack = flagOrFlagsOrPack.data end
+		for i , v in pairs( flagOrFlagsOrPack ) do self:AddParamItem( "flags" , v ) end
+	else e( "模块构建 : AddFlags 方法参数必须使用字符串/数组格式" ) end
+	return self
 end
 
 function entity:ClearFlags()
