@@ -16,10 +16,10 @@ function entity:SetImage( path )
 	
 	local animation =
 	{
-		north = SIPics.BaseAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-north" , width , height ).Get() ,
-		east = SIPics.BaseAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-east" , width , height ).Get() ,
-		south = SIPics.BaseAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-south" , width , height ).Get() ,
-		west = SIPics.BaseAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-west" , width , height ).Get() ,
+		north = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-north" , width , height ).Get() ,
+		east = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-east" , height , width ).Get() ,
+		south = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-south" , width , height ).Get() ,
+		west = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-west" , height , width ).Get() ,
 	}
 	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
 	:SetParam( "icon_size" , SINumbers.iconSize )
