@@ -255,7 +255,11 @@ function entity:Fill( currentEntity )
 			:DefaultFlags()
 			:SetGroup( SIGen.GetCurrentSubGroupEntity() )
 			:SetOrder( SIGen.GetCurrentDataOrder() )
-			:AddFlags( currentEntity.itemFlags )
+			local _ , localizedNames = currentEntity:GetParam( "localised_name" )
+			if localizedNames then currentEntity.item:SetLocalisedNames( localizedNames ) end
+			local _ , localisedDescriptions = currentEntity:GetParam( "localised_description" )
+			if localisedDescriptions then currentEntity.item:SetLocalisedDescriptions( localisedDescriptions ) end
+			currentEntity.item:AddFlags( currentEntity.itemFlags )
 			:SetStackSize( stackSize )
 			:SetResults( currentEntity:GetName() , SIGen.resultType.entity )
 			:Fill()

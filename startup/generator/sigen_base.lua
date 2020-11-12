@@ -229,7 +229,7 @@ function entity:SetOrder( orderCode )
 	return self:SetParam( "order" , SIGen.Order( order ) )
 end
 
-function entity:SetLocalizedNames( nameOrListOrPack )
+function entity:SetLocalisedNames( nameOrListOrPack )
 	if not self:CheckData( nameOrListOrPack ) then return self end
 	local dataType = type( nameOrListOrPack )
 	if dataType == "string" then
@@ -241,12 +241,12 @@ function entity:SetLocalizedNames( nameOrListOrPack )
 			return self:SetParam( "localised_name" , nameOrListOrPack )
 		end
 	else
-		e( "模块构建 : SetLocalizedNames 方法参数必须使用字符串/数组/数据包格式" )
+		e( "模块构建 : SetLocalisedNames 方法参数必须使用字符串/数组/数据包格式" )
 		return self
 	end
 end
 
-function entity:SetLocalizedDescriptions( descriptionOrListOrPack )
+function entity:SetLocalisedDescriptions( descriptionOrListOrPack )
 	if not self:CheckData( descriptionOrListOrPack ) then return self end
 	local dataType = type( descriptionOrListOrPack )
 	if dataType == "string" then
@@ -258,7 +258,7 @@ function entity:SetLocalizedDescriptions( descriptionOrListOrPack )
 			return self:SetParam( "localised_description" , descriptionOrListOrPack )
 		end
 	else
-		e( "模块构建 : SetLocalizedDescriptions 方法参数必须使用字符串/数组/数据包格式" )
+		e( "模块构建 : SetLocalisedDescriptions 方法参数必须使用字符串/数组/数据包格式" )
 		return self
 	end
 end

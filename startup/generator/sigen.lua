@@ -611,15 +611,15 @@ end
 -- -------- 设置实体属性 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIGen.SetLocalizedNames( nameOrListOrPack )
+function SIGen.SetLocalisedNames( nameOrListOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetLocalizedNames( nameOrListOrPack )
+	currentData:SetLocalisedNames( nameOrListOrPack )
 	return SIGen
 end
 
-function SIGen.SetLocalizedDescriptions( descriptionOrListOrPack )
+function SIGen.SetLocalisedDescriptions( descriptionOrListOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetLocalizedDescriptions( descriptionOrListOrPack )
+	currentData:SetLocalisedDescriptions( descriptionOrListOrPack )
 	return SIGen
 end
 
