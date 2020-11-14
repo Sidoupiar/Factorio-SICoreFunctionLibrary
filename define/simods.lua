@@ -7,7 +7,7 @@ SIMods =
 		SIModeRTS = "SI RTS 模式[SI RTS Mode]" ,
 		
 		SIEXInfinityTechnologies = "SI EX 无尽科技[SI EX Infinity Technologies]" ,
-		SIEXHyperspaceTeleporter = "SI EX 超空间传送机[SI EX Hyperspace Teleporter]" ,
+		SIEXHyperspaceStorage = "SI EX 超空间仓储[SI EX Hyperspace Storage]" ,
 		SIEXPipeAndBarrel = "SI EX 管道和装桶[SI EX Pipe And Barrel]" ,
 		
 		SIAgriculture = "SI 农业[SI Agriculture]" ,
@@ -23,7 +23,7 @@ SIMods =
 		SISummitCraftsmanship = "SI 巅峰工艺[SI Summit Craftsmanship]" ,
 		SISummitTechnology = "SI 巅峰科技[SI Summit Technology]" ,
 		
-		space-exploration = "太空扩展"
+		SpaceExploration = "太空扩展"
 	}
 }
 
