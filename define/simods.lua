@@ -21,7 +21,9 @@ SIMods =
 		SIAncientInheritance = "SI 远古传承[SI Ancient Inheritance]" ,
 		SILegendCreation = "SI 传奇创造[SI Legend Creation]" ,
 		SISummitCraftsmanship = "SI 巅峰工艺[SI Summit Craftsmanship]" ,
-		SISummitTechnology = "SI 巅峰科技[SI Summit Technology]"
+		SISummitTechnology = "SI 巅峰科技[SI Summit Technology]" ,
+		
+		space-exploration = "太空扩展"
 	}
 }
 
