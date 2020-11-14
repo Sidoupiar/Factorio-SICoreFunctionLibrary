@@ -159,6 +159,7 @@ SIGen.Entity = need( "sigen_entity" )
 SIGen.HealthEntity = need( "sigen_entity_health" )
 SIGen.Boiler = need( "sigen_entity_health_boiler" )
 SIGen.Generator = need( "sigen_entity_health_generator" )
+SIGen.BurnerGenerator = need( "sigen_entity_health_burner_generator" )
 SIGen.Pump = need( "sigen_entity_health_pump" )
 SIGen.Mining = need( "sigen_entity_health_mining" )
 SIGen.Furnace = need( "sigen_entity_health_furnace" )
@@ -374,6 +375,60 @@ end
 -- ---------- 创建杂项 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+function SIGen.NewTypeAmmo( name )
+	if not currentConstantsData then
+		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	SIGen.Extend{ { type = SITypes.category.ammo , name = name } }
+	return SIGen
+end
+
+function SIGen.NewTypeEquipment( name )
+	if not currentConstantsData then
+		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	SIGen.Extend{ { type = SITypes.category.equipment , name = name } }
+	return SIGen
+end
+
+function SIGen.NewTypeFuel( name )
+	if not currentConstantsData then
+		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	SIGen.Extend{ { type = SITypes.category.fuel , name = name } }
+	return SIGen
+end
+
+function SIGen.NewTypeModule( name )
+	if not currentConstantsData then
+		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	SIGen.Extend{ { type = SITypes.category.module , name = name } }
+	return SIGen
+end
+
+function SIGen.NewTypeRecipe( name )
+	if not currentConstantsData then
+		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	SIGen.Extend{ { type = SITypes.category.recipe , name = name } }
+	return SIGen
+end
+
+function SIGen.NewTypeResource( name )
+	if not currentConstantsData then
+		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	SIGen.Extend{ { type = SITypes.category.resource , name = name } }
+	return SIGen
+end
+
 function SIGen.NewInput( name , key )
 	if not currentConstantsData then
 		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
@@ -441,6 +496,14 @@ function SIGen.NewGenerator( name , generator )
 	FinishData()
 	if not CheckData() then return SIGen end
 	currentData = SIGen.Generator:New( name , generator )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewBurnerGenerator( name , burnerGenerator )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.BurnerGenerator:New( name , burnerGenerator )
 	InitEntity()
 	return SIGen
 end
@@ -611,15 +674,15 @@ end
 -- -------- 设置实体属性 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIGen.SetLocalizedNames( nameOrListOrPack )
+function SIGen.SetLocalisedNames( nameOrListOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetLocalizedNames( nameOrListOrPack )
+	currentData:SetLocalisedNames( nameOrListOrPack )
 	return SIGen
 end
 
-function SIGen.SetLocalizedDescriptions( descriptionOrListOrPack )
+function SIGen.SetLocalisedDescriptions( descriptionOrListOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetLocalizedDescriptions( descriptionOrListOrPack )
+	currentData:SetLocalisedDescriptions( descriptionOrListOrPack )
 	return SIGen
 end
 
@@ -981,6 +1044,21 @@ end
 
 function SIGen.E.SetItemStackSize( itemStackSize )
 	if currentData.SetStackSize then currentData:SetStackSize( itemStackSize ) end
+	return SIGen
+end
+
+function SIGen.E.SetItemFlags( flagOrFlagsOrPack )
+	if currentData.SetItemFlags then currentData:SetItemFlags( flagOrFlagsOrPack ) end
+	return SIGen
+end
+
+function SIGen.E.AddItemFlags( flagOrFlagsOrPack )
+	if currentData.AddItemFlags then currentData:AddItemFlags( flagOrFlagsOrPack ) end
+	return SIGen
+end
+
+function SIGen.E.ClearItemFlags()
+	if currentData.ClearItemFlags then currentData:ClearItemFlags() end
 	return SIGen
 end
 

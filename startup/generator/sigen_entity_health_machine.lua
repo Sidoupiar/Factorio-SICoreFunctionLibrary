@@ -10,7 +10,21 @@ end
 
 
 function entity:SetImage( path )
-	return self
+	local width = self:GetWidth()
+	local height = self:GetHeight()
+	if not width or width <= 0 or not height or height <= 0 then return self end
+	
+	local animation =
+	{
+		north = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-north" , width , height ).Get() ,
+		east = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-east" , height , width ).Get() ,
+		south = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-south" , width , height ).Get() ,
+		west = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-west" , height , width ).Get() ,
+	}
+	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
+	:SetParam( "icon_size" , SINumbers.iconSize )
+	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
+	:SetParam( "animation" , animation )
 end
 
 function entity:SetSpeed( speed )

@@ -193,6 +193,15 @@ function SIPackers.EnergySourceOtherSettings( energySourceOrPack , emissions , r
 	return energySourceOrPack
 end
 
+function SIPackers.AddEnergySourceUsage( energySourceOrPack , usage )
+	local energySource = {}
+	if energySourceOrPack.isPack then energySource = energySourceOrPack.data
+	else energySource = energySourceOrPack end
+	if not usage then energySource.usage_priority = SITypes.electricUsagePriority.secondaryInput
+	else energySource.usage_priority = usage end
+	return energySourceOrPack
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- -------- 创建光线数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
@@ -302,6 +311,16 @@ function SIPackers.AppendIngredients( ingredientsData , newIngredients )
 	return ingredientsData
 end
 
+function SIPackers.IngredientsWithList( dataList )
+	if not dataList then return nil end
+	local ingredients = {}
+	for i , v in pairs( dataList ) do
+		if v[1] == "fluid" then table.insert( ingredients , SIPackers.SingleFluidIngredient( v[2] , v[3] , v[4] , v[5] ) )
+		else table.insert( ingredients , SIPackers.SingleItemIngredient( v[1] , v[2] ) ) end
+	end
+	return ingredients
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- -------- 创建产物数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
@@ -373,6 +392,16 @@ function SIPackers.AppendProducts( productsData , newProducts )
 	for i , v in pairs( newProducts ) do table.insert( results , v ) end
 	productsData.results = results
 	return ingredientsData
+end
+
+function SIPackers.ProductsWithList( dataList )
+	if not dataList then return nil end
+	local products = {}
+	for i , v in pairs( dataList ) do
+		if v[1] == "fluid" then table.insert( products , SIPackers.SingleFluidProduct( v[2] , v[3] , v[4] , v[5] , v[6] , v[7] ) )
+		else table.insert( products , SIPackers.SingleItemProduct( v[1] , v[2] , v[3] , v[4] , v[5] ) ) end
+	end
+	return products
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -478,4 +507,23 @@ function SIPackers.SingleModifier( modifierType , param1 , param2 )
 		modifier.effect_description = param1
 	else modifier.modifier = param1 end
 	return modifier
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- -------- 水面反射数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.WaterReflectionPack( layer , rotate , orientationToVariation )
+	return SIPackers.CreatePack( SIPackers.WaterReflection( layer , rotate , orientationToVariation ) )
+end
+
+function SIPackers.WaterReflection( layer , rotate , orientationToVariation )
+	rotate = rotate or false
+	orientationToVariation = orientationToVariation or false
+	return
+	{
+		pictures = layer ,
+		rotate = rotate ,
+		orientation_to_variation = orientationToVariation
+	}
 end

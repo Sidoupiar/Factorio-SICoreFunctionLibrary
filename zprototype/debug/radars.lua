@@ -1,3 +1,7 @@
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 基础数据 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
 local impactSound = {}
 for i = 2 , 6 , 1 do table.insert( impactSound , { filename = "__base__/sound/car-metal-impact-" .. i .. ".ogg" , volume = 0.5 } ) end
 local customData =
@@ -12,6 +16,10 @@ local customData =
 	}
 }
 
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 创建雷达 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
 local function Create( name , nearRadius , farRadius , nearEnergy , farEnergy )
 	SIGen.NewRadar( name )
 	.E.SetAddenSize( 2 , 32 )
@@ -19,6 +27,7 @@ local function Create( name , nearRadius , farRadius , nearEnergy , farEnergy )
 	.E.SetAddenShift( 2 , 0 )
 	.E.SetShadowShift( 77 , 2 )
 	.E.SetWaterLocation( 5 , 35 )
+	.E.AddItemFlags( SIFlags.itemFlags.hidden )
 	.SetProperties( 3 , 3 , 100 , 0.01 , "10MW" , SIPackers.EnergySource() )
 	.SetEffectRadius( nearRadius , farRadius )
 	.SetEffectEnergy( nearEnergy , farEnergy )

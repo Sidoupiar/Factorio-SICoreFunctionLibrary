@@ -145,7 +145,7 @@ function entity:CheckData( data )
 		return false
 	end
 	if not data then
-		e( "模块构建 : 不能导入空的数据" )
+		l( "模块构建 : 加入了空的数据 : "..self:GetCodeName().." , "..self:GetBaseName() )
 		return false
 	end
 	return true
@@ -229,7 +229,7 @@ function entity:SetOrder( orderCode )
 	return self:SetParam( "order" , SIGen.Order( order ) )
 end
 
-function entity:SetLocalizedNames( nameOrListOrPack )
+function entity:SetLocalisedNames( nameOrListOrPack )
 	if not self:CheckData( nameOrListOrPack ) then return self end
 	local dataType = type( nameOrListOrPack )
 	if dataType == "string" then
@@ -241,12 +241,12 @@ function entity:SetLocalizedNames( nameOrListOrPack )
 			return self:SetParam( "localised_name" , nameOrListOrPack )
 		end
 	else
-		e( "模块构建 : SetLocalizedNames 方法参数必须使用字符串/数组/数据包格式" )
+		e( "模块构建 : SetLocalisedNames 方法参数必须使用字符串/数组/数据包格式" )
 		return self
 	end
 end
 
-function entity:SetLocalizedDescriptions( descriptionOrListOrPack )
+function entity:SetLocalisedDescriptions( descriptionOrListOrPack )
 	if not self:CheckData( descriptionOrListOrPack ) then return self end
 	local dataType = type( descriptionOrListOrPack )
 	if dataType == "string" then
@@ -258,7 +258,7 @@ function entity:SetLocalizedDescriptions( descriptionOrListOrPack )
 			return self:SetParam( "localised_description" , descriptionOrListOrPack )
 		end
 	else
-		e( "模块构建 : SetLocalizedDescriptions 方法参数必须使用字符串/数组/数据包格式" )
+		e( "模块构建 : SetLocalisedDescriptions 方法参数必须使用字符串/数组/数据包格式" )
 		return self
 	end
 end
@@ -273,18 +273,12 @@ end
 function entity:SetFlags( flagOrFlagsOrPack )
 	if not self:CheckData( flagOrFlagsOrPack ) then return self end
 	local dataType = type( flagOrFlagsOrPack )
-	if dataType == "string" then
-		return self:SetParam( "flags" , { flagOrFlagsOrPack } )
+	if dataType == "string" then self:SetParam( "flags" , { flagOrFlagsOrPack } )
 	elseif dataType == "table" then
-		if flagOrFlagsOrPack.isPack then
-			return self:SetParam( "flags" , flagOrFlagsOrPack.data )
-		else
-			return self:SetParam( "flags" , flagOrFlagsOrPack )
-		end
-	else
-		e( "模块构建 : SetFlags 方法参数必须使用字符串/数组格式" )
-		return self
-	end
+		if flagOrFlagsOrPack.isPack then self:SetParam( "flags" , flagOrFlagsOrPack.data )
+		else self:SetParam( "flags" , flagOrFlagsOrPack ) end
+	else e( "模块构建 : SetFlags 方法参数必须使用字符串/数组格式" ) end
+	return self
 end
 
 function entity:AddFlags( flagOrFlagsOrPack )
@@ -292,21 +286,12 @@ function entity:AddFlags( flagOrFlagsOrPack )
 	local _ , flags = self:GetParam( "flags" )
 	if not flags then self:SetParam( "flags" , {} ) end
 	local dataType = type( flagOrFlagsOrPack )
-	if dataType == "string" then
-		return self:AddParamItem( "flags" , flagOrFlagsOrPack )
+	if dataType == "string" then self:AddParamItem( "flags" , flagOrFlagsOrPack )
 	elseif dataType == "table" then
-		local list = {}
-		if flagOrFlagsOrPack.isPack then
-			list = flagOrFlagsOrPack.data
-		else
-			list = flagOrFlagsOrPack
-		end
-		for i , v in pairs( list ) do self:AddParamItem( "flags" , v ) end
-		return self
-	else
-		e( "模块构建 : AddFlags 方法参数必须使用字符串/数组格式" )
-		return self
-	end
+		if flagOrFlagsOrPack.isPack then flagOrFlagsOrPack = flagOrFlagsOrPack.data end
+		for i , v in pairs( flagOrFlagsOrPack ) do self:AddParamItem( "flags" , v ) end
+	else e( "模块构建 : AddFlags 方法参数必须使用字符串/数组格式" ) end
+	return self
 end
 
 function entity:ClearFlags()
@@ -440,9 +425,11 @@ function entity:Inserter_insertIcons( iconData )
 	local _ , icons = self:GetParam( "icons" )
 	local _ , mipmaps = self:GetParam( "icon_mipmaps" )
 	if icon then
-		self:DeleteParam( "icon" )
 		icons = {}
+		self:DeleteParam( "icon" )
 		table.insert( icons , SIPackers.Icon( icon , nil , mipmaps ) )
+	else
+		if not icons then icons = {} end
 	end
 	if iconData.index < 1 or iconData.index > #icons then table.insert( icons , iconData )
 	else table.insert( icons , iconData.index , iconData ) end

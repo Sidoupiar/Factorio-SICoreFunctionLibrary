@@ -40,5 +40,5 @@ function string:Level()
 end
 
 function string:LastLevel()
-	return self:sub( 0 , -1 ) .. ( self:Level() - 1 )
+	return self:sub( 0 , -2 ) .. ( self:Level() - 1 )
 end

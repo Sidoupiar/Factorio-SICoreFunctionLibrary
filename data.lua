@@ -1,13 +1,10 @@
 require( "util" )
 
 SILoadingDatas = true
-
 need( "define/load" )
 need( "function/load" )
-need( "startup/generator/load" )
-need( "startup/packer/load" )
-need( "startup/picture/load" )
-need( "startup/sound/load" )
+
+needlist( "startup" , "generator/sigen" , "packer/sipackers" , "picture/sipics" , "sound/sisounds" , "style/sistyles" )
 
 local constants = need( "constants" )
 local constantsData = need( "constants_data" )
@@ -22,7 +19,8 @@ SIGen
 .Init( SICFL )
 .NewGroup( "others" )
 .NewSubGroup( "debug-things" )
-.NewItem( "empty" , 1000 )
+
+needlist( "zprototype/base" , "common" , "toolbar" , "wiki" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 测试工具 ----------------------------------------------------------------------------
@@ -30,11 +28,7 @@ SIGen
 
 if SIStartup.SICFL.debug_tools() then
 	SIGen.NewSubGroup( "debug-tools" )
-	need( "zprototype/delmap" )
-	need( "zprototype/oremap" )
-	need( "zprototype/radars" )
-	need( "zprototype/roboports" )
-	need( "zprototype/robots" )
+	needlist( "zprototype/debug" , "delmap" , "oremap" , "radars" , "roboports" , "robots" )
 end
 
 SIGen.NewGroup( "extensions" ).Finish()

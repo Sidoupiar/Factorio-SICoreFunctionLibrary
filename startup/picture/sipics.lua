@@ -51,6 +51,14 @@ function SIPics.Get()
 	return currentLayer
 end
 
+function SIPics.Copy()
+	return table.deepcopy( currentLayer )
+end
+
+function SIPics.GetWaterReflection( rotate , orientationToVariation )
+	return SIPackers.WaterReflection( SIPics.Priority( "extra-high" ).Get() , rotate , orientationToVariation )
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础操作 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
@@ -183,15 +191,10 @@ function SIPics.Patch( file , width , height , hasHr , addenWidth , addenHeight 
 	return SIPics
 end
 
-function SIPics.WaterReflection( file , width , height , location , rotate , orientation )
+function SIPics.WaterReflection( file , width , height , location , rotate , orientationToVariation )
 	SIPics.BaseAnimLayer( file.."-reflection" , width , height ).Variation()
 	if location then currentLayer.shift = util.by_pixel( location[1] , location[2] ) end
-	return
-	{
-		pictures = currentLayer ,
-		rotate = rotate,
-		orientation_to_variation = orientation
-	}
+	return SIPics.GetWaterReflection( rotate , orientationToVariation )
 end
 
 -- ------------------------------------------------------------------------------------------------

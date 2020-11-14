@@ -8,7 +8,9 @@ function debug.TableToString( data , level )
 	local s = level == 1 and "\n{" or "{"
 	for k , v in pairs( data ) do
 		s = s .. "\n" .. levelSpace .. ( type( k ) == "number" and "" or ( tostring( k ) .. " : " ) )
-		if type( v ) == "table" then s = s .. debug.TableToString( v , level+1 )
+		local dataType = type( v )
+		if dataType == "table" then s = s .. debug.TableToString( v , level+1 )
+		elseif dataType == "string" then s = s .. "\"" .. v .. "\""
 		else s = s .. tostring( v ) end
 		if size < maxSize then s = s .. " ," end
 		size = size + 1

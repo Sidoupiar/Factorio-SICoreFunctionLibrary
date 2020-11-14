@@ -1,4 +1,7 @@
--- 报错
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 报错信息 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
 function e( msg )
 	local output = ""
 	for i = 5 , 2 , -1 do
@@ -16,14 +19,31 @@ function e( msg )
 	error( "_____ :: "..output..msg )
 end
 
+function ee( tableData )
+	e( debug.TableToString( tableData ) )
+end
 
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 引用方法 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 SIBase = "si"
 SINeedlist = {}
 
 function need( name , notself )
 	local source = debug.getinfo( 2 , "S" ).source
-	if notself then for i = 3 , 10 , 1 do source = debug.getinfo( i , "S" ).source if not source:find( "__SICoreFunctionLibrary__" ) then break end end end
+	if notself then
+		for i = 3 , 10 , 1 do
+			source = debug.getinfo( i , "S" )
+			if source then
+				source = source.source
+				if not source:find( "__SICoreFunctionLibrary__" ) then break end
+			else
+				source = debug.getinfo( i-1 , "S" ).source
+				break
+			end
+		end
+	end
 	source = name:find( "__" ) and source:sub( source:find( "__" , 3 )+3 , -1 ) or source:sub( 2 , -1 )
 	local path = SINeedlist[source]
 	if not path then
@@ -33,7 +53,15 @@ function need( name , notself )
 	return require( path..name )
 end
 
+function needlist( basePath , ... )
+	local results = {}
+	for i , path in pairs{ ... } do if path then results[path] = need( basePath.."/"..path , true ) end end
+	return results
+end
 
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 基础数据 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 SIOrderCode = -1000
 SIStartup = {}
@@ -121,7 +149,9 @@ function load( constantsData )
 	end
 end
 
-
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 输出信息 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 -- 是否启用了日志输出
 function enabledWriteLog()

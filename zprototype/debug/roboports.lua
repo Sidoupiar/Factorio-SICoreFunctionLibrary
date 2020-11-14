@@ -1,3 +1,7 @@
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 基础数据 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
 local impactSound = {}
 for i = 2 , 6 , 1 do table.insert( impactSound , { filename = "__base__/sound/car-metal-impact-" .. i .. ".ogg" , volume = 0.5 } ) end
 local define = circuit_connector_definitions["roboport"]
@@ -39,11 +43,16 @@ local customData =
 	}
 }
 
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建指令平台 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
 local function Create( name , radius )
 	SIGen.NewRoboport( name )
 	.E.SetShadowSize( 19 , -27 )
 	.E.SetShadowShift( 38 , 5.75 )
 	.E.SetWaterLocation( 0 , 75 )
+	.E.AddItemFlags( SIFlags.itemFlags.hidden )
 	.SetProperties( 4 , 4 , 250 , 0 , "1GW" , SIPackers.EnergySource() , 10 , 10 )
 	.SetEffectRadius( radius , 64 , radius )
 	.SetEffectEnergy( "10MW" , "0J" , 3 )

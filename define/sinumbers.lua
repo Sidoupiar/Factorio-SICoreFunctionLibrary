@@ -13,7 +13,6 @@ SINumbers =
 	machinePictureSize = 32 ,
 	machinePictureTotalWidth = 8 ,
 	machinePictureTotalHeight = 8 ,
-	machineAnimationSpeed = 1 / 6 ,
 	
 	healthToMiningTime = 800 ,
 	lightSizeMult = 2.4 ,
@@ -24,3 +23,4 @@ SINumbers =
 
 SINumbers.machinePictureSize_hr = SINumbers.machinePictureSize * SINumbers.pictureHrScale
 SINumbers.machinePictureTotalFrameCount = SINumbers.machinePictureTotalWidth * SINumbers.machinePictureTotalHeight
+SINumbers.machineAnimationSpeed = SINumbers.machinePictureTotalFrameCount / 60
