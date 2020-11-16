@@ -226,7 +226,7 @@ function entity:SetGroup( groupEntity )
 end
 
 function entity:SetOrder( orderCode )
-	return self:SetParam( "order" , SIGen.Order( order ) )
+	return self:SetParam( "order" , SIGen.Order( orderCode ) )
 end
 
 function entity:SetLocalisedNames( nameOrListOrPack )
