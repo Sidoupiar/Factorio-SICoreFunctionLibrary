@@ -246,6 +246,11 @@ end
 function entity:Fill( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Fill( currentEntity )
+	
+	currentEntity
+	:Default( "icon_size" , SINumbers.iconSize )
+	:Default( "icon_mipmaps" , SINumbers.mipMaps )
+	
 	local stackSize = currentEntity:GetItemStackSize()
 	if stackSize and stackSize > 0 then
 		local item = currentEntity:GetItem()
@@ -255,9 +260,9 @@ function entity:Fill( currentEntity )
 			:DefaultFlags()
 			:SetGroup( SIGen.GetCurrentSubGroupEntity() )
 			:SetOrder( SIGen.GetCurrentDataOrder() )
-			local _ , localizedNames = currentEntity:GetParam( "localised_name" )
+			local localizedNames = currentEntity:GetParam( "localised_name" )
 			if localizedNames then currentEntity.item:SetLocalisedNames( localizedNames ) end
-			local _ , localisedDescriptions = currentEntity:GetParam( "localised_description" )
+			local localisedDescriptions = currentEntity:GetParam( "localised_description" )
 			if localisedDescriptions then currentEntity.item:SetLocalisedDescriptions( localisedDescriptions ) end
 			currentEntity.item:AddFlags( currentEntity.itemFlags )
 			:SetStackSize( stackSize )

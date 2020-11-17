@@ -32,8 +32,6 @@ function entity:SetImage( path )
 	table.insert( offLayers , SIPics.OffAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ).Get() )
 	table.insert( offLayers , SIPics.OffAnimLayerShadow( file , width , height , hasHr , shadowWidth , shadowHeight ).Get() )
 	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
-	:SetParam( "icon_size" , SINumbers.iconSize )
-	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
 	:SetParam( "on_animation" , { layers = onLayers } )
 	:SetParam( "off_animation" , { layers = offLayers } )
 end
@@ -54,8 +52,8 @@ end
 function entity:Fill( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Fill( currentEntity )
-	local _ , light = currentEntity:GetParam( "light" )
-	if not light then currentEntity:SetLight() end
+	
+	if not currentEntity:GetParam( "light" ) then currentEntity:SetLight() end
 	return self
 end
 

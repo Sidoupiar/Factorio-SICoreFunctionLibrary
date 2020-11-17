@@ -25,11 +25,10 @@ end
 
 function entity:SetImage( path )
 	return self:SetParam( "icon" , path.."technology/"..self:GetBaseName()..".png" )
-	:SetParam( "icon_size" , SINumbers.iconSizeTechnology )
 end
 
 function entity:SetStackSize( stackSize )
-	local _ , unit = self:GetParam( "unit" )
+	local unit = self:GetParam( "unit" )
 	if not unit then
 		e( "模块构建：unit 属性为空时无法使用 SetStackSize 方法" )
 		return self
@@ -48,7 +47,7 @@ function entity:SetStackSize( stackSize )
 end
 
 function entity:SetSpeed( speed )
-	local _ , unit = self:GetParam( "unit" )
+	local unit = self:GetParam( "unit" )
 	if not unit then
 		e( "模块构建：unit 属性为空时无法使用 SetSpeed 方法" )
 		return self
@@ -58,8 +57,7 @@ function entity:SetSpeed( speed )
 end
 
 function entity:SetLevel( level , maxLevel )
-	local _ , currentMaxLevel = self:GetParam( "max_level" )
-	if currentMaxLevel ~= maxLevel then self:SetParam( "max_level" , maxLevel ) end
+	if self:GetParam( "max_level" ) ~= maxLevel then self:SetParam( "max_level" , maxLevel ) end
 	return self
 end
 
@@ -84,8 +82,7 @@ end
 
 function entity:AddTechnologies( technologyOrTechnologiesOrPack )
 	if not self:CheckData( technologyOrTechnologiesOrPack ) then return self end
-	local _ , prerequisites = self:GetParam( "prerequisites" )
-	if not prerequisites then self:SetParam( "prerequisites" , {} ) end
+	self:Default( "prerequisites" , {} )
 	local dataType = type( technologyOrTechnologiesOrPack )
 	if dataType == "string" then
 		return self:AddParamItem( "prerequisites" , technologyOrTechnologiesOrPack )
@@ -128,7 +125,7 @@ end
 
 function entity:AddCosts( costOrCostsOrPack , count )
 	if not self:CheckData( costOrCostsOrPack ) then return self end
-	local _ , unit = self:GetParam( "unit" )
+	local unit = self:GetParam( "unit" )
 	if not unit or not unit.ingredients then
 		e( "模块构建：unit 属性为空时无法使用 AddCosts 方法" )
 		return self
@@ -180,8 +177,7 @@ end
 
 function entity:AddResults( resultOrResultsOrPack , count )
 	if not self:CheckData( resultOrResultsOrPack ) then return self end
-	local _ , effects = self:GetParam( "effects" )
-	if not effects then self:SetParam( "effects" , {} ) end
+	self:Default( "effects" , {} )
 	local dataType = type( resultOrResultsOrPack )
 	if dataType == "string" then
 		if count then return self:AddParamItem( "effects" , SIPackers.SingleModifier( resultOrResultsOrPack , count ) )
@@ -217,7 +213,9 @@ end
 function entity:Fill( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Fill( currentEntity )
-	local _ , maxLevel = currentEntity:GetParam( "max_level" )
+	
+	currentEntity:Default( "icon_size" , SINumbers.iconSizeTechnology )
+	local maxLevel = currentEntity:GetParam( "max_level" )
 	if maxLevel and maxLevel == "infinite" or ( type( maxLevel ) == "number" and maxLevel > 1 ) then currentEntity:SetParam( "upgrade" , true )
 	else currentEntity:SetParam( "upgrade" , false ) end
 	return self

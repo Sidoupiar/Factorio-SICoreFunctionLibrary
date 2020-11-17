@@ -177,23 +177,19 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 function entity:GetType()
-	local _ , type = self:GetParam( "type" )
-	return type
+	return self:GetParam( "type" )
 end
 
 function entity:GetName()
-	local _ , name = self:GetParam( "name" )
-	return name
+	return self:GetParam( "name" )
 end
 
 function entity:GetGroup()
-	local _ , group = self:GetParam( "group" )
-	return group
+	return self:GetParam( "group" )
 end
 
 function entity:GetSubGroup()
-	local _ , subgroup = self:GetParam( "subgroup" )
-	return subgroup
+	return self:GetParam( "subgroup" )
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -283,8 +279,7 @@ end
 
 function entity:AddFlags( flagOrFlagsOrPack )
 	if not self:CheckData( flagOrFlagsOrPack ) then return self end
-	local _ , flags = self:GetParam( "flags" )
-	if not flags then self:SetParam( "flags" , {} ) end
+	self:Default( "flags" , {} )
 	local dataType = type( flagOrFlagsOrPack )
 	if dataType == "string" then self:AddParamItem( "flags" , flagOrFlagsOrPack )
 	elseif dataType == "table" then
@@ -323,7 +318,7 @@ function entity:DeleteParam( key )
 end
 
 function entity:GetParam( key )
-	return self , self.data[key]
+	return self.data[key]
 end
 
 
@@ -404,7 +399,14 @@ function entity:GetParamItem( key , index )
 		e( "模块构建：不能对非 table 类型的属性使用该方法" )
 		return self , nil
 	end
-	return self , list[index]
+	return list[index]
+end
+
+
+
+function entity:Default( key , defaultData )
+	if self:GetParam( key ) == nil then self:SetParam( key , defaultData ) end
+	return self
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -421,13 +423,12 @@ function entity:Inserter_insertIcons( iconData )
 		e( "模块构建：不能插入空的图标数据" )
 		return self
 	end
-	local _ , icon = self:GetParam( "icon" )
-	local _ , icons = self:GetParam( "icons" )
-	local _ , mipmaps = self:GetParam( "icon_mipmaps" )
+	local icon = self:GetParam( "icon" )
+	local icons = self:GetParam( "icons" )
 	if icon then
 		icons = {}
 		self:DeleteParam( "icon" )
-		table.insert( icons , SIPackers.Icon( icon , nil , mipmaps ) )
+		table.insert( icons , SIPackers.Icon( icon , nil , self:GetParam( "icon_mipmaps" ) ) )
 	else
 		if not icons then icons = {} end
 	end

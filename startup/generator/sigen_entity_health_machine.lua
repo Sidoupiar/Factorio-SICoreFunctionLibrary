@@ -22,8 +22,6 @@ function entity:SetImage( path )
 		west = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-west" , height , width ).Get() ,
 	}
 	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
-	:SetParam( "icon_size" , SINumbers.iconSize )
-	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
 	:SetParam( "animation" , animation )
 end
 
@@ -84,8 +82,7 @@ end
 
 function entity:AddRecipeTypes( typeOrTypesOrPack )
 	if not self:CheckData( typeOrTypesOrPack ) then return self end
-	local _ , categories = self:GetParam( "crafting_categories" )
-	if not categories then self:SetParam( "crafting_categories" , {} ) end
+	self:Default( "crafting_categories" , {} )
 	local dataType = type( typeOrTypesOrPack )
 	if dataType == "string" then
 		return self:AddParamItem( "crafting_categories" , typeOrTypesOrPack )

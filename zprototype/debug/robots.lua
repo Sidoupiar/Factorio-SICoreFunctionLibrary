@@ -69,7 +69,7 @@ SIGen.NewRobotConstruction( "robot-construction" )
 	repair_speed_modifier = 100 ,
 	construction_vector = { 0.3 , 0.22 } ,
 	sparks = sparks ,
-	working_sound = SISounds.Working( SISounds.BaseSoundList( "construction-robot" , 9 , 0.7 ) )
+	working_sound = SISounds.Working( SISounds.BaseSoundList( "construction-robot" , 9 , 0.7 ) , nil , 5 , 1 , 1/600 )
 }
 .AddSuperArmor()
 

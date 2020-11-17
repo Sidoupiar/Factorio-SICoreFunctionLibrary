@@ -166,6 +166,7 @@ SIGen.Furnace = need( "sigen_entity_health_furnace" )
 SIGen.Machine = need( "sigen_entity_health_machine" )
 SIGen.Lab = need( "sigen_entity_health_lab" )
 SIGen.Beacon = need( "sigen_entity_health_beacon" )
+SIGen.Pipe = need( "sigen_entity_health_pipe" )
 SIGen.Container = need( "sigen_entity_health_container" )
 SIGen.ContainerLogic = need( "sigen_entity_health_container_logic" )
 SIGen.Robot = need( "sigen_entity_health_robot" )
@@ -552,6 +553,14 @@ function SIGen.NewBeacon( name , beacon )
 	FinishData()
 	if not CheckData() then return SIGen end
 	currentData = SIGen.Beacon:New( name , beacon )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewPipe( name , pipe )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.Pipe:New( name , pipe )
 	InitEntity()
 	return SIGen
 end
