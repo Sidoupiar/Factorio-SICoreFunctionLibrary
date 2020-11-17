@@ -21,6 +21,10 @@ function entity:SetEnergy( energyUsage , energySource )
 	return self:SetParam( "energy_required" , energyUsage )
 end
 
+function entity:SetEnabled( enabled )
+	return self:SetParam( "enabled" , enabled )
+end
+
 
 
 function entity:SetRecipeTypes( typeOrTypesOrPack )

@@ -803,6 +803,12 @@ function SIGen.SetFluidBox( areaOrBoxOrPack , connections , baseLevel , producti
 	return SIGen
 end
 
+function SIGen.SetEnabled( enabled )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:SetEnabled( enabled )
+	return SIGen
+end
+
 
 
 function SIGen.SetFlags( flagOrFlagsOrPack )

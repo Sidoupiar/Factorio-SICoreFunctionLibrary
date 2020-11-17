@@ -517,6 +517,10 @@ function entity:SetFluidBox( areaOrBoxOrPack , connections , baseLevel , product
 	return self
 end
 
+function entity:SetEnabled( enabled )
+	return self
+end
+
 
 
 function entity:SetResidences( residenceOrResidencesOrPack )
