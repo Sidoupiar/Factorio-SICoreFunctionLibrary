@@ -307,13 +307,26 @@ SITypes =
 	} ,
 	electricUsagePriority =
 	{
-		primaryInput = "primary-input" ,
-		primaryOutput = "primary-output" ,
-		secondaryInput = "secondary-input" ,
+		primaryInput    = "primary-input" ,
+		primaryOutput   = "primary-output" ,
+		secondaryInput  = "secondary-input" ,
 		secondaryOutput = "secondary-output" ,
-		tertiary = "tertiary" ,
-		solar = "solar" ,
-		lamp = "lamp"
+		tertiary        = "tertiary" ,
+		solar           = "solar" ,
+		lamp            = "lamp"
+	} ,
+	fluidBoxProductionType =
+	{
+		none            = "None" ,
+		input           = "input" ,
+		output          = "output" ,
+		inAndOut        = "input-output"
+	} ,
+	fluidBoxConnectionType =
+	{
+		input           = "input" ,
+		output          = "output" ,
+		inAndOut        = "input-output"
 	} ,
 	modifier =
 	{

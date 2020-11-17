@@ -513,6 +513,10 @@ function entity:SetSignalWire( distance , points , sprites , signals )
 	return self
 end
 
+function entity:SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	return self
+end
+
 
 
 function entity:SetResidences( residenceOrResidencesOrPack )

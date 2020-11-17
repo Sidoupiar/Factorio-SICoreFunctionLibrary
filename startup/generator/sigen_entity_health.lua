@@ -49,6 +49,12 @@ function entity:SetCorpse( corpse , explosion , triggerEffect )
 	return self
 end
 
+function entity:SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	if type( areaOrBoxOrPack ) ~= "table" then areaOrBoxOrPack = SIPackers.FluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature ) end
+	if areaOrBoxOrPack.isPack then areaOrBoxOrPack = areaOrBoxOrPack.data end
+	return self:SetParam( "fluid_box" , areaOrBoxOrPack )
+end
+
 
 
 function entity:SetResidences( residenceOrResidencesOrPack )

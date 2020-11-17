@@ -797,6 +797,12 @@ function SIGen.SetSignalWire( distance , points , sprites , signals )
 	return SIGen
 end
 
+function SIGen.SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	return SIGen
+end
+
 
 
 function SIGen.SetFlags( flagOrFlagsOrPack )
