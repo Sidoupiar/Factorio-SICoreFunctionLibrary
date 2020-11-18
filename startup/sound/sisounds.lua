@@ -20,7 +20,7 @@ end
 
 function SISounds.Sounds( fileOrList , volume , minSpeed , maxSpeed )
 	local dataType = type( fileOrList )
-	if dataType == "string" then return { SISounds.Sound( fileOrList , volume , minSpeed , maxSpeed ) } end
+	if dataType == "string" then return { SISounds.Sound( fileOrList , volume , minSpeed , maxSpeed ) }
 	elseif dataType == "table" then
 		local sounds = {}
 		for i , v in pairs( fileOrList ) do table.insert( sounds , SISounds.Sound( v , volume , minSpeed , maxSpeed ) ) end

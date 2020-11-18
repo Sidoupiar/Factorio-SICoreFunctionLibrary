@@ -28,7 +28,9 @@ needlist( "zprototype/base" , "common" , "toolbar" , "wiki" )
 
 if SIStartup.SICFL.debug_tools() then
 	SIGen.NewSubGroup( "debug-tools" )
-	needlist( "zprototype/debug" , "delmap" , "oremap" , "reqmap" , "radars" , "roboports" , "robots" )
+	needlist( "zprototype/debug" , "delmap" , "oremap" , "reqmap" )
+	SIGen.NewSubGroup( "debug-machines" )
+	needlist( "zprototype/debug" , "radars" , "roboports" , "robots" )
 end
 
 SIGen.NewGroup( "extensions" ).Finish()

@@ -17,8 +17,8 @@ function entity:SetImage( path )
 	local baseName = self:GetBaseName()
 	local imagePath = path .. "entity/" .. baseName .. "/"
 	local hasHr = self:GetHasHr()
-	width = self:GetWidth() * SINumbers.SINumbers.machinePictureSize + 32
-	height = self:GetHeight() * SINumbers.SINumbers.machinePictureSize + 32
+	width = self:GetWidth() * SINumbers.machinePictureSize + 32
+	height = self:GetHeight() * SINumbers.machinePictureSize + 32
 	
 	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
 	:SetParam( "pictures" ,

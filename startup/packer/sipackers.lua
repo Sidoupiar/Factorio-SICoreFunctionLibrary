@@ -242,7 +242,7 @@ function SIPackers.FluidBox( area , connections , baseLevel , productionType , l
 		if data then
 			local dataType = type( data )
 			if dataType == "number" then box.pipe_connections = { SIPackers.FluidBoxConnection( connections ) }
-			else if dataType == "table" then
+			elseif dataType == "table" then
 				if connections[1].position then box.pipe_connections = connections
 				else box.pipe_connections = SIPackers.FluidBoxConnections( connections ) end
 			else box.pipe_connections = {} end
