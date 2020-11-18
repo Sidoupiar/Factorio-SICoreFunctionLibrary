@@ -1,5 +1,5 @@
 function string:Split( separator )
-	if "" == separator then return self end
+	if separator == "" then return self end
 	local pos = 0
 	local list = {}
 	for st , sp in function() return self:find( separator , pos , true ) end do
