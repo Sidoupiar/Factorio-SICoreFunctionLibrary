@@ -958,6 +958,12 @@ function SIGen.SetRender_notInNetworkIcon( trueOrFalse )
 	return SIGen
 end
 
+function SIGen.SetSelfIcon( name )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:SetSelfIcon( name )
+	return SIGen
+end
+
 function SIGen.AddLastLevel( count )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	currentData:AddLastLevel( count )

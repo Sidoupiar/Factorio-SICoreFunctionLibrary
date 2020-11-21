@@ -137,6 +137,11 @@ end
 
 
 
+function entity:SetSelfIcon( name )
+	name = name or self:GetBaseName()
+	return self:SetParam( "icon" , SIGen.GetCurrentConstantsData().picturePath.."item/"..name..".png" )
+end
+
 function entity:AddLastLevel( count )
 	local name = self:GetBaseName()
 	if name:Level() > 1 then SIGen.AddCosts( name:LastLevel() , count ) end
