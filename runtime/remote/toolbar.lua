@@ -84,7 +84,7 @@ function SIToolbar.OpenView( playerIndex , viewData )
 			viewData.view = view
 			viewData.list = list
 			
-			SIToolbar.FreshList( list )
+			SIToolbar.FreshList( list , playerIndex )
 		end
 	end
 end
@@ -175,16 +175,22 @@ function SIToolbar.FreshViews()
 			if count < 1 then SIToolbar.HideViewByPlayerIndex( playerIndex )
 			else
 				SIToolbar.ShowViewByPlayerIndex( playerIndex )
-				if viewData.open then SIToolbar.FreshList( viewData.list ) end
+				if viewData.open then SIToolbar.FreshList( viewData.list , playerIndex ) end
 			end
 		end
 	end
 end
 
-function SIToolbar.FreshList( list )
+function SIToolbar.FreshList( list , playerIndex )
 	if list then
 		list.clear()
-		for i , toolData in pairs( SIToolbarToolData ) do list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..toolData.iconItemName , tooltip = toolData.tooltips , style = "sicfl-toolbar-icon" } end
+		local player = game.players[playerIndex]
+		for i , toolData in pairs( SIToolbarToolData ) do
+			if toolData.iconItemName == "sicfl-item-oremap" then
+				local inventory = player.get_main_inventory()
+				if inventory and inventory.get_item_count( "sicfl-item-oremap" ) > 0 then list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..toolData.iconItemName , tooltip = toolData.tooltips , style = "sicfl-toolbar-icon" } end
+			else list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..toolData.iconItemName , tooltip = toolData.tooltips , style = "sicfl-toolbar-icon" } end
+		end
 	end
 end
 

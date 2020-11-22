@@ -130,7 +130,7 @@ end
 function SIOremap.SaveSettings( settings )
 	settings.useSettingsAsDefault = settings.elements.useSettingsAsDefault and settings.elements.useSettingsAsDefault.state or false
 	settings.totalMode = settings.elements.totalMode and settings.elements.totalMode.state or false
-	settings.count = settings.elements.count and math.floor( tonumber( settings.elements.count.text ) ) or 0
+	settings.count = settings.elements.count and math.floor( tonumber( settings.elements.count.text ) or 0 ) or 0
 end
 
 function SIOremap.SpawnOre( player , settings )
