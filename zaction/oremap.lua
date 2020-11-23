@@ -192,7 +192,7 @@ function SIOremap.FreshList( settings )
 		list.add{ type = "label" , caption = { "SICFL.oremap-view-label-name" } , style = "sicfl-oremap-label-long" }
 		list.add{ type = "label" , caption = { "SICFL.oremap-view-label-count" } , style = "sicfl-oremap-label-long" }
 		if #settings.oreData < 1 then
-			list.add{ type = "sprite-button" , sprite = "item/sicfl-item-empty" , style = "sicfl-oremap-list-icon" }
+			list.add{ type = "sprite-button" , sprite = "item/sicfl-item-icon-empty" , style = "sicfl-oremap-list-icon" }
 			list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-none" } , style = "sicfl-oremap-label-long" }
 			list.add{ type = "label" , caption = { "SICFL.oremap-view-ore-count-infinity" } , style = "sicfl-oremap-label-long" }
 		else

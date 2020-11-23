@@ -48,3 +48,7 @@ end
 function SIGlobal.CreateOnLoad()
 	for i , name in pairs( SIGlobal.tableList ) do _G[name] = SIGlobal.Get( name ) end
 end
+
+function SIGlobal.CreateOnLoad_M()
+	for i , name in pairs( SIGlobal.tableList ) do _G[name] = SIGlobal.Get( name ) end
+end

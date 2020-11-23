@@ -167,7 +167,7 @@ function SIToolbar.FreshViews()
 		end
 		-- 处理物品按钮
 		for i , toolData in pairs( SIToolbarToolData ) do
-			if not game.item_prototypes[toolData.iconItemName] then toolData.iconItemName = "sicfl-item-empty" end
+			if not game.item_prototypes[toolData.iconItemName] then toolData.iconItemName = "sicfl-item-icon-empty" end
 		end
 		-- 控制显示隐藏主按钮
 		local count = #SIToolbarToolData

@@ -2,4 +2,7 @@
 -- ---------- 创建物品 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-SIGen.NewItem( "empty" , 1000 ).AddFlags( SIFlags.itemFlags.hidden )
+SIGen
+.NewItem( "icon-empty" , 1000 ).AddFlags( SIFlags.itemFlags.hidden )
+.NewItem( "icon-edit" , 1000 ).AddFlags( SIFlags.itemFlags.hidden )
+.NewItem( "icon-save" , 1000 ).AddFlags( SIFlags.itemFlags.hidden )

@@ -3,7 +3,7 @@ require( "util" )
 need( "define/load" )
 need( "function/load" )
 
-needlist( "runtime/structure" , "sievent_bus" , "global_data" )
+needlist( "runtime/structure" , "sievent_bus" , "siglobal" )
 needlist( "runtime/function" , "functions" )
 needlist( "runtime/remote" , "toolbar" , "wiki" )
 
