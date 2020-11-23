@@ -56,6 +56,6 @@ function SIGlobal.CreateOnMigrations()
 			data = {}
 			_G[name] = data
 			SIGlobal.Set( name , data )
-		end
+		else _G[name] = data end
 	end
 end
