@@ -126,6 +126,7 @@ function entity:Fill( currentEntity )
 	currentEntity
 	:Default( "icon_size" , SINumbers.iconSize )
 	:Default( "icon_mipmaps" , SINumbers.mipMaps )
+	:Default( "stack_size" , 100 )
 	return self
 end
 
