@@ -7,7 +7,7 @@ SIGen
 .AddFlags{ SIFlags.itemFlags.notStackable , SIFlags.itemFlags.hidden }
 .SetCustomData
 {
-	type = SITypes.item.selection_tool ,
+	type = SITypes.item.selectionTool ,
 	show_in_library = false ,
 	selection_color = { 0.84 , 0.06 , 0.92 } ,
 	selection_mode = { "any-entity" } ,
