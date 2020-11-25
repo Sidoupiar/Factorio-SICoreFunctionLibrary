@@ -6,5 +6,5 @@
 	"author" : "Sidoupiar" ,
 	"homepage" : "http://www.sidoupiar.com" ,
 	"description" : "给我的 mod 提供了基础功能/Provides basic functionality for my mods" ,
-	"dependencies" : [ "base" ]
+	"dependencies" : []
 }

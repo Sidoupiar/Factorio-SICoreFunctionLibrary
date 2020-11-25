@@ -14,7 +14,7 @@ end
 
 function entity:SetSlotCount( inputSlotCount , outputSlotCount )
 	if inputSlotCount then self:SetParam( "inventory_size" , inputSlotCount ) end
-	if outputSlotCount then self:SetParam( "logistic_slots_count" , outputSlotCount ) end
+	if outputSlotCount then self:SetParam( "logistic_slots_count" , outputSlotCount ) end -- max_logistic_slots
 	return self
 end
 
