@@ -42,3 +42,14 @@ end
 function string:LastLevel()
 	return self:sub( 0 , -2 ) .. ( self:Level() - 1 )
 end
+
+function string:GetEnergyClass()
+	local class = ""
+	local value = self
+	local pos , _ = value:find( "[a-zA-Z]" )
+	if pos then
+		class = value:sub( pos )
+		value = value:sub( 1 , pos-1 )
+	end
+	return tonumber( value ) , class
+end
