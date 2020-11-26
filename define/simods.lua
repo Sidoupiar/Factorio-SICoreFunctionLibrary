@@ -24,6 +24,7 @@ SIMods =
 		SISummitCraftsmanship = "SI 巅峰工艺[SI Summit Craftsmanship]" ,
 		SISummitTechnology = "SI 巅峰科技[SI Summit Technology]" ,
 		
+		base = "基础游戏" ,
 		SpaceExploration = "太空扩展"
 	}
 }
