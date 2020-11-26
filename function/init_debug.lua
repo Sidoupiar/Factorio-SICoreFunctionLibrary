@@ -1,6 +1,6 @@
 function debug.TableToString( data , level )
 	if type( data ) ~= "table" then e( "数据类型错误：无法对非 table 类型的数据进行转换" ) end
-	if not level then level = 1 end
+	level = level or 1
 	local levelSpace = ""
 	for i = 1 , level , 1 do levelSpace = levelSpace .. "    " end
 	local size = 1

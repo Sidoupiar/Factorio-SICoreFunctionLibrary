@@ -59,7 +59,7 @@ function SIPackers.CollisionBoundBoxPack( width , height )
 end
 
 function SIPackers.BoundBox( width , height )
-	if not height then height = width end
+	height = height or width
 	halfWidth = width / 2.0
 	halfHeight = height / 2.0
 	return { { -halfWidth , -halfHeight } , { halfWidth , halfHeight } }
@@ -127,8 +127,7 @@ end
 -- 必要 : usage
 function SIPackers.ElectricEnergySource( usage , buffer , drain , inputLimit , outputLimit , emissions )
 	local source = { type = SITypes.energy.electric }
-	if not usage then source.usage_priority = SITypes.electricUsagePriority.secondaryInput
-	else source.usage_priority = usage end
+	source.usage_priority = usage or SITypes.electricUsagePriority.secondaryInput
 	if buffer then source.buffer_capacity = buffer end
 	if drain then source.drain = drain end
 	if inputLimit then source.input_flow_limit = inputLimit end
@@ -140,8 +139,7 @@ end
 -- 必要 : fuelSize
 function SIPackers.BurnerEnergySource( fuelSize , burntSize , smoke , lightFlicker , effectivity , fuelCategories )
 	local source = { type = SITypes.energy.burner }
-	if not fuelSize then source.fuel_inventory_size = 1
-	else source.fuel_inventory_size = fuelSize end
+	source.fuel_inventory_size = fuelSize or 1
 	if burntSize then source.burnt_inventory_size = burntSize end
 	if smoke then source.smoke = smoke end
 	if lightFlicker then source.light_flicker = lightFlicker end
@@ -155,8 +153,7 @@ function SIPackers.HeatEnergySource( specificHeat , maxTransfer , maxTemperature
 	local source = { type = SITypes.energy.heat }
 	if specificHeat then source.specific_heat = specificHeat end
 	if maxTransfer then source.max_transfer = maxTransfer end
-	if not maxTemperature then source.max_temperature = 1000
-	else source.max_temperature = maxTemperature end
+	source.max_temperature = maxTemperature or 1000
 	if defaultTemperature then source.default_temperature = defaultTemperature end
 	if minTemperatureGradient then source.min_temperature_gradient = minTemperatureGradient end
 	if minWorkingTemperature then source.min_working_temperature = minWorkingTemperature end
@@ -197,8 +194,7 @@ function SIPackers.AddEnergySourceUsage( energySourceOrPack , usage )
 	local energySource = {}
 	if energySourceOrPack.isPack then energySource = energySourceOrPack.data
 	else energySource = energySourceOrPack end
-	if not usage then energySource.usage_priority = SITypes.electricUsagePriority.secondaryInput
-	else energySource.usage_priority = usage end
+	energySource.usage_priority = usage or SITypes.electricUsagePriority.secondaryInput
 	return energySourceOrPack
 end
 
@@ -228,6 +224,62 @@ end
 
 function SIPackers.Signal( name )
 	return { type = "virtual" , name = name }
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建流体盒子 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.FluidBoxPack( area , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	return SIPackers.CreatePack( SIPackers.FluidBox( area , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature ) )
+end
+
+function SIPackers.FluidBox( area , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	local box = {}
+	if connections.position then box.pipe_connections = { connections }
+	else
+		local data = connections[1]
+		if data then
+			local dataType = type( data )
+			if dataType == "number" then box.pipe_connections = { SIPackers.FluidBoxConnection( connections ) }
+			elseif dataType == "table" then
+				if connections[1].position then box.pipe_connections = connections
+				else box.pipe_connections = SIPackers.FluidBoxConnections( connections ) end
+			else box.pipe_connections = {} end
+		else box.pipe_connections = {} end
+	end
+	box.base_area = area or 1
+	box.base_level = baseLevel or 0
+	box.production_type = productionType or SITypes.fluidBoxProductionType.none
+	box.height = levelHeight or 1
+	if filter then
+		box.filter = filter
+		if minTemperature then box.minimum_temperature = minTemperature end
+		if maxTemperature then box.maximum_temperature = maxTemperature end
+	end
+	return box
+end
+
+function SIPackers.FluidBoxAdden( box , renderLayer , covers , picture , secondaryDrawOrder , secondaryDrawOrders )
+	if renderLayer then box.render_layer = renderLayer end
+	if covers then box.pipe_covers = covers end
+	if picture then box.pipe_picture = picture end
+	if secondaryDrawOrder then box.secondary_draw_order = secondaryDrawOrder end
+	if secondaryDrawOrders then box.secondary_draw_orders = secondaryDrawOrders end
+	return box
+end
+
+function SIPackers.FluidBoxConnection( positionOrList , connectionType , maxUndergroundDistance )
+	local connection = { type = connectionType or SITypes.fluidBoxConnectionType.inAndOut , max_underground_distance = maxUndergroundDistance or 0 }
+	if type( positionOrList[1] ) == "table" then connection.positions = positionOrList
+	else connection.position = positionOrList end
+	return connection
+end
+
+function SIPackers.FluidBoxConnections( positionList , type , maxUndergroundDistance )
+	local connections = {}
+	for i , v in pairs( positionList ) do table.insert( connections , SIPackers.FluidBoxConnection( v , type , maxUndergroundDistance ) ) end
+	return connections
 end
 
 -- ------------------------------------------------------------------------------------------------

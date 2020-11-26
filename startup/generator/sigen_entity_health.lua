@@ -3,8 +3,7 @@ local entity = SIGen.Entity:Copy( "health" )
 
 
 function entity:GetHealth()
-	local _ , health = self:GetParam( "max_health" )
-	return health
+	return self:GetParam( "max_health" )
 end
 
 
@@ -48,6 +47,12 @@ function entity:SetCorpse( corpse , explosion , triggerEffect )
 	if explosion then self:SetParam( "dying_explosion" , explosion ) end
 	if triggerEffect then self:SetParam( "dying_trigger_effect" , triggerEffect ) end
 	return self
+end
+
+function entity:SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	if type( areaOrBoxOrPack ) ~= "table" then areaOrBoxOrPack = SIPackers.FluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature ) end
+	if areaOrBoxOrPack.isPack then areaOrBoxOrPack = areaOrBoxOrPack.data end
+	return self:SetParam( "fluid_box" , areaOrBoxOrPack ) -- fluid_boxes
 end
 
 
@@ -95,15 +100,16 @@ end
 function entity:Fill( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Fill( currentEntity )
+	
 	local item = currentEntity:GetItem()
-	if item then
-		local _ , minable = currentEntity:GetParam( "minable" )
-		if not minable then currentEntity:SetParam( "minable" , { mining_time = currentEntity:GetHealth()/SINumbers.healthToMiningTime , result = item:GetName() } ) end
-	end
-	local _ , alertWhenDamaged = currentEntity:GetParam( "alert_when_damaged" )
-	if alertWhenDamaged == nil then currentEntity:SetParam( "alert_when_damaged" , true ) end
-	local _ , hideResistances = currentEntity:GetParam( "hide_resistances" )
-	if hideResistances == nil then currentEntity:SetParam( "hide_resistances" , false ) end
+	if item then currentEntity:Default( "minable" , { mining_time = currentEntity:GetHealth()/SINumbers.healthToMiningTime , result = item:GetName() } ) end
+	
+	currentEntity
+	:Default( "alert_when_damaged" , true )
+	:Default( "hide_resistances" , false )
+	:Default( "vehicle_impact_sound" , SISounds.sounds.vehicleImpact )
+	:Default( "open_sound" , SISounds.sounds.machineOpen )
+	:Default( "close_sound" , SISounds.sounds.machineClose )
 	return self
 end
 

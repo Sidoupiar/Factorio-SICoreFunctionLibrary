@@ -7,8 +7,9 @@ SIMods =
 		SIModeRTS = "SI RTS 模式[SI RTS Mode]" ,
 		
 		SIEXInfinityTechnologies = "SI EX 无尽科技[SI EX Infinity Technologies]" ,
-		SIEXHyperspaceTeleporter = "SI EX 超空间传送机[SI EX Hyperspace Teleporter]" ,
+		SIEXHyperspaceStorage = "SI EX 超空间仓储[SI EX Hyperspace Storage]" ,
 		SIEXPipeAndBarrel = "SI EX 管道和装桶[SI EX Pipe And Barrel]" ,
+		SIEXItemStack = "SI EX 物品堆叠[SI EX Item Stack]" ,
 		
 		SIAgriculture = "SI 农业[SI Agriculture]" ,
 		SIAnimalHusbandry = "SI 牧业[SI Animal Husbandry]" ,
@@ -21,7 +22,9 @@ SIMods =
 		SIAncientInheritance = "SI 远古传承[SI Ancient Inheritance]" ,
 		SILegendCreation = "SI 传奇创造[SI Legend Creation]" ,
 		SISummitCraftsmanship = "SI 巅峰工艺[SI Summit Craftsmanship]" ,
-		SISummitTechnology = "SI 巅峰科技[SI Summit Technology]"
+		SISummitTechnology = "SI 巅峰科技[SI Summit Technology]" ,
+		
+		SpaceExploration = "太空扩展"
 	}
 }
 

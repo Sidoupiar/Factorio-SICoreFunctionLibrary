@@ -1,12 +1,12 @@
 function string:Split( separator )
-	if "" == separator then return self end
+	if separator == "" then return { self } end
 	local pos = 0
 	local list = {}
 	for st , sp in function() return self:find( separator , pos , true ) end do
-		list[#list+1] = self:sub( pos , st-1 )
+		table.insert( list , self:sub( pos , st-1 ) )
 		pos = sp + 1
 	end
-	list[#list+1] = self:sub( pos )
+	table.insert( list , self:sub( pos ) )
 	return list
 end
 

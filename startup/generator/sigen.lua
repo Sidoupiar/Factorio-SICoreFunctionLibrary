@@ -166,6 +166,7 @@ SIGen.Furnace = need( "sigen_entity_health_furnace" )
 SIGen.Machine = need( "sigen_entity_health_machine" )
 SIGen.Lab = need( "sigen_entity_health_lab" )
 SIGen.Beacon = need( "sigen_entity_health_beacon" )
+SIGen.Pipe = need( "sigen_entity_health_pipe" )
 SIGen.Container = need( "sigen_entity_health_container" )
 SIGen.ContainerLogic = need( "sigen_entity_health_container_logic" )
 SIGen.Robot = need( "sigen_entity_health_robot" )
@@ -556,6 +557,14 @@ function SIGen.NewBeacon( name , beacon )
 	return SIGen
 end
 
+function SIGen.NewPipe( name , pipe )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.Pipe:New( name , pipe )
+	InitEntity()
+	return SIGen
+end
+
 function SIGen.NewContainer( name , container )
 	FinishData()
 	if not CheckData() then return SIGen end
@@ -788,6 +797,18 @@ function SIGen.SetSignalWire( distance , points , sprites , signals )
 	return SIGen
 end
 
+function SIGen.SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	return SIGen
+end
+
+function SIGen.SetEnabled( enabled )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:SetEnabled( enabled )
+	return SIGen
+end
+
 
 
 function SIGen.SetFlags( flagOrFlagsOrPack )
@@ -934,6 +955,12 @@ end
 function SIGen.SetRender_notInNetworkIcon( trueOrFalse )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	currentData:SetRender_notInNetworkIcon( trueOrFalse )
+	return SIGen
+end
+
+function SIGen.SetSelfIcon( name )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:SetSelfIcon( name )
 	return SIGen
 end
 

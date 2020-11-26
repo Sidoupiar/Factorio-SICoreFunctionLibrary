@@ -21,6 +21,10 @@ function entity:SetEnergy( energyUsage , energySource )
 	return self:SetParam( "energy_required" , energyUsage )
 end
 
+function entity:SetEnabled( enabled )
+	return self:SetParam( "enabled" , enabled )
+end
+
 
 
 function entity:SetRecipeTypes( typeOrTypesOrPack )
@@ -64,8 +68,7 @@ end
 
 function entity:AddCosts( costOrCostsOrPack , count )
 	if not self:CheckData( costOrCostsOrPack ) then return self end
-	local _ , ingredients = self:GetParam( "ingredients" )
-	if not ingredients then self:SetParam( "ingredients" , {} ) end
+	self:Default( "ingredients" , {} )
 	local dataType = type( costOrCostsOrPack )
 	if dataType == "string" then
 		return self:AddParamItem( "ingredients" , SIPackers.SingleItemIngredient( costOrCostsOrPack , count ) )
@@ -110,8 +113,7 @@ end
 
 function entity:AddResults( resultOrResultsOrPack , count )
 	if not self:CheckData( resultOrResultsOrPack ) then return self end
-	local _ , results = self:GetParam( "results" )
-	if not results then self:SetParam( "results" , {} ) end
+	self:Default( "results" , {} )
 	local dataType = type( resultOrResultsOrPack )
 	if dataType == "string" then
 		return self:AddParamItem( "results" , SIPackers.SingleItemProduct( resultOrResultsOrPack , count ) )
@@ -135,6 +137,11 @@ end
 
 
 
+function entity:SetSelfIcon( name )
+	name = name or self:GetBaseName()
+	return self:SetParam( "icon" , SIGen.GetCurrentConstantsData().picturePath.."item/"..name..".png" )
+end
+
 function entity:AddLastLevel( count )
 	local name = self:GetBaseName()
 	if name:Level() > 1 then SIGen.AddCosts( name:LastLevel() , count ) end
@@ -146,28 +153,19 @@ end
 function entity:Fill( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Fill( currentEntity )
-	local _ , iconSize = currentEntity:GetParam( "icon_size" )
-	if not iconSize then currentEntity:SetParam( "icon_size" , SINumbers.iconSize ) end
-	local _ , mipmaps = currentEntity:GetParam( "icon_mipmaps" )
-	if not mipmaps then currentEntity:SetParam( "icon_mipmaps" , SINumbers.mipMaps ) end
-	local _ , ingredients = currentEntity:GetParam( "ingredients" )
-	if not ingredients then currentEntity:SetParam( "ingredients" , {} ) end
-	local _ , overload = currentEntity:GetParam( "overload_multiplier" )
-	if not overload then currentEntity:SetParam( "overload_multiplier" , 5 ) end
-	local _ , request = currentEntity:GetParam( "request_paste_multiplier" )
-	if not request then currentEntity:SetParam( "request_paste_multiplier" , 5 ) end
-	local _ , emission = currentEntity:GetParam( "emissions_multiplier" )
-	if not emission then currentEntity:SetParam( "emissions_multiplier" , 1 ) end
-	local _ , showMadeIn = currentEntity:GetParam( "always_show_made_in" )
-	if showMadeIn == nil then currentEntity:SetParam( "always_show_made_in" , true ) end
-	local _ , showproducts = currentEntity:GetParam( "always_show_products" )
-	if showproducts == nil then currentEntity:SetParam( "always_show_products" , true ) end
-	local _ , showcount = currentEntity:GetParam( "show_amount_in_title" )
-	if showcount == nil then currentEntity:SetParam( "show_amount_in_title" , false ) end
-	local _ , enabled = currentEntity:GetParam( "enabled" )
-	if enabled == nil then currentEntity:SetParam( "enabled" , false ) end
-	local _ , allow = currentEntity:GetParam( "allow_decomposition" )
-	if allow == nil then currentEntity:SetParam( "allow_decomposition" , false ) end
+	
+	currentEntity
+	:Default( "icon_size" , SINumbers.iconSize )
+	:Default( "icon_mipmaps" , SINumbers.mipMaps )
+	:Default( "ingredients" , {} )
+	:Default( "overload_multiplier" , 5 )
+	:Default( "request_paste_multiplier" , 5 )
+	:Default( "emissions_multiplier" , 1 )
+	:Default( "always_show_made_in" , true )
+	:Default( "always_show_products" , true )
+	:Default( "show_amount_in_title" , false )
+	:Default( "enabled" , false )
+	:Default( "allow_decomposition" , false )
 	return self
 end
 

@@ -63,6 +63,30 @@ end
 -- ---------- 基础操作 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+function SIPics.File( file )
+	currentLayer.filename = file .. ".png"
+	if currentLayer.hr_version then currentLayer.hr_version.filename = file .. "-hr.png" end
+	return SIPics
+end
+
+function SIPics.Size( width , height )
+	if width then
+		currentLayer.width = width
+		if currentLayer.hr_version then currentLayer.hr_version.width = width * SINumbers.pictureHrScale end
+	end
+	if height then
+		currentLayer.height = height
+		if currentLayer.hr_version then currentLayer.hr_version.height = height * SINumbers.pictureHrScale end
+	end
+	return SIPics
+end
+
+function SIPics.Scale( scale )
+	currentLayer.scale = scale
+	if currentLayer.hr_version then currentLayer.hr_version.scale = scale * SINumbers.pictureHrScaleDown end
+	return SIPics
+end
+
 function SIPics.AddHr()
 	currentLayer.hr_version =
 	{
@@ -160,6 +184,12 @@ end
 function SIPics.Shadow()
 	currentLayer.draw_as_shadow = true
 	if currentLayer.hr_version then currentLayer.hr_version.draw_as_shadow = true end
+	return SIPics
+end
+
+function SIPics.Axially( axially )
+	currentLayer.axially_symmetrical = axially
+	if currentLayer.hr_version then currentLayer.hr_version.axially_symmetrical = axially end
 	return SIPics
 end
 

@@ -2,15 +2,13 @@
 -- ---------- 基础数据 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-local impactSound = {}
-for i = 2 , 6 , 1 do table.insert( impactSound , { filename = "__base__/sound/car-metal-impact-" .. i .. ".ogg" , volume = 0.5 } ) end
 local define = circuit_connector_definitions["roboport"]
 local signals =
 {
-	default_available_logistic_output_signal = { type = "virtual" , name = "signal-X" } ,
-	default_total_logistic_output_signal = { type = "virtual" , name = "signal-Y" } ,
-	default_available_construction_output_signal = { type = "virtual" , name = "signal-Z" } ,
-	default_total_construction_output_signal = { type = "virtual" , name = "signal-T" }
+	default_available_logistic_output_signal = "signal-X" ,
+	default_total_logistic_output_signal = "signal-Y" ,
+	default_available_construction_output_signal = "signal-Z" ,
+	default_total_construction_output_signal = "signal-T"
 }
 local customData =
 {
@@ -20,27 +18,9 @@ local customData =
 	spawn_and_station_height = -0.1 ,
 	draw_logistic_radius_visualization = true ,
 	draw_construction_radius_visualization = true ,
-	vehicle_impact_sound = impactSound ,
-	working_sound =
-	{
-		sound = { filename = "__base__/sound/roboport-working.ogg" , volume = 0.8 } ,
-		max_sounds_per_type = 3 ,
-		audible_distance_modifier = 0.5
-	} ,
-	open_door_trigger_effect =
-	{
-		{
-			type = "play-sound" ,
-			sound = { filename = "__base__/sound/roboport-door.ogg" , volume = 0.3 , min_speed = 1 , max_speed = 1.5 }
-		}
-	} ,
-	close_door_trigger_effect =
-	{
-		{
-			type = "play-sound" ,
-			sound = { filename = "__base__/sound/roboport-door-close.ogg" , volume = 0.3 , min_speed = 1 , max_speed = 1.5 }
-		}
-	}
+	working_sound = SISounds.Working( "__base__/sound/roboport-working.ogg" , 0.8 , 3 , 0.5 ) ,
+	open_door_trigger_effect = { { type = "play-sound" , sound = SISounds.Sound( "__base__/sound/roboport-door.ogg" , 0.3 , 1 , 1.5 ) } } ,
+	close_door_trigger_effect = { { type = "play-sound" , sound = SISounds.Sound( "__base__/sound/roboport-door-close.ogg" , 0.3 , 1 , 1.5 ) } }
 }
 
 -- ------------------------------------------------------------------------------------------------

@@ -36,8 +36,6 @@ function entity:SetImage( path )
 	table.insert( layers , SIPics.PictureLayer( file , width , height , hasHr , addenWidth , addenHeight ).ShiftMerge( addenShiftX , addenShiftY ).Get() )
 	table.insert( layers , SIPics.PictureShadow( file , width , height , hasHr , shadowWidth , shadowHeight ).ShiftMerge( shadowShiftX , shadowShiftY ).Get() )
 	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
-	:SetParam( "icon_size" , SINumbers.iconSize )
-	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
 	:SetParam( "pictures" , { layers = layers } )
 end
 

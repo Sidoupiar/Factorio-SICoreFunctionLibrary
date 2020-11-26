@@ -3,20 +3,20 @@
 -- ------------------------------------------------------------------------------------------------
 
 SIGen
-.NewItem( "oremap" , 1 )
+.NewItem( "reqmap" , 1 )
 .AddFlags{ SIFlags.itemFlags.notStackable , SIFlags.itemFlags.hidden }
 .SetCustomData
 {
 	type = SITypes.item.selectionTool ,
 	show_in_library = false ,
-	selection_color = { 0.70 , 0.57 , 0.00 } ,
+	selection_color = { 0.84 , 0.06 , 0.92 } ,
 	selection_mode = { "any-entity" } ,
 	selection_cursor_box_type = "copy" ,
-	alt_selection_color = { 1.00 , 0.82 , 0.00 } ,
-	alt_selection_mode = { "any-tile" } ,
+	alt_selection_color = { 0.51 , 0.03 , 0.55 } ,
+	alt_selection_mode = { "any-entity" } ,
 	alt_selection_cursor_box_type = "copy"
 }
-.NewInput( "oremap" , "SHIFT + O" )
+.NewInput( "reqmap" , "SHIFT + P" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 创建界面 ----------------------------------------------------------------------------
@@ -24,7 +24,7 @@ SIGen
 
 local view =
 {
-	["sicfl-oremap-view"] =
+	["sicfl-reqmap-view"] =
 	{
 		type = "frame_style" ,
 		parent = "frame" ,
@@ -32,14 +32,14 @@ local view =
 		minimal_height = 100 ,
 		maximal_height = 700
 	} ,
-	["sicfl-oremap-list"] =
+	["sicfl-reqmap-list"] =
 	{
 		type = "table_style" ,
 		cell_spacing = 2 ,
 		horizontal_spacing = 1 ,
 		vertical_spacing = 1
 	} ,
-	["sicfl-oremap-list-icon"] =
+	["sicfl-reqmap-list-icon"] =
 	{
 		type = "button_style" ,
 		parent = "button" ,
@@ -52,25 +52,25 @@ local view =
 		minimal_width = 32 ,
 		minimal_height = 32
 	} ,
-	["sicfl-oremap-label-icon"] =
+	["sicfl-reqmap-label-icon"] =
 	{
 		type = "label_style" ,
 		width = 32 ,
 		horizontal_align = "center"
 	} ,
-	["sicfl-oremap-label-text"] =
+	["sicfl-reqmap-label-text"] =
 	{
 		type = "label_style" ,
 		width = 250 ,
 		horizontal_align = "left"
 	} ,
-	["sicfl-oremap-label-short"] =
+	["sicfl-reqmap-label-short"] =
 	{
 		type = "label_style" ,
 		minimal_width = 20 ,
 		horizontal_align = "right"
 	} ,
-	["sicfl-oremap-label-long"] =
+	["sicfl-reqmap-label-long"] =
 	{
 		type = "label_style" ,
 		width = 219 ,
@@ -113,8 +113,8 @@ local function ColorButton( location , dirt )
 	}
 end
 
-view["sicfl-oremap-button-gray"] = ColorButton( 0 , SIStyles.grayDirt )
-view["sicfl-oremap-button-green"] = ColorButton( 68 , SIStyles.greenDirt )
-view["sicfl-oremap-button-red"] = ColorButton( 136 , SIStyles.redDirt )
+view["sicfl-reqmap-button-gray"] = ColorButton( 0 , SIStyles.grayDirt )
+view["sicfl-reqmap-button-green"] = ColorButton( 68 , SIStyles.greenDirt )
+view["sicfl-reqmap-button-red"] = ColorButton( 136 , SIStyles.redDirt )
 
 for k , v in pairs( view ) do data.raw["gui-style"]["default"][k] = v end

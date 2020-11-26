@@ -192,7 +192,7 @@ end
 function alert( player , customMessage )
 	if SILoadingDatas then sil( msg )
 	else
-		if not player then player = game end
+		player = player or game
 		player.print( { "SICFL.m-jg" , customMessage } , SIColors.printColor.red )
 	end
 end

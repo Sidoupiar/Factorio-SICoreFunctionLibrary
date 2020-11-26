@@ -2,18 +2,10 @@
 -- ---------- 基础数据 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-local impactSound = {}
-for i = 2 , 6 , 1 do table.insert( impactSound , { filename = "__base__/sound/car-metal-impact-" .. i .. ".ogg" , volume = 0.5 } ) end
 local customData =
 {
-	radius_minimap_visualisation_color = { r = 0.059 , g = 0.092 , b = 0.235 , a = 0.275 } ,
-	vehicle_impact_sound = impactSound ,
-	working_sound =
-	{
-		sound = { filename = "__base__/sound/radar.ogg" , volume = 0.8 } ,
-		max_sounds_per_type = 3 ,
-		audible_distance_modifier = 0.8
-	}
+	radius_minimap_visualisation_color = SIPackers.Color( 0.059 , 0.092 , 0.235 , 0.275 ) ,
+	working_sound = SISounds.Working( "__base__/sound/radar.ogg" , 0.8 , 3 , 0.8 )
 }
 
 -- ------------------------------------------------------------------------------------------------

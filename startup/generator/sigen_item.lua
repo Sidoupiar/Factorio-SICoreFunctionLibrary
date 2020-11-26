@@ -5,8 +5,7 @@ entity:AddDefaultValue( "defaultType" , SITypes.item.item )
 
 
 function entity:GetStackSize()
-	local _ , stackSize = self:GetParam( "stack_size" )
-	return stackSize
+	return self:GetParam( "stack_size" )
 end
 
 
@@ -19,8 +18,6 @@ end
 
 function entity:SetImage( path )
 	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
-	:SetParam( "icon_size" , SINumbers.iconSize )
-	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
 end
 
 function entity:SetStackSize( stackSize )
@@ -95,8 +92,7 @@ function entity:AddResults( resultOrResultsOrPack , count )
 		e( "模块构建 : 前实体不支持在当前 resultType 下添加 results" )
 		return self
 	end
-	local _ , products = self:GetParam( "rocket_launch_products" )
-	if not products then self:SetParam( "rocket_launch_products" , {} ) end
+	self:Default( "rocket_launch_products" , {} )
 	local dataType = type( resultOrResultsOrPack )
 	if dataType == "string" then
 		return self:AddParamItem( "rocket_launch_products" , SIPackers.SingleItemProductsPack( resultOrResultsOrPack , count ).data )
@@ -119,6 +115,19 @@ function entity:ClearResults()
 	:DeleteParam( "place_as_tile" )
 	:DeleteParam( "rocket_launch_products" )
 	:SetParam( "type" , SITypes.item.item )
+end
+
+
+
+function entity:Fill( currentEntity )
+	if not currentEntity then currentEntity = self end
+	self.super:Fill( currentEntity )
+	
+	currentEntity
+	:Default( "icon_size" , SINumbers.iconSize )
+	:Default( "icon_mipmaps" , SINumbers.mipMaps )
+	:Default( "stack_size" , 100 )
+	return self
 end
 
 return entity

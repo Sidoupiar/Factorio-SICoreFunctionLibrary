@@ -9,14 +9,12 @@ function entity:SetImage( path )
 	if not width or width <= 0 or not height or height <= 0 then return self end
 	
 	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
-	:SetParam( "icon_size" , SINumbers.iconSize )
-	:SetParam( "icon_mipmaps" , SINumbers.mipMaps )
 	:SetParam( "picture" , SIPics.BaseAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName() , width , height ).Get() )
 end
 
 function entity:SetSlotCount( inputSlotCount , outputSlotCount )
 	if inputSlotCount then self:SetParam( "inventory_size" , inputSlotCount ) end
-	if outputSlotCount then self:SetParam( "logistic_slots_count" , outputSlotCount ) end
+	if outputSlotCount then self:SetParam( "logistic_slots_count" , outputSlotCount ) end -- max_logistic_slots
 	return self
 end
 

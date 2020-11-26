@@ -48,3 +48,14 @@ end
 function SIGlobal.CreateOnLoad()
 	for i , name in pairs( SIGlobal.tableList ) do _G[name] = SIGlobal.Get( name ) end
 end
+
+function SIGlobal.CreateOnMigrations()
+	for i , name in pairs( SIGlobal.tableList ) do
+		local data = SIGlobal.Get( name )
+		if not data then
+			data = {}
+			_G[name] = data
+			SIGlobal.Set( name , data )
+		else _G[name] = data end
+	end
+end
