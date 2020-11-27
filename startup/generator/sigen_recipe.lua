@@ -165,7 +165,7 @@ function entity:Fill( currentEntity )
 	:Default( "always_show_products" , true )
 	:Default( "show_amount_in_title" , false )
 	:Default( "enabled" , false )
-	:Default( "allow_decomposition" , false )
+	:Default( "allow_deposition" , true )
 	return self
 end
 
