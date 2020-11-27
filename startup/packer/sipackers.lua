@@ -276,9 +276,9 @@ function SIPackers.FluidBoxConnection( positionOrList , connectionType , maxUnde
 	return connection
 end
 
-function SIPackers.FluidBoxConnections( positionList , type , maxUndergroundDistance )
+function SIPackers.FluidBoxConnections( positionList , connectionType , maxUndergroundDistance )
 	local connections = {}
-	for i , v in pairs( positionList ) do table.insert( connections , SIPackers.FluidBoxConnection( v , type , maxUndergroundDistance ) ) end
+	for i , v in pairs( positionList ) do table.insert( connections , SIPackers.FluidBoxConnection( v , connectionType , maxUndergroundDistance ) ) end
 	return connections
 end
 
