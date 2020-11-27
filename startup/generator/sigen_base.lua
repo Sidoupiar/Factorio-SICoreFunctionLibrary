@@ -485,7 +485,7 @@ function entity:SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy )
 	return self
 end
 
-function entity:SetModuleData( slotCount , iconShift )
+function entity:SetPluginData( slotCount , iconShift )
 	return self
 end
 
