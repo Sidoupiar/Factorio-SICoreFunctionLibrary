@@ -38,7 +38,7 @@ function entity:SetEnergy( energyUsage , energySource )
 	return self
 end
 
-function entity:SetModuleData( slotCount , iconShift )
+function entity:SetPluginData( slotCount , iconShift )
 	return self:SetParam( "module_specification" , { module_slots = slotCount , module_info_icon_shift = iconShift } )
 end
 
