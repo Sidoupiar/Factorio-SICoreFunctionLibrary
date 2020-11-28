@@ -49,6 +49,15 @@ function entity:SetCorpse( corpse , explosion , triggerEffect )
 	return self
 end
 
+function entity:SetLevel( level , maxLevel )
+	if level then self:SetParam( "fast_replaceable_group" , level ) end
+	if maxLevel then
+		local name = self:GetName()
+		if name:Level() < maxLevel then self:SetParam( "next_upgrade" , name:NextLevel() ) end
+	end
+	return self
+end
+
 
 
 function entity:SetResidences( residenceOrResidencesOrPack )
@@ -128,12 +137,12 @@ function entity:ClearPluginTypes()
 	return self:DeleteParam( "allowed_effects" )
 end
 
-function entity:SetFluidBox( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+function entity:SetFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
 	if not self:CheckData( areaOrBoxOrListOrPack ) then return self end
 	if type( areaOrBoxOrListOrPack ) ~= "table" then areaOrBoxOrListOrPack = { SIPackers.FluidBox( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature ) } end
 	if areaOrBoxOrListOrPack.isPack then areaOrBoxOrListOrPack = areaOrBoxOrListOrPack.data end
 	if areaOrBoxOrListOrPack.base_area then areaOrBoxOrListOrPack = { areaOrBoxOrListOrPack } end
-	return self:SetParam( "fluid_boxes" , areaOrBoxOrPack )
+	return self:SetParam( "fluid_boxes" , areaOrBoxOrListOrPack )
 end
 
 function entity:AddFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )

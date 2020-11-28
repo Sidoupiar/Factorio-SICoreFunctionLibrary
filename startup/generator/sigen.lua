@@ -123,6 +123,7 @@ end
 
 SIGen =
 {
+	D = {} , -- 调试方法
 	E = {} , -- 批量快速填充专用前缀
 	F = {} , -- 内部自动填充专用前缀 ( 此处方法均为为自动调用 , 不能手动调用 )
 	dataFlags =
@@ -177,6 +178,15 @@ SIGen.Roboport = need( "sigen_entity_health_roboport" )
 SIGen.Radar = need( "sigen_entity_health_radar" )
 SIGen.Recipe = need( "sigen_recipe" )
 SIGen.Technology = need( "sigen_technology" )
+
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 调试方法 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIGen.D.EE()
+	ee( currentData )
+	return SIGen
+end
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 获取数据 ----------------------------------------------------------------------------
@@ -774,7 +784,7 @@ function SIGen.SetCorpse( corpse , explosion , triggerEffect )
 end
 
 function SIGen.SetLevel( level , maxLevel )
-	if not CheckEntityData( SIGen.dataFlags.technology ) then return SIGen end
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	if level or maxLevel then currentData:SetLevel( level , maxLevel ) end
 	return SIGen
 end

@@ -43,6 +43,10 @@ function string:LastLevel()
 	return self:sub( 0 , -2 ) .. ( self:Level() - 1 )
 end
 
+function string:NextLevel()
+	return self:sub( 0 , -2 ) .. ( self:Level() + 1 )
+end
+
 function string:GetEnergyClass()
 	local class = ""
 	local value = self

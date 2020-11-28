@@ -114,4 +114,21 @@ function entity:Init( currentEntity )
 	return self
 end
 
+function entity:Fill( currentEntity )
+	if not currentEntity then currentEntity = self end
+	self.super:Fill( currentEntity )
+	
+	local fluidBoxes = currentEntity:GetParam( "fluid_boxes" )
+	if fluidBoxes then
+		for i , box in pairs( fluidBoxes ) do
+			if i ~= "off_when_no_fluid_recipe" then
+				if not box.pipe_picture then box.pipe_picture = SICovers.pipeConnectPictureEmpty end
+				if not box.pipe_covers then box.pipe_covers = SICovers.pipeCoverPictureEmpty end
+			end
+		end
+		if fluidBoxes.off_when_no_fluid_recipe == nil then fluidBoxes.off_when_no_fluid_recipe = true end
+	end
+	return self
+end
+
 return entity

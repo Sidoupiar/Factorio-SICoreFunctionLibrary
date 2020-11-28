@@ -144,7 +144,7 @@ end
 
 function entity:AddLastLevel( count )
 	local name = self:GetBaseName()
-	if name:Level() > 1 then SIGen.AddCosts( name:LastLevel() , count ) end
+	if name:Level() > 1 then self:AddCosts( name:LastLevel() , count ) end
 	return self
 end
 

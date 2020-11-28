@@ -236,7 +236,7 @@ end
 
 function SIPackers.FluidBox( area , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
 	local box = {}
-	if connections.position then box.pipe_connections = { connections }
+	if connections.position or connections.positions then box.pipe_connections = { connections }
 	else
 		local data = connections[1]
 		if data then
@@ -260,11 +260,10 @@ function SIPackers.FluidBox( area , connections , baseLevel , productionType , l
 	return box
 end
 
-function SIPackers.FluidBoxAdden( box , renderLayer , covers , picture , secondaryDrawOrder , secondaryDrawOrders )
+function SIPackers.FluidBoxAdden( box , renderLayer , covers , picture , secondaryDrawOrders )
 	if renderLayer then box.render_layer = renderLayer end
 	if covers then box.pipe_covers = covers end
 	if picture then box.pipe_picture = picture end
-	if secondaryDrawOrder then box.secondary_draw_order = secondaryDrawOrder end
 	if secondaryDrawOrders then box.secondary_draw_orders = secondaryDrawOrders end
 	return box
 end

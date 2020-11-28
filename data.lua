@@ -4,7 +4,7 @@ SILoadingDatas = true
 need( "define/load" )
 need( "function/load" )
 
-needlist( "startup" , "generator/sigen" , "packer/sipackers" , "picture/sipics" , "sound/sisounds" , "style/sistyles" )
+needlist( "startup" , "generator/sigen" , "packer/sipackers" , "picture/sipics" , "picture/sicovers" , "sound/sisounds" , "style/sistyles" )
 
 local constants = need( "constants" )
 local constantsData = need( "constants_data" )
