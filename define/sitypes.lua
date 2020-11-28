@@ -330,6 +330,13 @@ SITypes =
 		output          = "output" ,
 		inAndOut        = "input-output"
 	} ,
+	moduleEffect =
+	{
+		speed = "speed" ,
+		product = "productivity" ,
+		consumption = "consumption" ,
+		pollut = "pollution"
+	} ,
 	modifier =
 	{
 		unlockRecipe                            = "unlock-recipe" ,

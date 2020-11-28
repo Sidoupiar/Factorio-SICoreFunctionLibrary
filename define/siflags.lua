@@ -46,6 +46,6 @@ SIFlags =
 	{
 		And = "and" ,
 		Or = "or" ,
-		Not = "not" ,
+		Not = "not"
 	}
 }

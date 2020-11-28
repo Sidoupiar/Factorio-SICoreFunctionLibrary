@@ -95,6 +95,45 @@ function entity:ClearResidences()
 	return self:DeleteParam( "resistances" )
 end
 
+function entity:SetPluginTypes( typeOrTypesOrPack )
+	if not self:CheckData( typeOrTypesOrPack ) then return self end
+	local dataType = type( typeOrTypesOrPack )
+	if dataType == "string" then
+		return self:SetParam( "allowed_effects" , { typeOrTypesOrPack } )
+	elseif dataType == "table" then
+		if typeOrTypesOrPack.isPack then
+			return self:SetParam( "allowed_effects" , typeOrTypesOrPack.data )
+		else
+			return self:SetParam( "allowed_effects" , typeOrTypesOrPack )
+		end
+	else
+		e( "模块构建 : SetPluginTypes 方法参数必须使用字符串/数组格式" )
+		return self
+	end
+end
+
+function entity:AddPluginTypes( typeOrTypesOrPack )
+	if not self:CheckData( typeOrTypesOrPack ) then return self end
+	local dataType = type( typeOrTypesOrPack )
+	if dataType == "string" then
+		if not table.Has( self:GetParam( "allowed_effects" ) , typeOrTypesOrPack ) then
+			return self:AddParamItem( "allowed_effects" , typeOrTypesOrPack )
+		end
+	elseif dataType == "table" then
+		for i , effect in pairs( typeOrTypesOrPack.isPack and typeOrTypesOrPack.data or typeOrTypesOrPack ) do
+			if not table.Has( self:GetParam( "allowed_effects" ) , effect ) then self:AddParamItem( "allowed_effects" , effect ) end
+		end
+		return self
+	else
+		e( "模块构建 : AddPluginTypes 方法参数必须使用字符串/数组格式" )
+		return self
+	end
+end
+
+function entity:ClearPluginTypes()
+	return self:DeleteParam( "allowed_effects" )
+end
+
 
 
 function entity:Fill( currentEntity )

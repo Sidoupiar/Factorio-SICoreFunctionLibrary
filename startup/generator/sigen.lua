@@ -884,19 +884,19 @@ function SIGen.ClearRecipeTypes()
 end
 
 function SIGen.SetPluginTypes( typeOrTypesOrPack )
-	if not CheckEntityData( SIGen.dataFlags.item ) then return SIGen end
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	currentData:SetPluginTypes( typeOrTypesOrPack )
 	return SIGen
 end
 
 function SIGen.AddPluginTypes( typeOrTypesOrPack )
-	if not CheckEntityData( SIGen.dataFlags.item ) then return SIGen end
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	currentData:AddPluginTypes( typeOrTypesOrPack )
 	return SIGen
 end
 
 function SIGen.ClearPluginTypes()
-	if not CheckEntityData( SIGen.dataFlags.item ) then return SIGen end
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	currentData:ClearPluginTypes()
 	return SIGen
 end
