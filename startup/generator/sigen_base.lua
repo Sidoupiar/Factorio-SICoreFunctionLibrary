@@ -505,6 +505,10 @@ function entity:SetMainRecipe( recipeOrDataOrEntityOrPack )
 	return self
 end
 
+function entity:SetLimitation( limitation , message )
+	return self
+end
+
 function entity:SetLogisticMode( logicType )
 	return self
 end

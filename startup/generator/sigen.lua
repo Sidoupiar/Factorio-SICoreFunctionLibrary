@@ -155,6 +155,7 @@ SIGen.Base = need( "sigen_base" )
 SIGen.Group = need( "sigen_group" )
 SIGen.SubGroup = need( "sigen_subgroup" )
 SIGen.Item = need( "sigen_item" )
+SIGen.Module = need( "sigen_item_module" )
 SIGen.Tool = need( "sigen_item_tool" )
 SIGen.Entity = need( "sigen_entity" )
 SIGen.HealthEntity = need( "sigen_entity_health" )
@@ -465,6 +466,15 @@ function SIGen.NewItem( name , stackSize , item )
 	FinishData()
 	if not CheckData() then return SIGen end
 	currentData = SIGen.Item:New( name , item )
+	InitEntity()
+	if stackSize then currentData:SetStackSize( stackSize ) end
+	return SIGen
+end
+
+function SIGen.NewModule( name , stackSize , module )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.Module:New( name , module )
 	InitEntity()
 	if stackSize then currentData:SetStackSize( stackSize ) end
 	return SIGen
@@ -792,6 +802,12 @@ end
 function SIGen.SetMainRecipe( recipeOrDataOrEntityOrPack )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	currentData:SetMainRecipe( recipeOrDataOrEntityOrPack )
+	return SIGen
+end
+
+function SIGen.SetLimitation( limitation , message )
+	if not CheckEntityData( SIGen.dataFlags.item ) then return SIGen end
+	currentData:SetLimitation( limitation , message )
 	return SIGen
 end
 
