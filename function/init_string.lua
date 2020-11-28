@@ -40,11 +40,11 @@ function string:Level()
 end
 
 function string:LastLevel()
-	return self:sub( 0 , -2 ) .. ( self:Level() - 1 )
+	return self:sub( 1 , -2 ) .. ( self:Level() - 1 )
 end
 
 function string:NextLevel()
-	return self:sub( 0 , -2 ) .. ( self:Level() + 1 )
+	return self:sub( 1 , -2 ) .. ( self:Level() + 1 )
 end
 
 function string:GetEnergyClass()
