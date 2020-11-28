@@ -797,12 +797,6 @@ function SIGen.SetSignalWire( distance , points , sprites , signals )
 	return SIGen
 end
 
-function SIGen.SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
-	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
-	return SIGen
-end
-
 function SIGen.SetEnabled( enabled )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	currentData:SetEnabled( enabled )
@@ -947,6 +941,24 @@ end
 function SIGen.ClearResults()
 	if not CheckEntityData( SIGen.dataFlags.result ) then return SIGen end
 	currentData:ClearResults()
+	return SIGen
+end
+
+function SIGen.SetFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:SetFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	return SIGen
+end
+
+function SIGen.AddFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:AddFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	return SIGen
+end
+
+function SIGen.ClearFluidBoxes()
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:ClearFluidBoxes()
 	return SIGen
 end
 

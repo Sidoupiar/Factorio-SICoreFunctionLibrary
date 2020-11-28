@@ -513,10 +513,6 @@ function entity:SetSignalWire( distance , points , sprites , signals )
 	return self
 end
 
-function entity:SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
-	return self
-end
-
 function entity:SetEnabled( enabled )
 	return self
 end
@@ -594,6 +590,19 @@ end
 function entity:ClearResults()
 	return self
 end
+
+function entity:SetFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	return self
+end
+
+function entity:AddFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	return self
+end
+
+function entity:ClearFluidBoxes()
+	return self
+end
+
 
 
 

@@ -49,12 +49,6 @@ function entity:SetCorpse( corpse , explosion , triggerEffect )
 	return self
 end
 
-function entity:SetFluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
-	if type( areaOrBoxOrPack ) ~= "table" then areaOrBoxOrPack = SIPackers.FluidBox( areaOrBoxOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature ) end
-	if areaOrBoxOrPack.isPack then areaOrBoxOrPack = areaOrBoxOrPack.data end
-	return self:SetParam( "fluid_box" , areaOrBoxOrPack ) -- fluid_boxes
-end
-
 
 
 function entity:SetResidences( residenceOrResidencesOrPack )
@@ -132,6 +126,27 @@ end
 
 function entity:ClearPluginTypes()
 	return self:DeleteParam( "allowed_effects" )
+end
+
+function entity:SetFluidBox( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	if not self:CheckData( areaOrBoxOrListOrPack ) then return self end
+	if type( areaOrBoxOrListOrPack ) ~= "table" then areaOrBoxOrListOrPack = { SIPackers.FluidBox( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature ) } end
+	if areaOrBoxOrListOrPack.isPack then areaOrBoxOrListOrPack = areaOrBoxOrListOrPack.data end
+	if areaOrBoxOrListOrPack.base_area then areaOrBoxOrListOrPack = { areaOrBoxOrListOrPack } end
+	return self:SetParam( "fluid_boxes" , areaOrBoxOrPack )
+end
+
+function entity:AddFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	if not self:CheckData( areaOrBoxOrListOrPack ) then return self end
+	if type( areaOrBoxOrListOrPack ) ~= "table" then areaOrBoxOrListOrPack = { SIPackers.FluidBox( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature ) } end
+	if areaOrBoxOrListOrPack.isPack then areaOrBoxOrListOrPack = areaOrBoxOrListOrPack.data end
+	if areaOrBoxOrListOrPack.base_area then areaOrBoxOrListOrPack = { areaOrBoxOrListOrPack } end
+	for i , box in pairs( areaOrBoxOrListOrPack ) do self:AddParamItem( "fluid_boxes" , box ) end
+	return self
+end
+
+function entity:ClearFluidBoxes()
+	return self:DeleteParam( "fluid_boxes" )
 end
 
 
