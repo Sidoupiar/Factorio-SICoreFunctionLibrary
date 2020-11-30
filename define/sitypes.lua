@@ -33,28 +33,28 @@ SITypes =
 	} ,
 	stackableItem =
 	{
-		item        = "item" ,
-		itemEntity  = "item-with-entity-data" ,
-		tool        = "tool" ,
-		toolRepair  = "repair-tool" ,
-		railPlanner = "rail-planner" ,
-		ammo        = "ammo" ,
-		capsule     = "capsule" ,
-		gun         = "gun" ,
-		module      = "module"
+		item          = "item" ,
+		itemEntity    = "item-with-entity-data" ,
+		tool          = "tool" ,
+		toolRepair    = "repair-tool" ,
+		railPlanner   = "rail-planner" ,
+		ammo          = "ammo" ,
+		capsule       = "capsule" ,
+		gun           = "gun" ,
+		module        = "module"
 	} ,
 	iconableItem =
 	{
-		item    = "item" ,
-		item_e  = "item-with-entity-data" ,
-		tool    = "tool" ,
-		ammo    = "ammo" ,
-		armor   = "armor" ,
-		capsule = "capsule" ,
-		gun     = "gun" ,
-		module  = "module" ,
+		item      = "item" ,
+		item_e    = "item-with-entity-data" ,
+		tool      = "tool" ,
+		ammo      = "ammo" ,
+		armor     = "armor" ,
+		capsule   = "capsule" ,
+		gun       = "gun" ,
+		module    = "module" ,
 		
-		fluid   = "fluid"
+		fluid     = "fluid"
 	} ,
 	fluid         = "fluid" ,
 	tile          = "tile" ,
