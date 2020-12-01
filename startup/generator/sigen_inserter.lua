@@ -77,7 +77,7 @@ function inserter.InsertIcon( index , iconPath , tint , mipmaps , scale , shift 
 	return SIGen
 end
 
-function inserter.InsertIconFromIconList( index , list , scale , shift )
+function inserter.InsertIconFromIconList( index , list , scale , shift , size )
 	index = index - 1
 	for i , icon in pairs( list ) do
 		local iconScale = scale
@@ -86,14 +86,14 @@ function inserter.InsertIconFromIconList( index , list , scale , shift )
 			for k , v in pairs( iconShift ) do iconShift[k] = v + icon.shift[k] * iconScale end
 		end
 		if icon.scale then iconScale = iconScale * icon.scale end
-		inserter.InsertIcon( index+i , icon.icon , icon.tint , icon.icon_mipmaps , iconScale , iconShift , icon.icon_size )
+		inserter.InsertIcon( index+i , icon.icon , icon.tint , icon.icon_mipmaps , iconScale , iconShift , icon.icon_size or size )
 	end
 	return SIGen
 end
 
 function inserter.InsertIconFromData( index , data , scale , shift )
 	if data.icon then inserter.InsertIcon( index , data.icon , nil , data.icon_mipmaps , scale , shift , data.icon_size )
-	elseif data.icons then inserter.InsertIconFromIconList( index , data.icons , scale , shift ) end
+	elseif data.icons then inserter.InsertIconFromIconList( index , data.icons , scale , shift , data.icon_size ) end
 	return SIGen
 end
 
