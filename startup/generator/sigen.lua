@@ -171,6 +171,7 @@ SIGen.Beacon = need( "sigen_entity_health_beacon" )
 SIGen.Pipe = need( "sigen_entity_health_pipe" )
 SIGen.Container = need( "sigen_entity_health_container" )
 SIGen.ContainerLogic = need( "sigen_entity_health_container_logic" )
+SIGen.ContainerLinked = need( "sigen_entity_health_container_linked" )
 SIGen.Robot = need( "sigen_entity_health_robot" )
 SIGen.RobotConstruction = need( "sigen_entity_health_robot_construction" )
 SIGen.RobotLogistic = need( "sigen_entity_health_robot_logistic" )
@@ -599,6 +600,15 @@ function SIGen.NewContainerLogic( name , containerLogic , logisticMode )
 	currentData = SIGen.ContainerLogic:New( name , containerLogic )
 	InitEntity()
 	if logisticMode then currentData:SetLogisticMode( logisticMode ) end
+	return SIGen
+end
+
+function SIGen.NewContainerLinked( name , containerLinked , linkedMode )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.ContainerLinked:New( name , containerLinked )
+	InitEntity()
+	if linkedMode then currentData:SetLogisticMode( linkedMode ) end
 	return SIGen
 end
 

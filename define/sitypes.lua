@@ -307,6 +307,12 @@ SITypes =
 		requester       = "requester" ,        -- 蓝箱
 		active          = "active-provider"    -- 紫箱
 	} ,
+	linkedMode =
+	{
+		all   = "all" ,
+		admin = "admin" ,
+		none  = "none"
+	} ,
 	electricUsagePriority =
 	{
 		primaryInput    = "primary-input" ,
