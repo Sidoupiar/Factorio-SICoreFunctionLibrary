@@ -18,9 +18,13 @@ function ExDestroy( entity , remnant )
 			else surface.create_entity{ name = "big-remnants" , direction = entity.direction , position = entity.position } end
 		end
 		entity.destroy{ raise_destroy = true }
-	elseif entity.name == "cliff" then
+	elseif entity.type == SITypes.entity.cliff then
 		surface.create_entity{ name = "ground-explosion" , position = entity.position }
 		if remnant then surface.create_entity{ name = "small-scorchmark" , position = entity.position } end
 		entity.destroy{ do_cliff_correction = true , raise_destroy = true }
+	elseif entity.type == SITypes.entity.resource then
+		surface.create_entity{ name = "medium-explosion" , position = entity.position }
+		if remnant then surface.create_entity{ name = "small-scorchmark" , position = entity.position } end
+		entity.destroy{ raise_destroy = true }
 	else entity.destroy{ raise_destroy = true } end
 end
