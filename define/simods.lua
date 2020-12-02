@@ -4,7 +4,8 @@ SIMods =
 	{
 		SIBasicTechnologies = "SI 基础技术[SI Basic Technologies]" ,
 		
-		SIModeRTS = "SI RTS 模式[SI RTS Mode]" ,
+		SIModeRPG = "SI 角色扮演[SI RPG Mode]" ,
+		SIModeRTS = "SI 即时战略[SI RTS Mode]" ,
 		
 		SIEXInfinityTechnologies = "SI EX 无尽科技[SI EX Infinity Technologies]" ,
 		SIEXHyperspaceStorage = "SI EX 超空间仓储[SI EX Hyperspace Storage]" ,
