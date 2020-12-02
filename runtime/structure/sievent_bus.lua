@@ -23,7 +23,6 @@ SIEventBus =
 	} ,
 	wait =
 	{
-		notAdd = true ,
 		funcs = {}
 	}  ,
 	list = {}
@@ -83,13 +82,6 @@ function SIEventBus.AddWaitFunction( id , func )
 		SIEventBus.order = SIEventBus.order + 1
 	end
 	SIEventBus.wait.funcs[id] = func
-	if SIEventBus.wait.notAdd then
-		SIEventBus.wait.notAdd = false
-		script.on_nth_tick( 1 , function( event )
-			for id , func in pairs( SIEventBus.wait.funcs ) do func( event , id ) end
-			script.on_nth_tick( 1 , nil )
-		end )
-	end
 	return SIEventBus
 end
 
@@ -199,3 +191,12 @@ function SIEventBus.Clear( eventId )
 	script.on_event( eventId )
 	return SIEventBus
 end
+
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 事件注册 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+script.on_nth_tick( 1 , function( event )
+	for id , func in pairs( SIEventBus.wait.funcs ) do func( event , id ) end
+	script.on_nth_tick( 1 , nil )
+end )
