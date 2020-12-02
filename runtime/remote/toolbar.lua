@@ -91,7 +91,7 @@ end
 
 function SIToolbar.CloseView( playerIndex , viewData )
 	if viewData then
-		if not viewData.view or viewData.view.name ~= "sicfl-toolbar-button" then
+		if not viewData.view or viewData.view.valid and viewData.view.name ~= "sicfl-toolbar-button" then
 			if viewData.view then viewData.view.destroy() end
 			
 			local player = game.players[playerIndex]
