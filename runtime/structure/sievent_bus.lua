@@ -23,7 +23,8 @@ SIEventBus =
 	} ,
 	wait =
 	{
-		funcs = {}
+		funcs = {} ,
+		listener = {}
 	}  ,
 	list = {}
 }
@@ -196,7 +197,13 @@ end
 -- ---------- 事件注册 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-script.on_nth_tick( 1 , function( event )
-	for id , func in pairs( SIEventBus.wait.funcs ) do func( event , id ) end
-	script.on_nth_tick( 1 , nil )
+SIEventBus.Add( SIEvents.on_player_joined_game , function( event )
+	local playerIndex = event.player_index
+	for id , func in pairs( SIEventBus.wait.funcs ) do
+		local listeners = SIEventBus.wait.listener[id]
+		if not table.Has( listeners , playerIndex ) then
+			table.insert( listeners , playerIndex )
+			func( event , id )
+		end
+	end
 end )

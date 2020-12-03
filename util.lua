@@ -188,11 +188,22 @@ function sip( msg )
 	game.print( { "SICFL.m-xt" , msg } , SIColors.printColor.green )
 end
 
--- 输出警告
-function alert( player , customMessage )
+-- 输出提醒
+function message( playerOrIndex , msg )
 	if SILoadingDatas then sil( msg )
 	else
-		player = player or game
-		player.print( { "SICFL.m-jg" , customMessage } , SIColors.printColor.red )
+		if not playerOrIndex then playerOrIndex = game
+		elseif not playerOrIndex.is_player then playerOrIndex = game.players[playerOrIndex] end
+		playerOrIndex.print( { "SICFL.m-xt" , msg } , SIColors.printColor.green )
+	end
+end
+
+-- 输出警告
+function alert( playerOrIndex , customMessage )
+	if SILoadingDatas then sil( msg )
+	else
+		if not playerOrIndex then playerOrIndex = game
+		elseif not playerOrIndex.is_player then playerOrIndex = game.players[playerOrIndex] end
+		playerOrIndex.print( { "SICFL.m-jg" , customMessage } , SIColors.printColor.red )
 	end
 end

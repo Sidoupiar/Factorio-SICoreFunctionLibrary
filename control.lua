@@ -29,16 +29,13 @@ end
 
 SIEventBus.Init( function()
 	SIGlobal.Set( "SIDamageType" , CreateDamageType( game.damage_prototypes ) )
-	SIEventBus.AddWaitFunction( "message" , function( event ) sip{ "SICFL.changed" , { "SICFL.data" } , date.FormatDateByTick( event.tick ) } end )
-	if showPatreon then SIEventBus.AddWaitFunction( "patreon" , function( event ) sip{ "SICFL.patreon" , "https://afdian.net/@Sidoupiar" , "http://azz.net/Sidoupiar" } end ) end
+	SIEventBus.AddWaitFunction( "message" , function( event ) message( event.player_index , { "SICFL.changed" , { "SICFL.data" } , date.FormatDateByTick( event.tick ) } ) end )
 end )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 恰饭信息 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-if showPatreon then
-	SIEventBus.Load( function()
-		SIEventBus.AddWaitFunction( "patreon" , function( event ) sip{ "SICFL.patreon" , "https://afdian.net/@Sidoupiar" , "http://azz.net/Sidoupiar" } end )
-	end )
-end
+SIEventBus.Add( SIEvents.on_player_joined_game , function( event )
+	if showPatreon then game.players[event.player_index].print{ "SICFL.patreon" , "https://afdian.net/@Sidoupiar" , "http://azz.net/Sidoupiar" } end
+end )
