@@ -170,6 +170,7 @@ function entity:Fill( currentEntity )
 	currentEntity
 	:Default( "alert_when_damaged" , true )
 	:Default( "hide_resistances" , false )
+	:Default( "return_ingredients_on_change" , false )
 	:Default( "vehicle_impact_sound" , SISounds.sounds.vehicleImpact )
 	:Default( "open_sound" , SISounds.sounds.machineOpen )
 	:Default( "close_sound" , SISounds.sounds.machineClose )
