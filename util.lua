@@ -193,7 +193,7 @@ function message( playerOrIndex , msg )
 	if SILoadingDatas then sil( msg )
 	else
 		if not playerOrIndex then playerOrIndex = game
-		elseif not playerOrIndex.is_player then playerOrIndex = game.players[playerOrIndex] end
+		elseif type( playerOrIndex ) == "number" or not playerOrIndex.is_player then playerOrIndex = game.players[playerOrIndex] end
 		playerOrIndex.print( { "SICFL.m-xt" , msg } , SIColors.printColor.green )
 	end
 end
@@ -203,7 +203,7 @@ function alert( playerOrIndex , customMessage )
 	if SILoadingDatas then sil( msg )
 	else
 		if not playerOrIndex then playerOrIndex = game
-		elseif not playerOrIndex.is_player then playerOrIndex = game.players[playerOrIndex] end
+		elseif type( playerOrIndex ) == "number" or not playerOrIndex.is_player then playerOrIndex = game.players[playerOrIndex] end
 		playerOrIndex.print( { "SICFL.m-jg" , customMessage } , SIColors.printColor.red )
 	end
 end

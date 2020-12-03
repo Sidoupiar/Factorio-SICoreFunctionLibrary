@@ -83,6 +83,7 @@ function SIEventBus.AddWaitFunction( id , func )
 		SIEventBus.order = SIEventBus.order + 1
 	end
 	SIEventBus.wait.funcs[id] = func
+	SIEventBus.wait.listener[id] = {}
 	return SIEventBus
 end
 
