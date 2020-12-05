@@ -1,7 +1,7 @@
 require( "util" )
 
 SILoadingSettings = true
-need( "define/sitypes" )
+needlist( "define" , "sitypes" , "simods" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础数据 ----------------------------------------------------------------------------
@@ -22,19 +22,19 @@ function SISettings.ChangeConstants( constants )
 	else return nil end
 end
 
-function SISettings.CreateSetting( type , setting_type , name , default_value , minimum_value , maximum_value , allow_blank , order , per_user )
-	if not allow_blank then allow_blank = false end
+function SISettings.CreateSetting( type , settingType , name , defaultValue , minimumValue , maximumValue , allowedValues , allowBlank , order , perUser )
 	local d = {}
 	d.type = type .. "-setting"
-	d.setting_type = setting_type
+	d.setting_type = settingType
 	d.name = name
-	d.default_value = default_value
+	d.default_value = defaultValue
 	if type == "int" or type == "double" then
-		d.minimum_value = minimum_value
-		d.maximum_value = maximum_value
+		d.minimum_value = minimumValue
+		d.maximum_value = maximumValue
 	end
-	if per_user then d.per_user = per_user end
-	d.allow_blank = allow_blank
+	if perUser then d.per_user = perUser end
+	d.allowed_values = allowedValues
+	d.allow_blank = allowBlank or false
 	d.order = order
 	return d
 end
@@ -47,7 +47,7 @@ function SISettings.Load( constantsData , orderCode )
 		local order = orderCode
 		for n , m in pairs( settings ) do
 			order = order + 1
-			table.insert( s , SISettings.CreateSetting( m[1] , m[2] , n , m[3] , m[4] , m[5] , m[6] , order , m[7] ) )
+			table.insert( s , SISettings.CreateSetting( m[1] , m[2] , n , m[3] , m[4] , m[5] , m[6] , m[7] , order , m[8] ) )
 		end
 		if #s > 0 then data:extend( s ) end
 	end

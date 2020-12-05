@@ -1,10 +1,10 @@
 {
 	"name" : "SICoreFunctionLibrary" ,
-	"version" : "0.3.6" ,
+	"version" : "0.3.7" ,
 	"factorio_version" : "1.1" ,
 	"title" : "SI Core Function Library" ,
 	"author" : "Sidoupiar" ,
 	"homepage" : "http://www.sidoupiar.com" ,
-	"description" : "给我的 mod 提供了基础功能/Provides basic functionality for my mods" ,
+	"description" : "Provides basic functionality for my mods" ,
 	"dependencies" : []
 }

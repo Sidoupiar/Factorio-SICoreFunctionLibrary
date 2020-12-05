@@ -11,6 +11,7 @@ SIMods =
 		SIEXHyperspaceStorage = "SI EX 超空间仓储[SI EX Hyperspace Storage]" ,
 		SIEXPipeAndBarrel = "SI EX 管道和装桶[SI EX Pipe And Barrel]" ,
 		SIEXItemStack = "SI EX 物品堆叠[SI EX Item Stack]" ,
+		SIEXQuickStart = "SI EX 快速开始[SI EX QuickStart]" ,
 		
 		SIAgriculture = "SI 农业[SI Agriculture]" ,
 		SIAnimalHusbandry = "SI 牧业[SI Animal Husbandry]" ,
@@ -32,7 +33,7 @@ SIMods =
 
 local modList = nil
 if mods then modList = mods
-elseif game and game.active_mods then modList = game.active_mods end
+elseif script and script.active_mods then modList = script.active_mods end
 
 if modList then
 	local loaded

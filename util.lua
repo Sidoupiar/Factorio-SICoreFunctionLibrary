@@ -105,7 +105,7 @@ function load( constantsData )
 	constants.realname = realname
 	if not constants.orderCode then constants.orderCode = SIOrderCode end
 	constants.order_name = SIOrderCode .. "[" .. realname .. "]-"
-	if constants.before_load then constants.before_load() end
+	if constants.BeforeLoad then constants.BeforeLoad() end
 	
 	SIConstantsDic[constants.base] = class
 	
