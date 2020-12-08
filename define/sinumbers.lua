@@ -13,6 +13,7 @@ SINumbers =
 	machinePictureSize = 32 ,
 	machinePictureTotalWidth = 8 ,
 	machinePictureTotalHeight = 8 ,
+	moduleInfoIconScale = 0.4 ,
 	
 	healthToMiningTime = 800 ,
 	lightSizeMult = 2.4 ,

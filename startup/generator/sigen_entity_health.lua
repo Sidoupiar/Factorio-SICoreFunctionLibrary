@@ -38,8 +38,9 @@ function entity:SetEnergy( energyUsage , energySource )
 	return self
 end
 
-function entity:SetPluginData( slotCount , iconShift )
-	return self:SetParam( "module_specification" , { module_slots = slotCount , module_info_icon_shift = iconShift } )
+function entity:SetPluginData( slotCount , iconShift , moduleInfoIconScale )
+	moduleInfoIconScale = moduleInfoIconScale or SINumbers.moduleInfoIconScale
+	return self:SetParam( "module_specification" , { module_slots = slotCount , module_info_icon_shift = iconShift , module_info_icon_scale = moduleInfoIconScale } )
 end
 
 function entity:SetCorpse( corpse , explosion , triggerEffect )
@@ -166,6 +167,15 @@ function entity:Fill( currentEntity )
 	
 	local item = currentEntity:GetItem()
 	if item then currentEntity:Default( "minable" , { mining_time = currentEntity:GetHealth()/SINumbers.healthToMiningTime , result = item:GetName() } ) end
+	
+	local moduleSpecification = currentEntity:GetParam( "module_specification" )
+	if moduleSpecification then
+		local width = math.ceil( currentEntity:GetWidth() )
+		local scale = 0.5 / ( moduleSpecification.module_info_icon_scale or SINumber.moduleInfoIconScale )
+		if not moduleSpecification.module_info_max_icons_per_row then moduleSpecification.module_info_max_icons_per_row = math.ceil( width/0.75*scale ) end
+		if not moduleSpecification.module_info_max_icon_rows then moduleSpecification.module_info_max_icon_rows = math.ceil( width/1.5*scale) end
+		if not moduleSpecification.module_info_multi_row_initial_height_modifier then moduleSpecification.module_info_multi_row_initial_height_modifier = -0.2 end
+	end
 	
 	currentEntity
 	:Default( "alert_when_damaged" , true )

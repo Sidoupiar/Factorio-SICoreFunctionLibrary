@@ -104,6 +104,12 @@ function SIPics.Priority( priority )
 	return SIPics
 end
 
+function SIPics.BlendMode( blendMode )
+	currentLayer.blend_mode = blendMode
+	if currentLayer.hr_version then currentLayer.hr_version.blend_mode = blendMode end
+	return SIPics
+end
+
 function SIPics.Shift( shiftX , shiftY )
 	shiftX = shiftX or 0
 	shiftY = shiftY or 0

@@ -32,7 +32,7 @@ local function Create( name , radius )
 	.E.SetShadowSize( 19 , -27 )
 	.E.SetShadowShift( 38 , 5.75 )
 	.E.SetWaterLocation( 0 , 75 )
-	.E.AddItemFlags( SIFlags.itemFlags.hidden )
+	.AddFlags{ SIFlags.entityFlags.hidden }
 	.SetProperties( 4 , 4 , 250 , 0 , "1GW" , SIPackers.EnergySource() , 10 , 10 )
 	.SetEffectRadius( radius , 64 , radius )
 	.SetEffectEnergy( "10MW" , "0J" , 3 )

@@ -10,6 +10,7 @@ SIFlags =
 		zk = "zkable" ,
 		zw = "zwable" ,
 		
+		hidden = "hidden" ,
 		noGapFill = "no-gap-fill-while-building" ,
 		notOnMap = "not-on-map" ,
 		notFlammable = "not-flammable" ,
