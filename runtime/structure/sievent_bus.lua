@@ -26,6 +26,7 @@ SIEventBus =
 		funcs = {} ,
 		listener = {}
 	}  ,
+	nth = {} ,
 	list = {}
 }
 
@@ -84,6 +85,92 @@ function SIEventBus.AddWaitFunction( id , func )
 	end
 	SIEventBus.wait.funcs[id] = func
 	SIEventBus.wait.listener[id] = {}
+	return SIEventBus
+end
+
+function SIEventBus.AddNth( count , func , id )
+	if not func then
+		e( "事件总线 : 不能添加空的事件方法" )
+		return SIEventBus
+	end
+	if not id then
+		id = SIEventBus.order
+		SIEventBus.order = SIEventBus.order + 1
+	end
+	local data = SIEventBus.nth[count]
+	if not data then
+		data = {}
+		data.isSet = false
+		data.funcs = {}
+		SIEventBus.nth[count] = data
+	end
+	if data.isSet then data.funcs[id] = func
+	else
+		data.isSet = true
+		data.funcs[id] = func
+		script.on_nth_tick( count , function( event )
+			for id , func in pairs( SIEventBus.nth[event.nth_tick].funcs ) do func( event , id ) end
+		end )
+	end
+	return SIEventBus
+end
+
+function SIEventBus.SetNth( count , func , id )
+	if not func then
+		e( "事件总线 : 不能设置空的事件方法" )
+		return SIEventBus
+	end
+	if not id then
+		e( "事件总线 : 设置事件方法时必须使用明确的 id" )
+		return SIEventBus
+	end
+	local data = SIEventBus.nth[count]
+	if not data then
+		e( "事件总线 : 当前 count 指定的事件列表没有记录数据" )
+		return SIEventBus
+	end
+	local oldFunc = data.funcs[id]
+	if not oldFunc then
+		e( "事件总线 : 设置事件方法时必须使用列表中存在的 id" )
+		return SIEventBus
+	end
+	data.funcs[id] = func
+	return SIEventBus
+end
+
+function SIEventBus.RemoveNth( count , id )
+	if not id then
+		e( "事件总线 : 移除事件方法时必须使用明确的 id" )
+		return SIEventBus
+	end
+	local data = SIEventBus.nth[count]
+	if not data then
+		e( "事件总线 : 当前 count 指定的事件列表没有记录数据" )
+		return SIEventBus
+	end
+	local oldFunc = data.funcs[id]
+	if not oldFunc then
+		e( "事件总线 : 设置事件方法时必须使用列表中存在的 id" )
+		return SIEventBus
+	end
+	if table.Size( data.funcs ) > 1 then
+		local funcs = {}
+		local count = 0
+		for oldId , oldFunc in pairs( data.funcs ) do
+			if oldId ~= id then
+				funcs[oldId] = oldFunc
+				count = count + 1
+			end
+		end
+		data.funcs = funcs
+	else SIEventBus.ClearNth( count ) end
+	return SIEventBus
+end
+
+function SIEventBus.ClearNth( count )
+	local data = SIEventBus.nth[count]
+	if data then SIEventBus.nth[count] = nil end
+	script.on_nth_tick( count )
 	return SIEventBus
 end
 

@@ -1,30 +1,10 @@
 -- ------------------------------------------------------------------------------------------------
--- ------ 创建物品和快捷键 ------------------------------------------------------------------------
--- ------------------------------------------------------------------------------------------------
-
-SIGen
-.NewItem( "oremap" , 1 )
-.AddFlags{ SIFlags.itemFlags.notStackable , SIFlags.itemFlags.hidden }
-.SetCustomData
-{
-	type = SITypes.item.selectionTool ,
-	show_in_library = false ,
-	selection_color = { 0.70 , 0.57 , 0.00 } ,
-	selection_mode = { "any-entity" } ,
-	selection_cursor_box_type = "copy" ,
-	alt_selection_color = { 1.00 , 0.82 , 0.00 } ,
-	alt_selection_mode = { "any-tile" } ,
-	alt_selection_cursor_box_type = "copy"
-}
-.NewInput( "oremap" , "SHIFT + O" )
-
--- ------------------------------------------------------------------------------------------------
 -- ---------- 创建界面 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
 local view =
 {
-	["sicfl-oremap-view"] =
+	["sicfl-view-settings-view"] =
 	{
 		type = "frame_style" ,
 		parent = "frame" ,
@@ -33,49 +13,11 @@ local view =
 		minimal_height = 100 ,
 		maximal_height = 700
 	} ,
-	["sicfl-oremap-list"] =
-	{
-		type = "table_style" ,
-		cell_spacing = 2 ,
-		horizontal_spacing = 1 ,
-		vertical_spacing = 1
-	} ,
-	["sicfl-oremap-list-icon"] =
-	{
-		type = "button_style" ,
-		parent = "button" ,
-		
-		top_padding = 0 ,
-		right_padding = 0 ,
-		bottom_padding = 0 ,
-		left_padding = 0 ,
-		
-		minimal_width = 32 ,
-		minimal_height = 32
-	} ,
-	["sicfl-oremap-label-icon"] =
-	{
-		type = "label_style" ,
-		width = 32 ,
-		horizontal_align = "center"
-	} ,
-	["sicfl-oremap-label-text"] =
+	["sicfl-view-settings-label-text"] =
 	{
 		type = "label_style" ,
 		width = 250 ,
 		horizontal_align = "left"
-	} ,
-	["sicfl-oremap-label-short"] =
-	{
-		type = "label_style" ,
-		minimal_width = 20 ,
-		horizontal_align = "right"
-	} ,
-	["sicfl-oremap-label-long"] =
-	{
-		type = "label_style" ,
-		width = 219 ,
-		horizontal_align = "center"
 	}
 }
 
@@ -114,8 +56,8 @@ local function ColorButton( location , dirt )
 	}
 end
 
-view["sicfl-oremap-button-gray"] = ColorButton( 0 , SIStyles.grayDirt )
-view["sicfl-oremap-button-green"] = ColorButton( 68 , SIStyles.greenDirt )
-view["sicfl-oremap-button-red"] = ColorButton( 136 , SIStyles.redDirt )
+view["sicfl-view-settings-button-gray"] = ColorButton( 0 , SIStyles.grayDirt )
+view["sicfl-view-settings-button-red"] = ColorButton( 68 , SIStyles.greenDirt )
+view["sicfl-view-settings-button-green"] = ColorButton( 136 , SIStyles.redDirt )
 
 for k , v in pairs( view ) do data.raw["gui-style"]["default"][k] = v end

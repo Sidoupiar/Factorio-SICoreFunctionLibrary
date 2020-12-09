@@ -29,18 +29,13 @@ function SITitlebar.OpenView( playerIndex , viewData )
 		local player = game.players[playerIndex]
 		local view = player.gui.top.add{ type = "frame" , name = "sicfl-titlebar-view" , direction = "horizontal" , style = "sicfl-titlebar-view" }
 		view.add{ type = "sprite-button" , name = "sicfl-view-settings-button" , sprite = "item/sicfl-item-titlebar" , tooltip = { "SICFL.view-settings-open" } , style = "sicfl-titlebar-open" }
-		local toolbar = view.add{ type = "flow" , name = "sicfl-toolbar-view" , direction = "horizontal" }
-		local viewEvolution = view.add{ type = "flow" , name = "sicfl-view-evolution-view" , direction = "vertical" }
-		local viewKillCount = view.add{ type = "flow" , name = "sicfl-view-kill-count-view" , direction = "vertical" }
-		local viewTime = view.add{ type = "flow" , name = "sicfl-view-time-view" , direction = "vertical" }
-		local viewGameSpeed = view.add{ type = "flow" , name = "sicfl-view-game-speed-view" , direction = "vertical" }
+		viewData.toolbar = view.add{ type = "flow" , name = "sicfl-toolbar-view" , direction = "horizontal" }
+		viewData.viewEvolution = view.add{ type = "flow" , name = "sicfl-view-evolution-view" , direction = "vertical" }
+		viewData.viewKillCount = view.add{ type = "flow" , name = "sicfl-view-kill-count-view" , direction = "vertical" }
+		viewData.viewTime = view.add{ type = "flow" , name = "sicfl-view-time-view" , direction = "vertical" }
+		viewData.viewGameSpeed = view.add{ type = "flow" , name = "sicfl-view-game-speed-view" , direction = "horizontal" }
 		
 		viewData.view = view
-		viewData.toolbar = toolbar
-		viewData.viewEvolution = viewEvolution
-		viewData.viewKillCount = viewKillCount
-		viewData.viewTime = viewTime
-		viewData.viewGameSpeed = viewGameSpeed
 	end
 end
 

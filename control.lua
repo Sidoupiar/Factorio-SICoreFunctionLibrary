@@ -17,7 +17,7 @@ local showPatreon = SIStartup.SICFL.show_patreon()
 -- ---------- 装载数据 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-needlist( "zaction/base" , "titlebar" )
+needlist( "zaction/base" , "titlebar" , "view_evolution" , "view_kill_count" , "view_time" , "view_game_speed" )
 needlist( "zaction/remote" , "toolbar" , "view_settings" )
 -- 测试工具
 if SIStartup.SICFL.debug_tools() then
