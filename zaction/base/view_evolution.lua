@@ -36,13 +36,13 @@ end
 -- ---------- 功能方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIViewEvolution.OpenViewByPlayerIndex( playerIndex , settings )
+function SIViewEvolution.OpenViewByPlayerIndex( playerIndex , currentSettings )
 	local viewData = SIViewEvolutionViews[playerIndex]
 	if not viewData then
 		viewData = table.deepcopy( SIViewEvolution.playerViewData )
 		SIViewEvolutionViews[playerIndex] = viewData
 	end
-	if settings[SIViewEvolution.show] and not viewData.view then SIViewEvolution.OpenView( playerIndex , viewData )
+	if currentSettings[SIViewEvolution.show] and not viewData.view then SIViewEvolution.OpenView( playerIndex , viewData )
 	else SIViewEvolution.CloseView( playerIndex , viewData ) end
 end
 

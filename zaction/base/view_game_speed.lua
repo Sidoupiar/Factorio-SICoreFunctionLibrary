@@ -33,12 +33,14 @@ function SIViewGameSpeed.OpenView( playerIndex , viewData )
 		viewData.main = view.add{ type = "button" , name = "sicfl-view-game-speed-main" , tooltip = { "SICFL.view-game-speed-description" } , style = "sicfl-view-game-speed-button" }
 		viewData.up1 = view.add{ type = "button" , name = "sicfl-view-game-speed-up1" , caption = { "SICFL.view-game-speed-up1" } , tooltip = { "SICFL.view-game-speed-up1-description" } , style = "sicfl-view-game-speed-button-small" }
 		viewData.up2 = view.add{ type = "button" , name = "sicfl-view-game-speed-up2" , caption = { "SICFL.view-game-speed-up2" } , tooltip = { "SICFL.view-game-speed-up2-description" } , style = "sicfl-view-game-speed-button-small" }
+		
+		SIViewGameSpeed.FreshViews( playerIndex , viewData )
 	end
 end
 
 function SIViewGameSpeed.CloseView( playerIndex , viewData )
 	if viewData then
-		for name , element in pairs( viewData ) then
+		for name , element in pairs( viewData ) do
 			if element then
 				element.destroy()
 				viewData[name] = nil
@@ -52,20 +54,20 @@ end
 -- ---------- 功能方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIViewGameSpeed.OpenViewByPlayerIndex( playerIndex , settings )
+function SIViewGameSpeed.OpenViewByPlayerIndex( playerIndex , currentSettings )
 	local viewData = SIViewGameSpeedViews[playerIndex]
 	if not viewData then
 		viewData = table.deepcopy( SIViewGameSpeed.playerViewData )
 		SIViewGameSpeedViews[playerIndex] = viewData
 	end
-	if settings[SIViewGameSpeed.show] and not viewData.view then SIViewGameSpeed.OpenView( playerIndex , viewData )
+	if currentSettings[SIViewGameSpeed.show] and not viewData.view then SIViewGameSpeed.OpenView( playerIndex , viewData )
 	else SIViewGameSpeed.CloseView( playerIndex , viewData ) end
 end
 
 function SIViewGameSpeed.FreshViews( playerIndex , viewData )
-	if viewData and viewData.view then
+	if viewData and viewData.main then
 		local speed = game.speed
-		viewData.main.caption = { "SICFL.view-game-speed" , speed }
+		viewData.main.caption = { "SICFL.view-game-speed" , game.speed }
 		if speed >= SIViewGameSpeed.maxSpeed then
 			viewData.up1.enabled = false
 			viewData.up2.enabled = false
@@ -87,12 +89,7 @@ end
 -- ---------- 公用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIViewGameSpeed.OnCycle( event )
-	for playerIndex , viewData in pairs( SIViewGameSpeedViews ) do SIViewGameSpeed.FreshViews( playerIndex , viewData ) end
-end
-
-
-function SITitlebar.OnClick( event )
+function SIViewGameSpeed.OnClick( event )
 	local element = event.element
 	if element.valid then
 		local name = element.name
@@ -142,5 +139,4 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 SIEventBus
-.AddNth( 60 , SIViewGameSpeed.OnCycle )
-.Add( SIEvents.on_gui_click , SITitlebar.OnClick )
+.Add( SIEvents.on_gui_click , SIViewGameSpeed.OnClick )

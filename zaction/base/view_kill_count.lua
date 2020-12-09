@@ -21,7 +21,7 @@ SIGlobal.Create( "SIViewKillCountViews" )
 function SIViewKillCount.OpenView( playerIndex , viewData )
 	if viewData and not viewData.view then
 		viewData.view = SITitlebarViews[playerIndex].viewKillCount.add{ type = "label" , style = "sicfl-view-kill-count-label-text" }
-		SIViewEvolution.FreshViews( playerIndex , viewData )
+		SIViewKillCount.FreshViews( playerIndex , viewData )
 	end
 end
 
@@ -36,13 +36,13 @@ end
 -- ---------- 功能方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIViewKillCount.OpenViewByPlayerIndex( playerIndex , settings )
+function SIViewKillCount.OpenViewByPlayerIndex( playerIndex , currentSettings )
 	local viewData = SIViewKillCountViews[playerIndex]
 	if not viewData then
 		viewData = table.deepcopy( SIViewKillCount.playerViewData )
 		SIViewKillCountViews[playerIndex] = viewData
 	end
-	if settings[SIViewKillCount.show] and not viewData.view then SIViewKillCount.OpenView( playerIndex , viewData )
+	if currentSettings[SIViewKillCount.show] and not viewData.view then SIViewKillCount.OpenView( playerIndex , viewData )
 	else SIViewKillCount.CloseView( playerIndex , viewData ) end
 end
 

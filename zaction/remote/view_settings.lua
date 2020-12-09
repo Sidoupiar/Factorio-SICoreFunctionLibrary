@@ -38,6 +38,7 @@ function SIViewSettings.OpenView( playerIndex , viewData )
 		local view = player.gui.center.add{ type = "frame" , name = "sicfl-view-settings-view" , caption = { "SICFL.view-settings-view-title" } , direction = "vertical" , style = "sicfl-view-settings-view" }
 		local flow = view.add{ type = "flow" , direction = "horizontal" }
 		flow.add{ type = "label" , caption = { "SICFL.view-settings-view-description" } , style = "sicfl-view-settings-label-text" }
+		flow.add{ type = "label" , caption = { "SICFL.view-settings-view-note" } , style = "sicfl-view-settings-label-text" }
 		
 		view.add{ type = "line" , direction = "horizontal" }
 		view.add{ type = "flow" , direction = "horizontal" }.add{ type = "button" , name = "sicfl-view-settings-default" , caption = { "SICFL.view-settings-default" } , style = "sicfl-view-settings-button-gray" }
@@ -143,3 +144,4 @@ end
 
 SIEventBus
 .Add( SIEvents.on_runtime_mod_setting_changed , SIViewSettings.OnChange )
+.Add( SIEvents.on_gui_click , SITitlebar.OnClick )

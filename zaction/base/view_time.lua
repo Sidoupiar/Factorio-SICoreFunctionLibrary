@@ -36,13 +36,13 @@ end
 -- ---------- 功能方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIViewTime.OpenViewByPlayerIndex( playerIndex , settings )
+function SIViewTime.OpenViewByPlayerIndex( playerIndex , currentSettings )
 	local viewData = SIViewTimeViews[playerIndex]
 	if not viewData then
 		viewData = table.deepcopy( SIViewTime.playerViewData )
 		SIViewTimeViews[playerIndex] = viewData
 	end
-	if settings[SIViewTime.show] and not viewData.view then SIViewTime.OpenView( playerIndex , viewData )
+	if currentSettings[SIViewTime.show] and not viewData.view then SIViewTime.OpenView( playerIndex , viewData )
 	else SIViewTime.CloseView( playerIndex , viewData ) end
 end
 

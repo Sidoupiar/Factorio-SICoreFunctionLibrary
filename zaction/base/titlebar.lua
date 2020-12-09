@@ -29,13 +29,20 @@ function SITitlebar.OpenView( playerIndex , viewData )
 		local player = game.players[playerIndex]
 		local view = player.gui.top.add{ type = "frame" , name = "sicfl-titlebar-view" , direction = "horizontal" , style = "sicfl-titlebar-view" }
 		view.add{ type = "sprite-button" , name = "sicfl-view-settings-button" , sprite = "item/sicfl-item-titlebar" , tooltip = { "SICFL.view-settings-open" } , style = "sicfl-titlebar-open" }
+		local flow = view.add{ type = "flow" , direction = "vertical" }
+		viewData.viewEvolution = flow.add{ type = "flow" , name = "sicfl-view-evolution-view" , direction = "vertical" }
+		viewData.viewKillCount = flow.add{ type = "flow" , name = "sicfl-view-kill-count-view" , direction = "vertical" }
+		viewData.viewTime = flow.add{ type = "flow" , name = "sicfl-view-time-view" , direction = "vertical" }
+		viewData.viewGameSpeed = flow.add{ type = "flow" , name = "sicfl-view-game-speed-view" , direction = "horizontal" }
 		viewData.toolbar = view.add{ type = "flow" , name = "sicfl-toolbar-view" , direction = "horizontal" }
-		viewData.viewEvolution = view.add{ type = "flow" , name = "sicfl-view-evolution-view" , direction = "vertical" }
-		viewData.viewKillCount = view.add{ type = "flow" , name = "sicfl-view-kill-count-view" , direction = "vertical" }
-		viewData.viewTime = view.add{ type = "flow" , name = "sicfl-view-time-view" , direction = "vertical" }
-		viewData.viewGameSpeed = view.add{ type = "flow" , name = "sicfl-view-game-speed-view" , direction = "horizontal" }
 		
 		viewData.view = view
+		
+		-- 读取当前默认设置
+		local currentSettings = {}
+		local settingData = player.mod_settings
+		for name , data in pairs( SIViewSettings.settings ) do currentSettings[name] = settingData[name].value end
+		SITitlebar.FreshViews( playerIndex , currentSettings )
 	end
 end
 
@@ -43,11 +50,11 @@ end
 -- ---------- 功能方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SITitlebar.FreshViews( playerIndex , settings )
-	SIViewEvolution.OpenViewByPlayerIndex( playerIndex , settings )
-	SIViewKillCount.OpenViewByPlayerIndex( playerIndex , settings )
-	SIViewTime.OpenViewByPlayerIndex( playerIndex , settings )
-	SIViewGameSpeed.OpenViewByPlayerIndex( playerIndex , settings )
+function SITitlebar.FreshViews( playerIndex , currentSettings )
+	SIViewEvolution.OpenViewByPlayerIndex( playerIndex , currentSettings )
+	SIViewKillCount.OpenViewByPlayerIndex( playerIndex , currentSettings )
+	SIViewTime.OpenViewByPlayerIndex( playerIndex , currentSettings )
+	SIViewGameSpeed.OpenViewByPlayerIndex( playerIndex , currentSettings )
 end
 
 -- ------------------------------------------------------------------------------------------------

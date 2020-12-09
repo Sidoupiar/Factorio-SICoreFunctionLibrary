@@ -57,7 +57,7 @@ local function ColorButton( location , dirt )
 end
 
 view["sicfl-view-settings-button-gray"] = ColorButton( 0 , SIStyles.grayDirt )
-view["sicfl-view-settings-button-red"] = ColorButton( 68 , SIStyles.greenDirt )
-view["sicfl-view-settings-button-green"] = ColorButton( 136 , SIStyles.redDirt )
+view["sicfl-view-settings-button-green"] = ColorButton( 68 , SIStyles.greenDirt )
+view["sicfl-view-settings-button-red"] = ColorButton( 136 , SIStyles.redDirt )
 
 for k , v in pairs( view ) do data.raw["gui-style"]["default"][k] = v end

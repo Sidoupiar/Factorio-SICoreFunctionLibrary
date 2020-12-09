@@ -39,19 +39,19 @@ local view =
 	["sicfl-view-evolution-label-text"] =
 	{
 		type = "label_style" ,
-		width = 250 ,
+		minimal_width = 250 ,
 		horizontal_align = "left"
 	} ,
 	["sicfl-view-kill-count-label-text"] =
 	{
 		type = "label_style" ,
-		width = 250 ,
+		minimal_width = 250 ,
 		horizontal_align = "left"
 	} ,
 	["sicfl-view-time-label-text"] =
 	{
 		type = "label_style" ,
-		width = 250 ,
+		minimal_width = 250 ,
 		horizontal_align = "left"
 	} ,
 	["sicfl-view-game-speed-button"] =
