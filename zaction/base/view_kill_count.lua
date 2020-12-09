@@ -42,14 +42,22 @@ function SIViewKillCount.OpenViewByPlayerIndex( playerIndex , currentSettings )
 		viewData = table.deepcopy( SIViewKillCount.playerViewData )
 		SIViewKillCountViews[playerIndex] = viewData
 	end
-	if currentSettings[SIViewKillCount.show] and not viewData.view then SIViewKillCount.OpenView( playerIndex , viewData )
+	if currentSettings[SIViewKillCount.show] then SIViewKillCount.OpenView( playerIndex , viewData )
 	else SIViewKillCount.CloseView( playerIndex , viewData ) end
 end
 
 function SIViewKillCount.FreshViews( playerIndex , viewData )
 	if viewData and viewData.view then
 		local statistics = game.players[playerIndex].force.kill_count_statistics
-		viewData.view.caption = { "SICFL.view-kill-count" , 1 , 1 , 1 }
+		local totalCount = 0
+		local bitCount = 0
+		local spawnerCount = 0
+		local turretCount = 0
+		for name , count in pairs( statistics.input_counts ) do totalCount = totalCount + count end
+		for name , data in pairs( game.get_filtered_entity_prototypes{ { filter = "type" , type = "unit" } } ) do bitCount = bitCount + statistics.get_input_count( name ) end
+		for name , data in pairs( game.get_filtered_entity_prototypes{ { filter = "type" , type = "unit-spawner" } } ) do spawnerCount = spawnerCount + statistics.get_input_count( name ) end
+		for name , data in pairs( game.get_filtered_entity_prototypes{ { filter = "type" , type = "turret" } } ) do turretCount = turretCount + statistics.get_input_count( name ) end
+		viewData.view.caption = { "SICFL.view-kill-count" , bitCount , spawnerCount , turretCount , totalCount-bitCount-spawnerCount-turretCount }
 	end
 end
 
@@ -65,4 +73,4 @@ end
 -- ---------- 方法注册 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-SIEventBus.AddNth( 60 , SIViewKillCount.OnCycle )
+SIEventBus.AddNth( 410 , SIViewKillCount.OnCycle )

@@ -108,11 +108,13 @@ end
 
 function SIToolbar.ShowViewByPlayerIndex( playerIndex , force )
 	local viewData = SIToolbarViews[playerIndex]
-	if viewData then
-		if force or #SIToolbarToolData > 0 then
-			if viewData.open then SIToolbar.OpenView( playerIndex , viewData )
-			else SIToolbar.CloseView( playerIndex , viewData ) end
-		end
+	if not viewData then
+		viewData = table.deepcopy( SIToolbar.playerViewData )
+		SIToolbarViews[playerIndex] = viewData
+	end
+	if force or #SIToolbarToolData > 0 then
+		if viewData.open then SIToolbar.OpenView( playerIndex , viewData )
+		else SIToolbar.CloseView( playerIndex , viewData ) end
 	end
 end
 
@@ -199,12 +201,6 @@ end
 -- ---------- 公用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIToolbar.OnInitPlayer( event )
-	local playerIndex = event.player_index
-	if not SIToolbarViews[playerIndex] then SIToolbarViews[playerIndex] = table.deepcopy( SIToolbar.playerViewData ) end
-	SIToolbar.ShowViewByPlayerIndex( playerIndex )
-end
-
 function SIToolbar.OnClick( event )
 	local element = event.element
 	if element.valid then
@@ -230,7 +226,6 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 SIEventBus
-.Add( SIEvents.on_player_joined_game , SIToolbar.OnInitPlayer )
 .Add( SIEvents.on_gui_click , SIToolbar.OnClick )
 
 remote.add_interface( SIToolbar.interfaceId ,

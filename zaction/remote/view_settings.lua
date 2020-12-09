@@ -38,6 +38,7 @@ function SIViewSettings.OpenView( playerIndex , viewData )
 		local view = player.gui.center.add{ type = "frame" , name = "sicfl-view-settings-view" , caption = { "SICFL.view-settings-view-title" } , direction = "vertical" , style = "sicfl-view-settings-view" }
 		local flow = view.add{ type = "flow" , direction = "horizontal" }
 		flow.add{ type = "label" , caption = { "SICFL.view-settings-view-description" } , style = "sicfl-view-settings-label-text" }
+		flow = view.add{ type = "flow" , direction = "horizontal" }
 		flow.add{ type = "label" , caption = { "SICFL.view-settings-view-note" } , style = "sicfl-view-settings-label-text" }
 		
 		view.add{ type = "line" , direction = "horizontal" }

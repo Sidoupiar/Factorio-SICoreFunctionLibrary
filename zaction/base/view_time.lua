@@ -42,7 +42,7 @@ function SIViewTime.OpenViewByPlayerIndex( playerIndex , currentSettings )
 		viewData = table.deepcopy( SIViewTime.playerViewData )
 		SIViewTimeViews[playerIndex] = viewData
 	end
-	if currentSettings[SIViewTime.show] and not viewData.view then SIViewTime.OpenView( playerIndex , viewData )
+	if currentSettings[SIViewTime.show] then SIViewTime.OpenView( playerIndex , viewData )
 	else SIViewTime.CloseView( playerIndex , viewData ) end
 end
 

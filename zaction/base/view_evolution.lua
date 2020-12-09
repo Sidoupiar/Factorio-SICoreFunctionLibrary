@@ -42,13 +42,13 @@ function SIViewEvolution.OpenViewByPlayerIndex( playerIndex , currentSettings )
 		viewData = table.deepcopy( SIViewEvolution.playerViewData )
 		SIViewEvolutionViews[playerIndex] = viewData
 	end
-	if currentSettings[SIViewEvolution.show] and not viewData.view then SIViewEvolution.OpenView( playerIndex , viewData )
+	if currentSettings[SIViewEvolution.show] then SIViewEvolution.OpenView( playerIndex , viewData )
 	else SIViewEvolution.CloseView( playerIndex , viewData ) end
 end
 
 function SIViewEvolution.FreshViews( playerIndex , viewData )
 	if viewData and viewData.view then
-		viewData.view.caption = { "SICFL.view-evolution" , string.format( "%.3f" , game.forces["enemy"].evolution_factor*100 ) }
+		viewData.view.caption = { "SICFL.view-evolution" , string.format( "%.4f" , game.forces["enemy"].evolution_factor*100 ) }
 	end
 end
 

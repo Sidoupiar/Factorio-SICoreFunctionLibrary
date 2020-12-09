@@ -38,6 +38,8 @@ function SITitlebar.OpenView( playerIndex , viewData )
 		
 		viewData.view = view
 		
+		-- 显示工具栏
+		SIToolbar.ShowViewByPlayerIndex( playerIndex )
 		-- 读取当前默认设置
 		local currentSettings = {}
 		local settingData = player.mod_settings

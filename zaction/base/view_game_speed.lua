@@ -60,7 +60,7 @@ function SIViewGameSpeed.OpenViewByPlayerIndex( playerIndex , currentSettings )
 		viewData = table.deepcopy( SIViewGameSpeed.playerViewData )
 		SIViewGameSpeedViews[playerIndex] = viewData
 	end
-	if currentSettings[SIViewGameSpeed.show] and not viewData.view then SIViewGameSpeed.OpenView( playerIndex , viewData )
+	if currentSettings[SIViewGameSpeed.show] then SIViewGameSpeed.OpenView( playerIndex , viewData )
 	else SIViewGameSpeed.CloseView( playerIndex , viewData ) end
 end
 

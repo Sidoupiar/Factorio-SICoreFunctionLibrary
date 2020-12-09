@@ -16,7 +16,8 @@ local view =
 	["sicfl-view-settings-label-text"] =
 	{
 		type = "label_style" ,
-		width = 250 ,
+		single_line = false ,
+		width = 400 ,
 		horizontal_align = "left"
 	}
 }
