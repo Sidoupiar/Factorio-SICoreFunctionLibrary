@@ -89,7 +89,12 @@ function load( constantsData )
 		for k , v in pairs( constants.settings ) do
 			local key = realname .. k:gsub( "_" , "-" )
 			if v[2] == "startup" then s[k] = function() return settings.startup[key].value end
-			elseif v[2] == "runtime-global" then r[k] = function() return settings.global[key].value end end
+			elseif v[2] == "runtime-global" then r[k] = function() return settings.global[key].value end
+			elseif v[2] == "runtime-per-user" then b[k] = function( playerOrIndex )
+					if type( playerOrIndex ) == "number" or not playerOrIndex.is_player then playerOrIndex = game.players[playerOrIndex] end
+					return playerOrIndex.mod_settings[key]
+				end
+			end
 		end
 		SIStartup[class] = s
 		SIRglobal[class] = r

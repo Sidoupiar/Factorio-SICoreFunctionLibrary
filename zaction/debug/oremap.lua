@@ -53,7 +53,6 @@ function SIOremap.OpenView( playerIndex )
 		flow.add{ type = "label" , caption = { "SICFL.oremap-view-description" } , style = "sicfl-oremap-label-text" }
 		
 		view.add{ type = "line" , direction = "horizontal" }
-		
 		flow = view.add{ type = "flow" , direction = "horizontal" }
 		flow.add{ type = "label" , caption = { "SICFL.oremap-view-settings" } , style = "sicfl-oremap-label-text" }
 		flow = view.add{ type = "flow" , direction = "horizontal" }
@@ -65,7 +64,6 @@ function SIOremap.OpenView( playerIndex )
 		settings.elements.count = flow.add{ type = "textfield" , text = tostring( settings.count ) , numeric = true , tooltip = { "SICFL.oremap-view-settings-tooltip-count" } , style = "long_number_textfield" }
 		
 		view.add{ type = "line" , direction = "horizontal" }
-		
 		flow = view.add{ type = "flow" , direction = "horizontal" }
 		flow.add{ type = "button" , name = "sicfl-oremap-clean" , caption = { "SICFL.oremap-view-clean" } , style = "sicfl-oremap-button-gray" }
 		flow.add{ type = "button" , name = "sicfl-oremap-fresh" , caption = { "SICFL.oremap-view-fresh" } , style = "sicfl-oremap-button-gray" }
@@ -75,7 +73,6 @@ function SIOremap.OpenView( playerIndex )
 		SIOremap.FreshList( settings )
 		
 		view.add{ type = "line" , direction = "horizontal" }
-		
 		flow = view.add{ type = "flow" , direction = "horizontal" }
 		flow.add{ type = "button" , name = "sicfl-oremap-close" , caption = { "SICFL.oremap-view-close" } , style = "sicfl-oremap-button-red" }
 		if settings.tiles then flow.add{ type = "button" , name = "sicfl-oremap-create" , caption = { "SICFL.oremap-view-create" } , style = "sicfl-oremap-button-green" } end

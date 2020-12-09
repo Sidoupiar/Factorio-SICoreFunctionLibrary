@@ -48,6 +48,13 @@ end
 -- ---------- 功能方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+function SITitlebar.FreshViews( playerIndex , settings )
+	SIViewEvolution.OpenViewByPlayerIndex( playerIndex , settings )
+	SIViewKillCount.OpenViewByPlayerIndex( playerIndex , settings )
+	SIViewTime.OpenViewByPlayerIndex( playerIndex , settings )
+	SIViewGameSpeed.OpenViewByPlayerIndex( playerIndex , settings )
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 公用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
@@ -66,9 +73,7 @@ function SITitlebar.OnClick( event )
 	local element = event.element
 	if element.valid then
 		local name = element.name
-		if name == "sicfl-view-settings-button" then
-			sip( "settings" )
-		end
+		if name == "sicfl-view-settings-button" then SIViewSettings.OpenViewByPlayerIndex( event.player_index ) end
 	end
 end
 
