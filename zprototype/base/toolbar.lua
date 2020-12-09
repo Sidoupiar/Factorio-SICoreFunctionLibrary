@@ -10,19 +10,6 @@ SIGen.NewItem( "toolbar" , 1000 ).AddFlags( SIFlags.itemFlags.hidden )
 
 local view =
 {
-	["sicfl-toolbar-view"] =
-	{
-		type = "frame_style" ,
-		parent = "frame" ,
-		
-		top_padding = 5 ,
-		right_padding = 5 ,
-		bottom_padding = 5 ,
-		left_padding = 5 ,
-		
-		minimal_width = 50 ,
-		minimal_height = 50
-	} ,
 	["sicfl-toolbar-list"] =
 	{
 		type = "table_style" ,

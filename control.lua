@@ -5,7 +5,6 @@ need( "function/load" )
 
 needlist( "runtime/structure" , "sievent_bus" , "siglobal" )
 needlist( "runtime/function" , "functions" )
-needlist( "runtime/remote" , "toolbar" , "wiki" )
 
 local constants = need( "constants" )
 local constantsData = need( "constants_data" )
@@ -19,6 +18,7 @@ local showPatreon = SIStartup.SICFL.show_patreon()
 -- ------------------------------------------------------------------------------------------------
 
 needlist( "zaction/base" , "titlebar" )
+needlist( "zaction/remote" , "toolbar" , "view_settings" )
 -- 测试工具
 if SIStartup.SICFL.debug_tools() then
 	needlist( "zaction/debug" , "delmap" , "oremap" )

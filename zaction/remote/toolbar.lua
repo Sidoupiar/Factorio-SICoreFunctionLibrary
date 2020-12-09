@@ -75,8 +75,7 @@ function SIToolbar.OpenView( playerIndex , viewData )
 		if not viewData.view or viewData.view.name ~= "sicfl-toolbar-view" then
 			if viewData.view then viewData.view.destroy() end
 			
-			local player = game.players[playerIndex]
-			local view = player.gui.top.add{ type = "frame" , name = "sicfl-toolbar-view" , direction = "horizontal" , style = "sicfl-toolbar-view" }
+			local view = SITitlebarViews[playerIndex].toolbar
 			view.add{ type = "sprite-button" , name = "sicfl-toolbar-button" , sprite = "item/sicfl-item-toolbar" , tooltip = { "SICFL.toolbar-close" } , style = "sicfl-toolbar-close" }
 			local list = view.add{ type = "scroll-pane" , horizontal_scroll_policy = "never" , vertical_scroll_policy = "never" }.add{ type = "table" , column_count = 10 , style = "sicfl-toolbar-list" }
 			
@@ -92,10 +91,9 @@ end
 function SIToolbar.CloseView( playerIndex , viewData )
 	if viewData then
 		if not viewData.view or viewData.view.valid and viewData.view.name ~= "sicfl-toolbar-button" then
-			if viewData.view then viewData.view.destroy() end
+			if viewData.view then viewData.view.clear() end
 			
-			local player = game.players[playerIndex]
-			local view = player.gui.top.add{ type = "sprite-button" , name = "sicfl-toolbar-button" , sprite = "item/sicfl-item-toolbar" , tooltip = { "SICFL.toolbar-open" } , style = "sicfl-toolbar-open" }
+			local view = SITitlebarViews[playerIndex].toolbar.add{ type = "sprite-button" , name = "sicfl-toolbar-button" , sprite = "item/sicfl-item-toolbar" , tooltip = { "SICFL.toolbar-open" } , style = "sicfl-toolbar-open" }
 			
 			viewData.open = false
 			viewData.view = view
@@ -121,7 +119,10 @@ end
 function SIToolbar.HideViewByPlayerIndex( playerIndex )
 	local viewData = SIToolbarViews[playerIndex]
 	if viewData then
-		if viewData.view then viewData.view.destroy() end
+		if viewData.view then
+			if viewData.view.name == "sicfl-toolbar-button" then viewData.view.destroy()
+			else viewData.view.clear() end
+		end
 		
 		viewData.view = nil
 		viewData.list = nil

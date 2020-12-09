@@ -20,7 +20,7 @@ SIGen
 .NewGroup( "others" )
 .NewSubGroup( "debug-things" )
 
-needlist( "zprototype/base" , "common" , "toolbar" , "wiki" )
+needlist( "zprototype/base" , "common" , "titlebar" , "toolbar" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 测试工具 ----------------------------------------------------------------------------
