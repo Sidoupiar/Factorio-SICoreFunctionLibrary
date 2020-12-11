@@ -12,6 +12,8 @@ SIOremap =
 	iconRegex = "sicfl%-oremap%-ore" ,
 	iconPosition = #"sicfl-oremap-ore-" + 1 ,
 	
+	maxCount = 4294967295 ,
+	
 	settingsDefaultData =
 	{
 		useSettingsAsDefault = false ,
@@ -132,7 +134,9 @@ end
 
 function SIOremap.SpawnOre( player , settings )
 	if settings.count < 1 then
-		player.print( { "SICFL.oremap-settings-empty" } , SIColors.printColor.orange )
+		local subMessage = ""
+		if settings.useSettingsAsDefault then subMessage = { "SICFL.oremap-settings-cannot-as-default" } end
+		player.print( { "SICFL.oremap-settings-empty" , subMessage } , SIColors.printColor.orange )
 		return false
 	end
 	local oreData = table.GetWithName( settings.oreData , settings.selectedOreName )
@@ -148,12 +152,24 @@ function SIOremap.SpawnOre( player , settings )
 			return false
 		end
 		count = math.floor( settings.count/tileCount )
+		if count > SIOremap.maxCount then
+			local subMessage = ""
+			if settings.useSettingsAsDefault then subMessage = { "SICFL.oremap-settings-cannot-as-default" } end
+			player.print( { "SICFL.oremap-settings-too-much" , SIOremap.maxCount , subMessage } , SIColors.printColor.orange )
+			return false
+		end
 		oreData.count = oreData.count - count * tileCount
 	else
 		count = settings.count
 		local totalCount = count * tileCount
 		if totalCount > oreData.count then
 			player.print( { "SICFL.oremap-settings-ore-not-enough" } , SIColors.printColor.orange )
+			return false
+		end
+		if count > SIOremap.maxCount then
+			local subMessage = ""
+			if settings.useSettingsAsDefault then subMessage = { "SICFL.oremap-settings-cannot-as-default" } end
+			player.print( { "SICFL.oremap-settings-too-much" , SIOremap.maxCount , subMessage } , SIColors.printColor.orange )
 			return false
 		end
 		oreData.count = oreData.count - totalCount
