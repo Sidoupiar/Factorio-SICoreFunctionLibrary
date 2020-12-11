@@ -21,7 +21,13 @@ local view =
 		left_padding = 5 ,
 		
 		minimal_width = 50 ,
-		minimal_height = 50
+		minimal_height = 50 ,
+		
+		graphical_set =
+		{
+			base = { position = { 162 , 932 } , corner_size = 8 } ,
+			shadow = default_shadow
+		}
 	} ,
 	["sicfl-titlebar-open"] =
 	{
