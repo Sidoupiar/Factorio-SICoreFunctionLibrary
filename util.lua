@@ -104,10 +104,13 @@ function load( constantsData )
 	_G[class] = constants
 	
 	constants.base = string.sub( constants.base , 1 , 2 ) == "__" and constants.base or "__SI" .. constants.base .. "__"
-	constants.cfl = "__SICoreFunctionLibrary__"
+	constants.core = "__SICoreFunctionLibrary__"
 	constants.class = class
-	constants.picturePath = constants.base .. "/zpic/"
 	constants.realname = realname
+	if constants.pictureSource then
+		constants.pictureSource = string.sub( constants.pictureSource , 1 , 2 ) == "__" and constants.pictureSource or "__SI" .. constants.pictureSource .. "__"
+		constants.picturePath = constants.pictureSource .. "/zpic/"
+	else constants.picturePath = constants.base .. "/zpic/" end
 	if not constants.orderCode then constants.orderCode = SIOrderCode end
 	constants.order_name = SIOrderCode .. "[" .. realname .. "]-"
 	if constants.BeforeLoad then constants.BeforeLoad() end
