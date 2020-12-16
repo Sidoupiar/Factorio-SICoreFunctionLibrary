@@ -3,6 +3,8 @@ SIMods =
 	list =
 	{
 		SIBasicTechnologies = "SI 基础技术[SI Basic Technologies]" ,
+		SIColorfulWorld = "SI 多彩世界[SI Colorful World]" ,
+		SISuddenInspiration = "SI 突发灵感[SI Sudden Inspiration]" ,
 		
 		SIModeRPG = "SI 角色扮演[SI RPG Mode]" ,
 		SIModeRTS = "SI 即时战略[SI RTS Mode]" ,
@@ -27,6 +29,7 @@ SIMods =
 		SISummitTechnology = "SI 巅峰科技[SI Summit Technology]" ,
 		
 		base = "基础游戏" ,
+		Krastorio2 = "k2" ,
 		SpaceExploration = "太空扩展"
 	}
 }
