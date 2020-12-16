@@ -3,9 +3,23 @@
 -- ------------------------------------------------------------------------------------------------
 
 local currentLayer = nil
+local hrVersion = nil
 SIPics =
 {
 }
+
+local function CreateHrVersion()
+	if not hrVersion then
+		hrVersion = {}
+		for name , value in pairs( currentLayer ) do
+			if name == "hr_version" then
+			elseif name == "width" or name == "height" then hrVersion[name] = currentLayer[name] * SINumbers.pictureHrScale
+			elseif name == "scale" then hrVersion[name] = currentLayer[name] * SINumbers.pictureHrScaleDown
+			else hrVersion[name] = currentLayer[name] end
+		end
+		currentLayer.hr_version = hrVersion
+	end
+end
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础方法 ----------------------------------------------------------------------------
@@ -21,28 +35,62 @@ function SIPics.NewLayer( file , width , height , scale , hasHr )
 	}
 	if scale ~= 1 then currentLayer.scale = scale end
 	if hasHr then
-		currentLayer.hr_version =
+		hrVersion =
 		{
 			filename = file .. "-hr.png" ,
 			width = width * SINumbers.pictureHrScale ,
 			height = height * SINumbers.pictureHrScale ,
 			scale = scale * SINumbers.pictureHrScaleDown
 		}
-	end
+		currentLayer.hr_version = hrVersion
+	else hrVersion = nil end
+	return SIPics
+end
+
+function SIPics.NewLayerWithFiles( files , width , height , linesPerFile , slice , scale , hasHr )
+	linesPerFile = linesPerFile or 1
+	slice = slice or linesPerFile
+	scale = scale or 1
+	local normalFiles = {}
+	for i , file in pairs( files ) do table.insert( normalFiles , file..".png" ) end
+	currentLayer =
+	{
+		filenames = normalFiles ,
+		width = width ,
+		height = height ,
+		lines_per_file = linesPerFile ,
+		slice = slice
+	}
+	if scale ~= 1 then currentLayer.scale = scale end
+	if hasHr then
+		local hrFiles = {}
+		for i , file in pairs( files ) do table.insert( hrFiles , file.."-hr.png" ) end
+		hrVersion =
+		{
+			filenames = hrFiles ,
+			width = width * SINumbers.pictureHrScale ,
+			height = height * SINumbers.pictureHrScale ,
+			scale = scale * SINumbers.pictureHrScaleDown ,
+			lines_per_file = linesPerFile ,
+			slice = slice
+		}
+		currentLayer.hr_version = hrVersion
+	else hrVersion = nil end
 	return SIPics
 end
 
 function SIPics.LoadLayer( layer , file , width , height , scale )
 	currentLayer = table.deepcopy( layer )
+	hrVersion = currentLayer.hr_version
 	if file then currentLayer.filename = file .. ".png" end
 	if width then currentLayer.width = width end
 	if height then currentLayer.height = height end
 	if scale and scale ~= 1 then currentLayer.scale = scale end
-	if currentLayer.hr_version then
-		if file then currentLayer.hr_version.filename = file .. "-hr.png" end
-		if width then currentLayer.hr_version.width = width * SINumbers.pictureHrScale end
-		if height then currentLayer.hr_version.height = height * SINumbers.pictureHrScale end
-		if scale then currentLayer.hr_version.scale = scale * SINumbers.pictureHrScaleDown end
+	if hrVersion then
+		if file then hrVersion.filename = file .. "-hr.png" end
+		if width then hrVersion.width = width * SINumbers.pictureHrScale end
+		if height then hrVersion.height = height * SINumbers.pictureHrScale end
+		if scale then hrVersion.scale = scale * SINumbers.pictureHrScaleDown end
 	end
 	return SIPics
 end
@@ -65,48 +113,77 @@ end
 
 function SIPics.File( file )
 	currentLayer.filename = file .. ".png"
-	if currentLayer.hr_version then currentLayer.hr_version.filename = file .. "-hr.png" end
+	if currentLayer.filenames then
+		currentLayer.filenames = nil
+		currentLayer.lines_per_file = nil
+		currentLayer.slice = nil
+	end
+	return SIPics
+end
+
+function SIPics.Files( files , linesPerFile , slice )
+	linesPerFile = linesPerFile or 1
+	slice = slice or linesPerFile
+	local normalFiles = {}
+	for i , file in pairs( files ) do table.insert( normalFiles , file..".png" ) end
+	currentLayer.filenames = normalFiles
+	currentLayer.lines_per_file = linesPerFile
+	currentLayer.slice = slice
+	if currentLayer.filename then currentLayer.filename = nil end
+	return SIPics
+end
+
+function SIPics.HrFile( file )
+	CreateHrVersion()
+	hrVersion.filename = file .. "-hr.png"
+	if hrVersion.filenames then
+		hrVersion.filenames = nil
+		hrVersion.lines_per_file = nil
+		hrVersion.slice = nil
+	end
+	return SIPics
+end
+
+function SIPics.HrFiles( files , linesPerFile , slice )
+	CreateHrVersion()
+	linesPerFile = linesPerFile or 1
+	slice = slice or linesPerFile
+	local hrFiles = {}
+	for i , file in pairs( files ) do table.insert( hrFiles , file.."-hr.png" ) end
+	hrVersion.filenames = hrFiles
+	hrVersion.lines_per_file = linesPerFile
+	hrVersion.slice = slice
+	if hrVersion.filename then hrVersion.filename = nil end
 	return SIPics
 end
 
 function SIPics.Size( width , height )
 	if width then
 		currentLayer.width = width
-		if currentLayer.hr_version then currentLayer.hr_version.width = width * SINumbers.pictureHrScale end
+		if hrVersion then hrVersion.width = width * SINumbers.pictureHrScale end
 	end
 	if height then
 		currentLayer.height = height
-		if currentLayer.hr_version then currentLayer.hr_version.height = height * SINumbers.pictureHrScale end
+		if hrVersion then hrVersion.height = height * SINumbers.pictureHrScale end
 	end
 	return SIPics
 end
 
 function SIPics.Scale( scale )
 	currentLayer.scale = scale
-	if currentLayer.hr_version then currentLayer.hr_version.scale = scale * SINumbers.pictureHrScaleDown end
-	return SIPics
-end
-
-function SIPics.AddHr()
-	currentLayer.hr_version =
-	{
-		filename = currentLayer.filename:substring( 0 , -4 ) .. "-hr.png" ,
-		width = currentLayer.width * SINumbers.pictureHrScale ,
-		height = currentLayer.height * SINumbers.pictureHrScale ,
-		scale = ( currentLayer.scale or 1 ) * SINumbers.pictureHrScaleDown
-	}
+	if hrVersion then hrVersion.scale = scale * SINumbers.pictureHrScaleDown end
 	return SIPics
 end
 
 function SIPics.Priority( priority )
 	currentLayer.priority = priority
-	if currentLayer.hr_version then currentLayer.hr_version.priority = priority end
+	if hrVersion then hrVersion.priority = priority end
 	return SIPics
 end
 
 function SIPics.BlendMode( blendMode )
 	currentLayer.blend_mode = blendMode
-	if currentLayer.hr_version then currentLayer.hr_version.blend_mode = blendMode end
+	if hrVersion then hrVersion.blend_mode = blendMode end
 	return SIPics
 end
 
@@ -115,7 +192,7 @@ function SIPics.Shift( shiftX , shiftY )
 	shiftY = shiftY or 0
 	if shiftX or shiftY then
 		currentLayer.shift = util.by_pixel( shiftX , shiftY )
-		if currentLayer.hr_version then currentLayer.hr_version.shift = currentLayer.shift end
+		if hrVersion then hrVersion.shift = currentLayer.shift end
 	end
 	return SIPics
 end
@@ -124,14 +201,26 @@ function SIPics.ShiftMerge( shiftX , shiftY )
 	local shift = currentLayer.shift or { 0 , 0 }
 	local newShift = util.by_pixel( shiftX , shiftY )
 	currentLayer.shift = { shift[1]+newShift[1] , shift[2]+newShift[2] }
-	if currentLayer.hr_version then currentLayer.hr_version.shift = currentLayer.shift end
+	if hrVersion then hrVersion.shift = currentLayer.shift end
+	return SIPics
+end
+
+function SIPics.LinesPerFile( linesPerFile , slice )
+	linesPerFile = linesPerFile or 1
+	slice = slice or linesPerFile
+	currentLayer.lines_per_file = linesPerFile
+	currentLayer.slice = slice
+	if hrVersion then
+		hrVersion.lines_per_file = linesPerFile
+		hrVersion.slice = slice
+	end
 	return SIPics
 end
 
 function SIPics.Frame( frameCount )
 	frameCount = frameCount or 1
 	currentLayer.frame_count = frameCount
-	if currentLayer.hr_version then currentLayer.hr_version.frame_count = frameCount end
+	if hrVersion then hrVersion.frame_count = frameCount end
 	return SIPics
 end
 
@@ -142,11 +231,11 @@ function SIPics.Anim( lineLength , frameCount , animSpeed , directionCount )
 	currentLayer.frame_count = frameCount
 	if animSpeed then currentLayer.animation_speed = animSpeed end
 	if directionCount then currentLayer.direction_count = directionCount end
-	if currentLayer.hr_version then
-		currentLayer.hr_version.line_length = lineLength
-		currentLayer.hr_version.frame_count = frameCount
-		if animSpeed then currentLayer.hr_version.animation_speed = animSpeed end
-		if directionCount then currentLayer.hr_version.direction_count = directionCount end
+	if hrVersion then
+		hrVersion.line_length = lineLength
+		hrVersion.frame_count = frameCount
+		if animSpeed then hrVersion.animation_speed = animSpeed end
+		if directionCount then hrVersion.direction_count = directionCount end
 	end
 	return SIPics
 end
@@ -154,14 +243,14 @@ end
 function SIPics.Variation( variationCount )
 	variationCount = variationCount or 1
 	currentLayer.variation_count = variationCount
-	if currentLayer.hr_version then currentLayer.hr_version.variation_count = variationCount end
+	if hrVersion then hrVersion.variation_count = variationCount end
 	return SIPics
 end
 
 function SIPics.Y( y )
 	y = y or 0
 	currentLayer.y = y
-	if currentLayer.hr_version then currentLayer.hr_version.y = y end
+	if hrVersion then hrVersion.y = y end
 	return SIPics
 end
 
@@ -170,10 +259,10 @@ function SIPics.Repeat( frameCount )
 	currentLayer.repeat_count = frameCount
 	currentLayer.frame_count = 1
 	if not currentLayer.line_length then currentLayer.line_length = 1 end
-	if currentLayer.hr_version then
-		currentLayer.hr_version.repeat_count = frameCount
-		currentLayer.hr_version.frame_count = 1
-		if not currentLayer.hr_version.line_length then currentLayer.hr_version.line_length = 1 end
+	if hrVersion then
+		hrVersion.repeat_count = frameCount
+		hrVersion.frame_count = 1
+		if not hrVersion.line_length then hrVersion.line_length = 1 end
 	end
 	return SIPics
 end
@@ -182,20 +271,20 @@ function SIPics.Tint( red , green , blue , alpha )
 	local color = SIPackers.Color( red , green , blue , alpha )
 	if color then
 		currentLayer.tint = color
-		if currentLayer.hr_version then currentLayer.hr_version.tint = color end
+		if hrVersion then hrVersion.tint = color end
 	end
 	return SIPics
 end
 
 function SIPics.Shadow()
 	currentLayer.draw_as_shadow = true
-	if currentLayer.hr_version then currentLayer.hr_version.draw_as_shadow = true end
+	if hrVersion then hrVersion.draw_as_shadow = true end
 	return SIPics
 end
 
 function SIPics.Axially( axially )
 	currentLayer.axially_symmetrical = axially
-	if currentLayer.hr_version then currentLayer.hr_version.axially_symmetrical = axially end
+	if hrVersion then hrVersion.axially_symmetrical = axially end
 	return SIPics
 end
 
@@ -220,8 +309,8 @@ function SIPics.Patch( file , width , height , hasHr , addenWidth , addenHeight 
 	currentLayer.frame_count = 1
 	currentLayer.direction_count = 1
 	if hasHr then
-		currentLayer.hr_version.frame_count = 1
-		currentLayer.hr_version.direction_count = 1
+		hrVersion.frame_count = 1
+		hrVersion.direction_count = 1
 	end
 	if location then SIPics.ShiftMerge( location[1] , location[2] ) end
 	return SIPics
