@@ -159,6 +159,8 @@ SIGen.Module = need( "sigen_item_module" )
 SIGen.Tool = need( "sigen_item_tool" )
 SIGen.Entity = need( "sigen_entity" )
 SIGen.HealthEntity = need( "sigen_entity_health" )
+SIGen.Unit = need( "sigen_entity_health_unit" )
+SIGen.Spawner = need( "sigen_entity_health_spawner" )
 SIGen.Boiler = need( "sigen_entity_health_boiler" )
 SIGen.Generator = need( "sigen_entity_health_generator" )
 SIGen.BurnerGenerator = need( "sigen_entity_health_burner_generator" )
@@ -502,6 +504,22 @@ function SIGen.NewHealthEntity( type , name , healthEntity )
 	FinishData()
 	if not CheckData() then return SIGen end
 	currentData = SIGen.HealthEntity:New( type , name , healthEntity )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewUnit( name , unit )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.Unit:New( name , unit )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewSpawner( name , spawner )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.Spawner:New( name , spawner )
 	InitEntity()
 	return SIGen
 end
