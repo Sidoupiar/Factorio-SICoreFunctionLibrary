@@ -20,6 +20,7 @@ SIGen.NewTypeModule( "sicfl-module-balance" )
 
 for level = 1 , 3 , 1 do
 	SIGen.NewModule( "module-balance-mk"..level , 100 )
+	.AddFlags{ SIFlags.itemFlags.hidden }
 	.SetLevel( level )
 	.SetCustomData
 	{
