@@ -27,9 +27,9 @@ needlist( "zprototype/base" , "common" , "titlebar" , "toolbar" , "view_settings
 -- ------------------------------------------------------------------------------------------------
 
 if SIStartup.SICFL.debug_tools() then
+	SICFL.canGetDebugTools = SIStartup.SICFL.can_get_debug_tools()
 	SIGen.NewSubGroup( "debug-tools" )
-	--needlist( "zprototype/debug" , "delmap" , "oremap" , "reqmap" )
-	needlist( "zprototype/debug" , "delmap" , "oremap" )
+	needlist( "zprototype/debug" , "common" , "delmap" , "oremap" ) -- "reqmap"
 	SIGen.NewSubGroup( "debug-modules" )
 	needlist( "zprototype/debug" , "modules" )
 	SIGen.NewSubGroup( "debug-machines" )

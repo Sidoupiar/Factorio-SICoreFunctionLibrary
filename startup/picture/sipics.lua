@@ -254,15 +254,17 @@ function SIPics.Y( y )
 	return SIPics
 end
 
-function SIPics.Repeat( frameCount )
+function SIPics.Repeat( frameCount , animSpeed )
 	frameCount = frameCount or 1
 	currentLayer.repeat_count = frameCount
 	currentLayer.frame_count = 1
 	if not currentLayer.line_length then currentLayer.line_length = 1 end
+	if animSpeed then currentLayer.animation_speed = animSpeed end
 	if hrVersion then
 		hrVersion.repeat_count = frameCount
 		hrVersion.frame_count = 1
 		if not hrVersion.line_length then hrVersion.line_length = 1 end
+		if animSpeed then hrVersion.animation_speed = animSpeed end
 	end
 	return SIPics
 end
@@ -273,6 +275,12 @@ function SIPics.Tint( red , green , blue , alpha )
 		currentLayer.tint = color
 		if hrVersion then hrVersion.tint = color end
 	end
+	return SIPics
+end
+
+function SIPics.Light()
+	currentLayer.draw_as_light = true
+	if hrVersion then hrVersion.draw_as_light = true end
 	return SIPics
 end
 

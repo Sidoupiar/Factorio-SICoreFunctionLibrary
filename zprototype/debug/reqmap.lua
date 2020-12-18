@@ -2,8 +2,7 @@
 -- ------ 创建物品和快捷键 ------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-SIGen
-.NewItem( "reqmap" , 1 )
+local mapItem = SIGen.NewItem( "reqmap" , 1 )
 .AddFlags{ SIFlags.itemFlags.notStackable , SIFlags.itemFlags.hidden }
 .SetCustomData
 {
@@ -16,7 +15,16 @@ SIGen
 	alt_selection_mode = { "any-entity" } ,
 	alt_selection_cursor_box_type = "copy"
 }
-.NewInput( "reqmap" , "SHIFT + P" )
+.GetCurrentEntityName()
+
+if SICFL.canGetDebugTools then
+	SIGen.NewTechnology( mapItem )
+	.SetLevel( 1 , "infinite" )
+	.SetCosts( SICFL.debugPack , 1000 )
+	.AddResults( SITypes.modifier.giveItem , mapItem )
+end
+
+SIGen.NewInput( "reqmap" , "SHIFT + P" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 创建界面 ----------------------------------------------------------------------------

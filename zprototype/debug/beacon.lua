@@ -24,7 +24,7 @@ local function CreateAnimation( path )
 	}
 end
 
-SIGen.NewBeacon( "beacon" )
+local beaconItem = SIGen.NewBeacon( "beacon" )
 .AddFlags{ SIFlags.entityFlags.hidden }
 .SetProperties( 3 , 3 , 250 , 0 , "1GW" , SIPackers.EnergySource() )
 .SetEffectRadius( 64 )
@@ -35,3 +35,11 @@ SIGen.NewBeacon( "beacon" )
 .SetPic( "animation" , CreateAnimation( SIGen.GetLayerFile() ) )
 .SetCustomData( customData )
 .AddSuperArmor()
+.GetCurrentEntityItemName()
+
+if SICFL.canGetDebugTools then
+	SIGen.NewTechnology( beaconItem )
+	.SetLevel( 1 , "infinite" )
+	.SetCosts( SICFL.debugPack , 50000 )
+	.AddResults( SITypes.modifier.giveItem , beaconItem )
+end

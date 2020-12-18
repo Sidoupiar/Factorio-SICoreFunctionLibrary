@@ -19,7 +19,7 @@ SIGen.NewTypeModule( "sicfl-module-balance" )
 -- ------------------------------------------------------------------------------------------------
 
 for level = 1 , 3 , 1 do
-	SIGen.NewModule( "module-balance-mk"..level , 100 )
+	local moduleItem = SIGen.NewModule( "module-balance-mk"..level , 100 )
 	.AddFlags{ SIFlags.itemFlags.hidden }
 	.SetLevel( level )
 	.SetCustomData
@@ -27,4 +27,12 @@ for level = 1 , 3 , 1 do
 		category = "sicfl-module-balance" ,
 		effect = Balance( level )
 	}
+	.GetCurrentEntityName()
+	
+	if SICFL.canGetDebugTools then
+		SIGen.NewTechnology( moduleItem )
+		.SetLevel( 1 , "infinite" )
+		.SetCosts( SICFL.debugPack , math.pow( level , 3 )*2000 )
+		.AddResults( SITypes.modifier.giveItem , moduleItem )
+	end
 end

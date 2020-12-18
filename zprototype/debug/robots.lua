@@ -50,7 +50,7 @@ for i , v in pairs( sparkList ) do table.insert( sparks , SIPics.NewLayer( "__ba
 -- --------- 创建机器人 ---------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-SIGen.NewRobotConstruction( "robot-construction" )
+local constructionItem = SIGen.NewRobotConstruction( "robot-construction" )
 .E.SetItemStackSize( 10000 )
 .AddFlags{ SIFlags.entityFlags.hidden }
 .SetProperties( 0 , 0 , 250 , 0.46 , "1J" , { "0J" , "0J" } , 1 )
@@ -72,8 +72,9 @@ SIGen.NewRobotConstruction( "robot-construction" )
 	working_sound = SISounds.Working( SISounds.BaseSoundList( "construction-robot" , 9 , 0.7 ) , nil , 5 , 1 , 1/600 )
 }
 .AddSuperArmor()
+.GetCurrentEntityItemName()
 
-SIGen.NewRobotLogistic( "robot-logistic" )
+local logisticItem = SIGen.NewRobotLogistic( "robot-logistic" )
 .E.SetItemStackSize( 10000 )
 .AddFlags{ SIFlags.entityFlags.hidden }
 .SetProperties( 0 , 0 , 100 , 0.46 , "1J" , { "0J" , "0J" } , 10 )
@@ -90,3 +91,16 @@ SIGen.NewRobotLogistic( "robot-logistic" )
 .SetCustomData( customData )
 .SetCustomData{ working_sound = SISounds.Working( SISounds.BaseSoundList( "flying-robot" , 5 , 0.5 ) ) }
 .AddSuperArmor()
+.GetCurrentEntityItemName()
+
+if SICFL.canGetDebugTools then
+	SIGen.NewTechnology( constructionItem )
+	.SetLevel( 1 , "infinite" )
+	.SetCosts( SICFL.debugPack , 2000 )
+	.AddResults( SITypes.modifier.giveItem , constructionItem )
+	
+	SIGen.NewTechnology( logisticItem )
+	.SetLevel( 1 , "infinite" )
+	.SetCosts( SICFL.debugPack , 2000 )
+	.AddResults( SITypes.modifier.giveItem , logisticItem )
+end

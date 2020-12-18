@@ -28,7 +28,7 @@ local customData =
 -- ------------------------------------------------------------------------------------------------
 
 local function Create( name , radius )
-	SIGen.NewRoboport( name )
+	local roboportItem = SIGen.NewRoboport( name )
 	.E.SetShadowSize( 19 , -27 )
 	.E.SetShadowShift( 38 , 5.75 )
 	.E.SetWaterLocation( 0 , 75 )
@@ -46,6 +46,14 @@ local function Create( name , radius )
 	.SetPic( "recharging_animation" , SIPics.NewLayer( SIGen.GetLayerFile().."-recharging" , 37 , 35 , 1.5 ).Priority( "high" ).Anim( 16 , 16 , 0.5 ).Get() )
 	.SetCustomData( customData )
 	.AddSuperArmor()
+	.GetCurrentEntityItemName()
+	
+	if SICFL.canGetDebugTools then
+		SIGen.NewTechnology( roboportItem )
+		.SetLevel( 1 , "infinite" )
+		.SetCosts( SICFL.debugPack , math.pow( radius/32 , 2 )*20 )
+		.AddResults( SITypes.modifier.giveItem , roboportItem )
+	end
 end
 
 Create( "roboport-broad" , 128 )

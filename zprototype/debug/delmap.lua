@@ -2,7 +2,7 @@
 -- ---------- 创建物品 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-SIGen.NewItem( "delmap" , 1 )
+local mapItem = SIGen.NewItem( "delmap" , 1 )
 .AddFlags{ SIFlags.itemFlags.notStackable , SIFlags.itemFlags.hidden }
 .SetCustomData
 {
@@ -15,3 +15,11 @@ SIGen.NewItem( "delmap" , 1 )
 	alt_selection_mode = { "any-tile" } ,
 	alt_selection_cursor_box_type = "copy"
 }
+.GetCurrentEntityName()
+
+if SICFL.canGetDebugTools then
+	SIGen.NewTechnology( mapItem )
+	.SetLevel( 1 , "infinite" )
+	.SetCosts( SICFL.debugPack , 40000 )
+	.AddResults( SITypes.modifier.giveItem , mapItem )
+end

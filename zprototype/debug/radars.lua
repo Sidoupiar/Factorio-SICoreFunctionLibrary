@@ -13,7 +13,7 @@ local customData =
 -- ------------------------------------------------------------------------------------------------
 
 local function Create( name , nearRadius , farRadius , nearEnergy , farEnergy )
-	SIGen.NewRadar( name )
+	local radarItem = SIGen.NewRadar( name )
 	.E.SetAddenSize( 2 , 32 )
 	.E.SetShadowSize( 76 , -2 )
 	.E.SetAddenShift( 2 , 0 )
@@ -26,6 +26,14 @@ local function Create( name , nearRadius , farRadius , nearEnergy , farEnergy )
 	.SetCorpse( "radar-remnants" , "radar-explosion" )
 	.SetCustomData( customData )
 	.AddSuperArmor()
+	.GetCurrentEntityItemName()
+	
+	if SICFL.canGetDebugTools then
+		SIGen.NewTechnology( radarItem )
+		.SetLevel( 1 , "infinite" )
+		.SetCosts( SICFL.debugPack , math.pow( nearRadius , 2 )*10 )
+		.AddResults( SITypes.modifier.giveItem , radarItem )
+	end
 end
 
 Create( "radar-strategic" , 24 , 0 , "20MJ" , "1TJ" )
