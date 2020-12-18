@@ -30,7 +30,7 @@ for level = 1 , 3 , 1 do
 	.GetCurrentEntityName()
 	
 	if SICFL.canGetDebugTools then
-		SIGen.NewTechnology( moduleItem )
+		SIGen.NewTechnology( moduleItem.."-1" )
 		.SetLevel( 1 , "infinite" )
 		.SetCosts( SICFL.debugPack , math.pow( level , 3 )*2000 )
 		.AddResults( SITypes.modifier.giveItem , moduleItem )

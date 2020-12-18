@@ -38,7 +38,7 @@ local beaconItem = SIGen.NewBeacon( "beacon" )
 .GetCurrentEntityItemName()
 
 if SICFL.canGetDebugTools then
-	SIGen.NewTechnology( beaconItem )
+	SIGen.NewTechnology( beaconItem.."-1" )
 	.SetLevel( 1 , "infinite" )
 	.SetCosts( SICFL.debugPack , 50000 )
 	.AddResults( SITypes.modifier.giveItem , beaconItem )

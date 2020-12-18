@@ -112,7 +112,7 @@ function load( constantsData )
 		constants.picturePath = constants.pictureSource .. "/zpic/"
 	else constants.picturePath = constants.base .. "/zpic/" end
 	if not constants.orderCode then constants.orderCode = SIOrderCode end
-	constants.order_name = SIOrderCode .. "[" .. realname .. "]-"
+	constants.orderName = ( SIOrderCode == 0 and "0000" or SIOrderCode ) .. "[" .. realname .. "o]-"
 	if constants.BeforeLoad then constants.BeforeLoad() end
 	
 	SIConstantsDic[constants.base] = class

@@ -10,6 +10,7 @@ local currentData = nil
 local currentGroup_order = 1
 local currentSubGroup_order = 0
 local currentData_order = 0
+local currentTechnologyData_order = 1
 
 local savedGroupData =
 {
@@ -78,8 +79,13 @@ local function InitEntity()
 	currentData:Init()
 	:DefaultFlags()
 	:SetGroup( currentSubGroup )
-	:SetOrder( currentData_order )
-	currentData_order = currentData_order + 1
+	if currentData:GetType() == SITypes.technology then
+		currentData:SetOrder( currentTechnologyData_order )
+		currentTechnologyData_order = currentTechnologyData_order + 1
+	else
+		currentData:SetOrder( currentData_order )
+		currentData_order = currentData_order + 1
+	end
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -304,10 +310,13 @@ function SIGen.Order( orderCode )
 	if type( orderCode ) == "number" then
 		local o = ""
 		while( orderCode > 0 ) do
-			o = o .. SIOrderList[math.fmod( math.floor( orderCode ) , SIOrderListSize )+1]
+			local code = math.fmod( math.floor( orderCode ) , SIOrderListSize )
+			if code == 0 then code = SIOrderListSize end
+			o = SIOrderList[code] .. o
 			orderCode = math.floor( orderCode/SIOrderListSize )
 		end
 		for i = 1 , 3-o:len() , 1 do o = "-" .. o end
+		if currentConstantsData then o = currentConstantsData.orderName .. o end
 		return o
 	else return orderCode end
 end
@@ -346,7 +355,7 @@ function SIGen.NewGroup( name , group )
 		currentSubGroup_order = groupData.subGroup_order
 	else
 		currentGroup = SIGen.Group:New( name , group )
-		:SetOrder( currentConstantsData.orderCode..currentGroup_order )
+		:SetOrder( currentConstantsData.orderName..currentGroup_order )
 		:Fill()
 		:Extend()
 		:Finish()

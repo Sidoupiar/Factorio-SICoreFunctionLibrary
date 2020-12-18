@@ -49,7 +49,7 @@ local function Create( name , radius )
 	.GetCurrentEntityItemName()
 	
 	if SICFL.canGetDebugTools then
-		SIGen.NewTechnology( roboportItem )
+		SIGen.NewTechnology( roboportItem.."-1" )
 		.SetLevel( 1 , "infinite" )
 		.SetCosts( SICFL.debugPack , math.pow( radius/32 , 2 )*20 )
 		.AddResults( SITypes.modifier.giveItem , roboportItem )

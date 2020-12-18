@@ -18,7 +18,7 @@ local mapItem = SIGen.NewItem( "reqmap" , 1 )
 .GetCurrentEntityName()
 
 if SICFL.canGetDebugTools then
-	SIGen.NewTechnology( mapItem )
+	SIGen.NewTechnology( mapItem.."-1" )
 	.SetLevel( 1 , "infinite" )
 	.SetCosts( SICFL.debugPack , 1000 )
 	.AddResults( SITypes.modifier.giveItem , mapItem )

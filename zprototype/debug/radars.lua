@@ -29,7 +29,7 @@ local function Create( name , nearRadius , farRadius , nearEnergy , farEnergy )
 	.GetCurrentEntityItemName()
 	
 	if SICFL.canGetDebugTools then
-		SIGen.NewTechnology( radarItem )
+		SIGen.NewTechnology( radarItem.."-1" )
 		.SetLevel( 1 , "infinite" )
 		.SetCosts( SICFL.debugPack , math.pow( nearRadius , 2 )*10 )
 		.AddResults( SITypes.modifier.giveItem , radarItem )

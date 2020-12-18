@@ -18,7 +18,7 @@ local mapItem = SIGen.NewItem( "oremap" , 1 )
 .GetCurrentEntityName()
 
 if SICFL.canGetDebugTools then
-	SIGen.NewTechnology( mapItem )
+	SIGen.NewTechnology( mapItem.."-1" )
 	.SetLevel( 1 , "infinite" )
 	.SetCosts( SICFL.debugPack , 20000 )
 	.AddResults( SITypes.modifier.giveItem , mapItem )

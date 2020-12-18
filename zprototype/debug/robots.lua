@@ -94,12 +94,12 @@ local logisticItem = SIGen.NewRobotLogistic( "robot-logistic" )
 .GetCurrentEntityItemName()
 
 if SICFL.canGetDebugTools then
-	SIGen.NewTechnology( constructionItem )
+	SIGen.NewTechnology( constructionItem.."-1" )
 	.SetLevel( 1 , "infinite" )
 	.SetCosts( SICFL.debugPack , 2000 )
 	.AddResults( SITypes.modifier.giveItem , constructionItem )
 	
-	SIGen.NewTechnology( logisticItem )
+	SIGen.NewTechnology( logisticItem.."-1" )
 	.SetLevel( 1 , "infinite" )
 	.SetCosts( SICFL.debugPack , 2000 )
 	.AddResults( SITypes.modifier.giveItem , logisticItem )
