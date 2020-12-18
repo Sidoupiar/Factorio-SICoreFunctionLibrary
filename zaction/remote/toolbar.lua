@@ -11,12 +11,15 @@
 --   tooltips = tooltips ,
 --   interfaceName = interfaceName ,
 --   functionName = functionName ,
---   order = order
+--   order = order ,
+--   removed = true/false
 -- }
 SIToolbar =
 {
 	interfaceId = "sicfl-toolbar" ,
 	waitFunctionId = "sicfl-toolbar" ,
+	
+	emptyItemName = "sicfl-item-icon-empty" ,
 	
 	order = 1 ,
 	addToolData = {} ,
@@ -170,7 +173,8 @@ function SIToolbar.FreshViews()
 		end
 		-- 处理物品按钮
 		for i , toolData in pairs( SIToolbarToolData ) do
-			if not game.item_prototypes[toolData.iconItemName] then toolData.iconItemName = "sicfl-item-icon-empty" end
+			if not game.item_prototypes[toolData.iconItemName] then toolData.removed = true
+			else toolData.removed = false end
 		end
 		-- 控制显示隐藏主按钮
 		local count = #SIToolbarToolData
@@ -192,7 +196,15 @@ function SIToolbar.FreshList( list , playerIndex )
 			if toolData.iconItemName == "sicfl-item-oremap" then
 				local inventory = player.get_main_inventory()
 				if inventory and inventory.get_item_count( "sicfl-item-oremap" ) > 0 then list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..toolData.iconItemName , tooltip = toolData.tooltips , style = "sicfl-toolbar-icon" } end
-			else list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..toolData.iconItemName , tooltip = toolData.tooltips , style = "sicfl-toolbar-icon" } end
+			else
+				local itemName = toolData.iconItemName
+				local tooltips = toolData.tooltips
+				if toolData.removed then
+					itemName = SIToolbar.emptyItemName
+					tooltips = { "SICFL.toolbar-tool-empty" }
+				end
+				list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..itemName , tooltip = tooltips , style = "sicfl-toolbar-icon" }
+			end
 		end
 	end
 end
@@ -214,7 +226,11 @@ function SIToolbar.OnClick( event )
 		end
 		for i , toolData in pairs( SIToolbarToolData ) do
 			if name == toolData.buttonName then
-				if toolData.interfaceName and toolData.functionName then remote.call( toolData.interfaceName , toolData.functionName , event.player_index , name , toolData.id , toolData.order ) end
+				if toolData.interfaceName and toolData.functionName then
+					local playerIndex = event.player_index
+					if remote.interfaces[toolData.interfaceName] then remote.call( toolData.interfaceName , toolData.functionName , playerIndex , name , toolData.id , toolData.order )
+					else alert( playerIndex , { "SICFL.toolbar-tool-removed" } ) end
+				end
 				return
 			end
 		end
