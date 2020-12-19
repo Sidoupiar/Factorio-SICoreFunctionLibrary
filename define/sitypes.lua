@@ -66,6 +66,7 @@ SITypes =
 	beam          = "beam" ,
 	decorative    = "optimized-decorative" ,
 	input         = "custom-input" ,
+	ambientSound  = "ambient-sound" ,
 	entity =
 	{
 		fire            = "fire" ,

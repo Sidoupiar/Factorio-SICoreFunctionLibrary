@@ -202,12 +202,12 @@ end
 -- ---------- 获取数据 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIGen.GetData( type , name )
-	return data.raw[type][name]
+function SIGen.GetList( type )
+	return data.raw[type] or {}
 end
 
-function SIGen.GetList( type )
-	return data.raw[type]
+function SIGen.GetData( type , name )
+	return SIGen.GetList( type )[name]
 end
 
 function SIGen.CopyData( type , name )
@@ -458,7 +458,31 @@ function SIGen.NewInput( name , key )
 		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
 		return SIGen
 	end
-	SIGen.Extend{ { type = SITypes.input , name = currentConstantsData.realname..name , key_sequence = key } }
+	SIGen.Extend{ { type = SITypes.input , name = currentConstantsData.autoName and currentConstantsData.realname..name or name , key_sequence = key } }
+	return SIGen
+end
+
+function SIGen.NewAmbientSound( name , trackType , soundOrFile , volume )
+	if not currentConstantsData then
+		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	trackType = trackType or SIFlags.trackType.mainTrack
+	local sound = {}
+	if soundOrFile then
+		if type( soundOrFile ) == "table" then sound = soundOrFile
+		else sound.filename = soundOrFile end
+	else sound.filename = currentConstantsData.soundPath .. name .. ".ogg" end
+	if volume then sound.volume = volume end
+	SIGen.Extend
+	{
+		{
+			type = SITypes.ambientSound ,
+			name = currentConstantsData.autoName and currentConstantsData.realname..name or name ,
+			track_type = trackType ,
+			sound = sound
+		}
+	}
 	return SIGen
 end
 

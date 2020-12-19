@@ -6,7 +6,7 @@ SIViewGameSpeed =
 {
 	show = "sicfl-show-game-speed" ,
 	
-	maxSpeed = 100 ,
+	maxSpeed = 1000 ,
 	minSpeed = 0.01 ,
 	
 	playerViewData =

@@ -111,6 +111,10 @@ function load( constantsData )
 		constants.pictureSource = string.sub( constants.pictureSource , 1 , 2 ) == "__" and constants.pictureSource or "__SI" .. constants.pictureSource .. "__"
 		constants.picturePath = constants.pictureSource .. "/zpic/"
 	else constants.picturePath = constants.base .. "/zpic/" end
+	if constants.soundSource then
+		constants.soundSource = string.sub( constants.soundSource , 1 , 2 ) == "__" and constants.soundSource or "__SI" .. constants.soundSource .. "__"
+		constants.soundPath = constants.soundSource .. "/zsound/"
+	else constants.soundPath = constants.base .. "/zsound/" end
 	if not constants.orderCode then constants.orderCode = SIOrderCode end
 	constants.orderName = ( SIOrderCode == 0 and "0000" or SIOrderCode ) .. "[" .. realname .. "o]-"
 	if constants.BeforeLoad then constants.BeforeLoad() end

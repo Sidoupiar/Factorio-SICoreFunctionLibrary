@@ -43,6 +43,13 @@ SIFlags =
 		resource = "resource" ,
 		unit = "unit"
 	} ,
+	trackType =
+	{
+		earlyGame = "early-game" ,
+		menuTrack = "menu-track" ,
+		mainTrack = "main-track" ,
+		interlude = "interlude"
+	} ,
 	condition =
 	{
 		And = "and" ,
