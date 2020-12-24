@@ -18,7 +18,7 @@ local showPatreon = SIStartup.SICFL.show_patreon()
 -- ------------------------------------------------------------------------------------------------
 
 needlist( "zaction/base" , "titlebar" , "view_evolution" , "view_kill_count" , "view_time" , "view_game_speed" )
-needlist( "zaction/remote" , "toolbar" , "view_settings" )
+needlist( "zaction/remote" , "toolbar" , "view_finder" , "view_settings" )
 -- 测试工具
 if SIStartup.SICFL.debug_tools() then
 	needlist( "zaction/debug" , "delmap" , "oremap" )

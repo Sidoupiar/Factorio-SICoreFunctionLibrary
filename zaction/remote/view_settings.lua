@@ -36,16 +36,15 @@ function SIViewSettings.OpenView( playerIndex , viewData )
 	if viewData and not viewData.view then
 		local player = game.players[playerIndex]
 		local view = player.gui.center.add{ type = "frame" , name = "sicfl-view-settings-view" , caption = { "SICFL.view-settings-view-title" } , direction = "vertical" , style = "sicfl-view-settings-view" }
-		local flow = view.add{ type = "flow" , direction = "horizontal" }
-		flow.add{ type = "label" , caption = { "SICFL.view-settings-view-description" } , style = "sicfl-view-settings-label-text" }
-		flow = view.add{ type = "flow" , direction = "horizontal" }
-		flow.add{ type = "label" , caption = { "SICFL.view-settings-view-note" } , style = "sicfl-view-settings-label-text" }
+		view.add{ type = "label" , caption = { "SICFL.view-settings-view-description" } , style = "sicfl-view-settings-label-text" }
+		view.add{ type = "label" , caption = { "SICFL.view-settings-view-note" } , style = "sicfl-view-settings-label-text" }
 		
 		view.add{ type = "line" , direction = "horizontal" }
-		view.add{ type = "flow" , direction = "horizontal" }.add{ type = "button" , name = "sicfl-view-settings-default" , caption = { "SICFL.view-settings-default" } , style = "sicfl-view-settings-button-gray" }
+		view.add{ type = "flow" , direction = "horizontal" }.add{ type = "button" , name = "sicfl-view-settings-default" , caption = { "SICFL.view-settings-default" } , style = "sicfl-view-button-gray" }
 		
 		view.add{ type = "line" , direction = "horizontal" }
 		local settingData = player.mod_settings
+		local flow = nil
 		for name , data in pairs( SIViewSettings.settings ) do
 			local value = settingData[name].value
 			flow = view.add{ type = "flow" , direction = "horizontal" }
@@ -55,8 +54,8 @@ function SIViewSettings.OpenView( playerIndex , viewData )
 		
 		view.add{ type = "line" , direction = "horizontal" }
 		flow = view.add{ type = "flow" , direction = "horizontal" }
-		flow.add{ type = "button" , name = "sicfl-view-settings-cancel" , caption = { "SICFL.view-settings-cancel" } , style = "sicfl-view-settings-button-red" }
-		flow.add{ type = "button" , name = "sicfl-view-settings-confirm" , caption = { "SICFL.view-settings-confirm" } , style = "sicfl-view-settings-button-green" }
+		flow.add{ type = "button" , name = "sicfl-view-settings-cancel" , caption = { "SICFL.view-settings-cancel" } , style = "sicfl-view-button-red" }
+		flow.add{ type = "button" , name = "sicfl-view-settings-confirm" , caption = { "SICFL.view-settings-confirm" } , style = "sicfl-view-button-green" }
 		
 		viewData.view = view
 	end
@@ -114,14 +113,19 @@ function SIViewSettings.OnChange( event )
 		if table.Has( SIViewSettings.settingNames , name ) then
 			local playerIndex = event.player_index
 			local viewData = SIViewSettingsViews[playerIndex]
-			viewData.currentSettings[name] = settings.get_player_settings( playerIndex )[name].value
+			if not viewData then
+				viewData = table.deepcopy( SIViewSettings.playerViewData )
+				SIViewSettingsViews[playerIndex] = viewData
+			end
+			local settings = settings.get_player_settings( playerIndex )
+			for index , settingName in pairs( SIViewSettings.settingNames ) do viewData.currentSettings[settingName] = settings[settingName].value end
 			
 			SITitlebar.FreshViews( playerIndex , viewData.currentSettings )
 		end
 	end
 end
 
-function SITitlebar.OnClick( event )
+function SIViewSettings.OnClick( event )
 	local element = event.element
 	if element.valid then
 		local name = element.name
@@ -145,4 +149,4 @@ end
 
 SIEventBus
 .Add( SIEvents.on_runtime_mod_setting_changed , SIViewSettings.OnChange )
-.Add( SIEvents.on_gui_click , SITitlebar.OnClick )
+.Add( SIEvents.on_gui_click , SIViewSettings.OnClick )

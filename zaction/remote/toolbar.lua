@@ -131,6 +131,8 @@ function SIToolbar.HideViewByPlayerIndex( playerIndex )
 		
 		viewData.view = nil
 		viewData.list = nil
+		
+		SITitlebarViews[playerIndex].toolbar.clear()
 	end
 end
 

@@ -16,6 +16,7 @@ SIMods =
 		SIEXQuickStart = "SI EX 快速开始[SI EX Quick Start]" ,
 		
 		SISPRepairSelf = "SI SP 修理自己[SI SP Repair Self]" ,
+		SISPOneStackChallenge = "SI SP 单堆叠挑战[SI SP One Stack Challenge]" ,
 		
 		SIAgriculture = "SI 农业[SI Agriculture]" ,
 		SIAnimalHusbandry = "SI 牧业[SI Animal Husbandry]" ,

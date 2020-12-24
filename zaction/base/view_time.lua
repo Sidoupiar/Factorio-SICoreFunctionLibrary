@@ -29,6 +29,8 @@ function SIViewTime.CloseView( playerIndex , viewData )
 	if viewData and viewData.view then
 		viewData.view.destroy()
 		viewData.view = nil
+		
+		SITitlebarViews[playerIndex].viewTime.clear()
 	end
 end
 
@@ -44,6 +46,11 @@ function SIViewTime.OpenViewByPlayerIndex( playerIndex , currentSettings )
 	end
 	if currentSettings[SIViewTime.show] then SIViewTime.OpenView( playerIndex , viewData )
 	else SIViewTime.CloseView( playerIndex , viewData ) end
+end
+
+function SIViewTime.CloseViewByPlayerIndex( playerIndex )
+	local viewData = SIViewTimeViews[playerIndex]
+	SIViewTime.CloseView( playerIndex , viewData )
 end
 
 function SIViewTime.FreshViews( playerIndex , viewData )

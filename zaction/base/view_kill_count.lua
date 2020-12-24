@@ -29,6 +29,8 @@ function SIViewKillCount.CloseView( playerIndex , viewData )
 	if viewData and viewData.view then
 		viewData.view.destroy()
 		viewData.view = nil
+		
+		SITitlebarViews[playerIndex].viewKillCount.clear()
 	end
 end
 
@@ -44,6 +46,11 @@ function SIViewKillCount.OpenViewByPlayerIndex( playerIndex , currentSettings )
 	end
 	if currentSettings[SIViewKillCount.show] then SIViewKillCount.OpenView( playerIndex , viewData )
 	else SIViewKillCount.CloseView( playerIndex , viewData ) end
+end
+
+function SIViewKillCount.CloseViewByPlayerIndex( playerIndex )
+	local viewData = SIViewKillCountViews[playerIndex]
+	SIViewKillCount.CloseView( playerIndex , viewData )
 end
 
 function SIViewKillCount.FreshViews( playerIndex , viewData )

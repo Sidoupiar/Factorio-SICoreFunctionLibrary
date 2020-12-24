@@ -6,6 +6,7 @@ local currentConstantsData = nil
 local currentGroup = nil
 local currentSubGroup = nil
 local currentData = nil
+local currentEntityName = nil
 
 local currentGroup_order = 1
 local currentSubGroup_order = 0
@@ -73,6 +74,7 @@ local function FinishData()
 		SIGen.Inserter.InsertData( currentData )
 		currentData:Extend():Finish()
 	end
+	currentEntityName = nil
 end
 
 local function InitEntity()
@@ -259,6 +261,7 @@ function SIGen.GetCurrentEntityBaseName()
 end
 
 function SIGen.GetCurrentEntityName()
+	if currentEntityName then return currentEntityName end
 	if not currentData then
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetCurrentEntityName 方法" )
 		return nil
@@ -463,10 +466,12 @@ function SIGen.NewInput( name , key )
 end
 
 function SIGen.NewAmbientSound( name , trackType , soundOrFile , volume )
+	FinishData()
 	if not currentConstantsData then
 		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
 		return SIGen
 	end
+	currentEntityName = currentConstantsData.autoName and currentConstantsData.realname..name or name
 	trackType = trackType or SIFlags.trackType.mainTrack
 	local sound = {}
 	if soundOrFile then
@@ -478,9 +483,30 @@ function SIGen.NewAmbientSound( name , trackType , soundOrFile , volume )
 	{
 		{
 			type = SITypes.ambientSound ,
-			name = currentConstantsData.autoName and currentConstantsData.realname..name or name ,
+			name = currentEntityName ,
 			track_type = trackType ,
 			sound = sound
+		}
+	}
+	return SIGen
+end
+
+function SIGen.NewFont( name , size , border , border_color , from )
+	FinishData()
+	if not currentConstantsData then
+		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	currentEntityName = currentConstantsData.autoName and currentConstantsData.realname..name or name
+	SIGen.Extend
+	{
+		{
+			type = SITypes.font ,
+			name = currentEntityName ,
+			size = size or 14 ,
+			border = border or false ,
+			border_color = border and ( border_color or {} ) or nil ,
+			from = from or "default"
 		}
 	}
 	return SIGen

@@ -67,17 +67,17 @@ function SIOremap.OpenView( playerIndex )
 		
 		view.add{ type = "line" , direction = "horizontal" }
 		flow = view.add{ type = "flow" , direction = "horizontal" }
-		flow.add{ type = "button" , name = "sicfl-oremap-clean" , caption = { "SICFL.oremap-view-clean" } , style = "sicfl-oremap-button-gray" }
-		flow.add{ type = "button" , name = "sicfl-oremap-fresh" , caption = { "SICFL.oremap-view-fresh" } , style = "sicfl-oremap-button-gray" }
-		flow.add{ type = "button" , name = "sicfl-oremap-sort-count" , caption = { "SICFL.oremap-view-sort-count" } , style = "sicfl-oremap-button-green" }
-		flow.add{ type = "button" , name = "sicfl-oremap-sort-name" , caption = { "SICFL.oremap-view-sort-name" } , style = "sicfl-oremap-button-green" }
+		flow.add{ type = "button" , name = "sicfl-oremap-clean" , caption = { "SICFL.oremap-view-clean" } , style = "sicfl-view-button-gray" }
+		flow.add{ type = "button" , name = "sicfl-oremap-fresh" , caption = { "SICFL.oremap-view-fresh" } , style = "sicfl-view-button-gray" }
+		flow.add{ type = "button" , name = "sicfl-oremap-sort-count" , caption = { "SICFL.oremap-view-sort-count" } , style = "sicfl-view-button-green" }
+		flow.add{ type = "button" , name = "sicfl-oremap-sort-name" , caption = { "SICFL.oremap-view-sort-name" } , style = "sicfl-view-button-green" }
 		settings.elements.list = view.add{ type = "scroll-pane" , horizontal_scroll_policy = "never" , vertical_scroll_policy = "auto-and-reserve-space" }.add{ type = "table" , column_count = 3 , style = "sicfl-oremap-list" }
 		SIOremap.FreshList( settings )
 		
 		view.add{ type = "line" , direction = "horizontal" }
 		flow = view.add{ type = "flow" , direction = "horizontal" }
-		flow.add{ type = "button" , name = "sicfl-oremap-close" , caption = { "SICFL.oremap-view-close" } , style = "sicfl-oremap-button-red" }
-		if settings.tiles then flow.add{ type = "button" , name = "sicfl-oremap-create" , caption = { "SICFL.oremap-view-create" } , style = "sicfl-oremap-button-green" } end
+		flow.add{ type = "button" , name = "sicfl-oremap-close" , caption = { "SICFL.oremap-view-close" } , style = "sicfl-view-button-red" }
+		if settings.tiles then flow.add{ type = "button" , name = "sicfl-oremap-create" , caption = { "SICFL.oremap-view-create" } , style = "sicfl-view-button-green" } end
 		
 		settings.view = view
 	end

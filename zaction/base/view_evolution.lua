@@ -29,6 +29,8 @@ function SIViewEvolution.CloseView( playerIndex , viewData )
 	if viewData and viewData.view then
 		viewData.view.destroy()
 		viewData.view = nil
+		
+		SITitlebarViews[playerIndex].viewEvolution.clear()
 	end
 end
 
@@ -44,6 +46,11 @@ function SIViewEvolution.OpenViewByPlayerIndex( playerIndex , currentSettings )
 	end
 	if currentSettings[SIViewEvolution.show] then SIViewEvolution.OpenView( playerIndex , viewData )
 	else SIViewEvolution.CloseView( playerIndex , viewData ) end
+end
+
+function SIViewEvolution.CloseViewByPlayerIndex( playerIndex )
+	local viewData = SIViewEvolutionViews[playerIndex]
+	SIViewEvolution.CloseView( playerIndex , viewData )
 end
 
 function SIViewEvolution.FreshViews( playerIndex , viewData )
