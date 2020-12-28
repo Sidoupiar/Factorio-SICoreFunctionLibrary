@@ -20,4 +20,4 @@ for index , playerIndex in pairs( players ) do
 	SITitlebar.OnInitPlayer( event )
 end
 
-SIOremap.HideViews()
+if SIOremap then SIOremap.HideViews() end

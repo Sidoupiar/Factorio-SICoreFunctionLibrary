@@ -6,6 +6,7 @@ SINumbers =
 	iconSizeGroup = 64 ,
 	iconSizeTechnology = 128 ,
 	mipMaps = 4 ,
+	iconPictureScale = 0.25 ,
 	
 	pictureHrScale = 2 ,
 	pictureHrScaleDown = 0.5 ,

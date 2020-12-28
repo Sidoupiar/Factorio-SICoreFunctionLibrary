@@ -16,10 +16,10 @@ local function CreateAnimation( path )
 	{
 		layers =
 		{
-			SIPics.NewLayer( path.."-bottom" , 106 , 96 ).Priority( "low" ).Repeat( 45 ).Get() ,
-			SIPics.NewLayer( path.."-shadow" , 122 , 90 ).Priority( "low" ).Shift( 12 , 0 ).Repeat( 45 ).Shadow().Get() ,
-			SIPics.NewLayer( path.."-top" , 48 , 70 ).Priority( "high" ).Shift( 3 , -20 ).Repeat( 45 ).Get() ,
-			SIPics.NewLayer( path.."-light" , 56 , 94 ).Priority( "extra-high" ).BlendMode( "additive" ).Shift( 1 , -19 ).Anim( 9 , 45 , 0.5 ).Get()
+			SIPics.NewLayer( path.."-bottom" , 106 , 96 ).Priority( SIPics.priority.low ).Repeat( 45 ).Get() ,
+			SIPics.NewLayer( path.."-shadow" , 122 , 90 ).Priority( SIPics.priority.low ).Shift( 12 , 0 ).Repeat( 45 ).Shadow().Get() ,
+			SIPics.NewLayer( path.."-top" , 48 , 70 ).Priority( SIPics.priority.high ).Shift( 3 , -20 ).Repeat( 45 ).Get() ,
+			SIPics.NewLayer( path.."-light" , 56 , 94 ).Priority( SIPics.priority.extraHigh ).BlendMode( SIPics.blendMode.additive ).Shift( 1 , -19 ).Anim( 9 , 45 , 0.5 ).Get()
 		}
 	}
 end

@@ -1,8 +1,40 @@
 local entity = SIGen.Base:Copy( "item" )
 entity:AddDefaultValue( "defaultType" , SITypes.item.item )
 :AddDefaultValue( "resultType" , SIGen.resultType.entity )
+:AddDefaultValue( "pictureCount" , 0 )
+:AddDefaultValue( "pictureHasLight" , false )
+:AddDefaultValue( "pictureLightTint" , nil )
 
 
+
+function entity:SetPictureData( count , hasLight , lightTint )
+	self.pictureCount = count
+	self.pictureHasLight = hasLight
+	return self
+end
+
+function entity:SetPictureCount( count )
+	self.pictureCount = count
+	return self
+end
+
+function entity:SetPictureHasLight( hasLight , lightTint )
+	self.pictureHasLight = hasLight
+	self.pictureLightTint = lightTint or SIColors.tintColor.default
+	return self
+end
+
+function entity:GetPictureCount()
+	return self.pictureCount
+end
+
+function entity:GetPictureHasLight()
+	return self.pictureHasLight
+end
+
+function entity:GetPictureLightTint()
+	return self.pictureLightTint
+end
 
 function entity:GetStackSize()
 	return self:GetParam( "stack_size" )
@@ -127,6 +159,32 @@ function entity:Fill( currentEntity )
 	:Default( "icon_size" , SINumbers.iconSize )
 	:Default( "icon_mipmaps" , SINumbers.mipMaps )
 	:Default( "stack_size" , 100 )
+	
+	local pictures = currentEntity:GetParam( "pictures" )
+	local pictureCount = currentEntity:GetPictureCount()
+	if not pictures and pictureCount > 0 then
+		local hasLight = currentEntity:GetPictureHasLight()
+		local lightTint = currentEntity:GetPictureLightTint()
+		
+		pictures = {}
+		local icon = currentEntity:GetParam( "icon" )
+		if icon then
+			icon = icon:sub( 1 , -5 )
+			local layers = {}
+			table.insert( layers , SIPics.NewLayer( icon , nil , nil , SINumbers.iconPictureScale ).Mipmap().Get() )
+			if hasLight then table.insert( layers , SIPics.NewLayer( icon , nil , nil , SINumbers.iconPictureScale ).BlendMode( SIPics.blendMode.additive ).Mipmap().Tint( lightTint ).Light().Get() ) end
+			table.insert( pictures , { layers = layers } )
+		end
+		local path = SIGen.GetCurrentConstantsData().picturePath
+		for index = 1 , pictureCount-1 , 1 do
+			local layers = {}
+			icon = path .. "item/" .. self:GetBaseName() .. "-" .. index
+			table.insert( layers , SIPics.NewLayer( icon , nil , nil , SINumbers.iconPictureScale ).Mipmap().Get() )
+			if hasLight then table.insert( layers , SIPics.NewLayer( icon , nil , nil , SINumbers.iconPictureScale ).BlendMode( SIPics.blendMode.additive ).Mipmap().Tint( lightTint ).Light().Get() ) end
+			table.insert( pictures , { layers = layers } )
+		end
+		currentEntity:SetParam( "pictures" , pictures )
+	end
 	return self
 end
 

@@ -166,6 +166,7 @@ SIGen.Item = need( "sigen_item" )
 SIGen.Module = need( "sigen_item_module" )
 SIGen.Tool = need( "sigen_item_tool" )
 SIGen.Entity = need( "sigen_entity" )
+SIGen.Resource = need( "sigen_entity_resource" )
 SIGen.HealthEntity = need( "sigen_entity_health" )
 SIGen.Unit = need( "sigen_entity_health_unit" )
 SIGen.Spawner = need( "sigen_entity_health_spawner" )
@@ -555,6 +556,14 @@ function SIGen.NewEntity( type , name , entity )
 	FinishData()
 	if not CheckData() then return SIGen end
 	currentData = SIGen.Entity:New( type , name , entity )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewResource( type , name , resource )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentData = SIGen.Resource:New( type , name , resource )
 	InitEntity()
 	return SIGen
 end
@@ -1110,9 +1119,32 @@ function SIGen.SetPic( key , layer )
 	return SIGen
 end
 
+function SIGen.SetSound( key , sound )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:SetSound( key , sound )
+	return SIGen
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 快速填充 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
+
+function SIGen.E.SetPictureData( count , hasLight , lightTint )
+	if currentData.SetPictureData then currentData:SetPictureData( count , hasLight , lightTint ) end
+	return SIGen
+end
+
+function SIGen.E.SetPictureCount( count )
+	if currentData.SetPictureCount then currentData:SetPictureCount( count ) end
+	return SIGen
+end
+
+function SIGen.E.SetPictureHasLight( hasLight , lightTint )
+	if currentData.SetPictureHasLight then currentData:SetPictureHasLight( hasLight , lightTint ) end
+	return SIGen
+end
+
+
 
 function SIGen.E.SetAddenSize( addenWidth , addenHeight )
 	if currentData.SetAddenSize then currentData:SetAddenSize( addenWidth , addenHeight ) end

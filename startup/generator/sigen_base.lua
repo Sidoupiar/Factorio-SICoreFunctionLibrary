@@ -300,6 +300,11 @@ function entity:SetPic( key , layer )
 	else return self end
 end
 
+function entity:SetSound( key , sound )
+	if key and sound then return self:SetParam( key , sound )
+	else return self end
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- -------- 操作属性方法 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------

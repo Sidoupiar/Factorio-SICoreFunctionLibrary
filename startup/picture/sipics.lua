@@ -6,6 +6,24 @@ local currentLayer = nil
 local hrVersion = nil
 SIPics =
 {
+	priority =
+	{
+		noAtlas          = "no-atlas" ,
+		veryLow          = "very-low" ,
+		low              = "low" ,
+		medium           = "medium" ,
+		high             = "high" ,
+		extraHigh        = "extra-high" ,
+		extraHighNoScale = "extra-high-no-scale"
+	} ,
+	blendMode =
+	{
+		normal           = "normal" ,
+		additive         = "additive" ,
+		additiveSoft     = "additive-soft" ,
+		multiplicative   = "multiplicative" ,
+		overwrite        = "overwrite"
+	}
 }
 
 local function CreateHrVersion()
@@ -38,8 +56,8 @@ function SIPics.NewLayer( file , width , height , scale , hasHr )
 		hrVersion =
 		{
 			filename = file .. "-hr.png" ,
-			width = width * SINumbers.pictureHrScale ,
-			height = height * SINumbers.pictureHrScale ,
+			width = width and width * SINumbers.pictureHrScale or nil ,
+			height = height and height * SINumbers.pictureHrScale or nil ,
 			scale = scale * SINumbers.pictureHrScaleDown
 		}
 		currentLayer.hr_version = hrVersion
@@ -254,6 +272,18 @@ function SIPics.Y( y )
 	return SIPics
 end
 
+function SIPics.Mipmap( size , count )
+	size = size or SINumbers.iconSize
+	count = count or SINumbers.mipMaps
+	currentLayer.size = size
+	currentLayer.mipmap_count = count
+	if hrVersion then
+		hrVersion.size = size
+		hrVersion.mipmap_count = count
+	end
+	return SIPics
+end
+
 function SIPics.Repeat( frameCount , animSpeed )
 	frameCount = frameCount or 1
 	currentLayer.repeat_count = frameCount
@@ -270,7 +300,7 @@ function SIPics.Repeat( frameCount , animSpeed )
 end
 
 function SIPics.Tint( red , green , blue , alpha )
-	local color = SIPackers.Color( red , green , blue , alpha )
+	local color = type( red ) == "table" and red or SIPackers.Color( red , green , blue , alpha )
 	if color then
 		currentLayer.tint = color
 		if hrVersion then hrVersion.tint = color end

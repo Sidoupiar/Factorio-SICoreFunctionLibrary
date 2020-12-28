@@ -27,7 +27,7 @@ local function CreateOnAnimation( path )
 		layers =
 		{
 			SIPics.NewLayer( path , 98 , 87 ).Shift( 0 , 1.5 ).Anim( 11 , 33 , 1/3 ).Get() ,
-			SIPics.NewLayer( path.."-light" , 106 , 100 ).BlendMode( "additive" ).Shift( -1 , 1 ).Anim( 11 , 33 , 1/3 ).Light().Get() ,
+			SIPics.NewLayer( path.."-light" , 106 , 100 ).BlendMode( SIPics.blendMode.additive ).Shift( -1 , 1 ).Anim( 11 , 33 , 1/3 ).Light().Get() ,
 			SIPics.NewLayer( path.."-shadow" , 122 , 68 ).Shift( 13 , 11 ).Repeat( 33 , 1/3 ).Shadow().Get()
 		}
 	}

@@ -38,6 +38,10 @@ SIColors =
 		curse     = { r = 0.15 , g = 0.15 , b = 0.15 } ,
 		other     = { r = 1.00 , g = 1.00 , b = 1.00 }
 	} ,
+	tintColor =
+	{
+		default   = { r = 0.30 , g = 0.30 , b = 0.30 , a = 0.30 }   -- 深灰
+	} ,
 	fontColor =
 	{
 		black     = { r = 1.00 , g = 1.00 , b = 1.00 }   -- 黑色

@@ -3,7 +3,7 @@ require( "util" )
 need( "define/load" )
 need( "function/load" )
 
-needlist( "runtime/structure" , "sievent_bus" , "siglobal" )
+needlist( "runtime/structure" , "sievent_bus" , "siglobal" , "sibuilding_limiter" , "sibuilder" , "sigift_sender" )
 needlist( "runtime/function" , "functions" )
 
 local constants = need( "constants" )
