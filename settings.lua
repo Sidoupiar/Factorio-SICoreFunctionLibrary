@@ -2,6 +2,7 @@ require( "util" )
 
 SILoadingSettings = true
 needlist( "define" , "sitypes" , "simods" )
+needlist( "function" , "siutil" , "init_string" , "init_table" , "init_debug" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础数据 ----------------------------------------------------------------------------
@@ -22,20 +23,22 @@ function SISettings.ChangeConstants( constants )
 	else return nil end
 end
 
-function SISettings.CreateSetting( type , settingType , name , defaultValue , minimumValue , maximumValue , allowedValues , allowBlank , order , perUser )
+function SISettings.CreateSetting( type , settingType , name , defaultValue , minimumValue , maximumValue , allowedValues , allowBlank , order , perUser , localisedName , localisedDescription )
 	local d = {}
 	d.type = type .. "-setting"
 	d.setting_type = settingType
 	d.name = name
 	d.default_value = defaultValue
+	d.allowed_values = allowedValues
+	d.allow_blank = allowBlank or false
+	d.order = order
 	if type == "int" or type == "double" then
 		d.minimum_value = minimumValue
 		d.maximum_value = maximumValue
 	end
 	if perUser then d.per_user = perUser end
-	d.allowed_values = allowedValues
-	d.allow_blank = allowBlank or false
-	d.order = order
+	if localisedName then d.localised_name = localisedName end
+	if localisedDescription then d.localised_description = localisedDescription end
 	return d
 end
 
@@ -47,7 +50,7 @@ function SISettings.Load( constantsData , orderCode )
 		local order = orderCode
 		for n , m in pairs( settings ) do
 			order = order + 1
-			table.insert( s , SISettings.CreateSetting( m[1] , m[2] , n , m[3] , m[4] , m[5] , m[6] , m[7] , order , m[8] ) )
+			table.insert( s , SISettings.CreateSetting( m[1] , m[2] , n , m[3] , m[4] , m[5] , m[6] , m[7] , order , m[8] , m[9] , m[10] ) )
 		end
 		if #s > 0 then data:extend( s ) end
 	end

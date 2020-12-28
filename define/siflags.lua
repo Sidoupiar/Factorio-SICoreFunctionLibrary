@@ -45,10 +45,10 @@ SIFlags =
 	} ,
 	trackType =
 	{
-		earlyGame = "early-game" ,
-		menuTrack = "menu-track" ,
-		mainTrack = "main-track" ,
-		interlude = "interlude"
+		earlyGame = "early-game" , -- 载入游戏
+		menuTrack = "menu-track" , -- 主菜单
+		mainTrack = "main-track" , -- 游戏阶段
+		interlude = "interlude"    -- 插曲
 	} ,
 	condition =
 	{
