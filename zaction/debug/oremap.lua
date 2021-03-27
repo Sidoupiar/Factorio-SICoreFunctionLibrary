@@ -9,8 +9,7 @@ SIOremap =
 	toolbarButtonName = "sicfl-oremap-toolbar-button" ,
 	
 	itemName = "sicfl-item-oremap" ,
-	iconRegex = "sicfl%-oremap%-ore" ,
-	iconPosition = #"sicfl-oremap-ore-" + 1 ,
+	iconName = "sicfl-oremap-ore-" ,
 	
 	maxCount = 4294967295 ,
 	
@@ -37,6 +36,8 @@ SIOremap =
 		count = 0
 	}
 }
+
+SIOremap.iconPosition = #SIOremap.iconName + 1
 
 SIGlobal.Create( "oremap" )
 
@@ -289,7 +290,7 @@ function SIOremap.OnClickView( event )
 			SIOremap.SaveSettings( settings )
 			if SIOremap.SpawnOre( game.players[playerIndex] , settings ) then SIOremap.CloseView( playerIndex ) end
 		elseif name == "sicfl-oremap-close" then SIOremap.CloseView( event.player_index )
-		elseif name:find( SIOremap.iconRegex ) then
+		elseif name:StartsWith( SIOremap.iconName ) then
 			local settings = SIOremap.GetSettings( event.player_index )
 			settings.selectedOreName = name:sub( SIOremap.iconPosition )
 			SIOremap.FreshList( settings )
