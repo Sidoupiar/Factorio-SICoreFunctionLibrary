@@ -2,6 +2,7 @@
 -- ---------- 报错信息 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+local mmess = error
 function e( msg )
 	local output = ""
 	for i = 5 , 2 , -1 do
@@ -16,7 +17,10 @@ function e( msg )
 		else output = output .. ":[filecode]" end
 		output = output .. " :: "
 	end
-	error( "_____ :: "..output..msg )
+	mmess( "_____ :: "..output..msg )
+end
+error = function( msg )
+	log( "[CATCH ERROR] SICoreFunctionLibrary_Code: "..msg )
 end
 
 function ee( tableData )
