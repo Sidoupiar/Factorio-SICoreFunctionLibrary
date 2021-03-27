@@ -29,7 +29,7 @@ SIGen.NewStyle( "titlebar-view" ,
 	graphical_set =
 	{
 		base = { position = { 162 , 932 } , corner_size = 8 } ,
-		shadow = default_shadow
+		shadow = nil
 	}
 } )
 .NewStyle( "titlebar-button-flow" ,
