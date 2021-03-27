@@ -28,8 +28,7 @@ SIGen.NewStyle( "titlebar-view" ,
 	
 	graphical_set =
 	{
-		base = { position = { 162 , 932 } , corner_size = 8 } ,
-		shadow = nil
+		base = { position = { 162 , 932 } , corner_size = 8 }
 	}
 } )
 .NewStyle( "titlebar-button-flow" ,
