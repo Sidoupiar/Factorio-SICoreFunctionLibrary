@@ -523,6 +523,29 @@ function SIGen.NewFont( name , size , border , border_color , from )
 	return SIGen
 end
 
+function SIGen.NewStyle( name , settings )
+	FinishData()
+	if not currentConstantsData then
+		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	currentEntityName = currentConstantsData.autoName and currentConstantsData.realname..name or nameOrListOrPack
+	local style = SIGen.GetData( "gui-style" , "default" )
+	if style[name] then
+		e( "模块构建 : 已经存在名为 "..name.." 的样式了" )
+		return SIGen
+	end
+	for k , v in pairs( settings ) do
+		if k:EndsWith( "graphical_set" ) then
+			if settings[k].newGUI then
+				settings[k].filename = "__SICoreFunctionLibrary__/zpic/gui/gui.png"
+			end
+		end
+	end
+	style[name] = settings
+	return SIGen
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 创建实体 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------

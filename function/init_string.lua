@@ -10,6 +10,14 @@ function string:Split( separator )
 	return list
 end
 
+function string:StartsWith( str )
+	return self:sub( 1 , str:len() ) == str
+end
+
+function string:EndsWith( str )
+	return self:sub( -str:len() ) == str
+end
+
 function string:ToABlist()
 	if self and self ~= "" then
 		local list = self:Split( ";" )
