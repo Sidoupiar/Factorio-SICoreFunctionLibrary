@@ -529,10 +529,10 @@ function SIGen.NewStyle( name , settings )
 		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
 		return SIGen
 	end
-	currentEntityName = currentConstantsData.autoName and currentConstantsData.realname..name or nameOrListOrPack
+	currentEntityName = currentConstantsData.autoName and currentConstantsData.realname..name or name
 	local style = SIGen.GetData( "gui-style" , "default" )
-	if style[name] then
-		e( "模块构建 : 已经存在名为 "..name.." 的样式了" )
+	if style[currentEntityName] then
+		e( "模块构建 : 已经存在名为 "..currentEntityName.." 的样式了" )
 		return SIGen
 	end
 	for k , v in pairs( settings ) do
@@ -542,7 +542,8 @@ function SIGen.NewStyle( name , settings )
 			end
 		end
 	end
-	style[name] = settings
+	if settings.autoParent then settings.parent = currentConstantsData.autoName and currentConstantsData.realname..settings.parent or settings.parent end
+	style[currentEntityName] = settings
 	return SIGen
 end
 

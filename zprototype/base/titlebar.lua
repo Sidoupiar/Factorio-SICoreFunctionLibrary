@@ -146,6 +146,8 @@ SIGen.NewStyle( "titlebar-view" ,
 } )
 .NewStyle( "view-game-speed-button-small" ,
 {
+	autoParent = true ,
+	
 	type = "button_style" ,
 	parent = "view-game-speed-button" ,
 	

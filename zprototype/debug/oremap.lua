@@ -30,70 +30,65 @@ SIGen.NewInput( "oremap" , "SHIFT + O" )
 -- ---------- 创建界面 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-local view =
+SIGen.NewStyle( "oremap-view" ,
 {
-	["sicfl-oremap-view"] =
-	{
-		type = "frame_style" ,
-		parent = "frame" ,
-		
-		minimal_width = 100 ,
-		minimal_height = 100 ,
-		maximal_height = 700
-	} ,
-	["sicfl-oremap-list"] =
-	{
-		type = "table_style" ,
-		
-		cell_spacing = 2 ,
-		horizontal_spacing = 1 ,
-		vertical_spacing = 1
-	} ,
-	["sicfl-oremap-list-icon"] =
-	{
-		type = "button_style" ,
-		parent = "button" ,
-		
-		top_padding = 0 ,
-		right_padding = 0 ,
-		bottom_padding = 0 ,
-		left_padding = 0 ,
-		
-		minimal_width = 32 ,
-		minimal_height = 32
-	} ,
-	["sicfl-oremap-label-icon"] =
-	{
-		type = "label_style" ,
-		
-		width = 32 ,
-		
-		horizontal_align = "center"
-	} ,
-	["sicfl-oremap-label-text"] =
-	{
-		type = "label_style" ,
-		
-		width = 250 ,
-		
-		horizontal_align = "left"
-	} ,
-	["sicfl-oremap-label-short"] =
-	{
-		type = "label_style" ,
-		
-		minimal_width = 20 ,
-		
-		horizontal_align = "right"
-	} ,
-	["sicfl-oremap-label-long"] =
-	{
-		type = "label_style" ,
-		
-		width = 219 ,
-		
-		horizontal_align = "center"
-	}
-}
-
-for k , v in pairs( view ) do data.raw["gui-style"]["default"][k] = v end
+	type = "frame_style" ,
+	parent = "frame" ,
+	
+	minimal_width = 100 ,
+	minimal_height = 100 ,
+	maximal_height = 700
+} )
+.NewStyle( "oremap-list" ,
+{
+	type = "table_style" ,
+	
+	cell_spacing = 2 ,
+	horizontal_spacing = 1 ,
+	vertical_spacing = 1
+} )
+.NewStyle( "oremap-list-icon" ,
+{
+	type = "button_style" ,
+	parent = "button" ,
+	
+	top_padding = 0 ,
+	right_padding = 0 ,
+	bottom_padding = 0 ,
+	left_padding = 0 ,
+	
+	minimal_width = 32 ,
+	minimal_height = 32
+} )
+.NewStyle( "oremap-label-icon" ,
+{
+	type = "label_style" ,
+	
+	width = 32 ,
+	
+	horizontal_align = "center"
+} )
+.NewStyle( "oremap-label-text" ,
+{
+	type = "label_style" ,
+	
+	width = 250 ,
+	
+	horizontal_align = "left"
+} )
+.NewStyle( "oremap-label-short" ,
+{
+	type = "label_style" ,
+	
+	minimal_width = 20 ,
+	
+	horizontal_align = "right"
+} )
+.NewStyle( "oremap-label-long" ,
+{
+	type = "label_style" ,
+	
+	width = 219 ,
+	
+	horizontal_align = "center"
+} )

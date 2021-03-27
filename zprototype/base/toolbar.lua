@@ -31,6 +31,8 @@ SIGen.NewItem( "toolbar" , 1000 ).AddFlags( SIFlags.itemFlags.hidden )
 } )
 .NewStyle( "toolbar-close" ,
 {
+	autoParent = true ,
+	
 	type = "button_style" ,
 	parent = "toolbar-open" ,
 	
@@ -41,6 +43,8 @@ SIGen.NewItem( "toolbar" , 1000 ).AddFlags( SIFlags.itemFlags.hidden )
 } )
 .NewStyle( "toolbar-icon" ,
 {
+	autoParent = true ,
+	
 	type = "button_style" ,
 	parent = "toolbar-open" ,
 	
