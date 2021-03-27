@@ -7,6 +7,7 @@ return
 		debug_tools = { "bool" , "startup" , false } ,
 		can_get_debug_tools = { "bool" , "startup" , false } ,
 		show_patreon = { "bool" , "startup" , true } ,
+		
 		debug = { "bool" , "runtime-global" , false } ,
 		
 		show_evolution = { "bool" , "runtime-per-user" , false } ,
