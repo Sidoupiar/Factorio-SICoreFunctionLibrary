@@ -43,7 +43,7 @@ local SIBit = require( "sibit" )
 -- ------------------------------------------------------------------------------------------------
 
 local function noise( x , y , seed )
-	local n = x + y * 57
+	local n = math.abs( x+y*57 )
 	n = SIBit.XOr( SIBit.LShift( 13 , n ) , n )
 	return 1 - SIBit.And( ( n * ( n * n * seed + 789221 ) + 1376312589 ) , 0x7fffffff ) / 1073741824
 end
@@ -85,7 +85,7 @@ end
 ----------------------------------------------------------------
 local function SINoise_Get( self , x , y )
 	x = x / self.size
-	y = math.abs( y/self.size )
+	y = y / self.size
 	
 	local total = 0
 	for i = 0 , self.octaves-1 , 1 do
