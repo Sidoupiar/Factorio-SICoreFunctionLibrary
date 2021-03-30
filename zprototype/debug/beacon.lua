@@ -29,7 +29,7 @@ local beaconItem = SIGen.NewBeacon( "beacon" )
 .SetProperties( 3 , 3 , 250 , 0 , "1GW" , SIPackers.EnergySource() )
 .SetEffectRadius( 64 )
 .SetEffectEnergy( 10 )
-.SetPluginData( 126 , { 0 , 0.5 } , 0.25 ) -- 插件槽界面每行 6 个 , 物品信息概要存储每行 7 个 , 取最小公约数 6*7=42 个 , 42 太少变成 3 倍 , 总数 42*3=126 个
+.SetPluginData( 150 , { 0 , 0.5 } , 0.25 ) -- 插件槽界面每行 6 个 , 物品信息概要存储每行 7 个 , 取最小公约数 6*7=42 个 , 42 太少变成 3 倍 , 总数 42*3=126 个
 .SetCorpse( "beacon-remnants" , "beacon-explosion" )
 .SetPluginTypes{ SITypes.moduleEffect.speed , SITypes.moduleEffect.product , SITypes.moduleEffect.consumption , SITypes.moduleEffect.pollut }
 .SetPic( "animation" , CreateAnimation( SIGen.GetLayerFile() ) )
