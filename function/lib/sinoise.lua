@@ -36,43 +36,43 @@ local SINoise =
 -- ---------- 添加引用 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-local bit = require( "sibit" )
+local SIBit = require( "sibit" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 内部函数 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
 local function noise( x , y , seed )
-	local n = x + y * 57;
-	n = bit.LShift( 13 , n ) ^ n;
-	return 1 - bit.And( ( n * ( n * n * seed + 789221 ) + 1376312589 ) , 0x7fffffff ) / 1073741824;
+	local n = x + y * 57
+	n = SIBit.XOr( SIBit.LShift( 13 , n ) , n )
+	return 1 - SIBit.And( ( n * ( n * n * seed + 789221 ) + 1376312589 ) , 0x7fffffff ) / 1073741824
 end
 
 local function smoothed_noise( x , y , seed )
-	local corners = noise( x-1 , y-1 , seed ) + noise( x+1 , y-1 , seed ) + noise( x-1 , y+1 , seed ) + noise( x+1 , y+1 , seed );
-	local sides = noise( x-1 , y , seed ) + noise( x+1 , y , seed ) + noise( x , y-1 , seed ) + noise( x , y+1 , seed );
-	local center = noise( x , y , seed ) / 4;
-	return corners / 16 + sides / 8 + center;
+	local corners = noise( x-1 , y-1 , seed ) + noise( x+1 , y-1 , seed ) + noise( x-1 , y+1 , seed ) + noise( x+1 , y+1 , seed )
+	local sides = noise( x-1 , y , seed ) + noise( x+1 , y , seed ) + noise( x , y-1 , seed ) + noise( x , y+1 , seed )
+	local center = noise( x , y , seed )
+	return corners / 16 + sides / 8 + center / 4
 end
 
 local function cosine_interpolate( a , b , x )
-	local ft = x * 3.1415927;
-	local f = ( 1 - math.cos( ft ) ) * 0.5;
-	return a * ( 1 - f ) + b * f;
+	local ft = x * 3.1415927
+	local f = ( 1 - math.cos( ft ) ) * 0.5
+	return a * ( 1 - f ) + b * f
 end
 
 local function interpolated_noise( x , y , seed )
-	local intX = math.floor( x );
-	local fractionalX = x - intX;
-	local intY = math.floor( y );
-	local fractionalY = y - intY;
-	local v1 = smoothed_noise( intX , intY , seed );
-	local v2 = smoothed_noise( intX+1 , intY , seed );
-	local v3 = smoothed_noise( intX , intY+1 , seed );
-	local v4 = smoothed_noise( intX+1 , intY+1 , seed );
-	local i1 = cosine_interpolate( v1 , v2 , fractionalX );
-	local i2 = cosine_interpolate( v3 , v4 , fractionalX );
-	return cosine_interpolate( i1 , i2 , fractionalY );
+	local intX = math.floor( x )
+	local fractionalX = x - intX
+	local intY = math.floor( y )
+	local fractionalY = y - intY
+	local v1 = smoothed_noise( intX , intY , seed )
+	local v2 = smoothed_noise( intX+1 , intY , seed )
+	local v3 = smoothed_noise( intX , intY+1 , seed )
+	local v4 = smoothed_noise( intX+1 , intY+1 , seed )
+	local i1 = cosine_interpolate( v1 , v2 , fractionalX )
+	local i2 = cosine_interpolate( v3 , v4 , fractionalX )
+	return cosine_interpolate( i1 , i2 , fractionalY )
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -83,13 +83,13 @@ end
 -- x 横坐标 , int
 -- y 纵坐标 , int
 ----------------------------------------------------------------
-local function Get( self , x , y )
+local function SINoise_Get( self , x , y )
 	x = x / self.size
-	y = y / self.size
+	y = math.abs( y/self.size )
 	
 	local total = 0
 	for i = 0 , self.octaves-1 , 1 do
-		local frequency = math.pow( 2 , i );
+		local frequency = math.pow( 2 , i )
 		total = total + interpolated_noise( x*frequency , y*frequency , self.seed ) * math.pow( self.persistence , i )
 	end
 	return total
@@ -108,7 +108,7 @@ function SINoise.New( seed , octaves , persistence , size )
 		octaves = octaves ,
 		persistence = persistence ,
 		size = size ,
-		Get = Get
+		Get = SINoise_Get
 	}
 end
 
