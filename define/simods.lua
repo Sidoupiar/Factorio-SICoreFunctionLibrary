@@ -18,6 +18,7 @@ SIMods =
 		SISPRepairSelf = "SI SP 修理自己[SI SP Repair Self]" ,
 		SISPOneStackChallenge = "SI SP 单堆叠挑战[SI SP One Stack Challenge]" ,
 		SISPBackgroundMusic = "SI SP 背景音乐[SI SP Background Music]" ,
+		SISPLazyMachine = "SI SP 怠惰的设备[SI SP Lazy Machine]" ,
 		
 		SIAgriculture = "SI 农业[SI Agriculture]" ,
 		SIAnimalHusbandry = "SI 牧业[SI Animal Husbandry]" ,
