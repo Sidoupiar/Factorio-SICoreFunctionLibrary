@@ -26,6 +26,16 @@ function SIPackers.Color( red , green , blue , alpha )
 	if alpha then color.a = alpha end
 	return color
 end
+
+function SIPackers.Color256( red , green , blue , alpha )
+	local color = {}
+	if red then color.r = red / 256 end
+	if green then color.g = green / 256 end
+	if blue then color.b = blue / 256 end
+	if alpha then color.a = alpha / 256 end
+	return color
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- ------- 创建 icon 数据 -------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------

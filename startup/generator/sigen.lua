@@ -959,6 +959,12 @@ function SIGen.SetEnabled( enabled )
 	return SIGen
 end
 
+function SIGen.SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
+	return SIGen
+end
+
 
 
 function SIGen.SetFlags( flagOrFlagsOrPack )

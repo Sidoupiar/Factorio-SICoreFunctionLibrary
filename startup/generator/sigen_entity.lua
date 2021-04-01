@@ -241,6 +241,15 @@ function entity:SetLight( intensity , size , color )
 	return self:SetParam( "light" , SIPackers.Light( intensity , size , color ) )
 end
 
+function entity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
+	self:SetParam( "map_color" , mapColor )
+	if friendlyMapColor then self:SetParam( "friendly_map_color" , friendlyMapColor )
+	else self:SetParam( "friendly_map_color" , mapColor ) end
+	if enemyMapColor then self:SetParam( "enemy_map_color" , enemyMapColor )
+	else self:SetParam( "enemy_map_color" , mapColor ) end
+	return self
+end
+
 
 
 function entity:Fill( currentEntity )

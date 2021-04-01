@@ -526,6 +526,10 @@ function entity:SetEnabled( enabled )
 	return self
 end
 
+function entity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
+	return self
+end
+
 
 
 function entity:SetResidences( residenceOrResidencesOrPack )
