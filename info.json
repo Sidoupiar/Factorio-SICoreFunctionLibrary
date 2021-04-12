@@ -6,5 +6,5 @@
 	"author" : "Sidoupiar" ,
 	"homepage" : "http://www.sidoupiar.com" ,
 	"description" : "Provides basic functionality for my mods" ,
-	"dependencies" : []
+	"dependencies" : [ "! Gcn" ]
 }
