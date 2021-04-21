@@ -46,7 +46,10 @@ end
 
 function SIPackers.Icon( iconPath , tint , mipmaps , scale , shift , size )
 	local icon = {}
-	if iconPath then icon.icon = iconPath end
+	if iconPath then
+		if not iconPath:EndsWith( ".png" ) then iconPath = iconPath .. ".png" end
+		icon.icon = iconPath
+	end
 	if tint then icon.tint = tint end
 	if mipmaps then icon.icon_mipmaps = mipmaps
 	else icon.icon_mipmaps = 4 end

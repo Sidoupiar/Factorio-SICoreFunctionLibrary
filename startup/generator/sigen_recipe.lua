@@ -93,7 +93,7 @@ end
 function entity:SetResults( resultOrResultsOrPack , resultType , count )
 	if not self:CheckData( resultOrResultsOrPack ) then return self end
 	if not resultType or resultType ~= SIGen.resultType.recipe then
-		e( "模块构建 : 当前实体不支持此 resultType : "+resultType )
+		e( "模块构建 : 当前实体不支持此 resultType : "..(resultType and "无" or resultType) )
 		return self
 	end
 	local dataType = type( resultOrResultsOrPack )

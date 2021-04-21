@@ -76,7 +76,7 @@ end
 function entity:SetResults( resultOrResultsOrPack , resultType , count )
 	if not self:CheckData( resultOrResultsOrPack ) then return self end
 	if not resultType or resultType == SIGen.resultType.none or resultType == SIGen.resultType.recipe or resultType == SIGen.resultType.technology then
-		e( "模块构建 : 当前实体不支持此 resultType : "+resultType )
+		e( "模块构建 : 当前实体不支持此 resultType : "..(resultType and "无" or resultType) )
 		return self
 	end
 	if resultType ~= self.resultType then
@@ -92,7 +92,7 @@ function entity:SetResults( resultOrResultsOrPack , resultType , count )
 		elseif resultType == SIGen.resultType.burnt then
 			return self:SetParam( "burnt_result" , resultOrResultsOrPack )
 		else
-			e( "模块构建 : 当前实体不支持使用字符串添加此 resultType : "+resultType )
+			e( "模块构建 : 当前实体不支持使用字符串添加此 resultType : "..resultType )
 			return self
 		end
 	elseif dataType == "table" then
@@ -109,7 +109,7 @@ function entity:SetResults( resultOrResultsOrPack , resultType , count )
 				return self:SetParam( "rocket_launch_products" , resultOrResultsOrPack )
 			end
 		else
-			e( "模块构建 : 前实体不支持使用表添加此 resultType : "+resultType )
+			e( "模块构建 : 前实体不支持使用表添加此 resultType : "..resultType )
 			return self
 		end
 	else
