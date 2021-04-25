@@ -9,12 +9,8 @@ end
 
 
 
-function entity:SetImage( path )
-	local width = self:GetWidth()
-	local height = self:GetHeight()
-	if not width or width <= 0 or not height or height <= 0 then return self end
-	
-	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
+function entity:FillImage()
+	return self
 end
 
 

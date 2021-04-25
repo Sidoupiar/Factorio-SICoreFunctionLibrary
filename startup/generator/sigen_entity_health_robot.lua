@@ -8,10 +8,6 @@ end
 
 
 
-function entity:SetImage( path )
-	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
-end
-
 function entity:SetSpeed( speed )
 	return self:SetParam( "speed" , speed )
 end

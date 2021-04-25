@@ -9,25 +9,22 @@ end
 
 
 
-function entity:SetImage( path )
-	local width = self:GetWidth()
-	local height = self:GetHeight()
-	if not width or width <= 0 or not height or height <= 0 then return self end
-	
-	local baseName = self:GetBaseName()
-	local imagePath = path .. "entity/" .. baseName .. "/"
-	local file = imagePath .. baseName
-	
-	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
-	:SetParam( "radius_visualisation_picture" , SIPics.NewLayer( file.."-radius-visualization" , 10 , 10 ).Priority( "extra-high-no-scale" ).Get() )
-end
-
 function entity:SetEffectRadius( effectRadius , linkRadius , connectRadius )
 	return self:SetParam( "supply_area_distance" , effectRadius )
 end
 
 function entity:SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy )
 	return self:SetParam( "distribution_effectivity" , effectEnergy )
+end
+
+
+
+function entity:FillImage()
+	local baseName = self:GetBaseName()
+	local picturePath = self:GetPicturePath()
+	local path = picturePath .. "entity/" .. baseName .. "/" .. baseName
+	
+	return self:SetParam( "radius_visualisation_picture" , SIPics.NewLayer( path.."-radius-visualization" , 10 , 10 ).Priority( "extra-high-no-scale" ).Get() )
 end
 
 

@@ -1153,6 +1153,12 @@ end
 
 
 
+function SIGen.FillImage()
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:FillImage()
+	return SIGen
+end
+
 function SIGen.SetPic( key , layer )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	currentData:SetPic( key , layer )

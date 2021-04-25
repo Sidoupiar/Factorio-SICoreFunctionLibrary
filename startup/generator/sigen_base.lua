@@ -16,6 +16,7 @@ function entity:InitDefaultValues()
 end
 
 entity:AddDefaultValue( "baseName" , "none" )
+:AddDefaultValue( "picturePath" , nil )
 :AddDefaultValue( "sourceMod" , nil )
 :AddDefaultValue( "allreadyCreate" , true )
 :AddDefaultValue( "hasFill" , false )
@@ -39,7 +40,7 @@ end
 -- ---------- 构建方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function entity:New( type , name , data )
+function entity:New( type , baseName , data )
 	if self.AlreadyCreate then
 		e( "模块构建 : 实体不能重复创建" )
 		return nil
@@ -47,8 +48,8 @@ function entity:New( type , name , data )
 	self = self:Copy( "init" , true )
 	:InitDefaultValues()
 	if self.defaultType then
-		data = name
-		name = type
+		data = baseName
+		baseName = type
 		type = self.defaultType
 	end
 	if not type then
@@ -56,17 +57,18 @@ function entity:New( type , name , data )
 		return nil
 	end
 	local currentConstantsData = SIGen.GetCurrentConstantsData()
-	if not currentConstantsData or not name then
-		e( "模块构建 : 创建时必须注册 ConstantsData 并填写 name 属性" )
+	if not currentConstantsData or not baseName then
+		e( "模块构建 : 创建时必须注册 ConstantsData 并填写 baseName 属性" )
 		return nil
 	end
-	self:SetBaseName( name )
+	self:SetBaseName( baseName )
 	self.sourceMod = currentConstantsData.class
 	if data then self:Import( data ) end
 	self:SetParam( "type" , type )
-	:SetParam( "name" , currentConstantsData.autoName and currentConstantsData.realname..SIKeyw[type].."-"..name or name )
+	:SetParam( "name" , currentConstantsData.autoName and currentConstantsData.realname..SIKeyw[type].."-"..baseName or baseName )
+	:SetPicturePath( currentConstantsData.picturePath )
 	if data then return self
-	else return self:SetImage( currentConstantsData.picturePath ) end
+	else return self:SetIcon( currentConstantsData.picturePath , baseName ) end
 end
 
 function entity:Extend()
@@ -89,10 +91,17 @@ end
 -- -------- 获取基础参数 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function entity:SetBaseName( name )
-	self.baseName = name
+function entity:SetBaseName( baseName )
+	self.baseName = baseName
 	return self
 end
+
+function entity:SetPicturePath( picturePath )
+	self.picturePath = picturePath
+	return self
+end
+
+
 
 function entity:GetCodeName()
 	return self.codeName
@@ -100,6 +109,10 @@ end
 
 function entity:GetBaseName()
 	return self.baseName
+end
+
+function entity:GetPicturePath()
+	return self.picturePath
 end
 
 function entity:GetSourceMod()
@@ -195,6 +208,10 @@ end
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 设置属性 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
+
+function entity:SetIcon( picturePath , baseName )
+	return self:SetParam( "icon" , picturePath.."item/"..baseName..".png" )
+end
 
 function entity:SetEnabled( enabled )
 	return self:SetParam( "enabled" , enabled )
@@ -454,10 +471,6 @@ end
 -- -------- 子类设置属性 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function entity:SetImage( path )
-	return self
-end
-
 function entity:SetStackSize( stackSize )
 	return self
 end
@@ -632,6 +645,12 @@ function entity:AddLastLevel( count )
 end
 
 function entity:AddSuperArmor()
+	return self
+end
+
+
+
+function entity:FillImage()
 	return self
 end
 

@@ -35,6 +35,7 @@ local beaconItem = SIGen.NewBeacon( "beacon" )
 .SetPic( "animation" , CreateAnimation( SIGen.GetLayerFile() ) )
 .SetCustomData( customData )
 .AddSuperArmor()
+.FillImage()
 .GetCurrentEntityItemName()
 
 if SICFL.canGetDebugTools then

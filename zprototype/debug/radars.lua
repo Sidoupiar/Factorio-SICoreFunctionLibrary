@@ -26,6 +26,7 @@ local function Create( name , nearRadius , farRadius , nearEnergy , farEnergy )
 	.SetCorpse( "radar-remnants" , "radar-explosion" )
 	.SetCustomData( customData )
 	.AddSuperArmor()
+	.FillImage()
 	.GetCurrentEntityItemName()
 	
 	if SICFL.canGetDebugTools then

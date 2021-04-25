@@ -48,10 +48,6 @@ end
 
 
 
-function entity:SetImage( path )
-	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
-end
-
 function entity:SetStackSize( stackSize )
 	if stackSize < 1 then
 		e( "模块构建 : stackSize 不能小于 1" )

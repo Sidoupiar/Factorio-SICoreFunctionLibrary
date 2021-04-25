@@ -46,6 +46,7 @@ local function Create( name , radius )
 	.SetPic( "recharging_animation" , SIPics.NewLayer( SIGen.GetLayerFile().."-recharging" , 37 , 35 , 1.5 ).Priority( "high" ).Anim( 16 , 16 , 0.5 ).Get() )
 	.SetCustomData( customData )
 	.AddSuperArmor()
+	.FillImage()
 	.GetCurrentEntityItemName()
 	
 	if SICFL.canGetDebugTools then

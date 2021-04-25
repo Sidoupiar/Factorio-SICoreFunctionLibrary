@@ -9,14 +9,20 @@ end
 
 
 
-function entity:SetImage( path )
+function entity:SetSpeed( speed )
+	return self:SetParam( "researching_speed" , speed )
+end
+
+
+
+function entity:FillImage()
 	local width = self:GetWidth()
 	local height = self:GetHeight()
 	if not width or width <= 0 or not height or height <= 0 then return self end
 	
 	local baseName = self:GetBaseName()
-	local imagePath = path .. "entity/" .. baseName .. "/"
-	local file = imagePath .. baseName
+	local picturePath = self:GetPicturePath()
+	local path = picturePath .. "entity/" .. baseName .. "/" .. baseName
 	local addenWidth = self:GetAddenWidth()
 	local addenHeight = self:GetAddenHeight()
 	local shadowWidth = self:GetShadowWidth()
@@ -26,18 +32,13 @@ function entity:SetImage( path )
 	
 	local onLayers = {}
 	local offLayers = {}
-	table.insert( onLayers , SIPics.OnAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ).Get() )
-	if animShadow then table.insert( onLayers , SIPics.OnAnimLayerShadow( file , width , height , hasHr , shadowWidth , shadowHeight ).Get() )
-	else table.insert( onLayers , SIPics.OnAnimLayerShadowSingle( file , width , height , hasHr , shadowWidth , shadowHeight ).Get() ) end
-	table.insert( offLayers , SIPics.OffAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ).Get() )
-	table.insert( offLayers , SIPics.OffAnimLayerShadow( file , width , height , hasHr , shadowWidth , shadowHeight ).Get() )
-	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
-	:SetParam( "on_animation" , { layers = onLayers } )
+	table.insert( onLayers , SIPics.OnAnimLayer( path , width , height , hasHr , addenWidth , addenHeight ).Get() )
+	if animShadow then table.insert( onLayers , SIPics.OnAnimLayerShadow( path , width , height , hasHr , shadowWidth , shadowHeight ).Get() )
+	else table.insert( onLayers , SIPics.OnAnimLayerShadowSingle( path , width , height , hasHr , shadowWidth , shadowHeight ).Get() ) end
+	table.insert( offLayers , SIPics.OffAnimLayer( path , width , height , hasHr , addenWidth , addenHeight ).Get() )
+	table.insert( offLayers , SIPics.OffAnimLayerShadow( path , width , height , hasHr , shadowWidth , shadowHeight ).Get() )
+	return self:SetParam( "on_animation" , { layers = onLayers } )
 	:SetParam( "off_animation" , { layers = offLayers } )
-end
-
-function entity:SetSpeed( speed )
-	return self:SetParam( "researching_speed" , speed )
 end
 
 

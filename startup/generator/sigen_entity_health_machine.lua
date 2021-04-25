@@ -9,22 +9,6 @@ end
 
 
 
-function entity:SetImage( path )
-	local width = self:GetWidth()
-	local height = self:GetHeight()
-	if not width or width <= 0 or not height or height <= 0 then return self end
-	
-	local animation =
-	{
-		north = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-north" , width , height ).Get() ,
-		east = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-east" , height , width ).Get() ,
-		south = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-south" , width , height ).Get() ,
-		west = SIPics.OnAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName().."-west" , height , width ).Get() ,
-	}
-	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
-	:SetParam( "animation" , animation )
-end
-
 function entity:SetSpeed( speed )
 	return self:SetParam( "crafting_speed" , speed )
 end
@@ -103,6 +87,27 @@ end
 
 function entity:ClearRecipeTypes()
 	return self:DeleteParam( "crafting_categories" )
+end
+
+
+
+function entity:FillImage()
+	local width = self:GetWidth()
+	local height = self:GetHeight()
+	if not width or width <= 0 or not height or height <= 0 then return self end
+	
+	local baseName = self:GetBaseName()
+	local picturePath = self:GetPicturePath()
+	local path = picturePath .. "entity/" .. self:GetBaseName() .. "/" .. self:GetBaseName() .. "-"
+	
+	local animation =
+	{
+		north = SIPics.OnAnimLayer( path.."north" , width , height ).Get() ,
+		east = SIPics.OnAnimLayer( path.."east" , height , width ).Get() ,
+		south = SIPics.OnAnimLayer( path.."south" , width , height ).Get() ,
+		west = SIPics.OnAnimLayer( path.."west" , height , width ).Get()
+	}
+	return self:SetParam( "animation" , animation )
 end
 
 

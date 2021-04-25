@@ -9,14 +9,14 @@ end
 
 
 
-function entity:SetImage( path )
+function entity:FillImage()
 	local width = self:GetWidth()
 	local height = self:GetHeight()
 	if not width or width <= 0 or not height or height <= 0 then return self end
 	
 	local baseName = self:GetBaseName()
-	local imagePath = path .. "entity/" .. baseName .. "/"
-	local file = imagePath .. baseName
+	local picturePath = self:GetPicturePath()
+	local path = picturePath .. "entity/" .. baseName .. "/" .. baseName
 	local addenWidth = self:GetAddenWidth()
 	local addenHeight = self:GetAddenHeight()
 	local shadowWidth = self:GetShadowWidth()
@@ -28,13 +28,12 @@ function entity:SetImage( path )
 	local hasHr = self:GetHasHr()
 	
 	local waterLocation = self:GetWaterLocation()
-	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( file , width , height , waterLocation ) ) end
+	if waterLocation then self:SetParam( "water_reflection" , SIPics.WaterReflection( path , width , height , waterLocation ) ) end
 	
 	local layers = {}
-	table.insert( layers , SIPics.BaseAnimLayer( file , width , height , hasHr , addenWidth , addenHeight ).ShiftMerge( addenShiftX , addenShiftY ).Get() )
-	table.insert( layers , SIPics.BaseAnimLayer( file.."-shadow" , width , height , hasHr , shadowWidth , shadowHeight ).ShiftMerge( shadowShiftX , shadowShiftY ).Shadow().Get() )
-	return self:SetParam( "icon" , path.."item/"..baseName..".png" )
-	:SetParam( "base" , { layers = layers } )
+	table.insert( layers , SIPics.BaseAnimLayer( path , width , height , hasHr , addenWidth , addenHeight ).ShiftMerge( addenShiftX , addenShiftY ).Get() )
+	table.insert( layers , SIPics.BaseAnimLayer( path.."-shadow" , width , height , hasHr , shadowWidth , shadowHeight ).ShiftMerge( shadowShiftX , shadowShiftY ).Shadow().Get() )
+	return self:SetParam( "base" , { layers = layers } )
 end
 
 function entity:SetSlotCount( inputSlotCount , outputSlotCount )

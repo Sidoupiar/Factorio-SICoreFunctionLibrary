@@ -3,8 +3,8 @@ entity:AddDefaultValue( "defaultType" , SITypes.group )
 
 
 
-function entity:SetImage( path )
-	return self:SetParam( "icon" , path.."group/"..self:GetBaseName()..".png" )
+function entity:SetIcon( picturePath , baseName )
+	return self:SetParam( "icon" , picturePath.."group/"..baseName..".png" )
 	:SetParam( "icon_size" , SINumbers.iconSizeGroup )
 end
 

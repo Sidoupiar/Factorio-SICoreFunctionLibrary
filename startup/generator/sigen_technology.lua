@@ -23,8 +23,8 @@ end
 
 
 
-function entity:SetImage( path )
-	return self:SetParam( "icon" , path.."technology/"..self:GetBaseName()..".png" )
+function entity:SetIcon( picturePath , baseName )
+	return self:SetParam( "icon" , picturePath.."technology/"..baseName..".png" )
 end
 
 function entity:SetStackSize( stackSize )

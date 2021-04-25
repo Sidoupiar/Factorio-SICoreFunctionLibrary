@@ -9,17 +9,21 @@ end
 
 
 
-function entity:SetImage( path )
+function entity:SetSlotCount( inputSlotCount , outputSlotCount )
+	return self:SetParam( "inventory_size" , inputSlotCount )
+end
+
+
+
+function entity:FillImage()
 	local width = self:GetWidth()
 	local height = self:GetHeight()
 	if not width or width <= 0 or not height or height <= 0 then return self end
 	
-	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
-	:SetParam( "picture" , SIPics.BaseAnimLayer( path.."entity/"..self:GetBaseName().."/"..self:GetBaseName() , width , height ).Get() )
-end
-
-function entity:SetSlotCount( inputSlotCount , outputSlotCount )
-	return self:SetParam( "inventory_size" , inputSlotCount )
+	local baseName = self:GetBaseName()
+	local picturePath = self:GetPicturePath()
+	
+	return self:SetParam( "picture" , SIPics.BaseAnimLayer( picturePath.."entity/"..baseName.."/"..baseName , width , height ).Get() )
 end
 
 

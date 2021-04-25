@@ -9,10 +9,6 @@ end
 
 
 
-function entity:SetImage( path )
-	return self:SetParam( "icon" , path.."item/"..self:GetBaseName()..".png" )
-end
-
 function entity:SetEnergy( energyUsage , energySource )
 	if energyUsage then self:SetParam( "max_power_output" , energyUsage ) end
 	if energySource then self:SetParam( "energy_source" , energySource ) end
