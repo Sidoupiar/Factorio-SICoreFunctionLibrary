@@ -10,6 +10,9 @@ SINumbers =
 	
 	pictureHrScale = 2 ,
 	pictureHrScaleDown = 0.5 ,
+	resourcePictureSide = 32 ,
+	resourcePictureFrameCount = 8 ,
+	resourceVariationCount = 8 ,
 	
 	machinePictureSize = 32 ,
 	machinePictureTotalWidth = 8 ,

@@ -15,12 +15,6 @@ end
 
 
 
-function entity:SetRender_notInNetworkIcon( trueOrFalse )
-	return self:SetParam( "render_not_in_network_icon" , trueOrFalse )
-end
-
-
-
 function entity:FillImage()
 	local width = self:GetWidth()
 	local height = self:GetHeight()

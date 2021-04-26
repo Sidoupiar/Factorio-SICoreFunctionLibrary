@@ -9,6 +9,7 @@ entity:AddDefaultValue( "width" , -1 )
 :AddDefaultValue( "addenShiftY" , 0 )
 :AddDefaultValue( "shadowShiftX" , 0 )
 :AddDefaultValue( "shadowShiftY" , 0 )
+:AddDefaultValue( "scale" , 1 )
 :AddDefaultValue( "hasHr" , false )
 :AddDefaultValue( "animShadow" , false )
 :AddDefaultValue( "patchLocation" , nil )
@@ -81,6 +82,11 @@ end
 
 function entity:SetShadowShiftY( y )
 	self.shadowShiftY = y
+	return self
+end
+
+function entity:SetScale( scale )
+	self.scale = scale
 	return self
 end
 
@@ -176,6 +182,10 @@ function entity:GetShadowShiftY()
 	return self.shadowShiftY
 end
 
+function entity:GetScale()
+	return self.scale
+end
+
 function entity:GetHasHr()
 	return self.hasHr
 end
@@ -234,6 +244,13 @@ function entity:SetSize( width , height )
 	else return self end
 end
 
+function entity:SetMinable( minable , placeableBy , miningVisualisationTint )
+	if minable then self:SetParam( "minable" , minable ) end
+	if placeableBy then self:SetParam( "placeable_by" , placeableBy ) end
+	if miningVisualisationTint then self:SetParam( "mining_visualisation_tint" , miningVisualisationTint ) end
+	return self
+end
+
 function entity:SetLight( intensity , size , color )
 	intensity = intensity or 0.75
 	size = size or ( math.max( self:GetWidth() , self:GetHeight() ) * SINumbers.lightSizeMult )
@@ -248,6 +265,10 @@ function entity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 	if enemyMapColor then self:SetParam( "enemy_map_color" , enemyMapColor )
 	else self:SetParam( "enemy_map_color" , mapColor ) end
 	return self
+end
+
+function entity:SetAutoPlace( autoPlaceSettings )
+	return self:SetParam( "autoplace" , autoPlaceSettings )
 end
 
 

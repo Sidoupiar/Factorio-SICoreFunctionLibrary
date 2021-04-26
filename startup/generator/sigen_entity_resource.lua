@@ -9,8 +9,42 @@ end
 
 
 
-function entity:FillImage()
+function entity:SetRecipeTypes( typeOrTypesOrPack )
+	if not self:CheckData( typeOrTypesOrPack ) then return self end
+	local dataType = type( typeOrTypesOrPack )
+	if dataType == "string" then
+		return self:SetParam( "category" , typeOrTypesOrPack )
+	else
+		e( "模块构建 : SetRecipeTypes 方法参数必须使用字符串格式" )
+		return self
+	end
+end
+
+function entity:AddRecipeTypes( typeOrTypesOrPack )
+	e( "模块构建 : AddRecipeTypes 方法在当前实体下不可用" )
 	return self
+end
+
+function entity:ClearRecipeTypes()
+	return self:DeleteParam( "category" )
+end
+
+
+
+function entity:FillImage()
+	local width = self:GetWidth()
+	local height = self:GetHeight()
+	if not width or width <= 0 or not height or height <= 0 then return self end
+	
+	local baseName = self:GetBaseName()
+	local picturePath = self:GetPicturePath()
+	local path = picturePath .. "entity/" .. baseName .. "/" .. baseName
+	local scale = self:GetScale()
+	local hasHr = self:GetHasHr()
+	
+	local stages = {}
+	stages.sheet = SIPics.NewLayer( path , width+SINumbers.resourcePictureSide , height+SINumbers.resourcePictureSide , scale , hasHr ).Priority( SIPics.priority.extraHigh ).Frame( SINumbers.resourcePictureFrameCount ).Variation( SINumbers.resourceVariationCount ).Get()
+	return self:SetParam( "stages" , stages )
 end
 
 

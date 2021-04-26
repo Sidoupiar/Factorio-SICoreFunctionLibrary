@@ -23,6 +23,10 @@ SIPics =
 		additiveSoft     = "additive-soft" ,
 		multiplicative   = "multiplicative" ,
 		overwrite        = "overwrite"
+	} ,
+	flag =
+	{
+		light = "light"
 	}
 }
 

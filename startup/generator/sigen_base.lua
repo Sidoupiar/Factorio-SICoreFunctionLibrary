@@ -312,6 +312,29 @@ end
 
 
 
+function entity:SetRender_notInNetworkIcon( trueOrFalse )
+	return self:SetParam( "render_not_in_network_icon" , trueOrFalse )
+end
+
+function entity:SetTreeSettings( treeRemovalProbability , treeRemovalMaxDistance )
+	if treeRemovalProbability then self:SetParam( "tree_removal_probability" , treeRemovalProbability ) end
+	if treeRemovalMaxDistance then self:SetParam( "tree_removal_max_distance" , treeRemovalMaxDistance ) end
+	return self
+end
+
+function entity:SetResourceSettings( normalCount , minimumCount , infiniteDepletionAmount , resourcePatchSearchRadius , isInfinite , isHighlight , useMapGrid )
+	if normalCount then self:SetParam( "normal" , normalCount ) end
+	if minimumCount then self:SetParam( "minimum" , minimumCount ) end
+	if infiniteDepletionAmount then self:SetParam( "infinite_depletion_amount" , infiniteDepletionAmount ) end
+	if resourcePatchSearchRadius then self:SetParam( "resource_patch_search_radius" , resourcePatchSearchRadius ) end
+	if isInfinite then self:SetParam( "infinite" , isInfinite ) end
+	if isHighlight then self:SetParam( "highlight" , isHighlight ) end
+	if useMapGrid then self:SetParam( "map_grid" , useMapGrid ) end
+	return self
+end
+
+
+
 function entity:SetPic( key , layer )
 	if key and layer then return self:SetParam( key , layer )
 	else return self end
@@ -495,6 +518,10 @@ function entity:SetSlotCount( inputSlotCount , outputSlotCount )
 	return self
 end
 
+function entity:SetMinable( minable , placeableBy , miningVisualisationTint )
+	return self
+end
+
 function entity:SetEffectRadius( effectRadius , linkRadius , connectRadius )
 	return self
 end
@@ -535,11 +562,15 @@ function entity:SetSignalWire( distance , points , sprites , signals )
 	return self
 end
 
-function entity:SetEnabled( enabled )
+function entity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 	return self
 end
 
-function entity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
+function entity:SetAutoPlace( autoPlaceSettings )
+	return self
+end
+
+function entity:SetStagesEffects( stagesEffects , effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
 	return self
 end
 
@@ -630,11 +661,6 @@ function entity:ClearFluidBoxes()
 end
 
 
-
-
-function entity:SetRender_notInNetworkIcon( trueOrFalse )
-	return self
-end
 
 function entity:SetSelfIcon( name )
 	return self

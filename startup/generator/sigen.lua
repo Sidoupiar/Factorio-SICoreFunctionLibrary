@@ -893,6 +893,12 @@ function SIGen.SetSlotCount( inputSlotCount , outputSlotCount )
 	return SIGen
 end
 
+function SIGen.SetMinable( minable , placeableBy , miningVisualisationTint )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:SetMinable( minable , placeableBy , miningVisualisationTint )
+	return SIGen
+end
+
 function SIGen.SetEffectRadius( effectRadius , linkRadius , connectRadius )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	if effectRadius or linkRadius or connectRadius then currentData:SetEffectRadius( effectRadius , linkRadius , connectRadius ) end
@@ -962,6 +968,18 @@ end
 function SIGen.SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	currentData:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
+	return SIGen
+end
+
+function SIGen.SetAutoPlace( autoPlaceSettings )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:SetAutoPlace( autoPlaceSettings )
+	return SIGen
+end
+
+function SIGen.SetStagesEffects( stagesEffects , effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentData:SetStagesEffects( stagesEffects , effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
 	return SIGen
 end
 
@@ -1132,6 +1150,18 @@ function SIGen.SetRender_notInNetworkIcon( trueOrFalse )
 	return SIGen
 end
 
+function SIGen.SetTreeSettings( treeRemovalProbability , treeRemovalMaxDistance )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:SetTreeSettings( treeRemovalProbability , treeRemovalMaxDistance )
+	return SIGen
+end
+
+function SIGen.SetResourceSettings( normalCount , minimumCount , infiniteDepletionAmount , resourcePatchSearchRadius , isInfinite , isHighlight , useMapGrid )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentData:SetResourceSettings( normalCount , minimumCount , infiniteDepletionAmount , resourcePatchSearchRadius , isInfinite , isHighlight , useMapGrid )
+	return SIGen
+end
+
 function SIGen.SetSelfIcon( name )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	currentData:SetSelfIcon( name )
@@ -1249,6 +1279,11 @@ end
 
 function SIGen.E.SetShadowShiftY( y )
 	if currentData.SetShadowShiftY then currentData:SetShadowShiftY( y ) end
+	return SIGen
+end
+
+function SIGen.E.SetScale( scale )
+	if currentData.SetScale then currentData:SetScale( scale ) end
 	return SIGen
 end
 
