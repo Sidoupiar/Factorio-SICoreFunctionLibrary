@@ -5,12 +5,12 @@
 local currentConstantsData = nil
 local currentGroup = nil
 local currentSubGroup = nil
-local currentData = nil
+local currentEntity = nil
 local currentEntityName = nil
 
 local currentGroup_order = 1
 local currentSubGroup_order = 0
-local currentData_order = 0
+local currentEntity_order = 0
 local currentTechnologyData_order = 1
 
 local savedGroupData =
@@ -47,7 +47,7 @@ local function SaveSubGroupData()
 		local subGroupData = savedSubGroupData.subGroupDataList[lastSubGroupName]
 		if not subGroupData then subGroupData = {} end
 		subGroupData.entity = currentSubGroup
-		subGroupData.data_order = currentData_order
+		subGroupData.entity_order = currentEntity_order
 		savedSubGroupData.subGroupDataList[lastSubGroupName] = subGroupData
 	end
 end
@@ -59,34 +59,34 @@ local function DefaultValues()
 	currentConstantsData = nil
 	currentGroup = nil
 	currentSubGroup = nil
-	currentData = nil
+	currentEntity = nil
 	
 	currentSubGroup_order = 0
-	currentData_order = 0
+	currentEntity_order = 0
 	
 	savedGroupData.lastGroupName = nil
 	savedSubGroupData.lastSubGroupName = nil
 end
 
 local function FinishData()
-	if currentData and not currentData:HasExtend() then
-		if not currentData:HasFill() then currentData:Fill() end
-		SIGen.Inserter.InsertData( currentData )
-		currentData:Extend():Finish()
+	if currentEntity and not currentEntity:HasExtend() then
+		if not currentEntity:HasFill() then currentEntity:Fill() end
+		SIGen.Inserter.InsertData( currentEntity )
+		currentEntity:Extend():Finish()
 	end
 	currentEntityName = nil
 end
 
 local function InitEntity()
-	currentData:Init()
+	currentEntity:Init()
 	:DefaultFlags()
 	:SetGroup( currentSubGroup )
-	if currentData:GetType() == SITypes.technology then
-		currentData:SetOrder( currentTechnologyData_order )
+	if currentEntity:GetType() == SITypes.technology then
+		currentEntity:SetOrder( currentTechnologyData_order )
 		currentTechnologyData_order = currentTechnologyData_order + 1
 	else
-		currentData:SetOrder( currentData_order )
-		currentData_order = currentData_order + 1
+		currentEntity:SetOrder( currentEntity_order )
+		currentEntity_order = currentEntity_order + 1
 	end
 end
 
@@ -114,11 +114,11 @@ local function CheckEntityData( typeCode )
 	if not CheckData() then
 		return false
 	end
-	if not currentData then
+	if not currentEntity then
 		e( "模块构建 : 修改实体属性时实体(Entity)不能为空" )
 		return false
 	end
-	if not table.Has( typeCode , currentData:GetType() ) then
+	if not table.Has( typeCode , currentEntity:GetType() ) then
 		e( "模块构建 : 当前实体不支持此属性" )
 		return false
 	end
@@ -197,7 +197,7 @@ SIGen.Technology = need( "sigen_technology" )
 -- ------------------------------------------------------------------------------------------------
 
 function SIGen.D.EE()
-	ee( currentData )
+	ee( currentEntity )
 	return SIGen
 end
 
@@ -259,69 +259,69 @@ function SIGen.GetCurrentSubGroupEntity()
 	return currentSubGroup
 end
 
-function SIGen.GetCurrentDataEntity()
-	return currentData
+function SIGen.GetCurrentEntity()
+	return currentEntity
 end
 
-function SIGen.GetCurrentDataOrder()
-	return currentData_order
+function SIGen.GetCurrentEntityOrder()
+	return currentEntity_order
 end
 
 function SIGen.GetCurrentEntityBaseName()
-	if not currentData then
+	if not currentEntity then
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetCurrentEntityBaseName 方法" )
 		return nil
 	end
-	return currentData:GetBaseName()
+	return currentEntity:GetBaseName()
 end
 
 function SIGen.GetCurrentEntityName()
 	if currentEntityName then return currentEntityName end
-	if not currentData then
+	if not currentEntity then
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetCurrentEntityName 方法" )
 		return nil
 	end
-	return currentData:GetName()
+	return currentEntity:GetName()
 end
 
 function SIGen.GetIconFile()
-	if not currentData then
+	if not currentEntity then
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetIconFile 方法" )
 		return nil
 	end
-	return currentConstantsData.picturePath .. "item/" .. currentData:GetBaseName()
+	return currentConstantsData.GetPicturePath( SITypes.item.item ) .. "item/" .. currentEntity:GetBaseName()
 end
 
 function SIGen.GetLayerFile()
-	if not currentData then
+	if not currentEntity then
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetLayerFile 方法" )
 		return nil
 	end
-	local baseName = currentData:GetBaseName()
-	return currentConstantsData.picturePath .. "entity/" .. baseName .. "/" .. baseName
+	local baseName = currentEntity:GetBaseName()
+	return currentConstantsData.GetPicturePath( currentEntity:GetType() ) .. "entity/" .. baseName .. "/" .. baseName
 end
 
 function SIGen.GetCurrentEntityItemName()
-	if not currentData then
+	if not currentEntity then
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetCurrentEntityItemName 方法" )
 		return nil
 	end
-	if not currentData:HasCodeName( "entity" ) then
+	if not currentEntity:HasCodeName( "entity" ) then
 		e( "模块构建 : 只有实体(Entity)类型的实体才能使用 GetCurrentEntityItemName 方法" )
 		return nil
 	end
-	if not currentData:HasFill() then currentData:Fill() end
-	local item = currentData:GetItem()
+	if not currentEntity:HasFill() then currentEntity:Fill() end
+	local item = currentEntity:GetItem()
 	if item then return item:GetName()
 	else return nil end
 end
 
 function SIGen.GetCurrentEntitySourceData()
-	if not currentData then
+	if not currentEntity then
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetCurrentEntitySourceData 方法" )
 		return nil
 	end
-	return currentData:GetSourceData()
+	return currentEntity:GetSourceData()
 end
 
 function SIGen.Order( orderCode )
@@ -399,7 +399,7 @@ function SIGen.NewSubGroup( name , subgroup )
 	local subGroupData = savedSubGroupData.subGroupDataList[name]
 	if subGroupData then
 		currentSubGroup = subGroupData.entity
-		currentData_order = subGroupData.data_order
+		currentEntity_order = subGroupData.entity_order
 	else
 		currentSubGroup = SIGen.SubGroup:New( name , subgroup )
 		:SetGroup( currentGroup )
@@ -408,7 +408,7 @@ function SIGen.NewSubGroup( name , subgroup )
 		:Extend()
 		:Finish()
 		currentSubGroup_order = currentSubGroup_order + 1
-		currentData_order = 1
+		currentEntity_order = 1
 	end
 	return SIGen
 end
@@ -558,7 +558,7 @@ end
 function SIGen.NewEmpty( type , name , data )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Base:New( type , name , data )
+	currentEntity = SIGen.Base:New( type , name , data )
 	InitEntity()
 	return SIGen
 end
@@ -566,34 +566,34 @@ end
 function SIGen.NewItem( name , stackSize , item )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Item:New( name , item )
+	currentEntity = SIGen.Item:New( name , item )
 	InitEntity()
-	if stackSize then currentData:SetStackSize( stackSize ) end
+	if stackSize then currentEntity:SetStackSize( stackSize ) end
 	return SIGen
 end
 
 function SIGen.NewModule( name , stackSize , module )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Module:New( name , module )
+	currentEntity = SIGen.Module:New( name , module )
 	InitEntity()
-	if stackSize then currentData:SetStackSize( stackSize ) end
+	if stackSize then currentEntity:SetStackSize( stackSize ) end
 	return SIGen
 end
 
 function SIGen.NewTool( name , stackSize , tool )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Tool:New( name , tool )
+	currentEntity = SIGen.Tool:New( name , tool )
 	InitEntity()
-	if stackSize then currentData:SetStackSize( stackSize ) end
+	if stackSize then currentEntity:SetStackSize( stackSize ) end
 	return SIGen
 end
 
 function SIGen.NewEntity( type , name , entity )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Entity:New( type , name , entity )
+	currentEntity = SIGen.Entity:New( type , name , entity )
 	InitEntity()
 	return SIGen
 end
@@ -601,7 +601,7 @@ end
 function SIGen.NewResource( type , name , resource )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Resource:New( type , name , resource )
+	currentEntity = SIGen.Resource:New( type , name , resource )
 	InitEntity()
 	return SIGen
 end
@@ -609,7 +609,7 @@ end
 function SIGen.NewHealthEntity( type , name , healthEntity )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.HealthEntity:New( type , name , healthEntity )
+	currentEntity = SIGen.HealthEntity:New( type , name , healthEntity )
 	InitEntity()
 	return SIGen
 end
@@ -617,7 +617,7 @@ end
 function SIGen.NewUnit( name , unit )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Unit:New( name , unit )
+	currentEntity = SIGen.Unit:New( name , unit )
 	InitEntity()
 	return SIGen
 end
@@ -625,7 +625,7 @@ end
 function SIGen.NewSpawner( name , spawner )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Spawner:New( name , spawner )
+	currentEntity = SIGen.Spawner:New( name , spawner )
 	InitEntity()
 	return SIGen
 end
@@ -633,7 +633,7 @@ end
 function SIGen.NewBoiler( name , boiler )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Boiler:New( name , boiler )
+	currentEntity = SIGen.Boiler:New( name , boiler )
 	InitEntity()
 	return SIGen
 end
@@ -641,7 +641,7 @@ end
 function SIGen.NewGenerator( name , generator )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Generator:New( name , generator )
+	currentEntity = SIGen.Generator:New( name , generator )
 	InitEntity()
 	return SIGen
 end
@@ -649,7 +649,7 @@ end
 function SIGen.NewBurnerGenerator( name , burnerGenerator )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.BurnerGenerator:New( name , burnerGenerator )
+	currentEntity = SIGen.BurnerGenerator:New( name , burnerGenerator )
 	InitEntity()
 	return SIGen
 end
@@ -657,7 +657,7 @@ end
 function SIGen.NewPump( name , pump )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Pump:New( name , pump )
+	currentEntity = SIGen.Pump:New( name , pump )
 	InitEntity()
 	return SIGen
 end
@@ -665,7 +665,7 @@ end
 function SIGen.NewMining( name , mining )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Mining:New( name , mining )
+	currentEntity = SIGen.Mining:New( name , mining )
 	InitEntity()
 	return SIGen
 end
@@ -673,7 +673,7 @@ end
 function SIGen.NewFurnace( name , furnace )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Furnace:New( name , furnace )
+	currentEntity = SIGen.Furnace:New( name , furnace )
 	InitEntity()
 	return SIGen
 end
@@ -681,7 +681,7 @@ end
 function SIGen.NewMachine( name , machine )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Machine:New( name , machine )
+	currentEntity = SIGen.Machine:New( name , machine )
 	InitEntity()
 	return SIGen
 end
@@ -689,7 +689,7 @@ end
 function SIGen.NewLab( name , lab )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Lab:New( name , lab )
+	currentEntity = SIGen.Lab:New( name , lab )
 	InitEntity()
 	return SIGen
 end
@@ -697,7 +697,7 @@ end
 function SIGen.NewBeacon( name , beacon )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Beacon:New( name , beacon )
+	currentEntity = SIGen.Beacon:New( name , beacon )
 	InitEntity()
 	return SIGen
 end
@@ -705,7 +705,7 @@ end
 function SIGen.NewPipe( name , pipe )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Pipe:New( name , pipe )
+	currentEntity = SIGen.Pipe:New( name , pipe )
 	InitEntity()
 	return SIGen
 end
@@ -713,7 +713,7 @@ end
 function SIGen.NewContainer( name , container )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Container:New( name , container )
+	currentEntity = SIGen.Container:New( name , container )
 	InitEntity()
 	return SIGen
 end
@@ -721,25 +721,25 @@ end
 function SIGen.NewContainerLogic( name , containerLogic , logisticMode )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.ContainerLogic:New( name , containerLogic )
+	currentEntity = SIGen.ContainerLogic:New( name , containerLogic )
 	InitEntity()
-	if logisticMode then currentData:SetLogisticMode( logisticMode ) end
+	if logisticMode then currentEntity:SetLogisticMode( logisticMode ) end
 	return SIGen
 end
 
 function SIGen.NewContainerLinked( name , containerLinked , linkedMode )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.ContainerLinked:New( name , containerLinked )
+	currentEntity = SIGen.ContainerLinked:New( name , containerLinked )
 	InitEntity()
-	if linkedMode then currentData:SetLogisticMode( linkedMode ) end
+	if linkedMode then currentEntity:SetLogisticMode( linkedMode ) end
 	return SIGen
 end
 
 function SIGen.NewRobot( name , robot )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Robot:New( name , robot )
+	currentEntity = SIGen.Robot:New( name , robot )
 	InitEntity()
 	return SIGen
 end
@@ -747,7 +747,7 @@ end
 function SIGen.NewRobotConstruction( name , robotConstruction )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.RobotConstruction:New( name , robotConstruction )
+	currentEntity = SIGen.RobotConstruction:New( name , robotConstruction )
 	InitEntity()
 	return SIGen
 end
@@ -755,7 +755,7 @@ end
 function SIGen.NewRobotLogistic( name , robotLogistic )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.RobotLogistic:New( name , robotLogistic )
+	currentEntity = SIGen.RobotLogistic:New( name , robotLogistic )
 	InitEntity()
 	return SIGen
 end
@@ -763,7 +763,7 @@ end
 function SIGen.NewRobotCombat( name , robotCombat )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.RobotCombat:New( name , robotCombat )
+	currentEntity = SIGen.RobotCombat:New( name , robotCombat )
 	InitEntity()
 	return SIGen
 end
@@ -771,7 +771,7 @@ end
 function SIGen.NewRoboport( name , roboport )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Roboport:New( name , roboport )
+	currentEntity = SIGen.Roboport:New( name , roboport )
 	InitEntity()
 	return SIGen
 end
@@ -779,7 +779,7 @@ end
 function SIGen.NewRadar( name , radar )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Radar:New( name , radar )
+	currentEntity = SIGen.Radar:New( name , radar )
 	InitEntity()
 	return SIGen
 end
@@ -787,7 +787,7 @@ end
 function SIGen.NewRecipe( name , recipe )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Recipe:New( name , recipe )
+	currentEntity = SIGen.Recipe:New( name , recipe )
 	InitEntity()
 	return SIGen
 end
@@ -795,7 +795,7 @@ end
 function SIGen.NewTechnology( name , technology )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentData = SIGen.Technology:New( name , technology )
+	currentEntity = SIGen.Technology:New( name , technology )
 	InitEntity()
 	return SIGen
 end
@@ -806,25 +806,25 @@ end
 
 function SIGen.SetItemName( itemName )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	if currentData.SetItemName then currentData:SetItemName( itemName ) end
+	if currentEntity.SetItemName then currentEntity:SetItemName( itemName ) end
 	return SIGen
 end
 
 function SIGen.AddLastLevel( count )
-	currentData:AddLastLevel( count )
+	currentEntity:AddLastLevel( count )
 	return SIGen
 end
 
 function SIGen.Fill()
-	if not currentData then
+	if not currentEntity then
 		e( "模块构建 : 当前没有创建过实体时不能使用 Fill 方法" )
 		return SIGen
 	end
-	if currentData:HasFill() then
+	if currentEntity:HasFill() then
 		e( "模块构建 : 当前实体已经使用过 Fill 方法了" )
 		return SIGen
 	end
-	currentData:Fill()
+	currentEntity:Fill()
 	return SIGen
 end
 
@@ -839,19 +839,19 @@ end
 
 function SIGen.SetLocalisedNames( nameOrListOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetLocalisedNames( nameOrListOrPack )
+	currentEntity:SetLocalisedNames( nameOrListOrPack )
 	return SIGen
 end
 
 function SIGen.SetLocalisedDescriptions( descriptionOrListOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetLocalisedDescriptions( descriptionOrListOrPack )
+	currentEntity:SetLocalisedDescriptions( descriptionOrListOrPack )
 	return SIGen
 end
 
 function SIGen.SetCustomData( data )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	if type( data ) == "table" then currentData:SetCustomData( data ) end
+	if type( data ) == "table" then currentEntity:SetCustomData( data ) end
 	return SIGen
 end
 
@@ -859,131 +859,131 @@ end
 
 function SIGen.SetProperties( width , height , health , speed , energyUsage , energySource , inputSlotCount , outputSlotCount )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	if width or height then currentData:SetSize( width , height ) end
-	if health then currentData:SetHealth( health ) end
-	if speed then currentData:SetSpeed( speed ) end
-	if energyUsage or energySource then currentData:SetEnergy( energyUsage , energySource ) end
-	if inputSlotCount or outputSlotCount then currentData:SetSlotCount( inputSlotCount , outputSlotCount ) end
+	if width or height then currentEntity:SetSize( width , height ) end
+	if health then currentEntity:SetHealth( health ) end
+	if speed then currentEntity:SetSpeed( speed ) end
+	if energyUsage or energySource then currentEntity:SetEnergy( energyUsage , energySource ) end
+	if inputSlotCount or outputSlotCount then currentEntity:SetSlotCount( inputSlotCount , outputSlotCount ) end
 	return SIGen
 end
 
 function SIGen.SetSize( width , height )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	if width or height then currentData:SetSize( width , height ) end
+	if width or height then currentEntity:SetSize( width , height ) end
 	return SIGen
 end
 
 function SIGen.SetHealth( health , descriptionKey , descriptionValue )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	if health then currentData:SetHealth( health , descriptionKey , descriptionValue ) end
+	if health then currentEntity:SetHealth( health , descriptionKey , descriptionValue ) end
 	return SIGen
 end
 
 function SIGen.SetSpeed( speed )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	if speed then currentData:SetSpeed( speed ) end
+	if speed then currentEntity:SetSpeed( speed ) end
 	return SIGen
 end
 
 function SIGen.SetEnergy( energyUsage , energySource )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	if energyUsage or energySource then currentData:SetEnergy( energyUsage , energySource ) end
+	if energyUsage or energySource then currentEntity:SetEnergy( energyUsage , energySource ) end
 	return SIGen
 end
 
 function SIGen.SetSlotCount( inputSlotCount , outputSlotCount )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	if inputSlotCount or outputSlotCount then currentData:SetSlotCount( inputSlotCount , outputSlotCount ) end
+	if inputSlotCount or outputSlotCount then currentEntity:SetSlotCount( inputSlotCount , outputSlotCount ) end
 	return SIGen
 end
 
 function SIGen.SetMinable( minable , placeableBy , miningVisualisationTint )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetMinable( minable , placeableBy , miningVisualisationTint )
+	currentEntity:SetMinable( minable , placeableBy , miningVisualisationTint )
 	return SIGen
 end
 
 function SIGen.SetEffectRadius( effectRadius , linkRadius , connectRadius )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	if effectRadius or linkRadius or connectRadius then currentData:SetEffectRadius( effectRadius , linkRadius , connectRadius ) end
+	if effectRadius or linkRadius or connectRadius then currentEntity:SetEffectRadius( effectRadius , linkRadius , connectRadius ) end
 	return SIGen
 end
 
 function SIGen.SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	if effectEnergy or linkEnergy or connectEnergy then currentData:SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy ) end
+	if effectEnergy or linkEnergy or connectEnergy then currentEntity:SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy ) end
 	return SIGen
 end
 
 function SIGen.SetPluginData( slotCount , iconShift )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	if slotCount or iconShift then currentData:SetPluginData( slotCount , iconShift ) end
+	if slotCount or iconShift then currentEntity:SetPluginData( slotCount , iconShift ) end
 	return SIGen
 end
 
 function SIGen.SetLight( intensity , size , color )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetLight( intensity , size , color )
+	currentEntity:SetLight( intensity , size , color )
 	return SIGen
 end
 
 function SIGen.SetCorpse( corpse , explosion , triggerEffect )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	if corpse or explosion or triggerEffect then currentData:SetCorpse( corpse , explosion , triggerEffect ) end
+	if corpse or explosion or triggerEffect then currentEntity:SetCorpse( corpse , explosion , triggerEffect ) end
 	return SIGen
 end
 
 function SIGen.SetLevel( level , maxLevel )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	if level or maxLevel then currentData:SetLevel( level , maxLevel ) end
+	if level or maxLevel then currentEntity:SetLevel( level , maxLevel ) end
 	return SIGen
 end
 
 function SIGen.SetMainRecipe( recipeOrDataOrEntityOrPack )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetMainRecipe( recipeOrDataOrEntityOrPack )
+	currentEntity:SetMainRecipe( recipeOrDataOrEntityOrPack )
 	return SIGen
 end
 
 function SIGen.SetLimitation( limitation , message )
 	if not CheckEntityData( SIGen.dataFlags.item ) then return SIGen end
-	currentData:SetLimitation( limitation , message )
+	currentEntity:SetLimitation( limitation , message )
 	return SIGen
 end
 
 function SIGen.SetLogisticMode( logisticMode )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetLogisticMode( logisticMode )
+	currentEntity:SetLogisticMode( logisticMode )
 	return SIGen
 end
 
 function SIGen.SetSignalWire( distance , points , sprites , signals )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetSignalWire( distance , points , sprites , signals )
+	currentEntity:SetSignalWire( distance , points , sprites , signals )
 	return SIGen
 end
 
 function SIGen.SetEnabled( enabled )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetEnabled( enabled )
+	currentEntity:SetEnabled( enabled )
 	return SIGen
 end
 
 function SIGen.SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
+	currentEntity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 	return SIGen
 end
 
 function SIGen.SetAutoPlace( autoPlaceSettings )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetAutoPlace( autoPlaceSettings )
+	currentEntity:SetAutoPlace( autoPlaceSettings )
 	return SIGen
 end
 
 function SIGen.SetStagesEffects( stagesEffects , effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetStagesEffects( stagesEffects , effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
+	currentEntity:SetStagesEffects( stagesEffects , effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
 	return SIGen
 end
 
@@ -991,115 +991,115 @@ end
 
 function SIGen.SetFlags( flagOrFlagsOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetFlags( flagOrFlagsOrPack )
+	currentEntity:SetFlags( flagOrFlagsOrPack )
 	return SIGen
 end
 
 function SIGen.AddFlags( flagOrFlagsOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:AddFlags( flagOrFlagsOrPack )
+	currentEntity:AddFlags( flagOrFlagsOrPack )
 	return SIGen
 end
 
 function SIGen.ClearFlags()
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:ClearFlags()
+	currentEntity:ClearFlags()
 	return SIGen
 end
 
 function SIGen.SetResidences( residenceOrResidencesOrPack )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetResidences( residenceOrResidencesOrPack )
+	currentEntity:SetResidences( residenceOrResidencesOrPack )
 	return SIGen
 end
 
 function SIGen.AddResidences( residenceOrResidencesOrPack )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:AddResidences( residenceOrResidencesOrPack )
+	currentEntity:AddResidences( residenceOrResidencesOrPack )
 	return SIGen
 end
 
 function SIGen.ClearResidences()
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:ClearResidences()
+	currentEntity:ClearResidences()
 	return SIGen
 end
 
 function SIGen.SetTechnologies( technologyOrTechnologiesOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetTechnologies( technologyOrTechnologiesOrPack )
+	currentEntity:SetTechnologies( technologyOrTechnologiesOrPack )
 	return SIGen
 end
 
 function SIGen.AddTechnologies( technologyOrTechnologiesOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:AddTechnologies( technologyOrTechnologiesOrPack )
+	currentEntity:AddTechnologies( technologyOrTechnologiesOrPack )
 	return SIGen
 end
 
 function SIGen.ClearTechnologies()
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:ClearTechnologies()
+	currentEntity:ClearTechnologies()
 	return SIGen
 end
 
 function SIGen.SetRecipeTypes( typeOrTypesOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetRecipeTypes( typeOrTypesOrPack )
+	currentEntity:SetRecipeTypes( typeOrTypesOrPack )
 	return SIGen
 end
 
 function SIGen.AddRecipeTypes( typeOrTypesOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:AddRecipeTypes( typeOrTypesOrPack )
+	currentEntity:AddRecipeTypes( typeOrTypesOrPack )
 	return SIGen
 end
 
 function SIGen.ClearRecipeTypes()
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:ClearRecipeTypes()
+	currentEntity:ClearRecipeTypes()
 	return SIGen
 end
 
 function SIGen.SetPluginTypes( typeOrTypesOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetPluginTypes( typeOrTypesOrPack )
+	currentEntity:SetPluginTypes( typeOrTypesOrPack )
 	return SIGen
 end
 
 function SIGen.AddPluginTypes( typeOrTypesOrPack )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:AddPluginTypes( typeOrTypesOrPack )
+	currentEntity:AddPluginTypes( typeOrTypesOrPack )
 	return SIGen
 end
 
 function SIGen.ClearPluginTypes()
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:ClearPluginTypes()
+	currentEntity:ClearPluginTypes()
 	return SIGen
 end
 
 function SIGen.SetCosts( costOrCostsOrPack , count )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetCosts( costOrCostsOrPack , count )
+	currentEntity:SetCosts( costOrCostsOrPack , count )
 	return SIGen
 end
 
 function SIGen.AddCosts( costOrCostsOrPack , count )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:AddCosts( costOrCostsOrPack , count )
+	currentEntity:AddCosts( costOrCostsOrPack , count )
 	return SIGen
 end
 
 function SIGen.ClearCosts()
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:ClearCosts()
+	currentEntity:ClearCosts()
 	return SIGen
 end
 
 function SIGen.SetResults( resultOrResultsOrPack , resultType , count )
 	if not CheckEntityData( SIGen.dataFlags.result ) then return SIGen end
-	local type = currentData:GetType()
+	local type = currentEntity:GetType()
 	if not resultType then
 		if type == SITypes.item.item or type == SITypes.item.item_e then resultType = SIGen.resultType.entity
 		elseif type == SITypes.recipe then resultType = SIGen.resultType.recipe
@@ -1112,37 +1112,37 @@ function SIGen.SetResults( resultOrResultsOrPack , resultType , count )
 		count = resultType
 		resultType = SIGen.resultType.recipe
 	end
-	currentData:SetResults( resultOrResultsOrPack , resultType , count )
+	currentEntity:SetResults( resultOrResultsOrPack , resultType , count )
 	return SIGen
 end
 
 function SIGen.AddResults( resultOrResultsOrPack , count )
 	if not CheckEntityData( SIGen.dataFlags.result ) then return SIGen end
-	currentData:AddResults( resultOrResultsOrPack , count )
+	currentEntity:AddResults( resultOrResultsOrPack , count )
 	return SIGen
 end
 
 function SIGen.ClearResults()
 	if not CheckEntityData( SIGen.dataFlags.result ) then return SIGen end
-	currentData:ClearResults()
+	currentEntity:ClearResults()
 	return SIGen
 end
 
 function SIGen.SetFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	currentEntity:SetFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
 	return SIGen
 end
 
 function SIGen.AddFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:AddFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
+	currentEntity:AddFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
 	return SIGen
 end
 
 function SIGen.ClearFluidBoxes()
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:ClearFluidBoxes()
+	currentEntity:ClearFluidBoxes()
 	return SIGen
 end
 
@@ -1150,38 +1150,38 @@ end
 
 function SIGen.SetRender_notInNetworkIcon( trueOrFalse )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetRender_notInNetworkIcon( trueOrFalse )
+	currentEntity:SetRender_notInNetworkIcon( trueOrFalse )
 	return SIGen
 end
 
 function SIGen.SetTreeSettings( treeRemovalProbability , treeRemovalMaxDistance )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetTreeSettings( treeRemovalProbability , treeRemovalMaxDistance )
+	currentEntity:SetTreeSettings( treeRemovalProbability , treeRemovalMaxDistance )
 	return SIGen
 end
 
 function SIGen.SetResourceSettings( normalCount , minimumCount , infiniteDepletionAmount , resourcePatchSearchRadius , isInfinite , isHighlight , useMapGrid )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:SetResourceSettings( normalCount , minimumCount , infiniteDepletionAmount , resourcePatchSearchRadius , isInfinite , isHighlight , useMapGrid )
+	currentEntity:SetResourceSettings( normalCount , minimumCount , infiniteDepletionAmount , resourcePatchSearchRadius , isInfinite , isHighlight , useMapGrid )
 	return SIGen
 end
 
 function SIGen.SetSelfIcon( name )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetSelfIcon( name )
+	currentEntity:SetSelfIcon( name )
 	return SIGen
 end
 
 function SIGen.AddLastLevel( count )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:AddLastLevel( count )
+	currentEntity:AddLastLevel( count )
 	return SIGen
 end
 
 function SIGen.AddSuperArmor()
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentData:AddSuperArmor()
-	table.insert( superArmorDataList , { currentData:GetType() , currentData:GetName() } )
+	currentEntity:AddSuperArmor()
+	table.insert( superArmorDataList , { currentEntity:GetType() , currentEntity:GetName() } )
 	return SIGen
 end
 
@@ -1189,19 +1189,19 @@ end
 
 function SIGen.FillImage()
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:FillImage()
+	currentEntity:FillImage()
 	return SIGen
 end
 
 function SIGen.SetPic( key , layer )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetPic( key , layer )
+	currentEntity:SetPic( key , layer )
 	return SIGen
 end
 
 function SIGen.SetSound( key , sound )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentData:SetSound( key , sound )
+	currentEntity:SetSound( key , sound )
 	return SIGen
 end
 
@@ -1210,124 +1210,124 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 function SIGen.E.SetPictureData( count , hasLight , lightTint )
-	if currentData.SetPictureData then currentData:SetPictureData( count , hasLight , lightTint ) end
+	if currentEntity.SetPictureData then currentEntity:SetPictureData( count , hasLight , lightTint ) end
 	return SIGen
 end
 
 function SIGen.E.SetPictureCount( count )
-	if currentData.SetPictureCount then currentData:SetPictureCount( count ) end
+	if currentEntity.SetPictureCount then currentEntity:SetPictureCount( count ) end
 	return SIGen
 end
 
 function SIGen.E.SetPictureHasLight( hasLight , lightTint )
-	if currentData.SetPictureHasLight then currentData:SetPictureHasLight( hasLight , lightTint ) end
+	if currentEntity.SetPictureHasLight then currentEntity:SetPictureHasLight( hasLight , lightTint ) end
 	return SIGen
 end
 
 
 
 function SIGen.E.SetAddenSize( addenWidth , addenHeight )
-	if currentData.SetAddenSize then currentData:SetAddenSize( addenWidth , addenHeight ) end
+	if currentEntity.SetAddenSize then currentEntity:SetAddenSize( addenWidth , addenHeight ) end
 	return SIGen
 end
 
 function SIGen.E.SetAddenWidth( addenWidth )
-	if currentData.SetAddenWidth then currentData:SetAddenWidth( addenWidth ) end
+	if currentEntity.SetAddenWidth then currentEntity:SetAddenWidth( addenWidth ) end
 	return SIGen
 end
 
 function SIGen.E.SetAddenWidth( addenWidth )
-	if currentData.SetAddenWidth then currentData:SetAddenWidth( addenWidth ) end
+	if currentEntity.SetAddenWidth then currentEntity:SetAddenWidth( addenWidth ) end
 	return SIGen
 end
 
 function SIGen.E.SetShadowSize( shadowWidth , shadowHeight )
-	if currentData.SetShadowSize then currentData:SetShadowSize( shadowWidth , shadowHeight ) end
+	if currentEntity.SetShadowSize then currentEntity:SetShadowSize( shadowWidth , shadowHeight ) end
 	return SIGen
 end
 
 function SIGen.E.SetShadowWidth( shadowWidth )
-	if currentData.SetShadowWidth then currentData:SetShadowWidth( shadowWidth ) end
+	if currentEntity.SetShadowWidth then currentEntity:SetShadowWidth( shadowWidth ) end
 	return SIGen
 end
 
 function SIGen.E.SetShadowHeight( shadowHeight )
-	if currentData.SetShadowHeight then currentData:SetShadowHeight( shadowHeight ) end
+	if currentEntity.SetShadowHeight then currentEntity:SetShadowHeight( shadowHeight ) end
 	return SIGen
 end
 
 function SIGen.E.SetAddenShift( x , y )
-	if currentData.SetAddenShift then currentData:SetAddenShift( x , y ) end
+	if currentEntity.SetAddenShift then currentEntity:SetAddenShift( x , y ) end
 	return SIGen
 end
 
 function SIGen.E.SetAddenShiftX( x )
-	if currentData.SetAddenShiftX then currentData:SetAddenShiftX( x ) end
+	if currentEntity.SetAddenShiftX then currentEntity:SetAddenShiftX( x ) end
 	return SIGen
 end
 
 function SIGen.E.SetAddenShiftY( y )
-	if currentData.SetAddenShiftY then currentData:SetAddenShiftY( y ) end
+	if currentEntity.SetAddenShiftY then currentEntity:SetAddenShiftY( y ) end
 	return SIGen
 end
 
 function SIGen.E.SetShadowShift( x , y )
-	if currentData.SetShadowShift then currentData:SetShadowShift( x , y ) end
+	if currentEntity.SetShadowShift then currentEntity:SetShadowShift( x , y ) end
 	return SIGen
 end
 
 function SIGen.E.SetShadowShiftX( x )
-	if currentData.SetShadowShiftX then currentData:SetShadowShiftX( x ) end
+	if currentEntity.SetShadowShiftX then currentEntity:SetShadowShiftX( x ) end
 	return SIGen
 end
 
 function SIGen.E.SetShadowShiftY( y )
-	if currentData.SetShadowShiftY then currentData:SetShadowShiftY( y ) end
+	if currentEntity.SetShadowShiftY then currentEntity:SetShadowShiftY( y ) end
 	return SIGen
 end
 
 function SIGen.E.SetScale( scale )
-	if currentData.SetScale then currentData:SetScale( scale ) end
+	if currentEntity.SetScale then currentEntity:SetScale( scale ) end
 	return SIGen
 end
 
 function SIGen.E.SetHasHr( hasHr )
-	if currentData.SetHasHr then currentData:SetHasHr( hasHr ) end
+	if currentEntity.SetHasHr then currentEntity:SetHasHr( hasHr ) end
 	return SIGen
 end
 
 function SIGen.E.SetAnimShadow( animShadow )
-	if currentData.SetAnimShadow then currentData:SetAnimShadow( animShadow ) end
+	if currentEntity.SetAnimShadow then currentEntity:SetAnimShadow( animShadow ) end
 	return SIGen
 end
 
 function SIGen.E.SetPatchLocation( x , y )
-	if currentData.SetPatchLocation then currentData:SetPatchLocation( x , y ) end
+	if currentEntity.SetPatchLocation then currentEntity:SetPatchLocation( x , y ) end
 	return SIGen
 end
 
 function SIGen.E.SetWaterLocation( x , y )
-	if currentData.SetWaterLocation then currentData:SetWaterLocation( x , y ) end
+	if currentEntity.SetWaterLocation then currentEntity:SetWaterLocation( x , y ) end
 	return SIGen
 end
 
 function SIGen.E.SetItemStackSize( itemStackSize )
-	if currentData.SetStackSize then currentData:SetStackSize( itemStackSize ) end
+	if currentEntity.SetStackSize then currentEntity:SetStackSize( itemStackSize ) end
 	return SIGen
 end
 
 function SIGen.E.SetItemFlags( flagOrFlagsOrPack )
-	if currentData.SetItemFlags then currentData:SetItemFlags( flagOrFlagsOrPack ) end
+	if currentEntity.SetItemFlags then currentEntity:SetItemFlags( flagOrFlagsOrPack ) end
 	return SIGen
 end
 
 function SIGen.E.AddItemFlags( flagOrFlagsOrPack )
-	if currentData.AddItemFlags then currentData:AddItemFlags( flagOrFlagsOrPack ) end
+	if currentEntity.AddItemFlags then currentEntity:AddItemFlags( flagOrFlagsOrPack ) end
 	return SIGen
 end
 
 function SIGen.E.ClearItemFlags()
-	if currentData.ClearItemFlags then currentData:ClearItemFlags() end
+	if currentEntity.ClearItemFlags then currentEntity:ClearItemFlags() end
 	return SIGen
 end
 

@@ -17,6 +17,10 @@ end
 
 
 
+function entity:SetIcon( picturePath , baseName )
+	return self
+end
+
 function entity:SetEnergy( energyUsage , energySource )
 	return self:SetParam( "energy_required" , energyUsage )
 end
@@ -139,7 +143,7 @@ end
 
 function entity:SetSelfIcon( name )
 	name = name or self:GetBaseName()
-	return self:SetParam( "icon" , SIGen.GetCurrentConstantsData().picturePath.."item/"..name..".png" )
+	return self:SetParam( "icon" , SIGen.GetPicturePath( SITypes.item.item ).."item/"..name..".png" )
 end
 
 function entity:AddLastLevel( count )

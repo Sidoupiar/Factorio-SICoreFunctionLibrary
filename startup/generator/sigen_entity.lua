@@ -240,7 +240,6 @@ function entity:SetSize( width , height )
 		self.height = height
 		return self:SetParam( "selection_box" , SIPackers.BoundBox( self.width , self.height ) )
 		:SetParam( "collision_box" , SIPackers.CollisionBoundBox( self.width , self.height ) )
-		:SetImage( SIGen.GetCurrentConstantsData().picturePath )
 	else return self end
 end
 
@@ -289,7 +288,7 @@ function entity:Fill( currentEntity )
 			:Init()
 			:DefaultFlags()
 			:SetGroup( SIGen.GetCurrentSubGroupEntity() )
-			:SetOrder( SIGen.GetCurrentDataOrder() )
+			:SetOrder( SIGen.GetCurrentEntityOrder() )
 			
 			local localizedNames = currentEntity:GetParam( "localised_name" )
 			if localizedNames then currentEntity.item:SetLocalisedNames( localizedNames ) end
