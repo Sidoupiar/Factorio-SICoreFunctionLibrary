@@ -66,9 +66,9 @@ function entity:New( type , baseName , data )
 	if data then self:Import( data ) end
 	self:SetParam( "type" , type )
 	:SetParam( "name" , currentConstantsData.autoName and currentConstantsData.realname..SIKeyw[type].."-"..baseName or baseName )
-	:SetPicturePath( currentConstantsData.picturePath )
+	:SetPicturePath( SIGen.GetPicturePath( type ) )
 	if data then return self
-	else return self:SetIcon( currentConstantsData.picturePath , baseName ) end
+	else return self:SetIcon( SIGen.GetPicturePath( SITypes.item.item ) , baseName ) end
 end
 
 function entity:Extend()

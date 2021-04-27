@@ -20,7 +20,7 @@ function e( msg )
 	mmess( "_____ :: "..output..msg )
 end
 error = function( msg )
-	log( "[CATCH ERROR] SICoreFunctionLibrary_Code: "..msg )
+	log( "[错误获取] SICoreFunctionLibrary_Code: "..msg )
 end
 
 function ee( tableData )
@@ -115,12 +115,39 @@ function load( constantsData )
 		constants.pictureSource = string.sub( constants.pictureSource , 1 , 2 ) == "__" and constants.pictureSource or "__SI" .. constants.pictureSource .. "__"
 		constants.picturePath = constants.pictureSource .. "/zpic/"
 	else constants.picturePath = constants.base .. "/zpic/" end
+	if constants.picturePaths then
+		local newPicturePaths = {}
+		for path , typeList in pairs( constants.picturePaths ) do
+			path = string.sub( path , 1 , 2 ) == "__" and path or "__SI" .. path .. "__"
+			table.insert( newPicturePaths , { path = path , typeList = typeList } )
+		end
+		constants.mainPicturePath = 0
+		constants.picturePaths = newPicturePaths
+	end
 	if constants.soundSource then
 		constants.soundSource = string.sub( constants.soundSource , 1 , 2 ) == "__" and constants.soundSource or "__SI" .. constants.soundSource .. "__"
 		constants.soundPath = constants.soundSource .. "/zsound/"
 	else constants.soundPath = constants.base .. "/zsound/" end
 	if not constants.orderCode then constants.orderCode = SIOrderCode end
 	constants.orderName = ( SIOrderCode == 0 and "0000" or SIOrderCode ) .. "[" .. realname .. "o]-"
+	constants.GetPicturePath = function( prototypeType )
+		local cons = constants
+		if cons.mainPicturePath > 0 then
+			local dataPack = cons.picturePaths[cons.mainPicturePath]
+			for code , type in pairs( dataPack.typeList ) do
+				if type == prototypeType then return dataPack.path end
+			end
+		else
+			for index , dataPack in pairs( cons.picturePaths ) do
+				if index ~= cons.mainPicturePath then
+					for code , type in pairs( dataPack.typeList ) do
+						if type == prototypeType then return dataPack.path end
+					end
+				end
+			end
+		end
+		return cons.picturePath
+	end
 	if constants.BeforeLoad then constants.BeforeLoad() end
 	
 	SIConstantsDic[constants.base] = class
@@ -155,9 +182,9 @@ function load( constantsData )
 		end
 	end
 	
-	if constants.final_setting_datas then
+	if constants.finalSettingDataList then
 		class = constants.name
-		for k , v in pairs( constants.final_setting_datas ) do
+		for k , v in pairs( constants.finalSettingDataList ) do
 			if SIStartup[class][k] then SIStartup[class][k] = function() return v end
 			elseif SIRglobal[class][k] then SIRglobal[class][k] = function() return v end
 			elseif SIBplayer[class][k] then SIBplayer[class][k] = function() return v end end

@@ -247,6 +247,10 @@ function SIGen.GetCurrentConstantsData()
 	return currentConstantsData
 end
 
+function SIGen.GetPicturePath( type )
+	return currentConstantsData.GetPicturePath( type )
+end
+
 function SIGen.GetCurrentGroupEntity()
 	return currentGroup
 end
