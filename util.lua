@@ -131,22 +131,21 @@ function load( constantsData )
 	if not constants.orderCode then constants.orderCode = SIOrderCode end
 	constants.orderName = ( SIOrderCode == 0 and "0000" or SIOrderCode ) .. "[" .. realname .. "o]-"
 	constants.GetPicturePath = function( prototypeType )
-		local cons = constants
-		if cons.mainPicturePath > 0 then
-			local dataPack = cons.picturePaths[cons.mainPicturePath]
+		if constants.mainPicturePath > 0 then
+			local dataPack = constants.picturePaths[constants.mainPicturePath]
 			for code , type in pairs( dataPack.typeList ) do
 				if type == prototypeType then return dataPack.path end
 			end
 		else
-			for index , dataPack in pairs( cons.picturePaths ) do
-				if index ~= cons.mainPicturePath then
+			for index , dataPack in pairs( constants.picturePaths ) do
+				if index ~= constants.mainPicturePath then
 					for code , type in pairs( dataPack.typeList ) do
 						if type == prototypeType then return dataPack.path end
 					end
 				end
 			end
 		end
-		return cons.picturePath
+		return constants.picturePath
 	end
 	if constants.BeforeLoad then constants.BeforeLoad() end
 	
