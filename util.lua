@@ -154,20 +154,8 @@ function load( constantsData )
 	SIConstantsDic[constants.base] = class
 	
 	if SILoadingDatas and constants.autoLoad then
-		if constants.groups then
-			local order = 0
-			for k , v in pairs( constants.groups ) do
-				order = order + 1
-				SIGF.group( k , order , v , class )
-			end
-		end
-		if constants.append_groups then
-			for k , v in pairs( constants.append_groups ) do
-				SIGF.append_group( k , SICFL.class , v , constants.orderCode )
-			end
-		end
 		if constants.categories then
-			for k , v in pairs( SIType.category ) do
+			for k , v in pairs( SITypes.category ) do
 				if constants.categories[k] then
 					local lname = realname .. k .. "-"
 					local list = {}
@@ -178,7 +166,7 @@ function load( constantsData )
 		end
 		if constants.damage then
 			local list = {}
-			for i , v in pairs( constants.damage ) do list[#list+1] = { type = "damage-type" , name = realname..v } end
+			for i , v in pairs( constants.damage ) do list[#list+1] = { type = SITypes.damageType , name = realname..v } end
 			data:extend( list )
 		end
 	end
