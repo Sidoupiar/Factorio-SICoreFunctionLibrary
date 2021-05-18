@@ -8,4 +8,8 @@ function entity:SetIcon( picturePath , baseName )
 	:SetParam( "icon_size" , SINumbers.iconSizeGroup )
 end
 
+function entity:SetOrder( orderCode )
+	return self:SetParam( "order" , "z-"..SIGen.Order( orderCode ) )
+end
+
 return entity
