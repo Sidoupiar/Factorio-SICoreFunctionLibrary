@@ -48,10 +48,11 @@ function need( name , notself )
 			end
 		end
 	end
-	source = name:find( "__" ) and source:sub( source:find( "__" , 3 )+3 , -1 ) or source:sub( 2 , -1 )
+	local isBase = name:find( "__" )
+	source = isBase and source:sub( source:find( "__" , 3 )+3 , -1 ) or source:sub( 2 , -1 )
 	local path = SINeedlist[source]
 	if not path then
-		path = source:match( "^.*/" ) or ""
+		path = isBase and "" or source:match( "^.*/" ) or ""
 		SINeedlist[source] = path
 	end
 	return require( path..name )
@@ -131,6 +132,7 @@ function load( constantsData )
 	if not constants.orderCode then constants.orderCode = SIOrderCode end
 	constants.orderName = ( SIOrderCode == 0 and "0000" or SIOrderCode ) .. "[" .. realname .. "o]-"
 	constants.GetPicturePath = function( prototypeType )
+		if not constants.picturePaths then return constants.picturePath end
 		if constants.mainPicturePath > 0 then
 			local dataPack = constants.picturePaths[constants.mainPicturePath]
 			for code , type in pairs( dataPack.typeList ) do

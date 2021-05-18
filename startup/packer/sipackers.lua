@@ -4,7 +4,7 @@
 
 SIPackers =
 {
-	resourceAutoplace = need( "resource-autoplace" )
+	resourceAutoplace = need( "__core__/lualib/resource-autoplace" )
 }
 
 -- ------------------------------------------------------------------------------------------------
