@@ -372,12 +372,18 @@ function SIGen.NewGroup( name , group )
 		currentGroup = groupData.entity
 		currentSubGroup_order = groupData.subGroup_order
 	else
-		currentGroup = SIGen.Group:New( name , group )
-		:SetOrder( currentConstantsData.orderName..currentGroup_order )
-		:Fill()
-		:Extend()
-		:Finish()
-		currentGroup_order = currentGroup_order + 1
+		local data = SIGen.GetData( SITypes.group , name )
+		if data then
+			currentGroup = SIGen.Base:New( SITypes.group , name )
+			:SetCustomData( data )
+		else
+			currentGroup = SIGen.Group:New( name , group )
+			:SetOrder( currentConstantsData.orderName..currentGroup_order )
+			:Fill()
+			:Extend()
+			:Finish()
+			currentGroup_order = currentGroup_order + 1
+		end
 		currentSubGroup_order = 1
 	end
 	return SIGen
@@ -401,13 +407,19 @@ function SIGen.NewSubGroup( name , subgroup )
 		currentSubGroup = subGroupData.entity
 		currentEntity_order = subGroupData.entity_order
 	else
-		currentSubGroup = SIGen.SubGroup:New( name , subgroup )
-		:SetGroup( currentGroup )
-		:SetOrder( currentSubGroup_order )
-		:Fill()
-		:Extend()
-		:Finish()
-		currentSubGroup_order = currentSubGroup_order + 1
+		local data = SIGen.GetData( SITypes.subgroup , name )
+		if data and data.group == currentGroup:GetName() then
+			currentSubGroup = SIGen.Base:New( SITypes.subgroup , name )
+			:SetCustomData( data )
+		else
+			currentSubGroup = SIGen.SubGroup:New( name , subgroup )
+			:SetGroup( currentGroup )
+			:SetOrder( currentSubGroup_order )
+			:Fill()
+			:Extend()
+			:Finish()
+			currentSubGroup_order = currentSubGroup_order + 1
+		end
 		currentEntity_order = 1
 	end
 	return SIGen
