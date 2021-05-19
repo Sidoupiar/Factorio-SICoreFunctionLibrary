@@ -599,25 +599,25 @@ end
 
 --params
 --{
---	name ,
---	order ,
---	patch_set_name ,
---	autoplace_control_name ,
---	base_density ,
---	random_probability , 默认 1
---	base_spots_per_km2 , 默认 2.5
---	random_spot_size_minimum , 默认 0.25
---	random_spot_size_maximum , 默认 2
---	regular_blob_amplitude_multiplier , 默认 1
---	starting_blob_amplitude_multiplier , 默认 1
---	additional_richness , 默认 0
---	minimum_richness , 默认 0
---	richness_post_multiplier , 默认 1
---	seed1 , 默认 100
---	regular_rq_factor_multiplier , 默认 1
---	starting_rq_factor_multiplier , 默认 1
---	has_starting_area_placement , 默认 nil , true=初生区域和外部都有 , false=初生区域没有但是外部有 , nil=任意地方都有
---	candidate_spot_count , 默认 21
+--   name ,
+--   order ,
+--   patch_set_name ,
+--   autoplace_control_name ,
+--   base_density ,
+--   random_probability , 默认 1
+--   base_spots_per_km2 , 默认 2.5
+--   random_spot_size_minimum , 默认 0.25
+--   random_spot_size_maximum , 默认 2
+--   regular_blob_amplitude_multiplier , 默认 1
+--   starting_blob_amplitude_multiplier , 默认 1
+--   additional_richness , 默认 0
+--   minimum_richness , 默认 0
+--   richness_post_multiplier , 默认 1
+--   seed1 , 默认 100
+--   regular_rq_factor_multiplier , 默认 1
+--   starting_rq_factor_multiplier , 默认 1
+--   has_starting_area_placement , 默认 nil , true=初生区域和外部都有 , false=初生区域没有但是外部有 , nil=任意地方都有
+--   candidate_spot_count , 默认 21
 --}
 function SIPackers.Autoplace( params )
 	return SIPackers.resourceAutoplace.resource_autoplace_settings( params )

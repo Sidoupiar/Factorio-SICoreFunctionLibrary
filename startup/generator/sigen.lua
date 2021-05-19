@@ -363,6 +363,11 @@ end
 -- ---------- 创建分组 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+-- nameOrSettings =
+-- {
+--   name , 原始名称
+--   autoName , 是否自动构建名称 , 即给名称添加前缀
+-- }
 function SIGen.NewGroup( nameOrSettings , group )
 	if not currentConstantsData then
 		e( "模块构建 : 创建实体时基础信息(ConstantsData)不能为空" )
@@ -399,6 +404,11 @@ function SIGen.NewGroup( nameOrSettings , group )
 	return SIGen
 end
 
+-- nameOrSettings =
+-- {
+--   name , 原始名称
+--   autoName , 是否自动构建名称 , 即给名称添加前缀
+-- }
 function SIGen.NewSubGroup( nameOrSettings , subgroup )
 	FinishData()
 	if not currentConstantsData then
