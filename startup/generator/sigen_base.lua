@@ -65,7 +65,7 @@ function entity:New( type , baseName , data )
 	self.sourceMod = currentConstantsData.class
 	if data then self:Import( data ) end
 	self:SetParam( "type" , type )
-	:SetParam( "name" , currentConstantsData.autoName and currentConstantsData.realname..SIKeyw[type].."-"..baseName or baseName )
+	:SetParam( "name" , SIGen.CreateName( baseName , type ) )
 	:SetPicturePath( SIGen.GetPicturePath( type ) )
 	if data then return self
 	else return self:SetIcon( SIGen.GetPicturePath( SITypes.item.item ) , baseName ) end

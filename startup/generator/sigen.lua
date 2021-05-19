@@ -324,6 +324,10 @@ function SIGen.GetCurrentEntitySourceData()
 	return currentEntity:GetSourceData()
 end
 
+function SIGen.CreateName( baseName , type )
+	return currentConstantsData.autoName and currentConstantsData.realname .. ( SIKeyw[type] or "" ) .. "-" .. baseName or baseName
+end
+
 function SIGen.Order( orderCode )
 	if type( orderCode ) == "number" then
 		local o = ""
@@ -372,10 +376,10 @@ function SIGen.NewGroup( name , group )
 		currentGroup = groupData.entity
 		currentSubGroup_order = groupData.subGroup_order
 	else
-		local data = SIGen.GetData( SITypes.group , name )
+		local data = SIGen.GetData( SITypes.group , SIGen.CreateName( name , SITypes.group ) )
 		if data then
-			currentGroup = SIGen.Base:New( SITypes.group , name )
-			:SetCustomData( data )
+			e( "模块构建 : 创建实体时分组信息(Group)名称已存在" )
+			return SIGen
 		else
 			currentGroup = SIGen.Group:New( name , group )
 			:SetOrder( currentConstantsData.orderName..currentGroup_order )
@@ -383,6 +387,32 @@ function SIGen.NewGroup( name , group )
 			:Extend()
 			:Finish()
 			currentGroup_order = currentGroup_order + 1
+		end
+		currentSubGroup_order = 1
+	end
+	return SIGen
+end
+
+function SIGen.LoadGroup( name )
+	if not currentConstantsData then
+		e( "模块构建 : 创建实体时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	if savedGroupData.lastGroupName == name then return SIGen end
+	SaveGroupData()
+	savedGroupData.lastGroupName = name
+	local groupData = savedGroupData.groupDataList[name]
+	if groupData then
+		currentGroup = groupData.entity
+		currentSubGroup_order = groupData.subGroup_order
+	else
+		local data = SIGen.GetData( SITypes.group , name )
+		if data then
+			currentGroup = SIGen.Base:New( SITypes.group , name )
+			:SetCustomData( data )
+		else
+			e( "模块构建 : 创建实体时分组信息(Group)名称已存在" )
+			return SIGen
 		end
 		currentSubGroup_order = 1
 	end
@@ -488,7 +518,7 @@ function SIGen.NewInput( name , key )
 		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
 		return SIGen
 	end
-	SIGen.Extend{ { type = SITypes.input , name = currentConstantsData.autoName and currentConstantsData.realname..name or name , key_sequence = key } }
+	SIGen.Extend{ { type = SITypes.input , name = SIGen.CreateName( name , SITypes.input ) , key_sequence = key } }
 	return SIGen
 end
 
@@ -498,7 +528,7 @@ function SIGen.NewAmbientSound( name , trackType , soundOrFile , volume )
 		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
 		return SIGen
 	end
-	currentEntityName = currentConstantsData.autoName and currentConstantsData.realname..name or name
+	currentEntityName = SIGen.CreateName( name , SITypes.ambientSound )
 	trackType = trackType or SIFlags.trackType.mainTrack
 	local sound = {}
 	if soundOrFile then
@@ -524,7 +554,7 @@ function SIGen.NewFont( name , size , border , border_color , from )
 		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
 		return SIGen
 	end
-	currentEntityName = currentConstantsData.autoName and currentConstantsData.realname..name or name
+	currentEntityName = SIGen.CreateName( name , SITypes.font )
 	SIGen.Extend
 	{
 		{
@@ -545,7 +575,7 @@ function SIGen.NewStyle( name , settings )
 		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
 		return SIGen
 	end
-	currentEntityName = currentConstantsData.autoName and currentConstantsData.realname..name or name
+	currentEntityName = SIGen.CreateName( name )
 	local style = SIGen.GetData( "gui-style" , "default" )
 	if style[currentEntityName] then
 		e( "模块构建 : 已经存在名为 "..currentEntityName.." 的样式了" )
