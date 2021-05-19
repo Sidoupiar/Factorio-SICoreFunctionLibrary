@@ -363,11 +363,17 @@ end
 -- ---------- 创建分组 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIGen.NewGroup( name , group )
+function SIGen.NewGroup( nameOrSettings , group )
 	if not currentConstantsData then
 		e( "模块构建 : 创建实体时基础信息(ConstantsData)不能为空" )
 		return SIGen
 	end
+	local name = ""
+	local autoName = true
+	if type( nameOrSettings ) == "table" then
+		name = nameOrSettings.name
+		autoName = nameOrSettings.autoName
+	else name = nameOrSettings end
 	if savedGroupData.lastGroupName == name then return SIGen end
 	SaveGroupData()
 	savedGroupData.lastGroupName = name
@@ -376,10 +382,10 @@ function SIGen.NewGroup( name , group )
 		currentGroup = groupData.entity
 		currentSubGroup_order = groupData.subGroup_order
 	else
-		local data = SIGen.GetData( SITypes.group , SIGen.CreateName( name , SITypes.group ) )
+		local data = SIGen.GetData( SITypes.group , autoName and SIGen.CreateName( name , SITypes.group ) or name )
 		if data then
-			e( "模块构建 : 创建实体时分组信息(Group)名称已存在" )
-			return SIGen
+			currentGroup = SIGen.Base:New( SITypes.group , name )
+			:SetCustomData( data )
 		else
 			currentGroup = SIGen.Group:New( name , group )
 			:SetOrder( currentConstantsData.orderName..currentGroup_order )
@@ -393,33 +399,7 @@ function SIGen.NewGroup( name , group )
 	return SIGen
 end
 
-function SIGen.LoadGroup( name )
-	if not currentConstantsData then
-		e( "模块构建 : 创建实体时基础信息(ConstantsData)不能为空" )
-		return SIGen
-	end
-	if savedGroupData.lastGroupName == name then return SIGen end
-	SaveGroupData()
-	savedGroupData.lastGroupName = name
-	local groupData = savedGroupData.groupDataList[name]
-	if groupData then
-		currentGroup = groupData.entity
-		currentSubGroup_order = groupData.subGroup_order
-	else
-		local data = SIGen.GetData( SITypes.group , name )
-		if data then
-			currentGroup = SIGen.Base:New( SITypes.group , name )
-			:SetCustomData( data )
-		else
-			e( "模块构建 : 创建实体时分组信息(Group)名称已存在" )
-			return SIGen
-		end
-		currentSubGroup_order = 1
-	end
-	return SIGen
-end
-
-function SIGen.NewSubGroup( name , subgroup )
+function SIGen.NewSubGroup( nameOrSettings , subgroup )
 	FinishData()
 	if not currentConstantsData then
 		e( "模块构建 : 创建实体时基础信息(ConstantsData)不能为空" )
@@ -429,6 +409,12 @@ function SIGen.NewSubGroup( name , subgroup )
 		e( "模块构建 : 创建实体时分组信息(Group)不能为空" )
 		return SIGen
 	end
+	local name = ""
+	local autoName = true
+	if type( nameOrSettings ) == "table" then
+		name = nameOrSettings.name
+		autoName = nameOrSettings.autoName
+	else name = nameOrSettings end
 	if savedSubGroupData.lastSubGroupName == name then return SIGen end
 	SaveSubGroupData()
 	savedSubGroupData.lastSubGroupName = name
@@ -437,7 +423,7 @@ function SIGen.NewSubGroup( name , subgroup )
 		currentSubGroup = subGroupData.entity
 		currentEntity_order = subGroupData.entity_order
 	else
-		local data = SIGen.GetData( SITypes.subgroup , name )
+		local data = SIGen.GetData( SITypes.subgroup , autoName and SIGen.CreateName( name , SITypes.subgroup ) or name )
 		if data and data.group == currentGroup:GetName() then
 			currentSubGroup = SIGen.Base:New( SITypes.subgroup , name )
 			:SetCustomData( data )
