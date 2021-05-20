@@ -26,7 +26,7 @@ SIPics =
 	} ,
 	flag =
 	{
-		light = "light"
+		light            = "light"
 	}
 }
 
@@ -206,6 +206,12 @@ end
 function SIPics.BlendMode( blendMode )
 	currentLayer.blend_mode = blendMode
 	if hrVersion then hrVersion.blend_mode = blendMode end
+	return SIPics
+end
+
+function SIPics.Flags( flags )
+	currentLayer.flags = flags
+	if hrVersion then hrVersion.flags = flags end
 	return SIPics
 end
 

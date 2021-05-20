@@ -636,10 +636,10 @@ function SIGen.NewEntity( type , name , entity )
 	return SIGen
 end
 
-function SIGen.NewResource( type , name , resource )
+function SIGen.NewResource( name , resource )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Resource:New( type , name , resource )
+	currentEntity = SIGen.Resource:New( name , resource )
 	InitEntity()
 	return SIGen
 end
@@ -842,12 +842,6 @@ end
 -- ---------- 自动填充 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIGen.SetItemName( itemName )
-	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	if currentEntity.SetItemName then currentEntity:SetItemName( itemName ) end
-	return SIGen
-end
-
 function SIGen.AddLastLevel( count )
 	currentEntity:AddLastLevel( count )
 	return SIGen
@@ -1013,15 +1007,15 @@ function SIGen.SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 	return SIGen
 end
 
-function SIGen.SetAutoPlace( autoPlaceSettings )
+function SIGen.SetAutoPlace( autoPlaceSettings , stageCounts )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentEntity:SetAutoPlace( autoPlaceSettings )
+	currentEntity:SetAutoPlace( autoPlaceSettings , stageCounts )
 	return SIGen
 end
 
-function SIGen.SetStagesEffects( stagesEffects , effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
+function SIGen.SetStagesEffectsSettings( effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentEntity:SetStagesEffects( stagesEffects , effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
+	currentEntity:SetStagesEffectsSettings( effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
 	return SIGen
 end
 
@@ -1349,6 +1343,11 @@ function SIGen.E.SetWaterLocation( x , y )
 	return SIGen
 end
 
+function SIGen.E.SetCanGlow( canGlow )
+	if currentEntity.SetCanGlow then currentEntity:SetCanGlow( canGlow ) end
+	return SIGen
+end
+
 function SIGen.E.SetItemStackSize( itemStackSize )
 	if currentEntity.SetStackSize then currentEntity:SetStackSize( itemStackSize ) end
 	return SIGen
@@ -1366,6 +1365,11 @@ end
 
 function SIGen.E.ClearItemFlags()
 	if currentEntity.ClearItemFlags then currentEntity:ClearItemFlags() end
+	return SIGen
+end
+
+function SIGen.E.SetItemName( itemName )
+	if currentEntity.SetItemName then currentEntity:SetItemName( itemName ) end
 	return SIGen
 end
 

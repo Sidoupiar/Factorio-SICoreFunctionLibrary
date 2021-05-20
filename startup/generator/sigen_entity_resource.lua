@@ -41,9 +41,11 @@ function entity:FillImage()
 	local path = picturePath .. "entity/" .. baseName .. "/" .. baseName
 	local scale = self:GetScale()
 	local hasHr = self:GetHasHr()
+	local canGlow = self:GetCanGlow()
 	
 	local stages = {}
 	stages.sheet = SIPics.NewLayer( path , width+SINumbers.resourcePictureSide , height+SINumbers.resourcePictureSide , scale , hasHr ).Priority( SIPics.priority.extraHigh ).Frame( SINumbers.resourcePictureFrameCount ).Variation( SINumbers.resourceVariationCount ).Get()
+	if canGlow then stages.stages_effect = SIPics.NewLayer( path.."-glow" , width+SINumbers.resourcePictureSide , height+SINumbers.resourcePictureSide , scale , hasHr ).Priority( SIPics.priority.extraHigh ).BlendMode( SIPics.blendMode.additive ).Flags{ SIPics.flag.light }.Frame( SINumbers.resourcePictureFrameCount ).Variation( SINumbers.resourceVariationCount ).Get() end
 	return self:SetParam( "stages" , stages )
 end
 
@@ -52,6 +54,7 @@ end
 function entity:Init( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Init( currentEntity )
+	
 	currentEntity:SetStackSize( 0 )
 	return self
 end

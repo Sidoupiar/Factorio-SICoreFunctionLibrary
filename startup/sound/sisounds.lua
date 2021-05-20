@@ -58,8 +58,11 @@ end
 
 function SISounds.BaseSoundList( soundName , count , volume , startIndex )
 	volume = volume or SISounds.baseVolume
+	startIndex = startIndex or 1
+	local length = count + startIndex - 1
+	local countLength = SIUtils.GetNumberLength( length )
 	local soundList = {}
-	for i = startIndex or 1 , count , 1 do table.insert( soundList , SISounds.Sound( "__base__/sound/"..soundName.."-"..i..".ogg" , volume ) ) end
+	for i = startIndex , length , 1 do table.insert( soundList , SISounds.Sound( "__base__/sound/"..soundName.."-"..SIUtils.NumberToString( i , countLength )..".ogg" , volume ) ) end
 	return soundList
 end
 

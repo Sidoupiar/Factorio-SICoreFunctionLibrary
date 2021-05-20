@@ -566,11 +566,11 @@ function entity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 	return self
 end
 
-function entity:SetAutoPlace( autoPlaceSettings )
+function entity:SetAutoPlace( autoPlaceSettings , stageCounts )
 	return self
 end
 
-function entity:SetStagesEffects( stagesEffects , effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
+function entity:SetStagesEffectsSettings( effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
 	return self
 end
 

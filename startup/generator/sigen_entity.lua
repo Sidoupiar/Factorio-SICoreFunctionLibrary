@@ -14,6 +14,7 @@ entity:AddDefaultValue( "width" , -1 )
 :AddDefaultValue( "animShadow" , false )
 :AddDefaultValue( "patchLocation" , nil )
 :AddDefaultValue( "waterLocation" , nil )
+:AddDefaultValue( "canGlow" , false )
 :AddDefaultValue( "itemStackSize" , 0 )
 :AddDefaultValue( "itemFlags" , {} )
 :AddDefaultValue( "itemName" , nil )
@@ -110,6 +111,11 @@ function entity:SetWaterLocation( x , y )
 	return self
 end
 
+function entity:SetCanGlow( canGlow )
+	self.canGlow = canGlow
+	return self
+end
+
 function entity:SetItemFlags( flagOrFlagsOrPack )
 	if not flagOrFlagsOrPack then return self end
 	local dataType = type( flagOrFlagsOrPack )
@@ -202,6 +208,10 @@ function entity:GetWaterLocation()
 	return self.waterLocation
 end
 
+function entity:GetCanGlow()
+	return self.canGlow
+end
+
 function entity:GetItemStackSize()
 	return self.itemStackSize
 end
@@ -266,8 +276,19 @@ function entity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 	return self
 end
 
-function entity:SetAutoPlace( autoPlaceSettings )
-	return self:SetParam( "autoplace" , autoPlaceSettings )
+function entity:SetAutoPlace( autoPlaceSettings , stageCounts )
+	if autoPlaceSettings then self:SetParam( "autoplace" , autoPlaceSettings ) end
+	if stageCounts then self:SetParam( "stage_counts" , stageCounts ) end
+	return self
+end
+
+function entity:SetStagesEffectsSettings( effectAnimationPeriod , effectAnimationPeriodDeviation , effectDarknessMultiplier , minEffectAlpha , maxEffectAlpha )
+	if effectAnimationPeriod then self:SetParam( "effect_animation_period" , effectAnimationPeriod ) end
+	if effectAnimationPeriodDeviation then self:SetParam( "effect_animation_period_deviation" , effectAnimationPeriodDeviation ) end
+	if effectDarknessMultiplier then self:SetParam( "effect_darkness_multiplier" , effectDarknessMultiplier ) end
+	if minEffectAlpha then self:SetParam( "min_effect_alpha" , minEffectAlpha ) end
+	if maxEffectAlpha then self:SetParam( "max_effect_alpha" , maxEffectAlpha ) end
+	return self
 end
 
 
@@ -309,8 +330,12 @@ end
 function entity:Auto( currentEntity )
 	if not currentEntity then currentEntity = self end
 	self.super:Auto( currentEntity )
+	
 	local item = currentEntity:GetItem()
-	if item and not item:HasExtend() then item:Extend():Finish() end
+	if item then
+		if not item:HasExtend() then item:Extend():Finish() end
+		currentEntity:Default( "minable" , SIPackers.Minable( item:GetName() ) )
+	end
 	return self
 end
 

@@ -14,6 +14,9 @@ SINumbers =
 	resourcePictureFrameCount = 8 ,
 	resourceVariationCount = 8 ,
 	
+	defaultMiningTime = 1 ,
+	defaultProductCount = 1 ,
+	
 	machinePictureSize = 32 ,
 	machinePictureTotalWidth = 8 ,
 	machinePictureTotalHeight = 8 ,

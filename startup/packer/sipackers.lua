@@ -414,7 +414,7 @@ function SIPackers.SingleItemProduct( name , countOrProbability , minCount , max
 		product.amount_max = maxCount
 	else
 		if countOrProbability then product.amount = countOrProbability
-		else product.amount = 1 end
+		else product.amount = SINumbers.defaultProductCount end
 	end
 	if catalystCount then product.catalyst_amount = catalystCount end
 	return product
@@ -428,7 +428,7 @@ function SIPackers.SingleFluidProduct( name , countOrProbability , minCount , ma
 		product.amount_max = maxCount
 	else
 		if countOrProbability then product.amount = countOrProbability
-		else product.amount = 1 end
+		else product.amount = SINumbers.defaultProductCount end
 	end
 	if temperature then product.temperature = temperature end
 	if catalystCount then product.catalyst_amount = catalystCount end
@@ -456,15 +456,17 @@ function SIPackers.AppendProducts( productsData , newProducts )
 	end
 	for i , v in pairs( newProducts ) do table.insert( results , v ) end
 	productsData.results = results
-	return ingredientsData
+	return productsData
 end
 
-function SIPackers.ProductsWithList( dataList )
+function SIPackers.ProductsWithList( dataList , count )
 	if not dataList then return nil end
+	if not count then count = SINumbers.defaultProductCount end
 	local products = {}
 	for i , v in pairs( dataList ) do
-		if v[1] == "fluid" then table.insert( products , SIPackers.SingleFluidProduct( v[2] , v[3] , v[4] , v[5] , v[6] , v[7] ) )
-		else table.insert( products , SIPackers.SingleItemProduct( v[1] , v[2] , v[3] , v[4] , v[5] ) ) end
+		if v[1] == "item" then table.insert( products , SIPackers.SingleItemProduct( v[2] , v[3] or count , v[4] , v[5] , v[6] ) )
+		elseif v[1] == "fluid" then table.insert( products , SIPackers.SingleFluidProduct( v[2] , v[3] or count , v[4] , v[5] , v[6] , v[7] ) )
+		else table.insert( products , SIPackers.SingleItemProduct( v[1] , v[2] or count , v[3] , v[4] , v[5] ) ) end
 	end
 	return products
 end
@@ -594,6 +596,26 @@ function SIPackers.WaterReflection( layer , rotate , orientationToVariation )
 end
 
 -- ------------------------------------------------------------------------------------------------
+-- -------- 创建开采数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.Minable( resultOrList , time , count , fluid , fluidCount , miningParticle , miningTrigger )
+	local minable = {}
+	if time then minable.mining_time = time
+	else minable.mining_time = SINumbers.defaultMiningTime end
+	if resultOrList then
+		if type( resultOrList ) == "table" then minable.results = SIPackers.ProductsWithList( resultOrList , count )
+		else minable.results = SIPackers.SingleItemProduct( resultOrList , count or SINumbers.defaultProductCount ) end
+	if fluid then
+		minable.required_fluid = fluid
+		minable.rfluid_amount = fluidCount
+	end
+	if miningParticle then minable.mining_particle = miningParticle end
+	if miningTrigger then minable.mining_trigger = miningTrigger end
+	return minable
+end
+
+-- ------------------------------------------------------------------------------------------------
 -- -------- 自动放置数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
@@ -601,19 +623,19 @@ end
 --{
 --   name ,
 --   order ,
+--   seed1 , 默认 100
 --   patch_set_name ,
 --   autoplace_control_name ,
 --   base_density ,
---   random_probability , 默认 1
 --   base_spots_per_km2 , 默认 2.5
+--   minimum_richness , 默认 0
+--   additional_richness , 默认 0
+--   richness_post_multiplier , 默认 1
+--   random_probability , 默认 1
 --   random_spot_size_minimum , 默认 0.25
 --   random_spot_size_maximum , 默认 2
 --   regular_blob_amplitude_multiplier , 默认 1
 --   starting_blob_amplitude_multiplier , 默认 1
---   additional_richness , 默认 0
---   minimum_richness , 默认 0
---   richness_post_multiplier , 默认 1
---   seed1 , 默认 100
 --   regular_rq_factor_multiplier , 默认 1
 --   starting_rq_factor_multiplier , 默认 1
 --   has_starting_area_placement , 默认 nil , true=初生区域和外部都有 , false=初生区域没有但是外部有 , nil=任意地方都有
