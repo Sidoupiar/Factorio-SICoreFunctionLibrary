@@ -19,6 +19,7 @@ entity:AddDefaultValue( "width" , -1 )
 :AddDefaultValue( "itemFlags" , {} )
 :AddDefaultValue( "itemName" , nil )
 :AddDefaultValue( "item" , nil )
+:AddDefaultValue( "autoPlaceSettings" , nil )
 
 
 
@@ -277,7 +278,7 @@ function entity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 end
 
 function entity:SetAutoPlace( autoPlaceSettings , stageCounts )
-	if autoPlaceSettings then self:SetParam( "autoplace" , autoPlaceSettings ) end
+	if autoPlaceSettings then self.autoPlaceSettings = autoPlaceSettings end
 	if stageCounts then self:SetParam( "stage_counts" , stageCounts ) end
 	return self
 end
@@ -335,6 +336,24 @@ function entity:Auto( currentEntity )
 	if item then
 		if not item:HasExtend() then item:Extend():Finish() end
 		currentEntity:Default( "minable" , SIPackers.Minable( item:GetName() ) )
+	end
+	if currentEntity.autoPlaceSettings then
+		local autoplace = currentEntity.autoPlaceSettings
+		if not autoplace.name then
+			local localizedNames = currentEntity:GetParam( "localised_name" )
+			autoplace.name = SIGen.ControlAutoplace:New( currentEntity:GetBaseName() )
+			:Init()
+			:DefaultFlags()
+			:SetOrder( SIGen.GetCurrentEntityOrder() )
+			:SetLocalisedNames{ "" , "[entity="..currentEntity:GetName().."]" , localizedNames or { "entity-name."..currentEntity:GetName() } }
+			:SetRecipeTypes( SITypes.controlAutoplaceCategory.resource )
+			:SetRichness( true )
+			:Fill()
+			:Extend()
+			:Finish()
+			:GetName()
+		end
+		currentEntity:SetParam( "autoplace" , SIPackers.Autoplace( autoplace ) )
 	end
 	return self
 end

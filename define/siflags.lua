@@ -97,14 +97,14 @@ SIFlags =
 	} ,
 	sciencePack =
 	{
-		key = "description.science-pack-remaining-amount-key" ,
+		key   = "description.science-pack-remaining-amount-key" ,
 		value = "description.science-pack-remaining-amount-value"
 	} ,
 	productType =
 	{
 		material = "material" ,
 		resource = "resource" ,
-		unit = "unit"
+		unit     = "unit"
 	} ,
 	trackType =
 	{
@@ -116,7 +116,7 @@ SIFlags =
 	condition =
 	{
 		And = "and" ,
-		Or = "or" ,
+		Or  = "or" ,
 		Not = "not"
 	}
 }

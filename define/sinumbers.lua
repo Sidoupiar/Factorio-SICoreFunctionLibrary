@@ -10,12 +10,14 @@ SINumbers =
 	
 	pictureHrScale = 2 ,
 	pictureHrScaleDown = 0.5 ,
+	resourcePictureSize = 32 ,
 	resourcePictureSide = 32 ,
 	resourcePictureFrameCount = 8 ,
 	resourceVariationCount = 8 ,
 	
 	defaultMiningTime = 1 ,
 	defaultProductCount = 1 ,
+	defaultMinableFluidCount = 1 ,
 	
 	machinePictureSize = 32 ,
 	machinePictureTotalWidth = 8 ,

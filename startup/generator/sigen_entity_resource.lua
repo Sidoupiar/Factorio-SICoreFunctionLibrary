@@ -44,9 +44,14 @@ function entity:FillImage()
 	local canGlow = self:GetCanGlow()
 	
 	local stages = {}
-	stages.sheet = SIPics.NewLayer( path , width+SINumbers.resourcePictureSide , height+SINumbers.resourcePictureSide , scale , hasHr ).Priority( SIPics.priority.extraHigh ).Frame( SINumbers.resourcePictureFrameCount ).Variation( SINumbers.resourceVariationCount ).Get()
-	if canGlow then stages.stages_effect = SIPics.NewLayer( path.."-glow" , width+SINumbers.resourcePictureSide , height+SINumbers.resourcePictureSide , scale , hasHr ).Priority( SIPics.priority.extraHigh ).BlendMode( SIPics.blendMode.additive ).Flags{ SIPics.flag.light }.Frame( SINumbers.resourcePictureFrameCount ).Variation( SINumbers.resourceVariationCount ).Get() end
-	return self:SetParam( "stages" , stages )
+	stages.sheet = SIPics.NewLayer( path , width*SINumbers.resourcePictureSize+SINumbers.resourcePictureSide , height*SINumbers.resourcePictureSize+SINumbers.resourcePictureSide , scale , hasHr ).Priority( SIPics.priority.extraHigh ).Frame( SINumbers.resourcePictureFrameCount ).Variation( SINumbers.resourceVariationCount ).Get()
+	self:SetParam( "stages" , stages )
+	if canGlow then
+		local effect = {}
+		effect.sheet = SIPics.NewLayer( path.."-glow" , width*SINumbers.resourcePictureSize+SINumbers.resourcePictureSide , height*SINumbers.resourcePictureSize+SINumbers.resourcePictureSide , scale , hasHr ).Priority( SIPics.priority.extraHigh ).BlendMode( SIPics.blendMode.additive ).Flags{ SIPics.flag.light }.Frame( SINumbers.resourcePictureFrameCount ).Variation( SINumbers.resourceVariationCount ).Get()
+		self:SetParam( "stages_effect" , effect )
+	end
+	return self
 end
 
 

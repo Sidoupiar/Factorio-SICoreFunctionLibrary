@@ -191,6 +191,7 @@ SIGen.Roboport = need( "sigen_entity_health_roboport" )
 SIGen.Radar = need( "sigen_entity_health_radar" )
 SIGen.Recipe = need( "sigen_recipe" )
 SIGen.Technology = need( "sigen_technology" )
+SIGen.ControlAutoplace = need( "sigen_control_autoplace" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 调试方法 ----------------------------------------------------------------------------
@@ -301,6 +302,19 @@ function SIGen.GetLayerFile()
 	return currentConstantsData.GetPicturePath( currentEntity:GetType() ) .. "entity/" .. baseName .. "/" .. baseName
 end
 
+function SIGen.GetCurrentEntityItem()
+	if not currentEntity then
+		e( "模块构建 : 当前没有创建过实体时不能使用 GetCurrentEntityItemName 方法" )
+		return nil
+	end
+	if not currentEntity:HasCodeName( "entity" ) then
+		e( "模块构建 : 只有实体(Entity)类型的实体才能使用 GetCurrentEntityItemName 方法" )
+		return nil
+	end
+	if not currentEntity:HasFill() then currentEntity:Fill() end
+	return currentEntity:GetItem()
+end
+
 function SIGen.GetCurrentEntityItemName()
 	if not currentEntity then
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetCurrentEntityItemName 方法" )
@@ -325,7 +339,8 @@ function SIGen.GetCurrentEntitySourceData()
 end
 
 function SIGen.CreateName( baseName , type )
-	return currentConstantsData.autoName and currentConstantsData.realname .. ( SIKeyw[type] or "" ) .. "-" .. baseName or baseName
+	local keyw = SIKeyw[type]
+	return currentConstantsData.autoName and currentConstantsData.realname .. ( keyw and keyw.."-" or "" ) .. baseName or baseName
 end
 
 function SIGen.Order( orderCode )
@@ -838,6 +853,14 @@ function SIGen.NewTechnology( name , technology )
 	return SIGen
 end
 
+function SIGen.NewControlAutoplace( name , controlAutoplace )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentEntity = SIGen.ControlAutoplace:New( name , controlAutoplace )
+	InitEntity()
+	return SIGen
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 自动填充 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
@@ -1195,6 +1218,12 @@ end
 function SIGen.SetResourceSettings( normalCount , minimumCount , infiniteDepletionAmount , resourcePatchSearchRadius , isInfinite , isHighlight , useMapGrid )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	currentEntity:SetResourceSettings( normalCount , minimumCount , infiniteDepletionAmount , resourcePatchSearchRadius , isInfinite , isHighlight , useMapGrid )
+	return SIGen
+end
+
+function SIGen.SetRichness( richness )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentEntity:SetRichness( richness )
 	return SIGen
 end
 

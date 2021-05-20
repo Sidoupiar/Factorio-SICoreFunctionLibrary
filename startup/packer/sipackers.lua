@@ -599,16 +599,21 @@ end
 -- -------- 创建开采数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+function SIPackers.MinablePack( resultOrList , time , count , fluid , fluidCount , miningParticle , miningTrigger )
+	return SIPackers.CreatePack( SIPackers.Minable( resultOrList , time , count , fluid , fluidCount , miningParticle , miningTrigger ) )
+end
+
 function SIPackers.Minable( resultOrList , time , count , fluid , fluidCount , miningParticle , miningTrigger )
 	local minable = {}
 	if time then minable.mining_time = time
 	else minable.mining_time = SINumbers.defaultMiningTime end
 	if resultOrList then
 		if type( resultOrList ) == "table" then minable.results = SIPackers.ProductsWithList( resultOrList , count )
-		else minable.results = SIPackers.SingleItemProduct( resultOrList , count or SINumbers.defaultProductCount ) end
+		else minable.results = { SIPackers.SingleItemProduct( resultOrList , count or SINumbers.defaultProductCount ) } end
+	end
 	if fluid then
 		minable.required_fluid = fluid
-		minable.rfluid_amount = fluidCount
+		minable.fluid_amount = fluidCount or SINumbers.defaultMinableFluidCount
 	end
 	if miningParticle then minable.mining_particle = miningParticle end
 	if miningTrigger then minable.mining_trigger = miningTrigger end

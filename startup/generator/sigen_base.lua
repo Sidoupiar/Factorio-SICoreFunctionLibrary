@@ -333,6 +333,10 @@ function entity:SetResourceSettings( normalCount , minimumCount , infiniteDeplet
 	return self
 end
 
+function entity:SetRichness( richness )
+	return self:SetParam( "richness" , richness )
+end
+
 
 
 function entity:SetPic( key , layer )
