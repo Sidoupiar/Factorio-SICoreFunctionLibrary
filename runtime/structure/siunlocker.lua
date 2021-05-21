@@ -2,8 +2,8 @@
 -- ---------- 添加引用 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-if not SIEventBus then e( "模块使用：必须启用 SIEventBus 之后才能使用 SIUnlocker 模块" ) end
-if not SIGlobal then e( "模块使用：必须启用 SIGlobal 之后才能使用 SIUnlocker 模块" ) end
+if not SIEventBus then e( "模块使用 : 必须启用 SIEventBus 之后才能使用 SIUnlocker 模块" ) end
+if not SIGlobal then e( "模块使用 : 必须启用 SIGlobal 之后才能使用 SIUnlocker 模块" ) end
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础数据 ----------------------------------------------------------------------------
@@ -184,7 +184,32 @@ SIGlobal.Create( "SIUnlockerForceData" )
 --   }
 -- }
 function SIUnlocker.AddItem( item )
-	if not item or not item.id or not item.conditions or not item.results then return SIUnlocker , false end
+	if not item or not item.id then
+		e( "解锁器 : 项目或项目 id 不能为空" )
+		return SIUnlocker , false
+	end
+	if item.conditions then
+		local conditions = {}
+		for index , condition in pairs( item.conditions ) do
+			if table.Has( SIUnlocker.condition , condition.type ) then table.insert( conditions , condition ) end
+		end
+		item.conditions = conditions
+	end
+	if not item.conditions or table.Size( item.conditions ) < 1 then
+		e( "解锁器 : 项目必须包含有效的触发条件" )
+		return SIUnlocker , false
+	end
+	if item.results then
+		local results = {}
+		for index , result in pairs( item.results ) do
+			if table.Has( SIUnlocker.result , result.type ) then table.insert( results , result ) end
+		end
+		item.results = results
+	end
+	if not item.results or table.Size( item.results ) < 1 then
+		e( "解锁器 : 项目必须包含有效的回报内容" )
+		return SIUnlocker , false
+	end
 	local oldItem = SIUnlockerItems[item.id]
 	if oldItem then
 		SIUnlocker.RemoveOldItemFromForceData( oldItem )
@@ -223,14 +248,14 @@ function SIUnlocker.GetForceData( forceName )
 end
 
 function SIUnlocker.InitForceData( forceData )
-	for id , item in pairs( SIUnlockerItems ) do
+	for id , item in pairs( table.deepcopy( SIUnlockerItems ) ) do
 		SIUnlocker.AddItemToForceData( forceData , item )
 	end
 end
 
 function SIUnlocker.AddNewItemToForceData( item )
 	for name , forceData in pairs( SIUnlockerForceData ) do
-		SIUnlocker.AddItemToForceData( forceData , item )
+		SIUnlocker.AddItemToForceData( forceData , table.deepcopy( item ) )
 	end
 end
 
@@ -244,10 +269,10 @@ end
 
 function SIUnlocker.AddItemToForceData( forceData , item )
 	for index , condition in pairs( item.conditions ) do
-		local list = forceData.eventList[condition.type]
+		local list = forceData.eventList[SIUnlocker.eventMap[condition.type]]
 		if not list then
 			list = {}
-			forceData.eventList[condition.type] = list
+			forceData.eventList[SIUnlocker.eventMap[condition.type]] = list
 		end
 		list[item.id] = item
 	end
@@ -255,9 +280,9 @@ end
 
 function SIUnlocker.RemoveItemFromForceData( forceData , item )
 	for index , condition in pairs( item.conditions ) do
-		local list = forceData.eventList[condition.type]
+		local list = forceData.eventList[SIUnlocker.eventMap[condition.type]]
 		list[item.id] = nil
-		if table.Size( list ) < 1 then forceData.eventList[condition.type] = nil end
+		if table.Size( list ) < 1 then forceData.eventList[SIUnlocker.eventMap[condition.type]] = nil end
 	end
 end
 

@@ -163,6 +163,7 @@ SIGen.Base = need( "sigen_base" )
 SIGen.Group = need( "sigen_group" )
 SIGen.SubGroup = need( "sigen_subgroup" )
 SIGen.Item = need( "sigen_item" )
+SIGen.Capsule = need( "sigen_item_capsule" )
 SIGen.Module = need( "sigen_item_module" )
 SIGen.Tool = need( "sigen_item_tool" )
 SIGen.Entity = need( "sigen_entity" )
@@ -625,6 +626,15 @@ function SIGen.NewItem( name , stackSize , item )
 	return SIGen
 end
 
+function SIGen.NewCapsule( name , stackSize , capsule )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentEntity = SIGen.Capsule:New( name , capsule )
+	InitEntity()
+	if stackSize then currentEntity:SetStackSize( stackSize ) end
+	return SIGen
+end
+
 function SIGen.NewModule( name , stackSize , module )
 	FinishData()
 	if not CheckData() then return SIGen end
@@ -955,6 +965,12 @@ end
 function SIGen.SetMinable( minable , placeableBy , miningVisualisationTint )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	currentEntity:SetMinable( minable , placeableBy , miningVisualisationTint )
+	return SIGen
+end
+
+function SIGen.SetAction( action , radiusColor )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentEntity:SetAction( action , radiusColor )
 	return SIGen
 end
 

@@ -526,6 +526,10 @@ function entity:SetMinable( minable , placeableBy , miningVisualisationTint )
 	return self
 end
 
+function entity:SetAction( action , radiusColor )
+	return self
+end
+
 function entity:SetEffectRadius( effectRadius , linkRadius , connectRadius )
 	return self
 end
