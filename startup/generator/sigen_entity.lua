@@ -149,6 +149,11 @@ function entity:SetItemName( itemName )
 	return self
 end
 
+function entity:SetItem( item )
+	self.item = item
+	return self
+end
+
 function entity:GetWidth()
 	return self.width
 end

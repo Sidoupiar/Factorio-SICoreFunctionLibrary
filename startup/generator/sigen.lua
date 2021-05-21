@@ -1402,6 +1402,11 @@ function SIGen.E.SetItemName( itemName )
 	return SIGen
 end
 
+function SIGen.E.SetItem( item )
+	if currentEntity.SetItem then currentEntity:SetItem( item ) end
+	return SIGen
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- --------- 最终构建 ------------ ( 此处方法均为为自动调用 , 不能手动调用 ) ----------------------
 -- ------------------------------------------------------------------------------------------------
