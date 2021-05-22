@@ -154,21 +154,18 @@ function load( constantsData )
 	SIConstantsDic[constants.base] = class
 	
 	if SILoadingDatas and constants.autoLoad then
+		local list = {}
+		if constants.damage then
+			for index , name in pairs( constants.damage ) do table.insert( list , { type = SITypes.damageType , name = name } ) end
+		end
 		if constants.categories then
-			for k , v in pairs( SITypes.category ) do
-				if constants.categories[k] then
-					local lname = realname .. k .. "-"
-					local list = {}
-					for j , m in pairs( constants.categories[k] ) do list[j] = { type = v , name = lname..m } end
-					data:extend( list )
+			for id , category in pairs( SITypes.category ) do
+				if constants.categories[category] then
+					for index , name in pairs( constants.categories[category] ) do table.insert( list , { type = category , name = name } ) end
 				end
 			end
 		end
-		if constants.damage then
-			local list = {}
-			for i , v in pairs( constants.damage ) do list[#list+1] = { type = SITypes.damageType , name = realname..v } end
-			data:extend( list )
-		end
+		data:extend( list )
 	end
 	
 	if constants.finalSettingDataList then

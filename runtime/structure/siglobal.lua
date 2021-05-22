@@ -12,7 +12,8 @@ SIGlobal =
 {
 	functionId = "CreateGlobalTable" ,
 	added = false ,
-	tableList = {}
+	tableList = {} ,
+	initFunctionList = {}
 }
 
 -- ------------------------------------------------------------------------------------------------
@@ -32,8 +33,9 @@ end
 -- ------- 构造全局数据包 -------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIGlobal.Create( name )
+function SIGlobal.Create( name , initFunction )
 	table.insert( SIGlobal.tableList , name )
+	SIGlobal.initFunctionList[name] = initFunction
 	if not SIGlobal.added then
 		SIGlobal.added = true
 		SIEventBus.Init( SIGlobal.CreateOnInit , SIGlobal.functionId ).Load( SIGlobal.CreateOnLoad , SIGlobal.functionId )
@@ -48,6 +50,7 @@ function SIGlobal.CreateOnInit()
 			_G[name] = data
 			SIGlobal.Set( name , data )
 		end
+		if SIGlobal.initFunctionList[name] then SIGlobal.initFunctionList[name]( data ) end
 	end
 end
 

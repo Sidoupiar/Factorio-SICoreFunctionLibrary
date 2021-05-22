@@ -273,6 +273,10 @@ function entity:SetLight( intensity , size , color )
 	return self:SetParam( "light" , SIPackers.Light( intensity , size , color ) )
 end
 
+function entity:SetSmoke( smoke )
+	return self:SetParam( "smoke" , smoke )
+end
+
 function entity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 	self:SetParam( "map_color" , mapColor )
 	if friendlyMapColor then self:SetParam( "friendly_map_color" , friendlyMapColor )

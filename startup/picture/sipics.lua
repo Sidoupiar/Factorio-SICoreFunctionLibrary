@@ -324,6 +324,12 @@ function SIPics.Light()
 	return SIPics
 end
 
+function SIPics.Glow()
+	currentLayer.draw_as_glow = true
+	if hrVersion then hrVersion.draw_as_glow = true end
+	return SIPics
+end
+
 function SIPics.Shadow()
 	currentLayer.draw_as_shadow = true
 	if hrVersion then hrVersion.draw_as_shadow = true end

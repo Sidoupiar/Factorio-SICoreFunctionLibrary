@@ -337,6 +337,18 @@ function entity:SetRichness( richness )
 	return self:SetParam( "richness" , richness )
 end
 
+function entity:SetAcceleration( acceleration , turningSpeedIncreasesExponentiallyWithProjectileSpeed )
+	if acceleration then self:SetParam( "acceleration" , acceleration ) end
+	if turningSpeedIncreasesExponentiallyWithProjectileSpeed then self:SetParam( "turning_speed_increases_exponentially_with_projectile_speed" , turningSpeedIncreasesExponentiallyWithProjectileSpeed ) end
+	return self
+end
+
+function entity:SetHitCollision( collisionMask , hitAtCollisionPosition )
+	if collisionMask then self:SetParam( "hit_collision_mask" , collisionMask ) end
+	if hitAtCollisionPosition then self:SetParam( "hit_at_collision_position" , hitAtCollisionPosition ) end
+	return self
+end
+
 
 
 function entity:SetPic( key , layer )
@@ -543,6 +555,10 @@ function entity:SetPluginData( slotCount , iconShift )
 end
 
 function entity:SetLight( intensity , size , color )
+	return self
+end
+
+function entity:SetSmoke( smoke )
 	return self
 end
 

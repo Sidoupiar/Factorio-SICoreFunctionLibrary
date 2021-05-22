@@ -168,6 +168,7 @@ SIGen.Module = need( "sigen_item_module" )
 SIGen.Tool = need( "sigen_item_tool" )
 SIGen.Entity = need( "sigen_entity" )
 SIGen.Resource = need( "sigen_entity_resource" )
+SIGen.Projectile = need( "sigen_entity_projectile" )
 SIGen.HealthEntity = need( "sigen_entity_health" )
 SIGen.Unit = need( "sigen_entity_health_unit" )
 SIGen.Spawner = need( "sigen_entity_health_spawner" )
@@ -471,6 +472,15 @@ end
 -- ---------- 创建杂项 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
+function SIGen.NewTypeDamage( name )
+	if not currentConstantsData then
+		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
+		return SIGen
+	end
+	SIGen.Extend{ { type = SITypes.damageType , name = name } }
+	return SIGen
+end
+
 function SIGen.NewTypeAmmo( name )
 	if not currentConstantsData then
 		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
@@ -665,6 +675,14 @@ function SIGen.NewResource( name , resource )
 	FinishData()
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Resource:New( name , resource )
+	InitEntity()
+	return SIGen
+end
+
+function SIGen.NewProjectile( name , projectile )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentEntity = SIGen.Projectile:New( name , projectile )
 	InitEntity()
 	return SIGen
 end
@@ -969,7 +987,7 @@ function SIGen.SetMinable( minable , placeableBy , miningVisualisationTint )
 end
 
 function SIGen.SetAction( action , radiusColor )
-	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
 	currentEntity:SetAction( action , radiusColor )
 	return SIGen
 end
@@ -995,6 +1013,12 @@ end
 function SIGen.SetLight( intensity , size , color )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	currentEntity:SetLight( intensity , size , color )
+	return SIGen
+end
+
+function SIGen.SetSmoke( smoke )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentEntity:SetSmoke( smoke )
 	return SIGen
 end
 
@@ -1240,6 +1264,18 @@ end
 function SIGen.SetRichness( richness )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	currentEntity:SetRichness( richness )
+	return SIGen
+end
+
+function SIGen.SetAcceleration( acceleration , turningSpeedIncreasesExponentiallyWithProjectileSpeed )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentEntity:SetAcceleration( acceleration , turningSpeedIncreasesExponentiallyWithProjectileSpeed )
+	return SIGen
+end
+
+function SIGen.SetHitCollision( collisionMask , hitAtCollisionPosition )
+	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
+	currentEntity:SetHitCollision( collisionMask , hitAtCollisionPosition )
 	return SIGen
 end
 

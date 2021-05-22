@@ -21,19 +21,85 @@ end
 
 function SIPackers.Color( red , green , blue , alpha )
 	local color = {}
-	if red then color.r = red end
-	if green then color.g = green end
-	if blue then color.b = blue end
-	if alpha then color.a = alpha end
+	if red then color.r = math.Range( red , 0 , 1 ) end
+	if green then color.g = math.Range( green , 0 , 1 ) end
+	if blue then color.b = math.Range( blue , 0 , 1 ) end
+	if alpha then color.a = math.Range( alpha , 0 , 1 ) end
+	return color
+end
+
+function SIPackers.ColorCopyWith( color , red , green , blue , alpha )
+	local color = table.deepcopy( color )
+	if red then color.r = math.Range( red , 0 , 1 ) end
+	if green then color.g = math.Range( green , 0 , 1 ) end
+	if blue then color.b = math.Range( blue , 0 , 1 ) end
+	if alpha then color.a = math.Range( alpha , 0 , 1 ) end
+	return color
+end
+
+function SIPackers.ColorCopyWithR( color , red )
+	local color = table.deepcopy( color )
+	if red then color.r = math.Range( red , 0 , 1 ) end
+	return color
+end
+
+function SIPackers.ColorCopyWithG( color , green )
+	local color = table.deepcopy( color )
+	if green then color.g = math.Range( green , 0 , 1 ) end
+	return color
+end
+
+function SIPackers.ColorCopyWithB( color , blue )
+	local color = table.deepcopy( color )
+	if blue then color.b = math.Range( blue , 0 , 1 ) end
+	return color
+end
+
+function SIPackers.ColorCopyWithA( color , alpha )
+	local color = table.deepcopy( color )
+	if alpha then color.a = math.Range( alpha , 0 , 1 ) end
 	return color
 end
 
 function SIPackers.Color256( red , green , blue , alpha )
 	local color = {}
-	if red then color.r = red / 256 end
-	if green then color.g = green / 256 end
-	if blue then color.b = blue / 256 end
-	if alpha then color.a = alpha / 256 end
+	if red then color.r = math.Range( red/256 , 0 , 1 ) end
+	if green then color.g = math.Range( green/256 , 0 , 1 ) end
+	if blue then color.b = math.Range( blue/256 , 0 , 1 ) end
+	if alpha then color.a = math.Range( alpha/256 , 0 , 1 ) end
+	return color
+end
+
+function SIPackers.ColorCopyWith256( color , red , green , blue , alpha )
+	local color = table.deepcopy( color )
+	if red then color.r = math.Range( red/256 , 0 , 1 ) end
+	if green then color.g = math.Range( green/256 , 0 , 1 ) end
+	if blue then color.b = math.Range( blue/256 , 0 , 1 ) end
+	if alpha then color.a = math.Range( alpha/256 , 0 , 1 ) end
+	return color
+end
+
+function SIPackers.ColorCopyWithA256( color , red )
+	local color = table.deepcopy( color )
+	if red then color.r = math.Range( red/256 , 0 , 1 ) end
+	return color
+end
+
+function SIPackers.ColorCopyWithA256( color , green )
+	local color = table.deepcopy( color )
+	if green then color.g = math.Range( green/256 , 0 , 1 ) end
+	return color
+end
+
+function SIPackers.ColorCopyWithA256( color , blue )
+	local color = table.deepcopy( color )
+	if blue then color.b = math.Range( blue/256 , 0 , 1 ) end
+	return color
+end
+
+function SIPackers.ColorCopyWithA256( color , alpha )
+	local color = table.deepcopy( color )
+	if alpha then color.a = math.Range( alpha/256 , 0 , 1 ) end
 	return color
 end
 

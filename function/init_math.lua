@@ -1,3 +1,7 @@
+function math.Range( num , min , max )
+	return math.max( math.min( num , max ) , min )
+end
+
 function math.Cnum( num , max , min )
 	return math.max( math.min( num , max ) , min )
 end

@@ -41,6 +41,8 @@ SIUnlocker =
 		messageForce     = "msgF" ,
 		messagePlayer    = "msgP"
 	} ,
+	eventMap = {} ,
+	
 	defaultForceData =
 	{
 		canTrigger = true ,
@@ -342,7 +344,7 @@ end
 
 function SIUnlocker.OnKill( event )
 	local cause = event.cause
-	if cause and cause.valid and cause.player then
+	if cause and cause.valid and cause.is_player() and cause.player then
 		local entity = event.entity
 		if entity and entity.valid then
 			local name = entity.name
