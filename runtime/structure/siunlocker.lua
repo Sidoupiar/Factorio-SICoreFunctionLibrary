@@ -56,15 +56,18 @@ SIUnlocker =
 	}
 }
 
-SIUnlocker.eventMap[SIUnlocker.condition.kill]     = SIEvents.on_entity_died
-SIUnlocker.eventMap[SIUnlocker.condition.has]      = SIEvents.on_player_main_inventory_changed
-SIUnlocker.eventMap[SIUnlocker.condition.craft]    = SIEvents.on_player_crafted_item
-SIUnlocker.eventMap[SIUnlocker.condition.research] = SIEvents.on_research_finished
-SIUnlocker.eventMap[SIUnlocker.condition.build]    = SIEvents.on_built_entity
-SIUnlocker.eventMap[SIUnlocker.condition.mine]     = SIEvents.on_player_mined_entity
-SIUnlocker.eventMap[SIUnlocker.condition.use]      = SIEvents.on_player_used_capsule
-SIUnlocker.eventMap[SIUnlocker.condition.mute]     = SIEvents.on_player_muted
-SIUnlocker.eventMap[SIUnlocker.condition.die]      = SIEvents.on_player_died
+SIUnlocker.eventMap =
+{
+	[SIUnlocker.condition.kill]     = SIEvents.on_entity_died ,
+	[SIUnlocker.condition.has]      = SIEvents.on_player_main_inventory_changed ,
+	[SIUnlocker.condition.craft]    = SIEvents.on_player_crafted_item ,
+	[SIUnlocker.condition.research] = SIEvents.on_research_finished ,
+	[SIUnlocker.condition.build]    = SIEvents.on_built_entity ,
+	[SIUnlocker.condition.mine]     = SIEvents.on_player_mined_entity ,
+	[SIUnlocker.condition.use]      = SIEvents.on_player_used_capsule ,
+	[SIUnlocker.condition.mute]     = SIEvents.on_player_muted ,
+	[SIUnlocker.condition.die]      = SIEvents.on_player_died
+}
 
 SIGlobal.Create( "SIUnlockerItems" )
 SIGlobal.Create( "SIUnlockerForceData" )
@@ -344,7 +347,7 @@ end
 
 function SIUnlocker.OnKill( event )
 	local cause = event.cause
-	if cause and cause.valid and cause.is_player() and cause.player then
+	if cause and cause.valid and cause.type == SITypes.entity.character and cause.player then
 		local entity = event.entity
 		if entity and entity.valid then
 			local name = entity.name

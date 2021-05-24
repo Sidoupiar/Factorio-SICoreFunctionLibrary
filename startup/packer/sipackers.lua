@@ -362,36 +362,6 @@ function SIPackers.FluidBoxConnections( positionList , connectionType , maxUnder
 end
 
 -- ------------------------------------------------------------------------------------------------
--- -------- 创建抗性数据 --------------------------------------------------------------------------
--- ------------------------------------------------------------------------------------------------
-
-function SIPackers.ResistancesPack( name , decrease , percent )
-	return SIPackers.CreatePack{ SIPackers.Resistance( name , decrease , percent ) }
-end
-
-function SIPackers.ResistancePack( name , decrease , percent )
-	return SIPackers.CreatePack( SIPackers.Resistance( name , decrease , percent ) )
-end
-
-function SIPackers.Resistance( name , decrease , percent )
-	local resistance = { type = name }
-	if decrease then resistance.decrease = decrease end
-	if percent then resistance.percent = percent end
-	if not resistance.decrease and not resistance.percent then resistance.decrease = 10 end
-	return resistance
-end
-
-function SIPackers.ResistanceWithDamageType( damageType , decrease , percent )
-	return SIPackers.Resistance( damageType.name , decrease , percent )
-end
-
-function SIPackers.ResistancesWithDamageTypes( damageTypeList , decrease , percent )
-	local resistances = {}
-	for i , v in pairs( damageTypeList ) do table.insert( resistances , SIPackers.ResistanceWithDamageType( v , decrease , percent ) ) end
-	return resistances
-end
-
--- ------------------------------------------------------------------------------------------------
 -- -------- 创建原料数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
@@ -714,4 +684,46 @@ end
 --}
 function SIPackers.Autoplace( params )
 	return SIPackers.resourceAutoplace.resource_autoplace_settings( params )
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建抗性数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.ResistancesPack( name , decrease , percent )
+	return SIPackers.CreatePack{ SIPackers.Resistance( name , decrease , percent ) }
+end
+
+function SIPackers.ResistancePack( name , decrease , percent )
+	return SIPackers.CreatePack( SIPackers.Resistance( name , decrease , percent ) )
+end
+
+function SIPackers.Resistance( name , decrease , percent )
+	local resistance = { type = name }
+	if decrease then resistance.decrease = decrease end
+	if percent then resistance.percent = percent end
+	if not resistance.decrease and not resistance.percent then resistance.decrease = 10 end
+	return resistance
+end
+
+function SIPackers.ResistanceWithDamageType( damageType , decrease , percent )
+	return SIPackers.Resistance( damageType.name , decrease , percent )
+end
+
+function SIPackers.ResistancesWithDamageTypes( damageTypeList , decrease , percent )
+	local resistances = {}
+	for i , v in pairs( damageTypeList ) do table.insert( resistances , SIPackers.ResistanceWithDamageType( v , decrease , percent ) ) end
+	return resistances
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建攻击数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.Attack_EffectDamage( damageType , amount )
+	return
+	{
+		type = "damage" ,
+		damage = { type = damageType , amount = amount }
+	}
 end
