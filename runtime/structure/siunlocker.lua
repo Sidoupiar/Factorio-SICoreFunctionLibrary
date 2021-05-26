@@ -295,7 +295,10 @@ function SIUnlocker.FireItem( forceData , item , force , player )
 	SIUnlocker.RemoveItemFromForceData( forceData , item )
 	for index , result in pairs( item.results ) do
 		-- 解锁配方
-		if result.type == SIUnlocker.result.addRecipe then force.recipes[result.name].enabled = true
+		if result.type == SIUnlocker.result.addRecipe then
+			local recipe = force.recipes[result.name]
+			recipe.enabled = true
+			for index , player in pairs( force.players ) do player.add_recipe_notification( recipe.name ) end
 		elseif result.type == SIUnlocker.result.removeRecipe then force.recipes[result.name].enabled = false
 		-- 速度设置
 		elseif result.type == SIUnlocker.result.addSpeedCrafting then
