@@ -657,6 +657,22 @@ function SIPackers.Minable( resultOrList , time , count , fluid , fluidCount , m
 end
 
 -- ------------------------------------------------------------------------------------------------
+-- -------- 创建掉落数据 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.LootItemPack( item , probability , countMin , countMax )
+	return SIPackers.CreatePack( SIPackers.LootItem( item , probability , countMin , countMax ) )
+end
+
+function SIPackers.LootItem( item , probability , countMin , countMax )
+	local lootItem = { item = item }
+	if probability then lootItem.probability = probability end
+	if countMin then lootItem.count_min = countMin end
+	if countMax then lootItem.count_max = countMax end
+	return lootItem
+end
+
+-- ------------------------------------------------------------------------------------------------
 -- -------- 自动放置数据 --------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
