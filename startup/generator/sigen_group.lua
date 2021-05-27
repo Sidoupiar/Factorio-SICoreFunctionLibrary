@@ -12,4 +12,16 @@ function entity:SetOrder( orderCode )
 	return self:SetParam( "order" , "z-"..SIGen.Order( orderCode ) )
 end
 
+
+
+function entity:Fill( currentEntity )
+	if not currentEntity then currentEntity = self end
+	self.super:Fill( currentEntity )
+	
+	currentEntity
+	:Default( "localised_name" , { "group-name."..currentEntity:GetName() } )
+	:Default( "localised_description" , { "group-description."..currentEntity:GetName() } )
+	return self
+end
+
 return entity
