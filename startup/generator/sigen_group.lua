@@ -19,8 +19,8 @@ function entity:Fill( currentEntity )
 	self.super:Fill( currentEntity )
 	
 	currentEntity
-	:Default( "localised_name" , { "group-name."..currentEntity:GetName() } )
-	:Default( "localised_description" , { "group-description."..currentEntity:GetName() } )
+	:Default( "localised_name" , { "item-group-name."..currentEntity:GetName() } )
+	:Default( "localised_description" , { "item-group-description."..currentEntity:GetName() } )
 	return self
 end
 
