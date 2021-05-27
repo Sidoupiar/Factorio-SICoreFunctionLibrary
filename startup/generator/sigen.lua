@@ -140,7 +140,8 @@ end
 
 local function AutoFillWithTable( data )
 	for key , value in pairs( data ) do
-		if type( value ) == "function" then
+		local dataType = type( value )
+		if dataType == "function" then
 			local iaAuto , codeType , cur = value()
 			if iaAuto then
 				local real
@@ -149,10 +150,9 @@ local function AutoFillWithTable( data )
 				elseif codeType == SIGen.autoFillType.entity then real = dataList.entity[cur]
 				elseif codeType == SIGen.autoFillType.virtual then real = dataList.virtual[cur]
 				else real = nil end
-				if real then data[key] = real
-				else data[key] = cur end
+				data[key] = real or cur
 			end
-		else type( value ) == "table" then AutoFillWithTable( value ) end
+		else dataType == "table" then AutoFillWithTable( value ) end
 	end
 end
 
@@ -281,6 +281,26 @@ function SIGen.Extend( list )
 	data:extend( list )
 	table.insert( autoFillDataList , list )
 	return SIGen
+end
+
+-- ------------------------------------------------------------------------------------------------
+-- ------ 获取自动填充数据 ------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIGen.GetAutoItem( name )
+	return dataList.item[name] or name
+end
+
+function SIGen.GetAutoFluid( name )
+	return dataList.fluid[name] or name
+end
+
+function SIGen.GetAutoEntity( name )
+	return dataList.entity[name] or name
+end
+
+function SIGen.GetAutoVirtual( name )
+	return dataList.virtual[name] or name
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -1539,7 +1559,7 @@ function SIGen.E.SetItem( item )
 end
 
 -- ------------------------------------------------------------------------------------------------
--- --------- 最终构建 ------------ ( 此处方法均为为自动调用 , 不能手动调用 ) ----------------------
+-- ---------- 最终构建 ---------- ( 此处方法均为为自动调用 , 不能手动调用 ) -----------------------
 -- ------------------------------------------------------------------------------------------------
 
 function SIGen.F1.AutoFill()
