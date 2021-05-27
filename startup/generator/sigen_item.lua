@@ -87,11 +87,11 @@ function entity:SetResults( resultOrResultsOrPack , resultType , count )
 	local dataType = type( resultOrResultsOrPack )
 	if dataType == "string" then
 		if resultType == SIGen.resultType.entity then
-			return self:SetParam( "place_result" , resultOrResultsOrPack )
+			return self:SetParam( "place_result" , function() return true , SIGen.autoFillType.entity , resultOrResultsOrPack end )
 		elseif resultType == SIGen.resultType.module then
-			return self:SetParam( "place_as_equipment_result" , resultOrResultsOrPack )
+			return self:SetParam( "place_as_equipment_result" , function() return true , SIGen.autoFillType.entity , resultOrResultsOrPack end )
 		elseif resultType == SIGen.resultType.burnt then
-			return self:SetParam( "burnt_result" , resultOrResultsOrPack )
+			return self:SetParam( "burnt_result" , function() return true , SIGen.autoFillType.item , resultOrResultsOrPack end )
 		else
 			e( "模块构建 : 当前实体不支持使用字符串添加此 resultType : "..resultType )
 			return self

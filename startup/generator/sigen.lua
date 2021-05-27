@@ -31,7 +31,7 @@ local dataList =
 {
 	item    = {} ,
 	fluid   = {} ,
-	entity  = {}
+	entity  = {} ,
 	virtual = {}
 }
 
@@ -152,7 +152,7 @@ local function AutoFillWithTable( data )
 				else real = nil end
 				data[key] = real or cur
 			end
-		else dataType == "table" then AutoFillWithTable( value ) end
+		elseif dataType == "table" then AutoFillWithTable( value ) end
 	end
 end
 
@@ -162,6 +162,8 @@ end
 
 SIGen =
 {
+	isData = true , -- 判定条件 , 请勿修改
+	
 	D  = {} , -- 调试方法
 	E  = {} , -- 批量快速填充专用前缀
 	F1 = {} , -- 内部自动填充专用前缀 ( 此处方法均为为自动调用 , 不能手动调用 )
@@ -278,8 +280,9 @@ function SIGen.ClearList( type )
 end
 
 function SIGen.Extend( list )
-	data:extend( list )
-	table.insert( autoFillDataList , list )
+	if currentConstantsData then
+		for index , data in pairs( list ) do table.insert( autoFillDataList , data ) end
+	else data:extend( list ) end
 	return SIGen
 end
 
@@ -434,6 +437,7 @@ end
 function SIGen.Finish()
 	FinishData()
 	DefaultValues()
+	if not SIGen.isData then SIGen.F1.AutoFill() end
 	return SIGen.Inserter.Clear()
 end
 
@@ -1579,6 +1583,7 @@ function SIGen.F1.AutoFill()
 		for index , data in pairs( autoFillDataList ) do
 			if type( data ) == "table" then AutoFillWithTable( data ) end
 		end
+		data:extend( autoFillDataList )
 		autoFillDataList = {}
 	end
 end

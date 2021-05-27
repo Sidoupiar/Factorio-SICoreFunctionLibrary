@@ -727,6 +727,10 @@ function entity:Fill( currentEntity )
 end
 
 function entity:Auto( currentEntity )
+	if not currentEntity then currentEntity = self end
+	
+	currentEntity:Default( "localised_name" , { "SI-name."..currentEntity:GetBaseName() } )
+	currentEntity:Default( "localised_description" , { "SI-description."..currentEntity:GetBaseName() } )
 	return self
 end
 

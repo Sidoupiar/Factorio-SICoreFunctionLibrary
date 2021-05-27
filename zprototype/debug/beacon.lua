@@ -24,7 +24,7 @@ local function CreateAnimation( path )
 	}
 end
 
-local beaconItem = SIGen.NewBeacon( "beacon" )
+local beaconItem = SIGen.NewBeacon( "beacon-final" )
 .AddFlags{ SIFlags.entityFlags.hidden }
 .SetProperties( 3 , 3 , 250 , 0 , "1GW" , SIPackers.EnergySource() )
 .SetEffectRadius( 64 )
