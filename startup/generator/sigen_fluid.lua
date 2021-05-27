@@ -23,4 +23,16 @@ function entity:SetMapColor( mapColor , friendlyMapColor , enemyMapColor )
 	return self
 end
 
+
+
+function entity:Fill( currentEntity )
+	if not currentEntity then currentEntity = self end
+	self.super:Fill( currentEntity )
+	
+	currentEntity
+	:Default( "icon_size" , SINumbers.iconSize )
+	:Default( "icon_mipmaps" , SINumbers.mipMaps )
+	return self
+end
+
 return entity

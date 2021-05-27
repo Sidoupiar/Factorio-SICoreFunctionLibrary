@@ -176,7 +176,8 @@ SIGen =
 		machine      = SIUtils.MapValueToList( SITypes.machine ) ,
 		recipe       = { SITypes.recipe } ,
 		technology   = { SITypes.technology } ,
-		result       = { SITypes.item.item , SITypes.item.item_e , SITypes.recipe , SITypes.technology }
+		result       = { SITypes.item.item , SITypes.item.item_e , SITypes.recipe , SITypes.technology } ,
+		fluid        = { SITypes.fluid }
 	} ,
 	resultType =
 	{

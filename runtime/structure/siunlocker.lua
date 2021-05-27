@@ -69,6 +69,8 @@ SIUnlocker.eventMap =
 	[SIUnlocker.condition.die]      = SIEvents.on_player_died
 }
 
+SIUnlockerItemList = {}
+
 SIGlobal.Create( "SIUnlockerItems" )
 SIGlobal.Create( "SIUnlockerForceData" )
 
@@ -79,6 +81,7 @@ SIGlobal.Create( "SIUnlockerForceData" )
 -- item =
 -- {
 --   id = "项目的 id" ,
+--   version = 版本 , -- 数字 , 相同版本的项目将不会互相覆盖
 --   conditions = -- 触发器
 --   {
 --     -- 以下条件仅对玩家操作生效 , 同一阵营的玩家数量累计
@@ -215,12 +218,7 @@ function SIUnlocker.AddItem( item )
 		e( "解锁器 : 项目必须包含有效的回报内容" )
 		return SIUnlocker , false
 	end
-	local oldItem = SIUnlockerItems[item.id]
-	if oldItem then
-		SIUnlocker.RemoveOldItemFromForceData( oldItem )
-	end
-	SIUnlockerItems[item.id] = item
-	SIUnlocker.AddNewItemToForceData( item )
+	table.insert( SIUnlockerItemList , item )
 	return SIUnlocker , true
 end
 
@@ -347,6 +345,17 @@ end
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 公用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
+
+function SIUnlocker.OnInit()
+	for index , item in pairs( SIUnlockerItemList ) do
+		local oldItem = SIUnlockerItems[item.id]
+		if not oldItem or oldItem.version ~= item.version then
+			if oldItem then SIUnlocker.RemoveOldItemFromForceData( oldItem ) end
+			SIUnlockerItems[item.id] = item
+			SIUnlocker.AddNewItemToForceData( item )
+		end
+	end
+end
 
 function SIUnlocker.OnKill( event )
 	local cause = event.cause
@@ -546,6 +555,7 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 SIEventBus
+.Init( SIUnlocker.OnInit )
 .Add( SIUnlocker.eventMap[SIUnlocker.condition.kill]     , SIUnlocker.OnKill )
 .Add( SIUnlocker.eventMap[SIUnlocker.condition.has]      , SIUnlocker.OnHas )
 .Add( SIUnlocker.eventMap[SIUnlocker.condition.craft]    , SIUnlocker.OnCraft )

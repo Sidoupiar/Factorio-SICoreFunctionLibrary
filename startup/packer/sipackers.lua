@@ -103,6 +103,22 @@ function SIPackers.ColorCopyWithA256( color , alpha )
 	return color
 end
 
+function SIPackers.ColorBright( colorPack , bright )
+	local newColor = {}
+	if colorPack.r then newColor.r = math.Range( (1-colorPack.r)*bright+colorPack.r , 0 , 1 ) end
+	if colorPack.g then newColor.g = math.Range( (1-colorPack.g)*bright+colorPack.g , 0 , 1 ) end
+	if colorPack.b then newColor.b = math.Range( (1-colorPack.b)*bright+colorPack.b , 0 , 1 ) end
+	return newColor
+end
+
+function SIPackers.ColorDark( colorPack , dark )
+	local newColor = {}
+	if colorPack.r then newColor.r = math.Range( colorPack.r*dark , 0 , 1 ) end
+	if colorPack.g then newColor.g = math.Range( colorPack.g*dark , 0 , 1 ) end
+	if colorPack.b then newColor.b = math.Range( colorPack.b*dark , 0 , 1 ) end
+	return newColor
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- ------- 创建 icon 数据 -------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
