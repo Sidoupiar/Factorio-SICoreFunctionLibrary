@@ -25,6 +25,15 @@ local savedSubGroupData =
 }
 
 local superArmorDataList = {}
+local autoFillDataList = {}
+
+local dataList =
+{
+	item    = {} ,
+	fluid   = {} ,
+	entity  = {}
+	virtual = {}
+}
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 内部处理 ----------------------------------------------------------------------------
@@ -126,14 +135,37 @@ local function CheckEntityData( typeCode )
 end
 
 -- ------------------------------------------------------------------------------------------------
+-- ---------- 工具函数 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+local function AutoFillWithTable( data )
+	for key , value in pairs( data ) do
+		if type( value ) == "function" then
+			local iaAuto , codeType , cur = value()
+			if iaAuto then
+				local real
+				if codeType == SIGen.autoFillType.item then real = dataList.item[cur]
+				elseif codeType == SIGen.autoFillType.fluid then real = dataList.fluid[cur]
+				elseif codeType == SIGen.autoFillType.entity then real = dataList.entity[cur]
+				elseif codeType == SIGen.autoFillType.virtual then real = dataList.virtual[cur]
+				else real = nil end
+				if real then data[key] = real
+				else data[key] = cur end
+			end
+		else type( value ) == "table" then AutoFillWithTable( value ) end
+	end
+end
+
+-- ------------------------------------------------------------------------------------------------
 -- ---------- 添加参数 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
 SIGen =
 {
-	D = {} , -- 调试方法
-	E = {} , -- 批量快速填充专用前缀
-	F = {} , -- 内部自动填充专用前缀 ( 此处方法均为为自动调用 , 不能手动调用 )
+	D  = {} , -- 调试方法
+	E  = {} , -- 批量快速填充专用前缀
+	F1 = {} , -- 内部自动填充专用前缀 ( 此处方法均为为自动调用 , 不能手动调用 )
+	F2 = {} , -- 内部自动填充专用前缀 ( 此处方法均为为自动调用 , 不能手动调用 )
 	dataFlags =
 	{
 		all          = SIUtils.MapAllValueToList( SITypes.all ) ,
@@ -154,6 +186,13 @@ SIGen =
 		rocketLaunch = "rocket" ,
 		recipe       = "recipe" ,
 		technology   = "tech"
+	} ,
+	autoFillType =
+	{
+		item         = "item" ,
+		fluid        = "fluid" ,
+		entity       = "entity" ,
+		virtual      = "virtual"
 	}
 }
 
@@ -166,6 +205,7 @@ SIGen.Item = need( "sigen_item" )
 SIGen.Capsule = need( "sigen_item_capsule" )
 SIGen.Module = need( "sigen_item_module" )
 SIGen.Tool = need( "sigen_item_tool" )
+SIGen.Fluid = need( "sigen_fluid" )
 SIGen.Entity = need( "sigen_entity" )
 SIGen.Resource = need( "sigen_entity_resource" )
 SIGen.Projectile = need( "sigen_entity_projectile" )
@@ -223,8 +263,8 @@ function SIGen.CopyData( type , name )
 end
 
 function SIGen.CopyList( type )
-	local l = data.raw[type]
-	if l then return table.deepcopy( l )
+	local list = data.raw[type]
+	if list then return table.deepcopy( list )
 	else return nil end
 end
 
@@ -239,6 +279,7 @@ end
 
 function SIGen.Extend( list )
 	data:extend( list )
+	table.insert( autoFillDataList , list )
 	return SIGen
 end
 
@@ -632,6 +673,7 @@ function SIGen.NewItem( name , stackSize , item )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Item:New( name , item )
 	InitEntity()
+	dataList.item[name] = currentEntity:GetName()
 	if stackSize then currentEntity:SetStackSize( stackSize ) end
 	return SIGen
 end
@@ -641,6 +683,7 @@ function SIGen.NewCapsule( name , stackSize , capsule )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Capsule:New( name , capsule )
 	InitEntity()
+	dataList.item[name] = currentEntity:GetName()
 	if stackSize then currentEntity:SetStackSize( stackSize ) end
 	return SIGen
 end
@@ -650,6 +693,7 @@ function SIGen.NewModule( name , stackSize , module )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Module:New( name , module )
 	InitEntity()
+	dataList.item[name] = currentEntity:GetName()
 	if stackSize then currentEntity:SetStackSize( stackSize ) end
 	return SIGen
 end
@@ -659,7 +703,17 @@ function SIGen.NewTool( name , stackSize , tool )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Tool:New( name , tool )
 	InitEntity()
+	dataList.item[name] = currentEntity:GetName()
 	if stackSize then currentEntity:SetStackSize( stackSize ) end
+	return SIGen
+end
+
+function SIGen.NewFluid( name , fluid )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentEntity = SIGen.Fluid:New( name , fluid )
+	InitEntity()
+	dataList.fluid[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -668,6 +722,7 @@ function SIGen.NewEntity( type , name , entity )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Entity:New( type , name , entity )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -676,6 +731,7 @@ function SIGen.NewResource( name , resource )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Resource:New( name , resource )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -684,6 +740,7 @@ function SIGen.NewProjectile( name , projectile )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Projectile:New( name , projectile )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -692,6 +749,7 @@ function SIGen.NewHealthEntity( type , name , healthEntity )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.HealthEntity:New( type , name , healthEntity )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -700,6 +758,7 @@ function SIGen.NewUnit( name , unit )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Unit:New( name , unit )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -708,6 +767,7 @@ function SIGen.NewSpawner( name , spawner )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Spawner:New( name , spawner )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -716,6 +776,7 @@ function SIGen.NewBoiler( name , boiler )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Boiler:New( name , boiler )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -724,6 +785,7 @@ function SIGen.NewGenerator( name , generator )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Generator:New( name , generator )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -732,6 +794,7 @@ function SIGen.NewBurnerGenerator( name , burnerGenerator )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.BurnerGenerator:New( name , burnerGenerator )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -740,6 +803,7 @@ function SIGen.NewPump( name , pump )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Pump:New( name , pump )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -748,6 +812,7 @@ function SIGen.NewMining( name , mining )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Mining:New( name , mining )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -756,6 +821,7 @@ function SIGen.NewFurnace( name , furnace )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Furnace:New( name , furnace )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -764,6 +830,7 @@ function SIGen.NewMachine( name , machine )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Machine:New( name , machine )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -772,6 +839,7 @@ function SIGen.NewLab( name , lab )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Lab:New( name , lab )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -780,6 +848,7 @@ function SIGen.NewBeacon( name , beacon )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Beacon:New( name , beacon )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -788,6 +857,7 @@ function SIGen.NewPipe( name , pipe )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Pipe:New( name , pipe )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -796,6 +866,7 @@ function SIGen.NewContainer( name , container )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Container:New( name , container )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -804,6 +875,7 @@ function SIGen.NewContainerLogic( name , containerLogic , logisticMode )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.ContainerLogic:New( name , containerLogic )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	if logisticMode then currentEntity:SetLogisticMode( logisticMode ) end
 	return SIGen
 end
@@ -813,6 +885,7 @@ function SIGen.NewContainerLinked( name , containerLinked , linkedMode )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.ContainerLinked:New( name , containerLinked )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	if linkedMode then currentEntity:SetLogisticMode( linkedMode ) end
 	return SIGen
 end
@@ -822,6 +895,7 @@ function SIGen.NewRobot( name , robot )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Robot:New( name , robot )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -830,6 +904,7 @@ function SIGen.NewRobotConstruction( name , robotConstruction )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.RobotConstruction:New( name , robotConstruction )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -838,6 +913,7 @@ function SIGen.NewRobotLogistic( name , robotLogistic )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.RobotLogistic:New( name , robotLogistic )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -846,6 +922,7 @@ function SIGen.NewRobotCombat( name , robotCombat )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.RobotCombat:New( name , robotCombat )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -854,6 +931,7 @@ function SIGen.NewRoboport( name , roboport )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Roboport:New( name , roboport )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -862,6 +940,7 @@ function SIGen.NewRadar( name , radar )
 	if not CheckData() then return SIGen end
 	currentEntity = SIGen.Radar:New( name , radar )
 	InitEntity()
+	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
@@ -1463,7 +1542,16 @@ end
 -- --------- 最终构建 ------------ ( 此处方法均为为自动调用 , 不能手动调用 ) ----------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIGen.F.CreateArmor()
+function SIGen.F1.AutoFill()
+	if #autoFillDataList > 0 then
+		for index , data in pairs( autoFillDataList ) do
+			if type( data ) == "table" then AutoFillWithTable( data ) end
+		end
+		autoFillDataList = {}
+	end
+end
+
+function SIGen.F2.CreateArmor()
 	if #superArmorDataList > 0 then
 		local resistances = SIPackers.ResistancesWithDamageTypes( SIGen.GetList( SITypes.damageType ) , 35 , 98 )
 		for i , settings in pairs( superArmorDataList ) do

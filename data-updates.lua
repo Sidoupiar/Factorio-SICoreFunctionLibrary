@@ -2,5 +2,4 @@
 -- ---------- 调整数据 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-SIGen.GetData( SITypes.fluid , "steam" ).max_temperature = 5000
-for name , func in pairs( SIGen.F2 ) do func() end
+for name , func in pairs( SIGen.F1 ) do func() end

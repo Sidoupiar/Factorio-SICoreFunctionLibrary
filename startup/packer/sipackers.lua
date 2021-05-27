@@ -303,7 +303,7 @@ function SIPackers.SignalPack( name )
 end
 
 function SIPackers.Signal( name )
-	return { type = "virtual" , name = name }
+	return { type = "virtual" , name = function() return true , SIGen.autoFillType.virtual , name end }
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -382,14 +382,14 @@ function SIPackers.SingleFluidIngredientPack( name , count , minTemperature , ma
 end
 
 function SIPackers.SingleItemIngredient( name , count )
-	local ingredient = { type = SITypes.item.item , name = name }
+	local ingredient = { type = SITypes.item.item , name = function() return true , SIGen.autoFillType.item , name end }
 	if count then ingredient.amount = count
 	else ingredient.amount = 1 end
 	return ingredient
 end
 
 function SIPackers.SingleFluidIngredient( name , count , minTemperature , maxTemperature )
-	local ingredient = { type = SITypes.fluid , name = name }
+	local ingredient = { type = SITypes.fluid , name = function() return true , SIGen.autoFillType.fluid , name end }
 	if count then ingredient.amount = count
 	else ingredient.amount = 1 end
 	if minTemperature then ingredient.minimum_temperature = minTemperature end
@@ -443,7 +443,7 @@ function SIPackers.SingleFluidProductPack( name , countOrProbability , minCount 
 end
 
 function SIPackers.SingleItemProduct( name , countOrProbability , minCount , maxCount , catalystCount )
-	local product = { type = SITypes.item.item , name = name }
+	local product = { type = SITypes.item.item , name = function() return true , SIGen.autoFillType.item , name end }
 	if minCount and maxCount then
 		product.probability = countOrProbability
 		product.amount_min = minCount
@@ -457,7 +457,7 @@ function SIPackers.SingleItemProduct( name , countOrProbability , minCount , max
 end
 
 function SIPackers.SingleFluidProduct( name , countOrProbability , minCount , maxCount , temperature , catalystCount )
-	local product = { type = SITypes.fluid , name = name }
+	local product = { type = SITypes.fluid , name = function() return true , SIGen.autoFillType.fluid , name end }
 	if minCount and maxCount then
 		product.probability = countOrProbability
 		product.amount_min = minCount
@@ -554,7 +554,7 @@ function SIPackers.IngredientsUnits( ingredientsTable )
 end
 
 function SIPackers.SingleIngredientUnit( name , count )
-	local unitItem = { name }
+	local unitItem = { function() return true , SIGen.autoFillType.item , name end }
 	if count then table.insert( unitItem , count )
 	else table.insert( unitItem , 1 ) end
 	return unitItem
@@ -665,7 +665,7 @@ function SIPackers.LootItemPack( item , probability , countMin , countMax )
 end
 
 function SIPackers.LootItem( item , probability , countMin , countMax )
-	local lootItem = { item = item }
+	local lootItem = { item = function() return true , SIGen.autoFillType.item , item end }
 	if probability then lootItem.probability = probability end
 	if countMin then lootItem.count_min = countMin end
 	if countMax then lootItem.count_max = countMax end
