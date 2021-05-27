@@ -1073,6 +1073,18 @@ function SIGen.SetEnergy( energyUsage , energySource )
 	return SIGen
 end
 
+function SIGen.SetFuel( value , category , emissionsMult , accelerationMult , topSpeedMult , glowColor )
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	if value or category or emissionsMult or accelerationMult or topSpeedMult or glowColor then currentEntity:SetFuel( value , category , emissionsMult , accelerationMult , topSpeedMult , glowColor ) end
+	return SIGen
+end
+
+function SIGen.SetTemperature( defaultTemperature , maxTemperature , gasTemperature )
+	if not CheckEntityData( SIGen.dataFlags.fluid ) then return SIGen end
+	if defaultTemperature or maxTemperature or gasTemperature then currentEntity:SetTemperature( defaultTemperature , maxTemperature , gasTemperature ) end
+	return SIGen
+end
+
 function SIGen.SetSlotCount( inputSlotCount , outputSlotCount )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
 	if inputSlotCount or outputSlotCount then currentEntity:SetSlotCount( inputSlotCount , outputSlotCount ) end

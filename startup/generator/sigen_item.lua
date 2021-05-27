@@ -62,9 +62,14 @@ function entity:SetStackSize( stackSize )
 	return self:SetParam( "stack_size" , stackSize )
 end
 
-function entity:SetEnergy( energyUsage , energySource )
-	return self:SetParam( "fuel_value" , energyUsage )
-	:SetParam( "fuel_category" , energySource )
+function entity:SetFuel( value , category , emissionsMult , accelerationMult , topSpeedMult , glowColor )
+	if value then self:SetParam( "fuel_value" , value ) end
+	if category then self:SetParam( "fuel_category" , category ) end
+	if emissionsMult then self:SetParam( "fuel_emissions_multiplier" , emissionsMult ) end
+	if accelerationMult then self:SetParam( "fuel_acceleration_multiplier" , accelerationMult ) end
+	if topSpeedMult then self:SetParam( "fuel_top_speed_multiplier" , topSpeedMult ) end
+	if glowColor then self:SetParam( "fuel_glow_color" , glowColor ) end
+	return self
 end
 
 

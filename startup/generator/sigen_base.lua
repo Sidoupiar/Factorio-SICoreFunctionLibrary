@@ -530,6 +530,14 @@ function entity:SetEnergy( energyUsage , energySource )
 	return self
 end
 
+function entity:SetFuel( value , category , emissionsMult , accelerationMult , topSpeedMult , glowColor )
+	return self
+end
+
+function entity:SetTemperature( defaultTemperature , maxTemperature , gasTemperature )
+	return self
+end
+
 function entity:SetSlotCount( inputSlotCount , outputSlotCount )
 	return self
 end
