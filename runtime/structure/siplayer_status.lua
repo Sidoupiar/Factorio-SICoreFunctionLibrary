@@ -180,11 +180,11 @@ end
 -- buffData =
 -- {
 --   id = "buffId" ,
---   name = { "本地化字符串" } ,
---   description = { "本地化字符串" } ,
---   duration = 7200 , -- 持续时间 , 负数 = 永继 buff
+--   name = { "本地化字符串" } 或 "本地化字符串后半部分" ,        -- 可选 , 只填字符串的话 , 会自动生成 { "本地化字符串" } 的形式 , 如果不填则使用 id 生成
+--   description = { "本地化字符串" } 或 "本地化字符串后半部分" , -- 可选 , 只填字符串的话 , 会自动生成 { "本地化字符串" } 的形式 , 如果不填则使用 id 生成
+--   duration = 7200 ,                                            -- 持续时间 , 负数 = 永继 buff
 --   removeOnDeath = 是否在死亡时清除这个 buff ,
---   values = -- 效果列表
+--   values =                                                     -- 效果列表
 --   {
 --     [SIPlayerStatus.valueCode.xxxx] = { value = 数值 } -- 数值可以是负数
 --   }
@@ -303,6 +303,10 @@ function SIPlayerStatus.FreshBuff( playerData , buffId , buffData )
 	end
 	playerData.buff[buffId] = buffData
 	if buffData then
+		if not buffData.name then buffData.name = { "SI-name."..buffId }
+		elseif type( buffData.name ) ~= "table" then buffData.name = { "SI-name."..buffData.name } end
+		if not buffData.description then  buffData.description = { "SI-description."..buffId }
+		elseif type( buffData.description ) ~= "table" then buffData.description = { "SI-description."..buffData.description } end
 		buffData.cur = 0
 		buffData.lastTick = game.tick
 		for code , data in pairs( buffData.values ) do

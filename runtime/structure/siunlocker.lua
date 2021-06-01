@@ -81,7 +81,9 @@ SIGlobal.Create( "SIUnlockerForceData" )
 -- item =
 -- {
 --   id = "项目的 id" ,
---   version = 版本 , -- 数字 , 相同版本的项目将不会互相覆盖
+--   version = 版本 ,                   -- 数字 , 相同版本的项目将不会互相覆盖
+--   name = { "本地化字符串" } ,        -- 显示名称
+--   description = { "本地化字符串" } , -- 显示描述
 --   conditions = -- 触发器
 --   {
 --     -- 以下条件仅对玩家操作生效 , 同一阵营的玩家数量累计
@@ -91,6 +93,7 @@ SIGlobal.Create( "SIUnlockerForceData" )
 --       name = "实体的 id" ,
 --       count = 击杀的次数 ,
 --       damageType = "攻击类型的 id" -- 可选
+--       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     } ,
 --     {
 --       type = SIUnlocker.condition.has , -- 玩家持有数 , 要求物品在同一个背包内
@@ -101,6 +104,7 @@ SIGlobal.Create( "SIUnlockerForceData" )
 --       type = SIUnlocker.condition.craft , -- 玩家手搓数
 --       name = "配方的 id" ,
 --       count = 合成的次数
+--       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     } ,
 --     {
 --       type = SIUnlocker.condition.research , -- 科技完成时
@@ -111,16 +115,19 @@ SIGlobal.Create( "SIUnlockerForceData" )
 --       type = SIUnlocker.condition.build , -- 玩家建造数
 --       name = "实体的 id" ,
 --       count = 建造的数量
+--       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     } ,
 --     {
 --       type = SIUnlocker.condition.mine , -- 玩家挖掘数
 --       name = "实体的 id" ,
 --       count = 挖掘的数量
+--       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     } ,
 --     {
 --       type = SIUnlocker.condition.use , -- 玩家投掷数
 --       name = "物品的 id" ,
 --       count = 投掷的数量
+--       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     } ,
 --     {
 --       type = SIUnlocker.condition.mute -- 玩家被禁言
@@ -129,6 +136,7 @@ SIGlobal.Create( "SIUnlockerForceData" )
 --       type = SIUnlocker.condition.die , -- 玩家死亡
 --       name = "凶手实体的 id" ,
 --       count = 死亡的次数
+--       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     }
 --   } ,
 --   results =
@@ -189,7 +197,12 @@ SIGlobal.Create( "SIUnlockerForceData" )
 --       type = SIUnlocker.result.messagePlayer , -- 给最终触发的玩家发送消息 , 对于 SIUnlocker.condition.research 此项无效
 --       message = { "本地化字符串" }
 --     }
+--   } ,
+--   repeat = -- 可选项目 , 默认触发一次
+--   {
+--     maxCount = 数字 -- 重复的最大次数 , 只有触发次数达到这个数字的时候 , 项目才不会被再次触发 , -1 表示无限次
 --   }
+--   -- repeatCount = 触发过的次数 -- 自动填写 , 注册时不需要填 , 触发过的次数 , 默认为 nil , 触发项目之后才会有数字
 -- }
 function SIUnlocker.AddItem( item )
 	if not item or not item.id then
@@ -218,6 +231,10 @@ function SIUnlocker.AddItem( item )
 		e( "解锁器[SIUnlocker] : 项目必须包含有效的回报内容" )
 		return SIUnlocker , false
 	end
+	if not item.name then item.name = { "SI-name."..item.id }
+	elseif type( item.name ) ~= "table" then item.name = { "SI-name."..item.name } end
+	if not item.description then item.description = { "SI-description."..item.id }
+	elseif type( item.description ) ~= "table" then item.description = { "SI-description."..item.description } end
 	table.insert( SIUnlockerItemList , item )
 	return SIUnlocker , true
 end
@@ -295,8 +312,10 @@ function SIUnlocker.FireItem( forceData , item , force , player )
 		-- 解锁配方
 		if result.type == SIUnlocker.result.addRecipe then
 			local recipe = force.recipes[result.name]
-			recipe.enabled = true
-			for index , player in pairs( force.players ) do player.add_recipe_notification( recipe.name ) end
+			if not recipe.enabled then
+				recipe.enabled = true
+				for index , player in pairs( force.players ) do player.add_recipe_notification( recipe.name ) end
+			end
 		elseif result.type == SIUnlocker.result.removeRecipe then force.recipes[result.name].enabled = false
 		-- 速度设置
 		elseif result.type == SIUnlocker.result.addSpeedCrafting then
@@ -338,6 +357,15 @@ function SIUnlocker.FireItem( forceData , item , force , player )
 			end
 		elseif result.type == SIUnlocker.result.messagePlayer then
 			if player then player.print( result.message ) end
+		end
+	end
+	if item.repeat then
+		local count = item.repeatCount or 1
+		local maxCount = repeat.maxCount or 0
+		if maxCount < 0 or count < maxCount then
+			local newItem = table.deepcopy( SIUnlockerItems[item.id] )
+			newItem.repeatCount = count + 1
+			SIUnlocker.AddItemToForceData( forceData , newItem )
 		end
 	end
 end
