@@ -22,7 +22,7 @@ function SIFinder.Item( baseName , type )
 	local list = game.get_filtered_item_prototypes{ { filter = "name" , name = { name , baseName } } }
 	if list[name] then return name
 	elseif list[baseName] then return baseName
-	else e( "名称寻找器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的物品" ) end
+	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的物品" ) end
 end
 
 function SIFinder.Entity( baseName , type )
@@ -30,7 +30,7 @@ function SIFinder.Entity( baseName , type )
 	local list = game.get_filtered_item_prototypes{ { filter = "name" , name = { name , baseName } } }
 	if list[name] then return name
 	elseif list[baseName] then return baseName
-	else e( "名称寻找器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的实体" ) end
+	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的实体" ) end
 end
 
 function SIFinder.Recipe( baseName )
@@ -38,7 +38,7 @@ function SIFinder.Recipe( baseName )
 	local list = game.get_filtered_item_prototypes{ { filter = "name" , name = { name , baseName } } }
 	if list[name] then return name
 	elseif list[baseName] then return baseName
-	else e( "名称寻找器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的配方" ) end
+	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的配方" ) end
 end
 
 function SIFinder.Technology( baseName )
@@ -46,7 +46,7 @@ function SIFinder.Technology( baseName )
 	local list = game.get_filtered_item_prototypes{ { filter = "name" , name = { name , baseName } } }
 	if list[name] then return name
 	elseif list[baseName] then return baseName
-	else e( "名称寻找器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的科技" ) end
+	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的科技" ) end
 end
 
 -- ------------------------------------------------------------------------------------------------
