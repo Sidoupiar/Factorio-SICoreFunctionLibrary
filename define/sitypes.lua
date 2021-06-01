@@ -309,15 +309,16 @@ SITypes =
 	} ,
 	equipment =
 	{
+		base            = "equipment" , -- 此项不能使用
 		night           = "night-vision-equipment" ,
 		shield          = "energy-shield-equipment" ,
 		battery         = "battery-equipment" ,
 		solar           = "solar-panel-equipment" ,
 		generatorEquip  = "generator-equipment" ,
-		active_def      = "active-defense-equipment" ,
+		activeDefense   = "active-defense-equipment" ,
 		movement        = "movement-bonus-equipment" ,
 		roboport        = "roboport-equipment" ,
-		belt_immune     = "belt-immunity-equipment"
+		beltImmunity    = "belt-immunity-equipment"
 	} ,
 	logisticMode =
 	{
