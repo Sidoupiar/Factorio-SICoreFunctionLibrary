@@ -2,8 +2,8 @@
 -- ---------- 添加引用 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-if not SIEventBus then e( "模块使用 : 必须启用 SIEventBus 之后才能使用 SIUnlocker 模块" ) end
-if not SIGlobal then e( "模块使用 : 必须启用 SIGlobal 之后才能使用 SIUnlocker 模块" ) end
+if not SIEventBus then e( "模块使用[SIPlayerStatus] : 必须启用 SIEventBus 之后才能使用 SIPlayerStatus 模块" ) end
+if not SIGlobal then e( "模块使用[SIPlayerStatus] : 必须启用 SIGlobal 之后才能使用 SIPlayerStatus 模块" ) end
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础数据 ----------------------------------------------------------------------------
@@ -191,7 +191,7 @@ end
 -- }
 function SIPlayerStatus.AddBuff( playerIndex , buffData )
 	if not buffData or not buffData.id then
-		e( "玩家属性管理器 : buff 或 buff.id 不能为空" )
+		e( "玩家属性管理器[SIPlayerStatus] : buff 或 buff.id 不能为空" )
 		return SIPlayerStatus , false
 	end
 	local playerData = SIPlayerStatus.GetPlayerData( playerIndex )

@@ -2,8 +2,8 @@
 -- ---------- 添加引用 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-if not SIEventBus then e( "模块使用 : 必须启用 SIEventBus 之后才能使用 SIUnlocker 模块" ) end
-if not SIGlobal then e( "模块使用 : 必须启用 SIGlobal 之后才能使用 SIUnlocker 模块" ) end
+if not SIEventBus then e( "模块使用[SIUnlocker] : 必须启用 SIEventBus 之后才能使用 SIUnlocker 模块" ) end
+if not SIGlobal then e( "模块使用[SIUnlocker] : 必须启用 SIGlobal 之后才能使用 SIUnlocker 模块" ) end
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础数据 ----------------------------------------------------------------------------
@@ -193,7 +193,7 @@ SIGlobal.Create( "SIUnlockerForceData" )
 -- }
 function SIUnlocker.AddItem( item )
 	if not item or not item.id then
-		e( "解锁器 : 项目或项目 id 不能为空" )
+		e( "解锁器[SIUnlocker] : 项目或项目 id 不能为空" )
 		return SIUnlocker , false
 	end
 	if item.conditions then
@@ -204,7 +204,7 @@ function SIUnlocker.AddItem( item )
 		item.conditions = conditions
 	end
 	if not item.conditions or table.Size( item.conditions ) < 1 then
-		e( "解锁器 : 项目必须包含有效的触发条件" )
+		e( "解锁器[SIUnlocker] : 项目必须包含有效的触发条件" )
 		return SIUnlocker , false
 	end
 	if item.results then
@@ -215,7 +215,7 @@ function SIUnlocker.AddItem( item )
 		item.results = results
 	end
 	if not item.results or table.Size( item.results ) < 1 then
-		e( "解锁器 : 项目必须包含有效的回报内容" )
+		e( "解锁器[SIUnlocker] : 项目必须包含有效的回报内容" )
 		return SIUnlocker , false
 	end
 	table.insert( SIUnlockerItemList , item )

@@ -36,7 +36,7 @@ SIEventBus =
 
 function SIEventBus.Init( func , id )
 	if not func then
-		e( "事件总线 : 不能添加空的初始化方法" )
+		e( "事件总线[SIEventBus] : 不能添加空的初始化方法" )
 		return SIEventBus
 	end
 	if not id then
@@ -57,7 +57,7 @@ end
 
 function SIEventBus.Load( func , id )
 	if not func then
-		e( "事件总线 : 不能添加空的载入存档方法" )
+		e( "事件总线[SIEventBus] : 不能添加空的载入存档方法" )
 		return SIEventBus
 	end
 	if not id then
@@ -76,7 +76,7 @@ end
 
 function SIEventBus.AddWaitFunction( id , func )
 	if not func then
-		e( "事件总线 : 不能添加空的缓执行方法" )
+		e( "事件总线[SIEventBus] : 不能添加空的缓执行方法" )
 		return SIEventBus
 	end
 	if not id then
@@ -90,7 +90,7 @@ end
 
 function SIEventBus.AddNth( count , func , id )
 	if not func then
-		e( "事件总线 : 不能添加空的事件方法" )
+		e( "事件总线[SIEventBus] : 不能添加空的事件方法" )
 		return SIEventBus
 	end
 	if not id then
@@ -117,16 +117,16 @@ end
 
 function SIEventBus.SetNth( count , func , id )
 	if not func then
-		e( "事件总线 : 不能设置空的事件方法" )
+		e( "事件总线[SIEventBus] : 不能设置空的事件方法" )
 		return SIEventBus
 	end
 	if not id then
-		e( "事件总线 : 设置事件方法时必须使用明确的 id" )
+		e( "事件总线[SIEventBus] : 设置事件方法时必须使用明确的 id" )
 		return SIEventBus
 	end
 	local data = SIEventBus.nth[count]
 	if not data then
-		e( "事件总线 : 当前 count 指定的事件列表没有记录数据" )
+		e( "事件总线[SIEventBus] : 当前 count 指定的事件列表没有记录数据" )
 		return SIEventBus
 	end
 	local oldIndex
@@ -137,7 +137,7 @@ function SIEventBus.SetNth( count , func , id )
 		end
 	end
 	if not oldIndex then
-		e( "事件总线 : 设置事件方法时必须使用列表中存在的 id" )
+		e( "事件总线[SIEventBus] : 设置事件方法时必须使用列表中存在的 id" )
 		return SIEventBus
 	end
 	data.funcs[oldIndex] = { id = id , func = func }
@@ -146,12 +146,12 @@ end
 
 function SIEventBus.RemoveNth( count , id )
 	if not id then
-		e( "事件总线 : 移除事件方法时必须使用明确的 id" )
+		e( "事件总线[SIEventBus] : 移除事件方法时必须使用明确的 id" )
 		return SIEventBus
 	end
 	local data = SIEventBus.nth[count]
 	if not data then
-		e( "事件总线 : 当前 count 指定的事件列表没有记录数据" )
+		e( "事件总线[SIEventBus] : 当前 count 指定的事件列表没有记录数据" )
 		return SIEventBus
 	end
 	local oldIndex
@@ -162,7 +162,7 @@ function SIEventBus.RemoveNth( count , id )
 		end
 	end
 	if not oldIndex then
-		e( "事件总线 : 设置事件方法时必须使用列表中存在的 id" )
+		e( "事件总线[SIEventBus] : 设置事件方法时必须使用列表中存在的 id" )
 		return SIEventBus
 	end
 	if table.Size( data.funcs ) > 1 then
@@ -184,7 +184,7 @@ end
 
 function SIEventBus.Add( eventId , func , id )
 	if not func then
-		e( "事件总线 : 不能添加空的事件方法" )
+		e( "事件总线[SIEventBus] : 不能添加空的事件方法" )
 		return SIEventBus
 	end
 	if not id then
@@ -217,16 +217,16 @@ end
 
 function SIEventBus.Set( eventId , func , id )
 	if not func then
-		e( "事件总线 : 不能设置空的事件方法" )
+		e( "事件总线[SIEventBus] : 不能设置空的事件方法" )
 		return SIEventBus
 	end
 	if not id then
-		e( "事件总线 : 设置事件方法时必须使用明确的 id" )
+		e( "事件总线[SIEventBus] : 设置事件方法时必须使用明确的 id" )
 		return SIEventBus
 	end
 	local data = SIEventBus.list[eventId]
 	if not data then
-		e( "事件总线 : 当前 eventId 指定的事件列表没有记录数据" )
+		e( "事件总线[SIEventBus] : 当前 eventId 指定的事件列表没有记录数据" )
 		return SIEventBus
 	end
 	local oldIndex
@@ -237,7 +237,7 @@ function SIEventBus.Set( eventId , func , id )
 		end
 	end
 	if not oldIndex then
-		e( "事件总线 : 设置事件方法时必须使用列表中存在的 id" )
+		e( "事件总线[SIEventBus] : 设置事件方法时必须使用列表中存在的 id" )
 		return SIEventBus
 	end
 	if data.isSet then data.funcs[oldIndex] = { id = id , func = func }
@@ -250,12 +250,12 @@ end
 
 function SIEventBus.Remove( eventId , id )
 	if not id then
-		e( "事件总线 : 移除事件方法时必须使用明确的 id" )
+		e( "事件总线[SIEventBus] : 移除事件方法时必须使用明确的 id" )
 		return SIEventBus
 	end
 	local data = SIEventBus.list[eventId]
 	if not data then
-		e( "事件总线 : 当前 eventId 指定的事件列表没有记录数据" )
+		e( "事件总线[SIEventBus] : 当前 eventId 指定的事件列表没有记录数据" )
 		return SIEventBus
 	end
 	local oldIndex
@@ -266,7 +266,7 @@ function SIEventBus.Remove( eventId , id )
 		end
 	end
 	if not oldIndex then
-		e( "事件总线 : 设置事件方法时必须使用列表中存在的 id" )
+		e( "事件总线[SIEventBus] : 设置事件方法时必须使用列表中存在的 id" )
 		return SIEventBus
 	end
 	if data.isSet then

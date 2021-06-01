@@ -406,8 +406,7 @@ function SIGen.GetCurrentEntitySourceData()
 end
 
 function SIGen.CreateName( baseName , type )
-	local keyw = SIKeyw[type]
-	return currentConstantsData.autoName and currentConstantsData.realname .. ( keyw and keyw.."-" or "" ) .. baseName or baseName
+	return SITypes.CreateName( currentConstantsData , baseName , type )
 end
 
 function SIGen.Order( orderCode )
