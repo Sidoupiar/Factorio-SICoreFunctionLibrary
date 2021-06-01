@@ -3,7 +3,7 @@ require( "util" )
 need( "define/load" )
 need( "function/load" )
 
-needlist( "runtime/structure" , "sievent_bus" , "siglobal" , "sibuilding_limiter" , "sibuilder" , "sigift_sender" )
+needlist( "runtime/structure" , "sievent_bus" , "siglobal" , "interface_sitoolbar" , "interface_siunlocker" , "interface_siplayer_status" )
 needlist( "runtime/function" , "functions" )
 
 local constants = need( "constants" )
@@ -18,7 +18,7 @@ local showPatreon = SIStartup.SICFL.show_patreon()
 -- ------------------------------------------------------------------------------------------------
 
 needlist( "zaction/base" , "titlebar" , "view_evolution" , "view_kill_count" , "view_time" , "view_game_speed" )
-needlist( "zaction/remote" , "toolbar" , "view_finder" , "view_settings" )
+needlist( "zaction/remote" , "view_finder" , "view_settings" , "implement_sitoolbar" , "implement_siunlocker" , "implement_siplayer_status" )
 -- 测试工具
 if SIStartup.SICFL.debug_tools() then
 	needlist( "zaction/debug" , "delmap" , "oremap" )

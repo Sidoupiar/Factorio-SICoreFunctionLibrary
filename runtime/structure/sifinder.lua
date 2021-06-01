@@ -21,58 +21,37 @@ end
 
 function SIFinder.Item( baseName , type )
 	local name = SIFinder.CreateName( baseName , type or SITypes.item.item )
-	local list = game.get_filtered_item_prototypes{ { filter = "name" , name = { name , baseName } } }
-	if list[name] then return name
-	elseif list[baseName] then return baseName
-	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的物品" ) end
+	return SIFinder.Check( name , baseName , "item" , "物品" )
 end
 
 function SIFinder.Fluid( baseName )
 	local name = SIFinder.CreateName( baseName , SITypes.fluid )
-	local list = game.get_filtered_fluid_prototypes{ { filter = "name" , name = { name , baseName } } }
-	if list[name] then return name
-	elseif list[baseName] then return baseName
-	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的流体" ) end
+	return SIFinder.Check( name , baseName , "fluid" , "流体" )
 end
 
 function SIFinder.Equipment( baseName )
 	local name = SIFinder.CreateName( baseName , SITypes.equipment.base )
-	local list = game.get_filtered_equipment_prototypes{ { filter = "name" , name = { name , baseName } } }
-	if list[name] then return name
-	elseif list[baseName] then return baseName
-	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的装甲模块" ) end
+	return SIFinder.Check( name , baseName , "equipment" , "装甲模块" )
 end
 
 function SIFinder.Entity( baseName , type )
 	local name = SIFinder.CreateName( baseName , type or SITypes.entity.simpleEntity )
-	local list = game.get_filtered_entity_prototypes{ { filter = "name" , name = { name , baseName } } }
-	if list[name] then return name
-	elseif list[baseName] then return baseName
-	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的实体" ) end
+	return SIFinder.Check( name , baseName , "entity" , "实体" )
 end
 
 function SIFinder.Tile( baseName )
 	local name = SIFinder.CreateName( baseName , SITypes.tile )
-	local list = game.get_filtered_tile_prototypes{ { filter = "name" , name = { name , baseName } } }
-	if list[name] then return name
-	elseif list[baseName] then return baseName
-	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的流体" ) end
+	return SIFinder.Check( name , baseName , "tile" , "地板" )
 end
 
 function SIFinder.Recipe( baseName )
 	local name = SIFinder.CreateName( baseName , SITypes.recipe )
-	local list = game.get_filtered_recipe_prototypes{ { filter = "name" , name = { name , baseName } } }
-	if list[name] then return name
-	elseif list[baseName] then return baseName
-	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的配方" ) end
+	return SIFinder.Check( name , baseName , "recipe" , "配方" )
 end
 
 function SIFinder.Technology( baseName )
 	local name = SIFinder.CreateName( baseName , SITypes.technology )
-	local list = game.get_filtered_technology_prototypes{ { filter = "name" , name = { name , baseName } } }
-	if list[name] then return name
-	elseif list[baseName] then return baseName
-	else e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的科技" ) end
+	return SIFinder.Check( name , baseName , "technology" , "科技" )
 end
 
 -- ------------------------------------------------------------------------------------------------
@@ -81,4 +60,16 @@ end
 
 function SIFinder.CreateName( baseName , type )
 	return SITypes.CreateName( SIFinder.currentConstantsData , baseName , type )
+end
+
+function SIFinder.Check( name , baseName , typeCode , typeMessage )
+	if game then
+		local list = game["get_filtered_"..typeCode.."_prototypes"]{ { filter = "name" , name = { name , baseName } } }
+		if list[name] then return name
+		elseif list[baseName] then return baseName
+		else
+			e( "名称查询器[SIFinder] : 通过名称 ["..baseName.."] 未找到有效的"..typeMessage )
+			return nil
+		end
+	else return name end
 end

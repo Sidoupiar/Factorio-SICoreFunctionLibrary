@@ -562,7 +562,7 @@ SIKeyw =
 }
 
 local wl = { equipment = "equipment" }
-local wi = { "group" , "subgroup" , "fluid" , "tile" , "signal" , "recipe" , "technology" }
+local wi = { "group" , "subgroup" , "fluid" , "tile" , "signal" , "recipe" , "technology" , "input" }
 for k , v in pairs( wl ) do for n , m in pairs( SITypes[k] ) do SIKeyw[m] = v end end
 for i , v in pairs( wi ) do SIKeyw[SITypes[v]] = v end
 

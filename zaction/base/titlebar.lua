@@ -41,7 +41,7 @@ function SITitlebar.OpenView( playerIndex , viewData )
 		viewData.view = view
 		
 		-- 显示工具栏
-		SIToolbar.ShowViewByPlayerIndex( playerIndex )
+		Implement_SIToolbar.ShowViewByPlayerIndex( playerIndex )
 		-- 读取当前默认设置
 		local currentSettings = {}
 		local settingData = player.mod_settings
@@ -53,7 +53,7 @@ end
 function SITitlebar.CloseView( playerIndex , viewData )
 	if viewData and viewData.view then
 		-- 移除工具栏
-		SIToolbar.HideViewByPlayerIndex( playerIndex )
+		Implement_SIToolbar.HideViewByPlayerIndex( playerIndex )
 		-- 移除各个组件
 		SIViewEvolution.CloseViewByPlayerIndex( playerIndex )
 		SIViewKillCount.CloseViewByPlayerIndex( playerIndex )

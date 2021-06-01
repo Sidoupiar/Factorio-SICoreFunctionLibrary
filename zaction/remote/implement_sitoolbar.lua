@@ -14,9 +14,8 @@
 --   order = order ,
 --   removed = true/false
 -- }
-SIToolbar =
+Implement_SIToolbar =
 {
-	interfaceId = "sicfl-toolbar" ,
 	waitFunctionId = "sicfl-toolbar" ,
 	
 	emptyItemName = "sicfl-item-icon-empty" ,
@@ -39,12 +38,12 @@ SIGlobal.Create( "SIToolbarViews" )
 -- ---------- 图标操作 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIToolbar.AddTool( id , buttonName , iconItemName , localizedName , tooltips , interfaceName , functionName )
-	for i , toolData in pairs( SIToolbar.addToolData ) do
+function Implement_SIToolbar.AddTool( id , buttonName , iconItemName , localizedName , tooltips , interfaceName , functionName )
+	for i , toolData in pairs( Implement_SIToolbar.addToolData ) do
 		if toolData.id == id then return end
 	end
-	local order = SIToolbar.order
-	SIToolbar.order = SIToolbar.order + 1
+	local order = Implement_SIToolbar.order
+	Implement_SIToolbar.order = Implement_SIToolbar.order + 1
 	local toolData =
 	{
 		id = id ,
@@ -56,16 +55,16 @@ function SIToolbar.AddTool( id , buttonName , iconItemName , localizedName , too
 		functionName = functionName ,
 		order = order
 	}
-	table.insert( SIToolbar.addToolData , toolData )
-	SIToolbar.FreshViews()
+	table.insert( Implement_SIToolbar.addToolData , toolData )
+	Implement_SIToolbar.FreshViews()
 	return order
 end
 
-function SIToolbar.RemoveTool( id )
+function Implement_SIToolbar.RemoveTool( id )
 	local index = 0
-	if table.Has( SIToolbar.removeToolData , id ) then return false end
-	table.insert( SIToolbar.removeToolData , id )
-	SIToolbar.FreshViews()
+	if table.Has( Implement_SIToolbar.removeToolData , id ) then return false end
+	table.insert( Implement_SIToolbar.removeToolData , id )
+	Implement_SIToolbar.FreshViews()
 	return true
 end
 
@@ -73,7 +72,7 @@ end
 -- ---------- 窗口方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIToolbar.OpenView( playerIndex , viewData )
+function Implement_SIToolbar.OpenView( playerIndex , viewData )
 	if viewData then
 		if not viewData.view or viewData.view.name ~= "sicfl-toolbar-view" then
 			if viewData.view then viewData.view.destroy() end
@@ -86,12 +85,12 @@ function SIToolbar.OpenView( playerIndex , viewData )
 			viewData.view = view
 			viewData.list = list
 			
-			SIToolbar.FreshList( list , playerIndex )
+			Implement_SIToolbar.FreshList( list , playerIndex )
 		end
 	end
 end
 
-function SIToolbar.CloseView( playerIndex , viewData )
+function Implement_SIToolbar.CloseView( playerIndex , viewData )
 	if viewData then
 		if not viewData.view or viewData.view.valid and viewData.view.name ~= "sicfl-toolbar-button" then
 			if viewData.view then viewData.view.clear() end
@@ -109,19 +108,19 @@ end
 -- ---------- 功能方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIToolbar.ShowViewByPlayerIndex( playerIndex , force )
+function Implement_SIToolbar.ShowViewByPlayerIndex( playerIndex , forceOpen )
 	local viewData = SIToolbarViews[playerIndex]
 	if not viewData then
-		viewData = table.deepcopy( SIToolbar.playerViewData )
+		viewData = table.deepcopy( Implement_SIToolbar.playerViewData )
 		SIToolbarViews[playerIndex] = viewData
 	end
-	if force or #SIToolbarToolData > 0 then
-		if viewData.open then SIToolbar.OpenView( playerIndex , viewData )
-		else SIToolbar.CloseView( playerIndex , viewData ) end
+	if forceOpen or #SIToolbarToolData > 0 then
+		if viewData.open then Implement_SIToolbar.OpenView( playerIndex , viewData )
+		else Implement_SIToolbar.CloseView( playerIndex , viewData ) end
 	end
 end
 
-function SIToolbar.HideViewByPlayerIndex( playerIndex )
+function Implement_SIToolbar.HideViewByPlayerIndex( playerIndex )
 	local viewData = SIToolbarViews[playerIndex]
 	if viewData then
 		if viewData.view then
@@ -136,20 +135,20 @@ function SIToolbar.HideViewByPlayerIndex( playerIndex )
 	end
 end
 
-function SIToolbar.ShowViews()
-	for playerIndex , viewData in pairs( SIToolbarViews ) do SIToolbar.ShowViewByPlayerIndex( playerIndex , true ) end
+function Implement_SIToolbar.ShowViews()
+	for playerIndex , viewData in pairs( SIToolbarViews ) do Implement_SIToolbar.ShowViewByPlayerIndex( playerIndex , true ) end
 end
 
-function SIToolbar.HideViews()
-	for playerIndex , viewData in pairs( SIToolbarViews ) do SIToolbar.HideViewByPlayerIndex( playerIndex ) end
+function Implement_SIToolbar.HideViews()
+	for playerIndex , viewData in pairs( SIToolbarViews ) do Implement_SIToolbar.HideViewByPlayerIndex( playerIndex ) end
 end
 
-function SIToolbar.FreshViews()
-	if not SIToolbarViews then SIEventBus.AddWaitFunction( SIToolbar.waitFunctionId , SIToolbar.FreshViews )
+function Implement_SIToolbar.FreshViews()
+	if not SIToolbarViews then SIEventBus.AddWaitFunction( Implement_SIToolbar.waitFunctionId , Implement_SIToolbar.FreshViews )
 	else
 		-- 添加/移除工具按钮
-		if SIToolbar.addToolData and #SIToolbar.addToolData > 0 then
-			for i , toolData in pairs( SIToolbar.addToolData ) do
+		if Implement_SIToolbar.addToolData and #Implement_SIToolbar.addToolData > 0 then
+			for i , toolData in pairs( Implement_SIToolbar.addToolData ) do
 				local hasData = false
 				for j , oldToolData in pairs( SIToolbarToolData ) do
 					if oldToolData.id == toolData.id then
@@ -160,10 +159,10 @@ function SIToolbar.FreshViews()
 				end
 				if not hasData then table.insert( SIToolbarToolData , toolData ) end
 			end
-			SIToolbar.addToolData = {}
+			Implement_SIToolbar.addToolData = {}
 		end
-		if SIToolbar.removeToolData and #SIToolbar.removeToolData > 0 then
-			for i , id in pairs( SIToolbar.removeToolData ) do
+		if Implement_SIToolbar.removeToolData and #Implement_SIToolbar.removeToolData > 0 then
+			for i , id in pairs( Implement_SIToolbar.removeToolData ) do
 				for j , oldToolData in pairs( SIToolbarToolData ) do
 					if oldToolData.id == id then
 						table.remove( SIToolbarToolData , j )
@@ -171,7 +170,7 @@ function SIToolbar.FreshViews()
 					end
 				end
 			end
-			SIToolbar.removeToolData = {}
+			Implement_SIToolbar.removeToolData = {}
 		end
 		-- 处理物品按钮
 		for i , toolData in pairs( SIToolbarToolData ) do
@@ -181,16 +180,16 @@ function SIToolbar.FreshViews()
 		-- 控制显示隐藏主按钮
 		local count = #SIToolbarToolData
 		for playerIndex , viewData in pairs( SIToolbarViews ) do
-			if count < 1 then SIToolbar.HideViewByPlayerIndex( playerIndex )
+			if count < 1 then Implement_SIToolbar.HideViewByPlayerIndex( playerIndex )
 			else
-				SIToolbar.ShowViewByPlayerIndex( playerIndex )
-				if viewData.open then SIToolbar.FreshList( viewData.list , playerIndex ) end
+				Implement_SIToolbar.ShowViewByPlayerIndex( playerIndex )
+				if viewData.open then Implement_SIToolbar.FreshList( viewData.list , playerIndex ) end
 			end
 		end
 	end
 end
 
-function SIToolbar.FreshList( list , playerIndex )
+function Implement_SIToolbar.FreshList( list , playerIndex )
 	if list then
 		list.clear()
 		local player = game.players[playerIndex]
@@ -202,7 +201,7 @@ function SIToolbar.FreshList( list , playerIndex )
 				local itemName = toolData.iconItemName
 				local tooltips = toolData.tooltips
 				if toolData.removed then
-					itemName = SIToolbar.emptyItemName
+					itemName = Implement_SIToolbar.emptyItemName
 					tooltips = { "SICFL.toolbar-tool-empty" }
 				end
 				list.add{ type = "sprite-button" , name = toolData.buttonName , sprite = "item/"..itemName , tooltip = tooltips , style = "sicfl-toolbar-icon" }
@@ -215,15 +214,15 @@ end
 -- ---------- 公用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIToolbar.OnClick( event )
+function Implement_SIToolbar.OnClick( event )
 	local element = event.element
 	if element.valid then
 		local name = element.name
 		if name == "sicfl-toolbar-button" then
 			local playerIndex = event.player_index
 			local viewData = SIToolbarViews[playerIndex]
-			if viewData.open then SIToolbar.CloseView( playerIndex , viewData )
-			else SIToolbar.OpenView( playerIndex , viewData ) end
+			if viewData.open then Implement_SIToolbar.CloseView( playerIndex , viewData )
+			else Implement_SIToolbar.OpenView( playerIndex , viewData ) end
 			return
 		end
 		for i , toolData in pairs( SIToolbarToolData ) do
@@ -244,14 +243,14 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 SIEventBus
-.Add( SIEvents.on_gui_click , SIToolbar.OnClick )
+.Add( SIEvents.on_gui_click , Implement_SIToolbar.OnClick )
 
 remote.add_interface( SIToolbar.interfaceId ,
 {
-	AddTool = SIToolbar.AddTool ,
-	RemoveTool = SIToolbar.RemoveTool ,
-	ShowViewByPlayerIndex = SIToolbar.ShowViewByPlayerIndex ,
-	HideViewByPlayerIndex = SIToolbar.HideViewByPlayerIndex ,
-	ShowViews = SIToolbar.ShowViews ,
-	HideViews = SIToolbar.HideViews
+	SIToolbar.remoteKey.AddTool = Implement_SIToolbar.AddTool ,
+	SIToolbar.remoteKey.RemoveTool = Implement_SIToolbar.RemoveTool ,
+	SIToolbar.remoteKey.ShowViewByPlayerIndex = Implement_SIToolbar.ShowViewByPlayerIndex ,
+	SIToolbar.remoteKey.HideViewByPlayerIndex = Implement_SIToolbar.HideViewByPlayerIndex ,
+	SIToolbar.remoteKey.ShowViews = Implement_SIToolbar.ShowViews ,
+	SIToolbar.remoteKey.HideViews = Implement_SIToolbar.HideViews
 } )
