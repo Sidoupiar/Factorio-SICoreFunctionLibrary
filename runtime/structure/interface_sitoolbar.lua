@@ -4,7 +4,7 @@
 
 SIToolbar =
 {
-	interfaceId = "sicfl-toolbar" ,
+	interfaceId = "SIToolbar" ,
 	remoteKey =
 	{
 		AddTool               = "AddTool" ,
