@@ -155,6 +155,19 @@ function Implement_SIUnlocker.FireItem( forceData , item , force , player )
 				for index , player in pairs( force.players ) do player.add_recipe_notification( recipe.name ) end
 			end
 		elseif result.type == SIUnlocker.result.removeRecipe then force.recipes[result.name].enabled = false
+		-- 添加物品
+		elseif result.type == SIUnlocker.result.addItem then
+			if player then
+				local totalInsert = player.get_main_inventory().insert{ name = result.name , count = result.count }
+				if totalInsert < result.count then player.surface.spill_item_stack( player.position , { name = result.name , count = result.count-totalInsert } , true , player.force , true ) end
+			end
+		elseif result.type == SIUnlocker.result.removeItem then
+			if player then player.get_main_inventory().remove{ name = result.name , count = result.count } end
+		elseif result.type == SIUnlocker.result.clearItem then
+			if player then
+				local inventory = player.get_main_inventory()
+				inventory.remove{ name = result.name , count = inventory.get_item_count( result.name ) }
+			end
 		-- 速度设置
 		elseif result.type == SIUnlocker.result.addSpeedCrafting then
 			force.manual_crafting_speed_modifier = force.manual_crafting_speed_modifier + result.value

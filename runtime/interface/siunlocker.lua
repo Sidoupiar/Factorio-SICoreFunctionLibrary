@@ -31,6 +31,10 @@ SIUnlocker =
 		addRecipe        = "addR" ,  -- 解锁配方
 		removeRecipe     = "remR" ,  -- 重新锁定配方
 		
+		addItem          = "addI" ,  -- 添加物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+		removeItem       = "remI" ,  -- 移除物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+		clearItem        = "cleI" ,  -- 清空物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+		
 		addSpeedCrafting = "addSC" , -- 提高手搓速度
 		remSpeedCrafting = "remSC" , -- 降低手搓速度
 		setSpeedCrafting = "setSC" , -- 设置手搓速度
@@ -127,6 +131,20 @@ SIUnlocker =
 --       type = SIUnlocker.result.removeRecipe , -- 重新锁定配方
 --       name = "配方的 id"
 --     } ,
+--     {
+--       type = SIUnlocker.result.addItem , -- 添加物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+--       name = "物品的 id" ,
+--       count = 数量
+--     } ,
+--     {
+--       type = SIUnlocker.result.removeItem , -- 移除物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+--       name = "物品的 id" ,
+--       count = 数量
+--     } ,
+--     {
+--       type = SIUnlocker.result.clearItem , -- 清空物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+--       name = "物品的 id"
+--     } ,
 --
 --     {
 --       type = SIUnlocker.result.addSpeedCrafting , -- 提高手搓速度
@@ -171,7 +189,7 @@ SIUnlocker =
 --       sendToTrigger = 是否给最终触发的玩家发送消息 -- 对于 SIUnlocker.condition.research 此项无效且强制为 true
 --     } ,
 --     {
---       type = SIUnlocker.result.messagePlayer , -- 给最终触发的玩家发送消息 , 对于 SIUnlocker.condition.research 此项无效
+--       type = SIUnlocker.result.messagePlayer , -- 给最终触发的玩家发送消息 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
 --       message = { "本地化字符串" }
 --     }
 --   } ,
@@ -206,3 +224,8 @@ end
 function SIUnlocker.GetForceData( forceName )
 	return remote.call( SIUnlocker.interfaceId , SIUnlocker.remoteKey.GetForceData , forceName )
 end
+
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 构造方法 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
