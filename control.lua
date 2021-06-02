@@ -3,7 +3,8 @@ require( "util" )
 need( "define/load" )
 need( "function/load" )
 
-needlist( "runtime/structure" , "sievent_bus" , "siglobal" , "interface_sitoolbar" , "interface_siunlocker" , "interface_siplayer_status" )
+needlist( "runtime/structure" , "sievent_bus" , "siglobal" )
+needlist( "runtime/interface" , "sitoolbar" , "siunlocker" , "siplayer_status" )
 needlist( "runtime/function" , "functions" )
 
 local constants = need( "constants" )
