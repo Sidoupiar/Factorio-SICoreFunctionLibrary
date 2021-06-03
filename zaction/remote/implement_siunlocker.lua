@@ -2,8 +2,8 @@
 -- ---------- 添加引用 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-if not SIEventBus then e( "模块使用[SIUnlocker] : 必须启用 SIEventBus 之后才能使用 SIUnlocker 模块" ) end
-if not SIGlobal then e( "模块使用[SIUnlocker] : 必须启用 SIGlobal 之后才能使用 SIUnlocker 模块" ) end
+if not SIEventBus then e( "模块启用[SIUnlocker] : 必须启用 SIEventBus 模块之后才能使用 SIUnlocker 模块" ) end
+if not SIGlobal then e( "模块启用[SIUnlocker] : 必须启用 SIGlobal 模块之后才能使用 SIUnlocker 模块" ) end
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础数据 ----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ function Implement_SIUnlocker.FireItem( forceData , item , force , player )
 		elseif result.type == SIUnlocker.result.addSpeedCrafting then
 			force.manual_crafting_speed_modifier = force.manual_crafting_speed_modifier + result.value
 			forceData.arguments.speedCrafting = forceData.arguments.speedCrafting + result.value
-		elseif result.type == SIUnlocker.result.remSpeedCrafting then
+		elseif result.type == SIUnlocker.result.removeSpeedCrafting then
 			force.manual_crafting_speed_modifier = force.manual_crafting_speed_modifier - result.value
 			forceData.arguments.speedCrafting = forceData.arguments.speedCrafting - result.value
 		elseif result.type == SIUnlocker.result.setSpeedCrafting then
@@ -187,7 +187,7 @@ function Implement_SIUnlocker.FireItem( forceData , item , force , player )
 		elseif result.type == SIUnlocker.result.addSpeedMining then
 			force.manual_mining_speed_modifier = force.manual_mining_speed_modifier + result.value
 			forceData.arguments.speedMining = forceData.arguments.speedMining + result.value
-		elseif result.type == SIUnlocker.result.remSpeedMining then
+		elseif result.type == SIUnlocker.result.removeSpeedMining then
 			force.manual_mining_speed_modifier = force.manual_mining_speed_modifier - result.value
 			forceData.arguments.speedMining = forceData.arguments.speedMining - result.value
 		elseif result.type == SIUnlocker.result.setSpeedMining then
@@ -196,7 +196,7 @@ function Implement_SIUnlocker.FireItem( forceData , item , force , player )
 		elseif result.type == SIUnlocker.result.addSpeedRunning then
 			force.character_running_speed_modifier = force.character_running_speed_modifier + result.value
 			forceData.arguments.speedRunning = forceData.arguments.speedRunning + result.value
-		elseif result.type == SIUnlocker.result.remSpeedRunning then
+		elseif result.type == SIUnlocker.result.removeSpeedRunning then
 			force.character_running_speed_modifier = force.character_running_speed_modifier - result.value
 			forceData.arguments.speedRunning = forceData.arguments.speedRunning - result.value
 		elseif result.type == SIUnlocker.result.setSpeedRunning then
@@ -214,6 +214,11 @@ function Implement_SIUnlocker.FireItem( forceData , item , force , player )
 			end
 		elseif result.type == SIUnlocker.result.messagePlayer then
 			if player then player.print( result.message ) end
+		-- 特殊操作
+		elseif result.type == SIUnlocker.result.triggerInterface then
+			if remote.interfaces[result.interfaceId] and remote.interfaces[result.interfaceId][result.functionId] then
+				remote.call( result.interfaceId , result.functionId , item.id , force.name , player.index , result.params )
+			end
 		end
 	end
 	if item.repeatSettings then

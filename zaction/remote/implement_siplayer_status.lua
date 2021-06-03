@@ -2,8 +2,8 @@
 -- ---------- 添加引用 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-if not SIEventBus then e( "模块使用[SIPlayerStatus] : 必须启用 SIEventBus 之后才能使用 SIPlayerStatus 模块" ) end
-if not SIGlobal then e( "模块使用[SIPlayerStatus] : 必须启用 SIGlobal 之后才能使用 SIPlayerStatus 模块" ) end
+if not SIEventBus then e( "模块启用[SIPlayerStatus] : 必须启用 SIEventBus 模块之后才能使用 SIPlayerStatus 模块" ) end
+if not SIGlobal then e( "模块启用[SIPlayerStatus] : 必须启用 SIGlobal 模块之后才能使用 SIPlayerStatus 模块" ) end
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础数据 ----------------------------------------------------------------------------

@@ -28,25 +28,27 @@ SIUnlocker =
 	-- 回报类型 , 参数列表见下放数据结构
 	result =
 	{
-		addRecipe        = "addR" ,  -- 解锁配方
-		removeRecipe     = "remR" ,  -- 重新锁定配方
+		addRecipe           = "addR" ,  -- 解锁配方
+		removeRecipe        = "remR" ,  -- 重新锁定配方
 		
-		addItem          = "addI" ,  -- 添加物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
-		removeItem       = "remI" ,  -- 移除物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
-		clearItem        = "cleI" ,  -- 清空物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+		addItem             = "addI" ,  -- 添加物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+		removeItem          = "remI" ,  -- 移除物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+		clearItem           = "cleI" ,  -- 清空物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
 		
-		addSpeedCrafting = "addSC" , -- 提高手搓速度
-		remSpeedCrafting = "remSC" , -- 降低手搓速度
-		setSpeedCrafting = "setSC" , -- 设置手搓速度
-		addSpeedMining   = "addSM" , -- 提高挖掘速度
-		remSpeedMining   = "remSM" , -- 降低挖掘速度
-		setSpeedMining   = "setSM" , -- 设置挖掘速度
-		addSpeedRunning  = "addSR" , -- 提高移动速度
-		remSpeedRunning  = "remSR" , -- 降低移动速度
-		setSpeedRunning  = "setSR" , -- 设置移动速度
+		addSpeedCrafting    = "addSC" , -- 提高手搓速度
+		removeSpeedCrafting = "remSC" , -- 降低手搓速度
+		setSpeedCrafting    = "setSC" , -- 设置手搓速度
+		addSpeedMining      = "addSM" , -- 提高挖掘速度
+		removeSpeedMining   = "remSM" , -- 降低挖掘速度
+		setSpeedMining      = "setSM" , -- 设置挖掘速度
+		addSpeedRunning     = "addSR" , -- 提高移动速度
+		removeSpeedRunning  = "remSR" , -- 降低移动速度
+		setSpeedRunning     = "setSR" , -- 设置移动速度
 		
-		messageForce     = "msgF" ,  -- 给阵营的玩家发送消息
-		messagePlayer    = "msgP"    -- 给最终触发的玩家发送消息 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+		messageForce        = "msgF" ,  -- 给阵营的玩家发送消息
+		messagePlayer       = "msgP" ,  -- 给最终触发的玩家发送消息 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
+		
+		triggerInterface    = "tri"     -- 触发远程接口
 	}
 }
 
@@ -64,8 +66,9 @@ SIUnlocker =
 -- {
 --   id = "项目的 id" ,
 --   version = 版本 ,                   -- 数字 , 相同版本的项目将不会互相覆盖
---   name = { "本地化字符串" } ,        -- 显示名称
---   description = { "本地化字符串" } , -- 显示描述
+--   icon = "图片路径" ,                -- 可选 , buff 图标 , 要求完整路径 , 不会自动填充
+--   name = { "本地化字符串" } ,        -- 可选 , 显示名称 , 只填字符串的话 , 会自动生成 { "本地化字符串" } 的形式 , 如果不填则使用 id 生成
+--   description = { "本地化字符串" } , -- 可选 , 显示描述 , 只填字符串的话 , 会自动生成 { "本地化字符串" } 的形式 , 如果不填则使用 id 生成
 --   conditions = -- 触发器
 --   {
 --     -- 以下条件仅对玩家操作生效 , 同一阵营的玩家数量累计
@@ -132,6 +135,7 @@ SIUnlocker =
 --       type = SIUnlocker.result.removeRecipe , -- 重新锁定配方
 --       name = "配方的 id"
 --     } ,
+--
 --     {
 --       type = SIUnlocker.result.addItem , -- 添加物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
 --       name = "物品的 id" ,
@@ -152,7 +156,7 @@ SIUnlocker =
 --       value = 增长的数值 ,
 --     } ,
 --     {
---       type = SIUnlocker.result.remSpeedCrafting , -- 降低手搓速度
+--       type = SIUnlocker.result.removeSpeedCrafting , -- 降低手搓速度
 --       value = 降低的数值 ,
 --     } ,
 --     {
@@ -164,7 +168,7 @@ SIUnlocker =
 --       value = 增长的数值 ,
 --     } ,
 --     {
---       type = SIUnlocker.result.remSpeedMining , -- 降低挖掘速度
+--       type = SIUnlocker.result.removeSpeedMining , -- 降低挖掘速度
 --       value = 降低的数值 ,
 --     } ,
 --     {
@@ -176,7 +180,7 @@ SIUnlocker =
 --       value = 增长的数值 ,
 --     } ,
 --     {
---       type = SIUnlocker.result.remSpeedRunning , -- 降低移动速度
+--       type = SIUnlocker.result.removeSpeedRunning , -- 降低移动速度
 --       value = 降低的数值 ,
 --     } ,
 --     {
@@ -192,6 +196,13 @@ SIUnlocker =
 --     {
 --       type = SIUnlocker.result.messagePlayer , -- 给最终触发的玩家发送消息 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
 --       message = { "本地化字符串" }
+--     } ,
+--
+--     {
+--       type = SIUnlocker.result.triggerInterface , -- 触发远程接口
+--       interfaceId = "远程接口的 id" , -- 在 remote 中注册的接口名称
+--       functionId = "对应远程接口的方法名称" , -- 在 remote 中注册的接口中的成员函数名称
+--       params = { 表 } -- 可选 , 触发这个项目时 , params 会作为参数传回远程接口
 --     }
 --   } ,
 --   repeatSettings = -- 可选项目 , 默认触发一次
@@ -225,8 +236,3 @@ end
 function SIUnlocker.GetForceData( forceName )
 	return remote.call( SIUnlocker.interfaceId , SIUnlocker.remoteKey.GetForceData , forceName )
 end
-
--- ------------------------------------------------------------------------------------------------
--- ---------- 构造方法 ----------------------------------------------------------------------------
--- ------------------------------------------------------------------------------------------------
-
