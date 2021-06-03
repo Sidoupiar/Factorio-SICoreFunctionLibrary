@@ -69,8 +69,9 @@ Implement_SIPlayerStatus.valueMap =
 	[SIPlayerStatus.valueCode.distancePickupLoot] = { name = "character_loot_pickup_distance_bonus"          , min = 0  , max = 100000000 , isInt = true  }
 }
 
-SIGlobal.Create( "SIPlayerStatusData" )
-SIGlobal.Create( "SIPlayerStatusDataList" )
+SIGlobal
+.Create( "SIPlayerStatusData" )
+.Create( "SIPlayerStatusDataList" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 项目操作 ----------------------------------------------------------------------------
@@ -238,6 +239,7 @@ function Implement_SIPlayerStatus.FreshStatus( playerData , statusName , count ,
 		realValue = math.Range( player[codeData.name]-realValue+totalValue , codeData.min , codeData.max )
 		if codeData.isInt then realValue = math.floor( realValue ) end
 		player[codeData.name] = realValue
+		playerData.currentValue[code].total = totalValue
 		playerData.currentValue[code].real = realValue
 	end
 	return result
@@ -254,6 +256,7 @@ function Implement_SIPlayerStatus.FreshBuff( playerData , buffId , buffData )
 			realValue = math.Range( player[codeData.name]-realValue+totalValue , codeData.min , codeData.max )
 			if codeData.isInt then realValue = math.floor( realValue ) end
 			player[codeData.name] = realValue
+			playerData.currentValue[code].total = totalValue
 			playerData.currentValue[code].real = realValue
 		end
 	end
@@ -272,6 +275,7 @@ function Implement_SIPlayerStatus.FreshBuff( playerData , buffId , buffData )
 			realValue = math.Range( player[codeData.name]-realValue+totalValue , codeData.min , codeData.max )
 			if codeData.isInt then realValue = math.floor( realValue ) end
 			player[codeData.name] = realValue
+			playerData.currentValue[code].total = totalValue
 			playerData.currentValue[code].real = realValue
 		end
 	end
@@ -283,14 +287,25 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 function Implement_SIPlayerStatus.OnTick( event )
-	local currentTick = math.fmod( event.tick , Implement_SIPlayerStatus.checkDelay ) + 1
+	local totalTick = event.tick
+	local currentTick = math.fmod( totalTick , Implement_SIPlayerStatus.checkDelay ) + 1
 	local maxSize = #SIPlayerStatusDataList
 	for index = currentTick , maxSize , Implement_SIPlayerStatus.checkDelay do
 		local playerData = SIPlayerStatusDataList[index]
+		local player = game.get_player( playerData.id )
 		for id , buffData in pairs( playerData.buff ) do
-			buffData.cur = buffData.cur + currentTick - buffData.lastTick
-			buffData.lastTick = currentTick
+			buffData.cur = buffData.cur + totalTick - buffData.lastTick
+			buffData.lastTick = totalTick
 			if buffData.duration > 0 and buffData.duration <= buffData.cur then Implement_SIPlayerStatus.FreshBuff( playerData , id ) end
+			if buffData.damages and player.character then
+				local character = player.character
+				for code , damageData in pairs( buffData.damages ) do
+					if character.valid then
+						if damageData.sourceEntity then character.damage( damageData.damage , damageData.sourceEntity.force , damageData.damageType , damageData.sourceEntity )
+						else character.damage( damageData.damage , damageData.forceName or "neutral" , damageData.damageType ) end
+					else break end
+				end
+			end
 		end
 	end
 end

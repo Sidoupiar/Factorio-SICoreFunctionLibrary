@@ -31,8 +31,9 @@ Implement_SIToolbar =
 	}
 }
 
-SIGlobal.Create( "SIToolbarToolData" )
-SIGlobal.Create( "SIToolbarViews" )
+SIGlobal
+.Create( "SIToolbarToolData" )
+.Create( "SIToolbarViews" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 图标操作 ----------------------------------------------------------------------------

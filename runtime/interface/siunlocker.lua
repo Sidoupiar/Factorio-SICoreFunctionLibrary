@@ -77,7 +77,7 @@ SIUnlocker =
 --       type = SIUnlocker.condition.kill , -- 玩家击杀数
 --       name = "实体的 id" ,
 --       count = 击杀的次数 ,
---       damageType = "攻击类型的 id" -- 可选
+--       damageType = "攻击类型的 id" -- 可选 , 只有被这个属性的攻击击杀的对应实体才会被计数
 --       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     } ,
 --     {

@@ -37,8 +37,9 @@ Implement_SIUnlocker.eventMap =
 	[SIUnlocker.condition.die]      = SIEvents.on_player_died
 }
 
-SIGlobal.Create( "SIUnlockerItems" )
-SIGlobal.Create( "SIUnlockerForceData" )
+SIGlobal
+.Create( "SIUnlockerItems" )
+.Create( "SIUnlockerForceData" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 项目操作 ----------------------------------------------------------------------------
