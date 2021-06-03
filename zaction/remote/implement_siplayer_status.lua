@@ -314,17 +314,17 @@ SIEventBus
 
 remote.add_interface( SIPlayerStatus.interfaceId ,
 {
-	SIPlayerStatus.remoteKey.GetLevel = Implement_SIPlayerStatus.GetLevel ,
-	SIPlayerStatus.remoteKey.AddExperience = Implement_SIPlayerStatus.AddExperience ,
-	SIPlayerStatus.remoteKey.RemoveExperience = Implement_SIPlayerStatus.RemoveExperience ,
-	SIPlayerStatus.remoteKey.GetExperience = Implement_SIPlayerStatus.GetExperience ,
-	SIPlayerStatus.remoteKey.AddStatusByUsePoint = Implement_SIPlayerStatus.AddStatusByUsePoint ,
-	SIPlayerStatus.remoteKey.RemoveStatusByUsePoint = Implement_SIPlayerStatus.RemoveStatusByUsePoint ,
-	SIPlayerStatus.remoteKey.AddStatus = Implement_SIPlayerStatus.AddStatus ,
-	SIPlayerStatus.remoteKey.RemoveStatus = Implement_SIPlayerStatus.RemoveStatus ,
-	SIPlayerStatus.remoteKey.GetStatus = Implement_SIPlayerStatus.GetStatus ,
-	SIPlayerStatus.remoteKey.AddBuff = Implement_SIPlayerStatus.AddBuff ,
-	SIPlayerStatus.remoteKey.RemoveBuff = Implement_SIPlayerStatus.RemoveBuff ,
-	SIPlayerStatus.remoteKey.GetBuff = Implement_SIPlayerStatus.GetBuff ,
-	SIPlayerStatus.remoteKey.GetPlayerData = Implement_SIPlayerStatus.GetPlayerDataReadonly
+	[SIPlayerStatus.remoteKey.GetLevel]               = Implement_SIPlayerStatus.GetLevel ,
+	[SIPlayerStatus.remoteKey.AddExperience]          = Implement_SIPlayerStatus.AddExperience ,
+	[SIPlayerStatus.remoteKey.RemoveExperience]       = Implement_SIPlayerStatus.RemoveExperience ,
+	[SIPlayerStatus.remoteKey.GetExperience]          = Implement_SIPlayerStatus.GetExperience ,
+	[SIPlayerStatus.remoteKey.AddStatusByUsePoint]    = Implement_SIPlayerStatus.AddStatusByUsePoint ,
+	[SIPlayerStatus.remoteKey.RemoveStatusByUsePoint] = Implement_SIPlayerStatus.RemoveStatusByUsePoint ,
+	[SIPlayerStatus.remoteKey.AddStatus]              = Implement_SIPlayerStatus.AddStatus ,
+	[SIPlayerStatus.remoteKey.RemoveStatus]           = Implement_SIPlayerStatus.RemoveStatus ,
+	[SIPlayerStatus.remoteKey.GetStatus]              = Implement_SIPlayerStatus.GetStatus ,
+	[SIPlayerStatus.remoteKey.AddBuff]                = Implement_SIPlayerStatus.AddBuff ,
+	[SIPlayerStatus.remoteKey.RemoveBuff]             = Implement_SIPlayerStatus.RemoveBuff ,
+	[SIPlayerStatus.remoteKey.GetBuff]                = Implement_SIPlayerStatus.GetBuff ,
+	[SIPlayerStatus.remoteKey.GetPlayerData]          = Implement_SIPlayerStatus.GetPlayerDataReadonly
 } )

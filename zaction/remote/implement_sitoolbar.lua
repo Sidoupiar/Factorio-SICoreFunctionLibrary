@@ -247,10 +247,10 @@ SIEventBus
 
 remote.add_interface( SIToolbar.interfaceId ,
 {
-	SIToolbar.remoteKey.AddTool = Implement_SIToolbar.AddTool ,
-	SIToolbar.remoteKey.RemoveTool = Implement_SIToolbar.RemoveTool ,
-	SIToolbar.remoteKey.ShowViewByPlayerIndex = Implement_SIToolbar.ShowViewByPlayerIndex ,
-	SIToolbar.remoteKey.HideViewByPlayerIndex = Implement_SIToolbar.HideViewByPlayerIndex ,
-	SIToolbar.remoteKey.ShowViews = Implement_SIToolbar.ShowViews ,
-	SIToolbar.remoteKey.HideViews = Implement_SIToolbar.HideViews
+	[SIToolbar.remoteKey.AddTool]               = Implement_SIToolbar.AddTool ,
+	[SIToolbar.remoteKey.RemoveTool]            = Implement_SIToolbar.RemoveTool ,
+	[SIToolbar.remoteKey.ShowViewByPlayerIndex] = Implement_SIToolbar.ShowViewByPlayerIndex ,
+	[SIToolbar.remoteKey.HideViewByPlayerIndex] = Implement_SIToolbar.HideViewByPlayerIndex ,
+	[SIToolbar.remoteKey.ShowViews]             = Implement_SIToolbar.ShowViews ,
+	[SIToolbar.remoteKey.HideViews]             = Implement_SIToolbar.HideViews
 } )

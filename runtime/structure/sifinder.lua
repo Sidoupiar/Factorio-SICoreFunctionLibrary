@@ -64,7 +64,8 @@ end
 
 function SIFinder.Check( name , baseName , typeCode , typeMessage )
 	if game then
-		local list = game["get_filtered_"..typeCode.."_prototypes"]{ { filter = "name" , name = { name , baseName } } }
+		--local list = game["get_filtered_"..typeCode.."_prototypes"]{ { filter = "name" , name = { name , baseName } } }
+		local list = game[typeCode.."_prototypes"]
 		if list[name] then return name
 		elseif list[baseName] then return baseName
 		else

@@ -37,8 +37,6 @@ Implement_SIUnlocker.eventMap =
 	[SIUnlocker.condition.die]      = SIEvents.on_player_died
 }
 
-SIUnlockerItemList = {}
-
 SIGlobal.Create( "SIUnlockerItems" )
 SIGlobal.Create( "SIUnlockerForceData" )
 
@@ -73,11 +71,19 @@ function Implement_SIUnlocker.AddItem( item )
 		e( "解锁器[SIUnlocker] : 项目必须包含有效的回报内容" )
 		return false
 	end
+	-- 自动填充属性
+	item = table.deepcopy( item )
 	if not item.name then item.name = { "SI-name."..item.id }
 	elseif type( item.name ) ~= "table" then item.name = { "SI-name."..item.name } end
 	if not item.description then item.description = { "SI-description."..item.id }
 	elseif type( item.description ) ~= "table" then item.description = { "SI-description."..item.description } end
-	table.insert( SIUnlockerItemList , item )
+	-- 添加到现有项目列表和阵营数据中
+	local oldItem = SIUnlockerItems[item.id]
+	if not oldItem or oldItem.version ~= item.version then
+		if oldItem then Implement_SIUnlocker.RemoveOldItemFromForceData( oldItem ) end
+		SIUnlockerItems[item.id] = item
+		Implement_SIUnlocker.AddNewItemToForceData( item )
+	end
 	return true
 end
 
@@ -224,17 +230,6 @@ end
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 公用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
-
-function Implement_SIUnlocker.OnInit()
-	for index , item in pairs( SIUnlockerItemList ) do
-		local oldItem = SIUnlockerItems[item.id]
-		if not oldItem or oldItem.version ~= item.version then
-			if oldItem then Implement_SIUnlocker.RemoveOldItemFromForceData( oldItem ) end
-			SIUnlockerItems[item.id] = item
-			Implement_SIUnlocker.AddNewItemToForceData( item )
-		end
-	end
-end
 
 function Implement_SIUnlocker.OnKill( event )
 	local cause = event.cause
@@ -434,7 +429,6 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 SIEventBus
-.Init( Implement_SIUnlocker.OnInit )
 .Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.kill]     , Implement_SIUnlocker.OnKill )
 .Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.has]      , Implement_SIUnlocker.OnHas )
 .Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.craft]    , Implement_SIUnlocker.OnCraft )
@@ -447,7 +441,7 @@ SIEventBus
 
 remote.add_interface( SIUnlocker.interfaceId ,
 {
-	SIUnlocker.remoteKey.AddItem = Implement_SIUnlocker.AddItem ,
-	SIUnlocker.remoteKey.RestoreForceData = Implement_SIUnlocker.RestoreForceData ,
-	SIUnlocker.remoteKey.GetForceData = Implement_SIUnlocker.GetForceDataReadonly
+	[SIUnlocker.remoteKey.AddItem]          = Implement_SIUnlocker.AddItem ,
+	[SIUnlocker.remoteKey.RestoreForceData] = Implement_SIUnlocker.RestoreForceData ,
+	[SIUnlocker.remoteKey.GetForceData]     = Implement_SIUnlocker.GetForceDataReadonly
 } )

@@ -51,13 +51,13 @@ end
 -- --------------------------------------------------------
 -- 显示所有玩家的工具栏
 -- --------------------------------------------------------
-function Implement_SIToolbar.ShowViews()
+function SIToolbar.ShowViews()
 	return remote.call( SIToolbar.interfaceId , SIToolbar.remoteKey.ShowViews )
 end
 
 -- --------------------------------------------------------
 -- 隐藏所有玩家的工具栏
 -- --------------------------------------------------------
-function Implement_SIToolbar.HideViews()
+function SIToolbar.HideViews()
 	return remote.call( SIToolbar.interfaceId , SIToolbar.remoteKey.HideViews )
 end
