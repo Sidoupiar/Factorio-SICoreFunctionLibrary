@@ -26,15 +26,15 @@ Implement_SIUnlocker =
 
 Implement_SIUnlocker.eventMap =
 {
-	[SIUnlocker.condition.kill]     = SIEvents.on_entity_died ,
-	[SIUnlocker.condition.has]      = SIEvents.on_player_main_inventory_changed ,
-	[SIUnlocker.condition.craft]    = SIEvents.on_player_crafted_item ,
-	[SIUnlocker.condition.research] = SIEvents.on_research_finished ,
 	[SIUnlocker.condition.build]    = SIEvents.on_built_entity ,
+	[SIUnlocker.condition.craft]    = SIEvents.on_player_crafted_item ,
+	[SIUnlocker.condition.die]      = SIEvents.on_player_died ,
+	[SIUnlocker.condition.has]      = SIEvents.on_player_main_inventory_changed ,
+	[SIUnlocker.condition.kill]     = SIEvents.on_entity_died ,
 	[SIUnlocker.condition.mine]     = SIEvents.on_player_mined_entity ,
-	[SIUnlocker.condition.use]      = SIEvents.on_player_used_capsule ,
 	[SIUnlocker.condition.mute]     = SIEvents.on_player_muted ,
-	[SIUnlocker.condition.die]      = SIEvents.on_player_died
+	[SIUnlocker.condition.research] = SIEvents.on_research_finished ,
+	[SIUnlocker.condition.use]      = SIEvents.on_player_used_capsule
 }
 
 SIGlobal
@@ -237,95 +237,6 @@ end
 -- ---------- 公用方法 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function Implement_SIUnlocker.OnKill( event )
-	local cause = event.cause
-	if cause and cause.valid and cause.type == SITypes.entity.character and cause.player then
-		local entity = event.entity
-		if entity and entity.valid then
-			local name = entity.name
-			local damageType = event.damage_type
-			local player = cause.player
-			local force = player.force
-			local forceData = Implement_SIUnlocker.GetForceData( force.name )
-			if forceData.eventList[event.name] then
-				for id , item in pairs( forceData.eventList[event.name] ) do
-					for index , condition in pairs( item.conditions ) do
-						if condition.type == SIUnlocker.condition.kill and condition.name == name then
-							if condition.damageType and condition.damageType == damageType or not condition.damageType then
-								if not condition.cur then condition.cur = 1
-								else condition.cur = condition.cur + 1 end
-								if condition.cur >= condition.count then item.conditions[index] = nil end
-							end
-						end
-					end
-					if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
-					if not forceData.eventList[event.name] then break end
-				end
-			end
-		end
-	end
-end
-
-function Implement_SIUnlocker.OnHas( event )
-	local player = game.get_player( event.player_index )
-	local inventory = player.get_main_inventory()
-	if inventory then
-		local force = player.force
-		local forceData = Implement_SIUnlocker.GetForceData( force.name )
-		if forceData.eventList[event.name] then
-			for id , item in pairs( forceData.eventList[event.name] ) do
-				for index , condition in pairs( item.conditions ) do
-					if condition.type == SIUnlocker.condition.has and condition.count <= inventory.get_item_count( condition.name ) then item.conditions[index] = nil end
-				end
-				if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
-				if not forceData.eventList[event.name] then break end
-			end
-		end
-	end
-end
-
-function Implement_SIUnlocker.OnCraft( event )
-	local name = event.recipe.name
-	local player = game.get_player( event.player_index )
-	local force = player.force
-	local forceData = Implement_SIUnlocker.GetForceData( force.name )
-	if forceData.eventList[event.name] then
-		for id , item in pairs( forceData.eventList[event.name] ) do
-			for index , condition in pairs( item.conditions ) do
-				if condition.type == SIUnlocker.condition.craft and condition.name == name then
-					if not condition.cur then condition.cur = 1
-					else condition.cur = condition.cur + 1 end
-					if condition.cur >= condition.count then item.conditions[index] = nil end
-				end
-			end
-			if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
-			if not forceData.eventList[event.name] then break end
-		end
-	end
-end
-
-function Implement_SIUnlocker.OnResearch( event )
-	local tech = event.research
-	local name = tech.name
-	local hasLevel = tech.upgrade
-	local level = tech.level
-	local force = tech.force
-	local forceData = Implement_SIUnlocker.GetForceData( force.name )
-	if forceData.eventList[event.name] then
-		for id , item in pairs( forceData.eventList[event.name] ) do
-			for index , condition in pairs( item.conditions ) do
-				if condition.type == SIUnlocker.condition.research and condition.name == name then
-					if hasLevel then
-						if condition.level <= level then item.conditions[index] = nil end
-					else item.conditions[index] = nil end
-				end
-			end
-			if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force ) end
-			if not forceData.eventList[event.name] then break end
-		end
-	end
-end
-
 function Implement_SIUnlocker.OnBuild( event )
 	local entity = event.created_entity
 	if entity and entity.valid then
@@ -349,57 +260,19 @@ function Implement_SIUnlocker.OnBuild( event )
 	end
 end
 
-function Implement_SIUnlocker.OnMine( event )
-	local entity = event.entity
-	if entity and entity.valid then
-		local name = entity.name
-		local player = game.get_player( event.player_index )
-		local force = player.force
-		local forceData = Implement_SIUnlocker.GetForceData( force.name )
-		if forceData.eventList[event.name] then
-			for id , item in pairs( forceData.eventList[event.name] ) do
-				for index , condition in pairs( item.conditions ) do
-					if condition.type == SIUnlocker.condition.mine and condition.name == name then
-						if not condition.cur then condition.cur = 1
-						else condition.cur = condition.cur + 1 end
-						if condition.cur >= condition.count then item.conditions[index] = nil end
-					end
-				end
-				if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
-				if not forceData.eventList[event.name] then break end
-			end
-		end
-	end
-end
-
-function Implement_SIUnlocker.OnUse( event )
-	local name = event.item.name
+function Implement_SIUnlocker.OnCraft( event )
+	local name = event.recipe.name
 	local player = game.get_player( event.player_index )
 	local force = player.force
 	local forceData = Implement_SIUnlocker.GetForceData( force.name )
 	if forceData.eventList[event.name] then
 		for id , item in pairs( forceData.eventList[event.name] ) do
 			for index , condition in pairs( item.conditions ) do
-				if condition.type == SIUnlocker.condition.use and condition.name == name then
+				if condition.type == SIUnlocker.condition.craft and condition.name == name then
 					if not condition.cur then condition.cur = 1
 					else condition.cur = condition.cur + 1 end
 					if condition.cur >= condition.count then item.conditions[index] = nil end
 				end
-			end
-			if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
-			if not forceData.eventList[event.name] then break end
-		end
-	end
-end
-
-function Implement_SIUnlocker.OnMute( event )
-	local player = game.get_player( event.player_index )
-	local force = player.force
-	local forceData = Implement_SIUnlocker.GetForceData( force.name )
-	if forceData.eventList[event.name] then
-		for id , item in pairs( forceData.eventList[event.name] ) do
-			for index , condition in pairs( item.conditions ) do
-				if condition.type == SIUnlocker.condition.mute then item.conditions[index] = nil end
 			end
 			if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
 			if not forceData.eventList[event.name] then break end
@@ -430,20 +303,147 @@ function Implement_SIUnlocker.OnDie( event )
 	end
 end
 
+function Implement_SIUnlocker.OnHas( event )
+	local player = game.get_player( event.player_index )
+	local inventory = player.get_main_inventory()
+	if inventory then
+		local force = player.force
+		local forceData = Implement_SIUnlocker.GetForceData( force.name )
+		if forceData.eventList[event.name] then
+			for id , item in pairs( forceData.eventList[event.name] ) do
+				for index , condition in pairs( item.conditions ) do
+					if condition.type == SIUnlocker.condition.has and condition.count <= inventory.get_item_count( condition.name ) then item.conditions[index] = nil end
+				end
+				if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
+				if not forceData.eventList[event.name] then break end
+			end
+		end
+	end
+end
+
+function Implement_SIUnlocker.OnKill( event )
+	local cause = event.cause
+	if cause and cause.valid and cause.type == SITypes.entity.character and cause.player then
+		local entity = event.entity
+		if entity and entity.valid then
+			local name = entity.name
+			local damageType = event.damage_type
+			local player = cause.player
+			local force = player.force
+			local forceData = Implement_SIUnlocker.GetForceData( force.name )
+			if forceData.eventList[event.name] then
+				for id , item in pairs( forceData.eventList[event.name] ) do
+					for index , condition in pairs( item.conditions ) do
+						if condition.type == SIUnlocker.condition.kill and condition.name == name then
+							if condition.damageType and condition.damageType == damageType or not condition.damageType then
+								if not condition.cur then condition.cur = 1
+								else condition.cur = condition.cur + 1 end
+								if condition.cur >= condition.count then item.conditions[index] = nil end
+							end
+						end
+					end
+					if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
+					if not forceData.eventList[event.name] then break end
+				end
+			end
+		end
+	end
+end
+
+function Implement_SIUnlocker.OnMine( event )
+	local entity = event.entity
+	if entity and entity.valid then
+		local name = entity.name
+		local player = game.get_player( event.player_index )
+		local force = player.force
+		local forceData = Implement_SIUnlocker.GetForceData( force.name )
+		if forceData.eventList[event.name] then
+			for id , item in pairs( forceData.eventList[event.name] ) do
+				for index , condition in pairs( item.conditions ) do
+					if condition.type == SIUnlocker.condition.mine and condition.name == name then
+						if not condition.cur then condition.cur = 1
+						else condition.cur = condition.cur + 1 end
+						if condition.cur >= condition.count then item.conditions[index] = nil end
+					end
+				end
+				if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
+				if not forceData.eventList[event.name] then break end
+			end
+		end
+	end
+end
+
+function Implement_SIUnlocker.OnMute( event )
+	local player = game.get_player( event.player_index )
+	local force = player.force
+	local forceData = Implement_SIUnlocker.GetForceData( force.name )
+	if forceData.eventList[event.name] then
+		for id , item in pairs( forceData.eventList[event.name] ) do
+			for index , condition in pairs( item.conditions ) do
+				if condition.type == SIUnlocker.condition.mute then item.conditions[index] = nil end
+			end
+			if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
+			if not forceData.eventList[event.name] then break end
+		end
+	end
+end
+
+function Implement_SIUnlocker.OnResearch( event )
+	local tech = event.research
+	local name = tech.name
+	local hasLevel = tech.upgrade
+	local level = tech.level
+	local force = tech.force
+	local forceData = Implement_SIUnlocker.GetForceData( force.name )
+	if forceData.eventList[event.name] then
+		for id , item in pairs( forceData.eventList[event.name] ) do
+			for index , condition in pairs( item.conditions ) do
+				if condition.type == SIUnlocker.condition.research and condition.name == name then
+					if hasLevel then
+						if condition.level <= level then item.conditions[index] = nil end
+					else item.conditions[index] = nil end
+				end
+			end
+			if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force ) end
+			if not forceData.eventList[event.name] then break end
+		end
+	end
+end
+
+function Implement_SIUnlocker.OnUse( event )
+	local name = event.item.name
+	local player = game.get_player( event.player_index )
+	local force = player.force
+	local forceData = Implement_SIUnlocker.GetForceData( force.name )
+	if forceData.eventList[event.name] then
+		for id , item in pairs( forceData.eventList[event.name] ) do
+			for index , condition in pairs( item.conditions ) do
+				if condition.type == SIUnlocker.condition.use and condition.name == name then
+					if not condition.cur then condition.cur = 1
+					else condition.cur = condition.cur + 1 end
+					if condition.cur >= condition.count then item.conditions[index] = nil end
+				end
+			end
+			if table.Size( item.conditions ) < 1 then Implement_SIUnlocker.FireItem( forceData , item , force , player ) end
+			if not forceData.eventList[event.name] then break end
+		end
+	end
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 事件注册 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
 SIEventBus
-.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.kill]     , Implement_SIUnlocker.OnKill )
-.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.has]      , Implement_SIUnlocker.OnHas )
-.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.craft]    , Implement_SIUnlocker.OnCraft )
-.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.research] , Implement_SIUnlocker.OnResearch )
 .Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.build]    , Implement_SIUnlocker.OnBuild )
-.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.mine]     , Implement_SIUnlocker.OnMine )
-.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.use]      , Implement_SIUnlocker.OnUse )
-.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.mute]     , Implement_SIUnlocker.OnMute )
+.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.craft]    , Implement_SIUnlocker.OnCraft )
 .Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.die]      , Implement_SIUnlocker.OnDie )
+.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.has]      , Implement_SIUnlocker.OnHas )
+.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.kill]     , Implement_SIUnlocker.OnKill )
+.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.mine]     , Implement_SIUnlocker.OnMine )
+.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.mute]     , Implement_SIUnlocker.OnMute )
+.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.research] , Implement_SIUnlocker.OnResearch )
+.Add( Implement_SIUnlocker.eventMap[SIUnlocker.condition.use]      , Implement_SIUnlocker.OnUse )
 
 remote.add_interface( SIUnlocker.interfaceId ,
 {

@@ -15,15 +15,15 @@ SIUnlocker =
 	-- 触发器类型 , 参数列表见下放数据结构
 	condition =
 	{
-		kill     = "kill" ,     -- 玩家击杀数
-		has      = "has" ,      -- 玩家持有数 , 要求物品在同一个背包内
-		craft    = "craft" ,    -- 玩家手搓数
-		research = "research" , -- 科技完成时
 		build    = "build" ,    -- 玩家建造数
+		craft    = "craft" ,    -- 玩家手搓数
+		die      = "die" ,      -- 玩家死亡
+		has      = "has" ,      -- 玩家持有数 , 要求物品在同一个背包内
+		kill     = "kill" ,     -- 玩家击杀数
 		mine     = "mine" ,     -- 玩家挖掘数
-		use      = "use" ,      -- 玩家投掷数
 		mute     = "mute" ,     -- 玩家被禁言
-		die      = "die"        -- 玩家死亡
+		research = "research" , -- 科技完成时
+		use      = "use"        -- 玩家投掷数
 	} ,
 	-- 回报类型 , 参数列表见下放数据结构
 	result =
@@ -74,16 +74,10 @@ SIUnlocker =
 --     -- 以下条件仅对玩家操作生效 , 同一阵营的玩家数量累计
 --     -- 采取单项满足的策略 , 所有条件不需要同时满足
 --     {
---       type = SIUnlocker.condition.kill , -- 玩家击杀数
+--       type = SIUnlocker.condition.build , -- 玩家建造数
 --       name = "实体的 id" ,
---       count = 击杀的次数 ,
---       damageType = "攻击类型的 id" -- 可选 , 只有被这个属性的攻击击杀的对应实体才会被计数
+--       count = 建造的数量
 --       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
---     } ,
---     {
---       type = SIUnlocker.condition.has , -- 玩家持有数 , 要求物品在同一个背包内
---       name = "物品的 id" ,
---       count = 拥有的数量
 --     } ,
 --     {
 --       type = SIUnlocker.condition.craft , -- 玩家手搓数
@@ -92,14 +86,21 @@ SIUnlocker =
 --       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     } ,
 --     {
---       type = SIUnlocker.condition.research , -- 科技完成时
---       name = "科技的 id" ,
---       level = 研究的等级 -- 仅对无限科技有效
+--       type = SIUnlocker.condition.die , -- 玩家死亡
+--       name = "凶手实体的 id" ,
+--       count = 死亡的次数
+--       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     } ,
 --     {
---       type = SIUnlocker.condition.build , -- 玩家建造数
+--       type = SIUnlocker.condition.has , -- 玩家持有数 , 要求物品在同一个背包内
+--       name = "物品的 id" ,
+--       count = 拥有的数量
+--     } ,
+--     {
+--       type = SIUnlocker.condition.kill , -- 玩家击杀数
 --       name = "实体的 id" ,
---       count = 建造的数量
+--       count = 击杀的次数 ,
+--       damageType = "攻击类型的 id" -- 可选 , 只有被这个属性的攻击击杀的对应实体才会被计数
 --       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     } ,
 --     {
@@ -109,18 +110,17 @@ SIUnlocker =
 --       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     } ,
 --     {
---       type = SIUnlocker.condition.use , -- 玩家投掷数
---       name = "物品的 id" ,
---       count = 投掷的数量
---       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
---     } ,
---     {
 --       type = SIUnlocker.condition.mute -- 玩家被禁言
 --     } ,
 --     {
---       type = SIUnlocker.condition.die , -- 玩家死亡
---       name = "凶手实体的 id" ,
---       count = 死亡的次数
+--       type = SIUnlocker.condition.research , -- 科技完成时
+--       name = "科技的 id" ,
+--       level = 研究的等级 -- 仅对无限科技有效
+--     } ,
+--     {
+--       type = SIUnlocker.condition.use , -- 玩家投掷数
+--       name = "物品的 id" ,
+--       count = 投掷的数量
 --       -- cur = 数字 -- 自动填写 , 注册时不需要填 , 当前数量进度 , 默认为 nil , 触发过这个条件之后才会有数字
 --     }
 --   } ,

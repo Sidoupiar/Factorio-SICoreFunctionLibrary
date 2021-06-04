@@ -92,32 +92,16 @@ function SIUnlocker.AddCondition( condition )
 	return SIUnlocker
 end
 
-function SIUnlocker.AddCondition_Kill( entityName , count , damageType )
+function SIUnlocker.AddCondition_Build( entityName , count )
 	if not SIUnlocker.itemData then
-		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Kill 方法" )
+		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Build 方法" )
 		return SIUnlocker
 	end
 	if not SIUnlocker.itemData.conditions then SIUnlocker.itemData.conditions = {} end
 	table.insert( SIUnlocker.itemData.conditions ,
 	{
-		type = SIUnlocker.condition.kill ,
+		type = SIUnlocker.condition.build ,
 		name = entityName ,
-		count = count or SIUnlocker.defaultCount ,
-		damageType = damageType
-	} )
-	return SIUnlocker
-end
-
-function SIUnlocker.AddCondition_Has( itemName , count )
-	if not SIUnlocker.itemData then
-		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Has 方法" )
-		return SIUnlocker
-	end
-	if not SIUnlocker.itemData.conditions then SIUnlocker.itemData.conditions = {} end
-	table.insert( SIUnlocker.itemData.conditions ,
-	{
-		type = SIUnlocker.condition.has ,
-		name = itemName ,
 		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
@@ -138,32 +122,48 @@ function SIUnlocker.AddCondition_Craft( recipeName , count )
 	return SIUnlocker
 end
 
-function SIUnlocker.AddCondition_Research( technologyName , level )
+function SIUnlocker.AddCondition_Die( sourceEntityName , count )
 	if not SIUnlocker.itemData then
-		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Research 方法" )
+		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Die 方法" )
 		return SIUnlocker
 	end
 	if not SIUnlocker.itemData.conditions then SIUnlocker.itemData.conditions = {} end
 	table.insert( SIUnlocker.itemData.conditions ,
 	{
-		type = SIUnlocker.condition.research ,
-		name = technologyName ,
-		level = level or SIUnlocker.defaultLevel
+		type = SIUnlocker.condition.die ,
+		name = sourceEntityName ,
+		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
 end
 
-function SIUnlocker.AddCondition_Build( entityName , count )
+function SIUnlocker.AddCondition_Has( itemName , count )
 	if not SIUnlocker.itemData then
-		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Build 方法" )
+		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Has 方法" )
 		return SIUnlocker
 	end
 	if not SIUnlocker.itemData.conditions then SIUnlocker.itemData.conditions = {} end
 	table.insert( SIUnlocker.itemData.conditions ,
 	{
-		type = SIUnlocker.condition.build ,
-		name = entityName ,
+		type = SIUnlocker.condition.has ,
+		name = itemName ,
 		count = count or SIUnlocker.defaultCount
+	} )
+	return SIUnlocker
+end
+
+function SIUnlocker.AddCondition_Kill( entityName , count , damageType )
+	if not SIUnlocker.itemData then
+		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Kill 方法" )
+		return SIUnlocker
+	end
+	if not SIUnlocker.itemData.conditions then SIUnlocker.itemData.conditions = {} end
+	table.insert( SIUnlocker.itemData.conditions ,
+	{
+		type = SIUnlocker.condition.kill ,
+		name = entityName ,
+		count = count or SIUnlocker.defaultCount ,
+		damageType = damageType
 	} )
 	return SIUnlocker
 end
@@ -183,21 +183,6 @@ function SIUnlocker.AddCondition_Mine( entityName , count )
 	return SIUnlocker
 end
 
-function SIUnlocker.AddCondition_Use( itemName , count )
-	if not SIUnlocker.itemData then
-		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Use 方法" )
-		return SIUnlocker
-	end
-	if not SIUnlocker.itemData.conditions then SIUnlocker.itemData.conditions = {} end
-	table.insert( SIUnlocker.itemData.conditions ,
-	{
-		type = SIUnlocker.condition.use ,
-		name = itemName ,
-		count = count or SIUnlocker.defaultCount
-	} )
-	return SIUnlocker
-end
-
 function SIUnlocker.AddCondition_Mute()
 	if not SIUnlocker.itemData then
 		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Mute 方法" )
@@ -208,16 +193,31 @@ function SIUnlocker.AddCondition_Mute()
 	return SIUnlocker
 end
 
-function SIUnlocker.AddCondition_Die( sourceEntityName , count )
+function SIUnlocker.AddCondition_Research( technologyName , level )
 	if not SIUnlocker.itemData then
-		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Die 方法" )
+		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Research 方法" )
 		return SIUnlocker
 	end
 	if not SIUnlocker.itemData.conditions then SIUnlocker.itemData.conditions = {} end
 	table.insert( SIUnlocker.itemData.conditions ,
 	{
-		type = SIUnlocker.condition.die ,
-		name = sourceEntityName ,
+		type = SIUnlocker.condition.research ,
+		name = technologyName ,
+		level = level or SIUnlocker.defaultLevel
+	} )
+	return SIUnlocker
+end
+
+function SIUnlocker.AddCondition_Use( itemName , count )
+	if not SIUnlocker.itemData then
+		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddCondition_Use 方法" )
+		return SIUnlocker
+	end
+	if not SIUnlocker.itemData.conditions then SIUnlocker.itemData.conditions = {} end
+	table.insert( SIUnlocker.itemData.conditions ,
+	{
+		type = SIUnlocker.condition.use ,
+		name = itemName ,
 		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
