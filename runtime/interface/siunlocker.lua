@@ -139,7 +139,8 @@ SIUnlocker =
 --     {
 --       type = SIUnlocker.result.addItem , -- 添加物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效
 --       name = "物品的 id" ,
---       count = 数量
+--       count = 数量 ,
+--       chance = 概率 -- 可选 , 填写 0.01 即 1% , 不填写则默认 100%
 --     } ,
 --     {
 --       type = SIUnlocker.result.removeItem , -- 移除物品 , 添加到玩家的背包 , 当最终由 SIUnlocker.condition.research 触发项目时此项无效

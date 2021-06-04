@@ -165,8 +165,15 @@ function Implement_SIUnlocker.FireItem( forceData , item , force , player )
 		-- 添加物品
 		elseif result.type == SIUnlocker.result.addItem then
 			if player then
-				local totalInsert = player.get_main_inventory().insert{ name = result.name , count = result.count }
-				if totalInsert < result.count then player.surface.spill_item_stack( player.position , { name = result.name , count = result.count-totalInsert } , true , player.force , true ) end
+				if result.chance then
+					if math.random() < result.chance then
+						local totalInsert = player.get_main_inventory().insert{ name = result.name , count = result.count }
+						if totalInsert < result.count then player.surface.spill_item_stack( player.position , { name = result.name , count = result.count-totalInsert } , true , player.force , true ) end
+					end
+				else
+					local totalInsert = player.get_main_inventory().insert{ name = result.name , count = result.count }
+					if totalInsert < result.count then player.surface.spill_item_stack( player.position , { name = result.name , count = result.count-totalInsert } , true , player.force , true ) end
+				end
 			end
 		elseif result.type == SIUnlocker.result.removeItem then
 			if player then player.get_main_inventory().remove{ name = result.name , count = result.count } end

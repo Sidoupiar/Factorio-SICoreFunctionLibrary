@@ -13,6 +13,7 @@ SIUnlocker.itemList = {}
 SIUnlocker.itemData = nil
 SIUnlocker.defaultCount = 1
 SIUnlocker.defaultLevel = 1
+SIUnlocker.defaultChance = 1
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 功能方法 ----------------------------------------------------------------------------
@@ -263,7 +264,7 @@ function SIUnlocker.AddResult_RemoveRecipe( recipeName )
 	return SIUnlocker
 end
 
-function SIUnlocker.AddResult_AddItem( itemName , count )
+function SIUnlocker.AddResult_AddItem( itemName , count , chance )
 	if not SIUnlocker.itemData then
 		e( "模块构建[SIUnlocker] : 当前没有创建过项目时不能使用 AddResult_AddItem 方法" )
 		return SIUnlocker
@@ -273,7 +274,8 @@ function SIUnlocker.AddResult_AddItem( itemName , count )
 	{
 		type = SIUnlocker.result.addItem ,
 		name = itemName ,
-		count = count or SIUnlocker.defaultCount
+		count = count or SIUnlocker.defaultCount ,
+		chance = chance or SIUnlocker.defaultChance
 	} )
 	return SIUnlocker
 end
