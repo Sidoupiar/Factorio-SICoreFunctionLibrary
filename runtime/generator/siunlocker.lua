@@ -11,6 +11,8 @@ if not SIUnlocker then e( "构建器启用[SIUnlocker] : 必须启用 SIUnlocker
 
 SIUnlocker.itemList = {}
 SIUnlocker.itemData = nil
+SIUnlocker.defaultCount = 1
+SIUnlocker.defaultLevel = 1
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 功能方法 ----------------------------------------------------------------------------
@@ -100,7 +102,7 @@ function SIUnlocker.AddCondition_Kill( entityName , count , damageType )
 	{
 		type = SIUnlocker.condition.kill ,
 		name = entityName ,
-		count = count ,
+		count = count or SIUnlocker.defaultCount ,
 		damageType = damageType
 	} )
 	return SIUnlocker
@@ -116,7 +118,7 @@ function SIUnlocker.AddCondition_Has( itemName , count )
 	{
 		type = SIUnlocker.condition.has ,
 		name = itemName ,
-		count = count
+		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
 end
@@ -131,7 +133,7 @@ function SIUnlocker.AddCondition_Craft( recipeName , count )
 	{
 		type = SIUnlocker.condition.craft ,
 		name = recipeName ,
-		count = count
+		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
 end
@@ -146,7 +148,7 @@ function SIUnlocker.AddCondition_Research( technologyName , level )
 	{
 		type = SIUnlocker.condition.research ,
 		name = technologyName ,
-		level = level
+		level = level or SIUnlocker.defaultLevel
 	} )
 	return SIUnlocker
 end
@@ -161,7 +163,7 @@ function SIUnlocker.AddCondition_Build( entityName , count )
 	{
 		type = SIUnlocker.condition.build ,
 		name = entityName ,
-		count = count
+		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
 end
@@ -176,7 +178,7 @@ function SIUnlocker.AddCondition_Mine( entityName , count )
 	{
 		type = SIUnlocker.condition.mine ,
 		name = entityName ,
-		count = count
+		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
 end
@@ -191,7 +193,7 @@ function SIUnlocker.AddCondition_Use( itemName , count )
 	{
 		type = SIUnlocker.condition.use ,
 		name = itemName ,
-		count = count
+		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
 end
@@ -216,7 +218,7 @@ function SIUnlocker.AddCondition_Die( sourceEntityName , count )
 	{
 		type = SIUnlocker.condition.die ,
 		name = sourceEntityName ,
-		count = count
+		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
 end
@@ -271,7 +273,7 @@ function SIUnlocker.AddResult_AddItem( itemName , count )
 	{
 		type = SIUnlocker.result.addItem ,
 		name = itemName ,
-		count = count
+		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
 end
@@ -286,7 +288,7 @@ function SIUnlocker.AddResult_RemoveItem( itemName , count )
 	{
 		type = SIUnlocker.result.removeItem ,
 		name = itemName ,
-		count = count
+		count = count or SIUnlocker.defaultCount
 	} )
 	return SIUnlocker
 end
