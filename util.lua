@@ -19,6 +19,7 @@ function e( msg )
 	end
 	mmess( "_____ :: "..output..msg )
 end
+
 error = function( msg )
 	log( "[错误获取] SICoreFunctionLibrary_Code: "..msg )
 end

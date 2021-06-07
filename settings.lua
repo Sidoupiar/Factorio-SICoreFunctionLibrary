@@ -1,8 +1,8 @@
 require( "util" )
 
 SILoadingSettings = true
-needlist( "define" , "sitypes" , "simods" )
-needlist( "function" , "siutil" , "init_string" , "init_table" , "init_debug" )
+need( "define/load" )
+need( "function/load" )
 
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 基础数据 ----------------------------------------------------------------------------
@@ -41,6 +41,10 @@ function SISettings.CreateSetting( type , settingType , name , defaultValue , mi
 	if localisedDescription then d.localised_description = localisedDescription end
 	return d
 end
+
+-- ------------------------------------------------------------------------------------------------
+-- ---------- 构造配置 ----------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
 
 function SISettings.Load( constantsData , orderCode )
 	local settings = SISettings.ChangeConstants( constantsData or need( "constants" , true ) )
