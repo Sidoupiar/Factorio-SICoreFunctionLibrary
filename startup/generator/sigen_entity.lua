@@ -315,23 +315,23 @@ function entity:Fill( currentEntity )
 	if stackSize and stackSize > 0 then
 		local item = currentEntity:GetItem()
 		if not item then
-			currentEntity.item = SIGen.Item:New( currentEntity:GetItemName() or currentEntity:GetBaseName() )
+			local item = SIGen.Item:New( currentEntity:GetItemName() or currentEntity:GetBaseName() )
 			:Init()
 			:DefaultFlags()
 			:SetGroup( SIGen.GetCurrentSubGroupEntity() )
 			:SetOrder( SIGen.GetCurrentEntityOrder() )
-			
-			local localizedNames = currentEntity:GetParam( "localised_name" )
-			if localizedNames then currentEntity.item:SetLocalisedNames( localizedNames ) end
-			local localisedDescriptions = currentEntity:GetParam( "localised_description" )
-			if localisedDescriptions then currentEntity.item:SetLocalisedDescriptions( localisedDescriptions ) end
-			
-			local flags = currentEntity:GetParam( "flags" )
-			if table.Has( flags , SIFlags.entityFlags.hidden ) then currentEntity.item:AddFlags{ SIFlags.itemFlags.hidden } end
-			currentEntity.item:AddFlags( currentEntity.itemFlags )
+			:AddFlags( currentEntity:GetItemFlags() )
 			:SetStackSize( stackSize )
 			:SetResults( currentEntity:GetName() , SIGen.resultType.entity )
-			:Fill()
+			
+			local localizedNames = currentEntity:GetParam( "localised_name" )
+			if localizedNames then item:SetLocalisedNames( localizedNames ) end
+			local localisedDescriptions = currentEntity:GetParam( "localised_description" )
+			if localisedDescriptions then item:SetLocalisedDescriptions( localisedDescriptions ) end
+			local flags = currentEntity:GetParam( "flags" )
+			if table.Has( flags , SIFlags.entityFlags.hidden ) then item:AddFlags{ SIFlags.itemFlags.hidden } end
+			
+			currentEntity:SetItem( item:Fill() )
 		end
 	end
 	return self

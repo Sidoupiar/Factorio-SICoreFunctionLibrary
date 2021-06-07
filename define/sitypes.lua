@@ -320,6 +320,14 @@ SITypes =
 		roboport        = "roboport-equipment" ,
 		beltImmunity    = "belt-immunity-equipment"
 	} ,
+	
+	
+	
+	equipmentShapeType =
+	{
+		full            = "full" ,
+		manual          = "manual"
+	} ,
 	logisticMode =
 	{
 		passive         = "passive-provider" , -- 红箱

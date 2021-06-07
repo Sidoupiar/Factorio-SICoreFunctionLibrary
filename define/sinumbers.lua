@@ -26,6 +26,7 @@ SINumbers =
 	projectilePictureLineLength = 8 ,
 	projectilePictureFrameCount = 16 ,
 	projectilePictureAnimSpeed = 0.25 ,
+	equipmentPictureSize = 32 ,
 	
 	healthToMiningTime = 800 ,
 	lightSizeMult = 2.4 ,
@@ -37,3 +38,13 @@ SINumbers =
 SINumbers.machinePictureSize_hr = SINumbers.machinePictureSize * SINumbers.pictureHrScale
 SINumbers.machinePictureTotalFrameCount = SINumbers.machinePictureTotalWidth * SINumbers.machinePictureTotalHeight
 SINumbers.machineAnimationSpeed = SINumbers.machinePictureTotalFrameCount / 60
+
+
+
+local innerSINumbers = table.deepcopy( SINumbers )
+
+function SINumbers_RestoreDefault()
+	for key , value in pairs( table.deepcopy( innerSINumbers ) ) do
+		SINumbers[key] = value
+	end
+end

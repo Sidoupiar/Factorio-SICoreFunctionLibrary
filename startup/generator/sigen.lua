@@ -183,7 +183,7 @@ SIGen =
 	{
 		none         = "none" ,
 		entity       = "entity" ,
-		module       = "module" ,
+		equipment    = "equipment" ,
 		burnt        = "burnt" ,
 		tile         = "tile" ,
 		rocketLaunch = "rocket" ,
@@ -234,6 +234,7 @@ SIGen.RobotLogistic = need( "sigen_entity_health_robot_logistic" )
 SIGen.RobotCombat = need( "sigen_entity_health_robot_combat" )
 SIGen.Roboport = need( "sigen_entity_health_roboport" )
 SIGen.Radar = need( "sigen_entity_health_radar" )
+SIGen.Equipment = need( "sigen_equipment" )
 SIGen.Recipe = need( "sigen_recipe" )
 SIGen.Technology = need( "sigen_technology" )
 SIGen.ControlAutoplace = need( "sigen_control_autoplace" )
@@ -965,6 +966,14 @@ function SIGen.NewRadar( name , radar )
 	currentEntity = SIGen.Radar:New( name , radar )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
+	return SIGen
+end
+
+function SIGen.NewEquipment( type , name , equipment )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentEntity = SIGen.Equipment:New( type , name , equipment )
+	InitEntity()
 	return SIGen
 end
 

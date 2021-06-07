@@ -770,3 +770,36 @@ function SIPackers.Attack_EffectDamage( damageType , amount )
 		damage = { type = damageType , amount = amount }
 	}
 end
+
+-- ------------------------------------------------------------------------------------------------
+-- -------- 创建模块形状 --------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------
+
+function SIPackers.CreateEquipmentShape( type , width , height , points )
+	local shape = {}
+	if type then shape.type = type
+	else shape.type = SITypes.equipmentShapeType.full end
+	if width then shape.width = width
+	else shape.width = 1 end
+	if height then shape.height = height
+	else shape.height = 1 end
+	if points then shape.points = points end
+	return shape
+end
+
+function SIPackers.CreateEquipmentShapeWithPoints( points )
+	local shape =
+	{
+		type = SITypes.equipmentShapeType.manual ,
+		points = points
+	}
+	local width = 0
+	local height = 0
+	for index , point in pairs( points ) do
+		width = math.max( width , point[1] )
+		height = math.max( height , point[2] )
+	end
+	shape.width = width
+	shape.height = height
+	return shape
+end

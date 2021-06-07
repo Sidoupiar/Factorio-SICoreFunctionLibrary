@@ -88,7 +88,7 @@ function entity:SetResults( resultOrResultsOrPack , resultType , count )
 	if dataType == "string" then
 		if resultType == SIGen.resultType.entity then
 			return self:SetParam( "place_result" , function() return true , SIGen.autoFillType.entity , resultOrResultsOrPack end )
-		elseif resultType == SIGen.resultType.module then
+		elseif resultType == SIGen.resultType.equipment then
 			return self:SetParam( "place_as_equipment_result" , function() return true , SIGen.autoFillType.entity , resultOrResultsOrPack end )
 		elseif resultType == SIGen.resultType.burnt then
 			return self:SetParam( "burnt_result" , function() return true , SIGen.autoFillType.item , resultOrResultsOrPack end )
@@ -121,7 +121,7 @@ end
 
 function entity:AddResults( resultOrResultsOrPack , count )
 	if not self:CheckData( resultOrResultsOrPack ) then return self end
-	if self.resultType == SIGen.resultType.entity or self.resultType == SIGen.resultType.module or self.resultType == SIGen.resultType.burnt or self.resultType == SIGen.resultType.tile then
+	if self.resultType == SIGen.resultType.entity or self.resultType == SIGen.resultType.equipment or self.resultType == SIGen.resultType.burnt or self.resultType == SIGen.resultType.tile then
 		e( "模块构建 : 前实体不支持在当前 resultType 下添加 results" )
 		return self
 	end

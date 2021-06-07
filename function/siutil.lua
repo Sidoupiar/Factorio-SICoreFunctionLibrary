@@ -36,3 +36,18 @@ function SIUtils.NumberToString( number , length )
 	end
 	return str
 end
+
+function SIUtils.PointsBorder( width , height )
+	local points = {}
+	local xMax = width - 1
+	local yMax = height - 1
+	for x = 0 , xMax , 1 do
+		table.insert( points , { x , 0 } )
+		table.insert( points , { x , yMax } )
+	end
+	for y = 1 , yMax-1 , 1 do
+		table.insert( points , { 0 , y } )
+		table.insert( points , { xMax , y } )
+	end
+	return points
+end
