@@ -30,7 +30,7 @@ end
 -- ------------------------------------------------------------------------------------------------
 
 SIEventBus.Init( function()
-	SIGlobal.Set( "SIDamageType" , CreateDamageType( game.damage_prototypes ) )
+	SIGlobal.Set( "SIDamageType" , SI.Damage.CreateTypeList( game.damage_prototypes ) )
 	SIEventBus.AddWaitFunction( "message" , function( event ) message( event.player_index , { "SICFL.changed" , { "SICFL.data" } , date.FormatDateByTick( event.tick ) } ) end )
 end )
 

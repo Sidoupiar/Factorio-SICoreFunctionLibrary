@@ -14,7 +14,7 @@ SIDelmap =
 function SIDelmap.OnSelect( event )
 	if event.item == SIDelmap.itemName then
 		for i , v in pairs( event.entities ) do
-			if v.valid and v.type ~= "character" then ExDestroy( v , true ) end
+			if v.valid and v.type ~= "character" then SI.Explosion.Destroy( v , true ) end
 		end
 	end
 end
