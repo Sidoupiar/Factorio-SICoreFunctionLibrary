@@ -342,6 +342,14 @@ SITypes =
 		admin           = "admin" ,
 		none            = "none"
 	} ,
+	energy =
+	{
+		electric        = "electric" ,
+		burner          = "burner" ,
+		heat            = "heat" ,
+		fluid           = "fluid" ,
+		void            = "void"
+	} ,
 	electricUsagePriority =
 	{
 		primaryInput    = "primary-input" ,
@@ -371,14 +379,6 @@ SITypes =
 		product         = "productivity" ,
 		consumption     = "consumption" ,
 		pollut          = "pollution"
-	} ,
-	energy =
-	{
-		electric        = "electric" ,
-		burner          = "burner" ,
-		heat            = "heat" ,
-		fluid           = "fluid" ,
-		void            = "void"
 	} ,
 	rock =
 	{
