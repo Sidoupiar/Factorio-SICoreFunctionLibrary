@@ -23,7 +23,7 @@ function SISettings.ChangeConstants( constants )
 	else return nil end
 end
 
-function SISettings.CreateSetting( type , settingType , name , defaultValue , minimumValue , maximumValue , allowedValues , allowBlank , order , perUser , localisedName , localisedDescription )
+function SISettings.CreateSetting( type , settingType , name , defaultValue , minimumValue , maximumValue , allowedValues , allowBlank , order , localisedName , localisedDescription )
 	local d = {}
 	d.type = type .. "-setting"
 	d.setting_type = settingType
@@ -36,7 +36,6 @@ function SISettings.CreateSetting( type , settingType , name , defaultValue , mi
 		d.minimum_value = minimumValue
 		d.maximum_value = maximumValue
 	end
-	if perUser then d.per_user = perUser end
 	if localisedName then d.localised_name = localisedName end
 	if localisedDescription then d.localised_description = localisedDescription end
 	return d
@@ -54,7 +53,7 @@ function SISettings.Load( constantsData , orderCode )
 		local order = orderCode
 		for n , m in pairs( settings ) do
 			order = order + 1
-			table.insert( s , SISettings.CreateSetting( m[1] , m[2] , n , m[3] , m[4] , m[5] , m[6] , m[7] , order , m[8] , m[9] , m[10] ) )
+			table.insert( s , SISettings.CreateSetting( m[1] , m[2] , n , m[3] , m[4] , m[5] , m[6] , m[7] , order , m[8] , m[9] ) )
 		end
 		if #s > 0 then data:extend( s ) end
 	end
