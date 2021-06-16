@@ -442,6 +442,11 @@ function SIGen.Finish()
 	return SIGen.Inserter.Clear()
 end
 
+function SIGen.FinishData()
+	FinishData()
+	return SIGen
+end
+
 -- ------------------------------------------------------------------------------------------------
 -- ---------- 创建分组 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
@@ -1005,8 +1010,9 @@ end
 -- ---------- 自动填充 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIGen.AddLastLevel( count )
-	currentEntity:AddLastLevel( count )
+function SIGen.FillImage()
+	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
+	currentEntity:FillImage()
 	return SIGen
 end
 
@@ -1020,11 +1026,6 @@ function SIGen.Fill()
 		return SIGen
 	end
 	currentEntity:Fill()
-	return SIGen
-end
-
-function SIGen.FinishData()
-	FinishData()
 	return SIGen
 end
 
@@ -1423,12 +1424,6 @@ function SIGen.AddSuperArmor()
 end
 
 
-
-function SIGen.FillImage()
-	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentEntity:FillImage()
-	return SIGen
-end
 
 function SIGen.SetPic( key , layer )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end

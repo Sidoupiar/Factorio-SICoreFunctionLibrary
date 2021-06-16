@@ -2,10 +2,6 @@ function math.Range( num , min , max )
 	return math.max( math.min( num , max ) , min )
 end
 
-function math.Cnum( num , max , min )
-	return math.max( math.min( num , max ) , min )
-end
-
-function math.Cnum_i( num , max , min )
-	return math.Cnum( math.floor( num ) , max , min )
+function math.Cnum( num , min , max )
+	return math.Range( math.floor( num ) , min , max )
 end

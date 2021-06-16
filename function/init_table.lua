@@ -18,7 +18,7 @@ end
 
 function table.GetWithName( data , name )
 	for k , v in pairs( data ) do
-		if v.name == name then return v end
+		if type( v ) == "table" and v.name == name then return v end
 	end
 	return nil
 end
