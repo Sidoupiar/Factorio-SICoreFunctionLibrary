@@ -558,7 +558,7 @@ function entity:SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy )
 	return self
 end
 
-function entity:SetPluginData( slotCount , iconShift )
+function entity:SetPluginData( slotCount , iconShift , moduleInfoIconScale )
 	return self
 end
 

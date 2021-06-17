@@ -1129,9 +1129,9 @@ function SIGen.SetEffectEnergy( effectEnergy , linkEnergy , connectEnergy )
 	return SIGen
 end
 
-function SIGen.SetPluginData( slotCount , iconShift )
+function SIGen.SetPluginData( slotCount , iconShift , moduleInfoIconScale )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	if slotCount or iconShift then currentEntity:SetPluginData( slotCount , iconShift ) end
+	if slotCount or iconShift then currentEntity:SetPluginData( slotCount , iconShift , moduleInfoIconScale ) end
 	return SIGen
 end
 
