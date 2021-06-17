@@ -690,318 +690,318 @@ end
 -- ---------- 创建实体 ----------------------------------------------------------------------------
 -- ------------------------------------------------------------------------------------------------
 
-function SIGen.NewEmpty( type , name , data )
+function SIGen.NewEmpty( type , name , dataPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Base:New( type , name , data )
+	currentEntity = SIGen.Base:New( type , name , dataPrototype )
 	InitEntity()
 	return SIGen
 end
 
-function SIGen.NewItem( name , stackSize , item )
+function SIGen.NewItem( name , stackSize , itemPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Item:New( name , item )
-	InitEntity()
-	dataList.item[name] = currentEntity:GetName()
-	if stackSize then currentEntity:SetStackSize( stackSize ) end
-	return SIGen
-end
-
-function SIGen.NewCapsule( name , stackSize , capsule )
-	FinishData()
-	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Capsule:New( name , capsule )
+	currentEntity = SIGen.Item:New( name , itemPrototype )
 	InitEntity()
 	dataList.item[name] = currentEntity:GetName()
 	if stackSize then currentEntity:SetStackSize( stackSize ) end
 	return SIGen
 end
 
-function SIGen.NewModule( name , stackSize , module )
+function SIGen.NewCapsule( name , stackSize , capsulePrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Module:New( name , module )
+	currentEntity = SIGen.Capsule:New( name , capsulePrototype )
 	InitEntity()
 	dataList.item[name] = currentEntity:GetName()
 	if stackSize then currentEntity:SetStackSize( stackSize ) end
 	return SIGen
 end
 
-function SIGen.NewTool( name , stackSize , tool )
+function SIGen.NewModule( name , stackSize , modulePrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Tool:New( name , tool )
+	currentEntity = SIGen.Module:New( name , modulePrototype )
 	InitEntity()
 	dataList.item[name] = currentEntity:GetName()
 	if stackSize then currentEntity:SetStackSize( stackSize ) end
 	return SIGen
 end
 
-function SIGen.NewFluid( name , fluid )
+function SIGen.NewTool( name , stackSize , toolPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Fluid:New( name , fluid )
+	currentEntity = SIGen.Tool:New( name , toolPrototype )
+	InitEntity()
+	dataList.item[name] = currentEntity:GetName()
+	if stackSize then currentEntity:SetStackSize( stackSize ) end
+	return SIGen
+end
+
+function SIGen.NewFluid( name , fluidPrototype )
+	FinishData()
+	if not CheckData() then return SIGen end
+	currentEntity = SIGen.Fluid:New( name , fluidPrototype )
 	InitEntity()
 	dataList.fluid[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewEntity( type , name , entity )
+function SIGen.NewEntity( type , name , entityPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Entity:New( type , name , entity )
+	currentEntity = SIGen.Entity:New( type , name , entityPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewResource( name , resource )
+function SIGen.NewResource( name , resourcePrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Resource:New( name , resource )
+	currentEntity = SIGen.Resource:New( name , resourcePrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewProjectile( name , projectile )
+function SIGen.NewProjectile( name , projectilePrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Projectile:New( name , projectile )
+	currentEntity = SIGen.Projectile:New( name , projectilePrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewHealthEntity( type , name , healthEntity )
+function SIGen.NewHealthEntity( type , name , healthEntityPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.HealthEntity:New( type , name , healthEntity )
+	currentEntity = SIGen.HealthEntity:New( type , name , healthEntityPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewUnit( name , unit )
+function SIGen.NewUnit( name , unitPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Unit:New( name , unit )
+	currentEntity = SIGen.Unit:New( name , unitPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewSpawner( name , spawner )
+function SIGen.NewSpawner( name , spawnerPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Spawner:New( name , spawner )
+	currentEntity = SIGen.Spawner:New( name , spawnerPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewBoiler( name , boiler )
+function SIGen.NewBoiler( name , boilerPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Boiler:New( name , boiler )
+	currentEntity = SIGen.Boiler:New( name , boilerPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewGenerator( name , generator )
+function SIGen.NewGenerator( name , generatorPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Generator:New( name , generator )
+	currentEntity = SIGen.Generator:New( name , generatorPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewBurnerGenerator( name , burnerGenerator )
+function SIGen.NewBurnerGenerator( name , burnerGeneratorPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.BurnerGenerator:New( name , burnerGenerator )
+	currentEntity = SIGen.BurnerGenerator:New( name , burnerGeneratorPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewPump( name , pump )
+function SIGen.NewPump( name , pumpPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Pump:New( name , pump )
+	currentEntity = SIGen.Pump:New( name , pumpPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewMining( name , mining )
+function SIGen.NewMining( name , miningPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Mining:New( name , mining )
+	currentEntity = SIGen.Mining:New( name , miningPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewFurnace( name , furnace )
+function SIGen.NewFurnace( name , furnacePrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Furnace:New( name , furnace )
+	currentEntity = SIGen.Furnace:New( name , furnacePrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewMachine( name , machine )
+function SIGen.NewMachine( name , machinePrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Machine:New( name , machine )
+	currentEntity = SIGen.Machine:New( name , machinePrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewLab( name , lab )
+function SIGen.NewLab( name , labPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Lab:New( name , lab )
+	currentEntity = SIGen.Lab:New( name , labPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewBeacon( name , beacon )
+function SIGen.NewBeacon( name , beaconPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Beacon:New( name , beacon )
+	currentEntity = SIGen.Beacon:New( name , beaconPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewPipe( name , pipe )
+function SIGen.NewPipe( name , pipePrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Pipe:New( name , pipe )
+	currentEntity = SIGen.Pipe:New( name , pipePrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewContainer( name , container )
+function SIGen.NewContainer( name , containerPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Container:New( name , container )
+	currentEntity = SIGen.Container:New( name , containerPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewContainerLogic( name , containerLogic , logisticMode )
+function SIGen.NewContainerLogic( name , containerLogicPrototype , logisticMode )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.ContainerLogic:New( name , containerLogic )
+	currentEntity = SIGen.ContainerLogic:New( name , containerLogicPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	if logisticMode then currentEntity:SetLogisticMode( logisticMode ) end
 	return SIGen
 end
 
-function SIGen.NewContainerLinked( name , containerLinked , linkedMode )
+function SIGen.NewContainerLinked( name , containerLinkedPrototype , linkedMode )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.ContainerLinked:New( name , containerLinked )
+	currentEntity = SIGen.ContainerLinked:New( name , containerLinkedPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	if linkedMode then currentEntity:SetLogisticMode( linkedMode ) end
 	return SIGen
 end
 
-function SIGen.NewRobot( name , robot )
+function SIGen.NewRobot( name , robotPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Robot:New( name , robot )
+	currentEntity = SIGen.Robot:New( name , robotPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewRobotConstruction( name , robotConstruction )
+function SIGen.NewRobotConstruction( name , robotConstructionPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.RobotConstruction:New( name , robotConstruction )
+	currentEntity = SIGen.RobotConstruction:New( name , robotConstructionPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewRobotLogistic( name , robotLogistic )
+function SIGen.NewRobotLogistic( name , robotLogisticPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.RobotLogistic:New( name , robotLogistic )
+	currentEntity = SIGen.RobotLogistic:New( name , robotLogisticPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewRobotCombat( name , robotCombat )
+function SIGen.NewRobotCombat( name , robotCombatPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.RobotCombat:New( name , robotCombat )
+	currentEntity = SIGen.RobotCombat:New( name , robotCombatPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewRoboport( name , roboport )
+function SIGen.NewRoboport( name , roboportPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Roboport:New( name , roboport )
+	currentEntity = SIGen.Roboport:New( name , roboportPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewRadar( name , radar )
+function SIGen.NewRadar( name , radarPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Radar:New( name , radar )
+	currentEntity = SIGen.Radar:New( name , radarPrototype )
 	InitEntity()
 	dataList.entity[name] = currentEntity:GetName()
 	return SIGen
 end
 
-function SIGen.NewEquipment( type , name , equipment )
+function SIGen.NewEquipment( type , name , equipmentPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Equipment:New( type , name , equipment )
+	currentEntity = SIGen.Equipment:New( type , name , equipmentPrototype )
 	InitEntity()
 	return SIGen
 end
 
-function SIGen.NewRecipe( name , recipe )
+function SIGen.NewRecipe( name , recipePrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Recipe:New( name , recipe )
+	currentEntity = SIGen.Recipe:New( name , recipePrototype )
 	InitEntity()
 	return SIGen
 end
 
-function SIGen.NewTechnology( name , technology )
+function SIGen.NewTechnology( name , technologyPrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.Technology:New( name , technology )
+	currentEntity = SIGen.Technology:New( name , technologyPrototype )
 	InitEntity()
 	return SIGen
 end
 
-function SIGen.NewControlAutoplace( name , controlAutoplace )
+function SIGen.NewControlAutoplace( name , controlAutoplacePrototype )
 	FinishData()
 	if not CheckData() then return SIGen end
-	currentEntity = SIGen.ControlAutoplace:New( name , controlAutoplace )
+	currentEntity = SIGen.ControlAutoplace:New( name , controlAutoplacePrototype )
 	InitEntity()
 	return SIGen
 end
