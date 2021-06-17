@@ -320,6 +320,23 @@ function SIGen.GetPicturePath( type )
 	return currentConstantsData.GetPicturePath( type )
 end
 
+function SIGen.GetIconFile()
+	if not currentEntity then
+		e( "模块构建 : 当前没有创建过实体时不能使用 GetIconFile 方法" )
+		return nil
+	end
+	return currentConstantsData.GetPicturePath( SITypes.item.item ) .. "item/" .. currentEntity:GetBaseName()
+end
+
+function SIGen.GetLayerFile()
+	if not currentEntity then
+		e( "模块构建 : 当前没有创建过实体时不能使用 GetLayerFile 方法" )
+		return nil
+	end
+	local baseName = currentEntity:GetBaseName()
+	return currentConstantsData.GetPicturePath( currentEntity:GetType() ) .. "entity/" .. baseName .. "/" .. baseName
+end
+
 function SIGen.GetCurrentGroupEntity()
 	return currentGroup
 end
@@ -351,23 +368,6 @@ function SIGen.GetCurrentEntityName()
 		return nil
 	end
 	return currentEntity:GetName()
-end
-
-function SIGen.GetIconFile()
-	if not currentEntity then
-		e( "模块构建 : 当前没有创建过实体时不能使用 GetIconFile 方法" )
-		return nil
-	end
-	return currentConstantsData.GetPicturePath( SITypes.item.item ) .. "item/" .. currentEntity:GetBaseName()
-end
-
-function SIGen.GetLayerFile()
-	if not currentEntity then
-		e( "模块构建 : 当前没有创建过实体时不能使用 GetLayerFile 方法" )
-		return nil
-	end
-	local baseName = currentEntity:GetBaseName()
-	return currentConstantsData.GetPicturePath( currentEntity:GetType() ) .. "entity/" .. baseName .. "/" .. baseName
 end
 
 function SIGen.GetCurrentEntityItem()
@@ -641,7 +641,7 @@ function SIGen.NewAmbientSound( name , trackType , soundOrFile , volume )
 	return SIGen
 end
 
-function SIGen.NewFont( name , size , border , border_color , from )
+function SIGen.NewFont( name , size , border , borderColor , from )
 	FinishData()
 	if not currentConstantsData then
 		e( "模块构建 : 创建按键时基础信息(ConstantsData)不能为空" )
@@ -655,7 +655,7 @@ function SIGen.NewFont( name , size , border , border_color , from )
 			name = currentEntityName ,
 			size = size or 14 ,
 			border = border or false ,
-			border_color = border and ( border_color or {} ) or nil ,
+			border_color = border and ( borderColor or {} ) or nil ,
 			from = from or "default"
 		}
 	}
@@ -681,7 +681,7 @@ function SIGen.NewStyle( name , settings )
 			end
 		end
 	end
-	if settings.autoParent then settings.parent = currentConstantsData.autoName and currentConstantsData.realname..settings.parent or settings.parent end
+	if settings.autoParent and settings.parent then settings.parent = currentConstantsData.autoName and currentConstantsData.realname..settings.parent or settings.parent end
 	style[currentEntityName] = settings
 	return SIGen
 end
