@@ -22,7 +22,7 @@ function entity:SetMainRecipe( recipeOrDataOrEntityOrPack )
 	if dataType == "string" then
 		return self:SetParam( "fixed_recipe" , recipeOrDataOrEntityOrPack )
 	elseif dataType == "table" then
-		if typeOrTypesOrPack.isEntity then
+		if recipeOrDataOrEntityOrPack.isEntity then
 			if recipeOrDataOrEntityOrPack:GetType() == SITypes.recipe then
 				return self:SetParam( "fixed_recipe" , recipeOrDataOrEntityOrPack:GetName() )
 			else
