@@ -260,15 +260,15 @@ function SIGen.GetData( type , name )
 	return SIGen.GetList( type )[name]
 end
 
-function SIGen.CopyData( type , name )
-	local d = data.raw[type][name]
-	if d then return table.deepcopy( d )
-	else return nil end
-end
-
 function SIGen.CopyList( type )
 	local list = data.raw[type]
 	if list then return table.deepcopy( list )
+	else return nil end
+end
+
+function SIGen.CopyData( type , name )
+	local d = data.raw[type][name]
+	if d then return table.deepcopy( d )
 	else return nil end
 end
 
@@ -1469,8 +1469,8 @@ function SIGen.E.SetAddenWidth( addenWidth )
 	return SIGen
 end
 
-function SIGen.E.SetAddenWidth( addenWidth )
-	if currentEntity.SetAddenWidth then currentEntity:SetAddenWidth( addenWidth ) end
+function SIGen.E.SetAddenHeight( addenHeight )
+	if currentEntity.SetAddenHeight then currentEntity:SetAddenHeight( addenHeight ) end
 	return SIGen
 end
 

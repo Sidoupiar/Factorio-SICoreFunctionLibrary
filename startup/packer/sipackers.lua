@@ -79,19 +79,19 @@ function SIPackers.ColorCopyWith256( color , red , green , blue , alpha )
 	return color
 end
 
-function SIPackers.ColorCopyWithA256( color , red )
+function SIPackers.ColorCopyWithR256( color , red )
 	local color = table.deepcopy( color )
 	if red then color.r = math.Range( red/256 , 0 , 1 ) end
 	return color
 end
 
-function SIPackers.ColorCopyWithA256( color , green )
+function SIPackers.ColorCopyWithG256( color , green )
 	local color = table.deepcopy( color )
 	if green then color.g = math.Range( green/256 , 0 , 1 ) end
 	return color
 end
 
-function SIPackers.ColorCopyWithA256( color , blue )
+function SIPackers.ColorCopyWithB256( color , blue )
 	local color = table.deepcopy( color )
 	if blue then color.b = math.Range( blue/256 , 0 , 1 ) end
 	return color

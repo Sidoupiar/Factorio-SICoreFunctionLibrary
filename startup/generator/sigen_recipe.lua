@@ -169,7 +169,13 @@ function entity:Fill( currentEntity )
 	:Default( "always_show_products" , true )
 	:Default( "show_amount_in_title" , false )
 	:Default( "enabled" , false )
-	:Default( "allow_deposition" , true )
+	:Default( "allow_decomposition" , true )
+	
+	local results = currentEntity:GetParam( "results" )
+	if #results > 1 then
+		local icon = currentEntity:GetParam( "icon" )
+		if not icon then currentEntity:SetSelfIcon() end
+	end
 	return self
 end
 

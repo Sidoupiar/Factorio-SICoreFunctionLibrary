@@ -24,71 +24,71 @@ entity:AddDefaultValue( "width" , -1 )
 
 
 function entity:SetAddenSize( addenWidth , addenHeight )
-	self.addenWidth = addenWidth
-	self.addenHeight = addenHeight
+	self.addenWidth = addenWidth or 0
+	self.addenHeight = addenHeight or 0
 	return self
 end
 
 function entity:SetAddenWidth( addenWidth )
-	self.addenWidth = addenWidth
+	self.addenWidth = addenWidth or 0
 	return self
 end
 
 function entity:SetAddenHeight( addenHeight )
-	self.addenHeight = addenHeight
+	self.addenHeight = addenHeight or 0
 	return self
 end
 
 function entity:SetShadowSize( shadowWidth , shadowHeight )
-	self.shadowWidth = shadowWidth
-	self.shadowHeight = shadowHeight
+	self.shadowWidth = shadowWidth or 0
+	self.shadowHeight = shadowHeight or 0
 	return self
 end
 
 function entity:SetShadowWidth( shadowWidth )
-	self.shadowWidth = shadowWidth
+	self.shadowWidth = shadowWidth or 0
 	return self
 end
 
 function entity:SetShadowHeight( shadowHeight )
-	self.shadowHeight = shadowHeight
+	self.shadowHeight = shadowHeight or 0
 	return self
 end
 
 function entity:SetAddenShift( x , y )
-	self.addenShiftX = x
-	self.addenShiftY = y
+	self.addenShiftX = x or 0
+	self.addenShiftY = y or 0
 	return self
 end
 
 function entity:SetAddenShiftX( x )
-	self.addenShiftX = x
+	self.addenShiftX = x or 0
 	return self
 end
 
 function entity:SetAddenShiftY( y )
-	self.addenShiftY = y
+	self.addenShiftY = y or 0
 	return self
 end
 
 function entity:SetShadowShift( x , y )
-	self.shadowShiftX = x
-	self.shadowShiftY = y
+	self.shadowShiftX = x or 0
+	self.shadowShiftY = y or 0
 	return self
 end
 
 function entity:SetShadowShiftX( x )
-	self.shadowShiftX = x
+	self.shadowShiftX = x or 0
 	return self
 end
 
 function entity:SetShadowShiftY( y )
-	self.shadowShiftY = y
+	self.shadowShiftY = y or 0
 	return self
 end
 
 function entity:SetScale( scale )
-	self.scale = scale
+	self.scale = scale or 1
 	return self
 end
 
