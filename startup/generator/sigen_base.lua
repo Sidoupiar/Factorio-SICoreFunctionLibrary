@@ -217,12 +217,12 @@ function entity:SetEnabled( enabled )
 	return self:SetParam( "enabled" , enabled )
 end
 
-function entity:SetValid( valid )
-	return self:SetParam( "valid" , valid )
+function entity:SetHidden( hidden )
+	return self:SetParam( "hidden" , hidden )
 end
 
-function entity:SetHidden( hidden)
-	return self:SetParam( "hidden" , hidden )
+function entity:SetValid( valid )
+	return self:SetParam( "valid" , valid )
 end
 
 function entity:SetGroup( groupEntity )
@@ -316,7 +316,7 @@ function entity:SetRender_notInNetworkIcon( trueOrFalse )
 	return self:SetParam( "render_not_in_network_icon" , trueOrFalse )
 end
 
-function entity:SetTreeSettings( treeRemovalProbability , treeRemovalMaxDistance )
+function entity:SetTreeRemovalSettings( treeRemovalProbability , treeRemovalMaxDistance )
 	if treeRemovalProbability then self:SetParam( "tree_removal_probability" , treeRemovalProbability ) end
 	if treeRemovalMaxDistance then self:SetParam( "tree_removal_max_distance" , treeRemovalMaxDistance ) end
 	return self

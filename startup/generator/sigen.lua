@@ -1183,9 +1183,10 @@ function SIGen.SetSignalWire( distance , points , sprites , signals )
 	return SIGen
 end
 
-function SIGen.SetEnabled( enabled )
+function SIGen.SetEnabled( enabled , hidden )
 	if not CheckEntityData( SIGen.dataFlags.all ) then return SIGen end
-	currentEntity:SetEnabled( enabled )
+	if enabled ~= nil then currentEntity:SetEnabled( enabled ) end
+	if hidden ~= nil then currentEntity:SetHidden( hidden ) end
 	return SIGen
 end
 
@@ -1374,9 +1375,9 @@ function SIGen.SetRender_notInNetworkIcon( trueOrFalse )
 	return SIGen
 end
 
-function SIGen.SetTreeSettings( treeRemovalProbability , treeRemovalMaxDistance )
+function SIGen.SetTreeRemovalSettings( treeRemovalProbability , treeRemovalMaxDistance )
 	if not CheckEntityData( SIGen.dataFlags.entity ) then return SIGen end
-	currentEntity:SetTreeSettings( treeRemovalProbability , treeRemovalMaxDistance )
+	currentEntity:SetTreeRemovalSettings( treeRemovalProbability , treeRemovalMaxDistance )
 	return SIGen
 end
 
