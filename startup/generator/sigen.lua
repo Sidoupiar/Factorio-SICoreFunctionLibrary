@@ -461,6 +461,10 @@ function SIGen.NewGroup( nameOrSettings , group )
 		e( "模块构建 : 创建实体时基础信息(ConstantsData)不能为空" )
 		return SIGen
 	end
+	if not nameOrSettings then
+		e( "模块构建 : 创建分组时 nameOrSettings 不能为空" )
+		return SIGen
+	end
 	local name = ""
 	local autoName = true
 	if type( nameOrSettings ) == "table" then
@@ -505,6 +509,10 @@ function SIGen.NewSubGroup( nameOrSettings , subgroup )
 	end
 	if not currentGroup then
 		e( "模块构建 : 创建实体时分组信息(Group)不能为空" )
+		return SIGen
+	end
+	if not nameOrSettings then
+		e( "模块构建 : 创建子分组时 nameOrSettings 不能为空" )
 		return SIGen
 	end
 	local name = ""

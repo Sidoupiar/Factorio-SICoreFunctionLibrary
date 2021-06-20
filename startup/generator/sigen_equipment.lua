@@ -81,6 +81,11 @@ end
 
 
 
+function entity:SetStackSize( stackSize )
+	if type( stackSize ) == "number" then self.itemStackSize = stackSize end
+	return self
+end
+
 function entity:SetSize( width , height )
 	if type( width ) == "table" then self:SetParam( "shape" , SIPackers.CreateEquipmentShapeWithPoints( width ) )
 	else self:SetParam( "shape" , SIPackers.CreateEquipmentShape( nil , width , height ) ) end
@@ -135,6 +140,7 @@ end
 
 function entity:AddPluginTypes( typeOrTypesOrPack )
 	if not self:CheckData( typeOrTypesOrPack ) then return self end
+	self:Default( "categories" , {} )
 	local dataType = type( typeOrTypesOrPack )
 	if dataType == "string" then
 		if not table.Has( self:GetParam( "categories" ) , typeOrTypesOrPack ) then
@@ -200,6 +206,13 @@ function entity:FillImage()
 end
 
 
+
+function entity:Init( currentEntity )
+	if not currentEntity then currentEntity = self end
+	self.super:Init( currentEntity )
+	currentEntity:SetStackSize( 100 )
+	return self
+end
 
 function entity:Fill( currentEntity )
 	if not currentEntity then currentEntity = self end

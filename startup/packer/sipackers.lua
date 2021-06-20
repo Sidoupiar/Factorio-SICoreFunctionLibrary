@@ -799,7 +799,7 @@ function SIPackers.CreateEquipmentShapeWithPoints( points )
 		width = math.max( width , point[1] )
 		height = math.max( height , point[2] )
 	end
-	shape.width = width
-	shape.height = height
+	shape.width = width + 1
+	shape.height = height + 1
 	return shape
 end

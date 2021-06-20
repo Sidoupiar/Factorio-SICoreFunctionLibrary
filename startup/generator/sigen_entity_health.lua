@@ -80,6 +80,7 @@ end
 
 function entity:AddResidences( residenceOrResidencesOrPack )
 	if not self:CheckData( residenceOrResidencesOrPack ) then return self end
+	self:Default( "resistances" , {} )
 	local dataType = type( residenceOrResidencesOrPack )
 	if dataType == "string" then
 		return self:AddParamItem( "resistances" , SIPackers.Resistance( residenceOrResidencesOrPack ) )
@@ -118,6 +119,7 @@ end
 
 function entity:AddPluginTypes( typeOrTypesOrPack )
 	if not self:CheckData( typeOrTypesOrPack ) then return self end
+	self:Default( "allowed_effects" , {} )
 	local dataType = type( typeOrTypesOrPack )
 	if dataType == "string" then
 		if not table.Has( self:GetParam( "allowed_effects" ) , typeOrTypesOrPack ) then
@@ -148,6 +150,7 @@ end
 
 function entity:AddFluidBoxes( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature )
 	if not self:CheckData( areaOrBoxOrListOrPack ) then return self end
+	self:Default( "fluid_boxes" , {} )
 	if type( areaOrBoxOrListOrPack ) ~= "table" then areaOrBoxOrListOrPack = { SIPackers.FluidBox( areaOrBoxOrListOrPack , connections , baseLevel , productionType , levelHeight , filter , minTemperature , maxTemperature ) } end
 	if areaOrBoxOrListOrPack.isPack then areaOrBoxOrListOrPack = areaOrBoxOrListOrPack.data end
 	if areaOrBoxOrListOrPack.base_area then areaOrBoxOrListOrPack = { areaOrBoxOrListOrPack } end

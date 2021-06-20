@@ -574,6 +574,8 @@ local wi = { "group" , "subgroup" , "fluid" , "tile" , "signal" , "recipe" , "te
 for k , v in pairs( wl ) do for n , m in pairs( SITypes[k] ) do SIKeyw[m] = v end end
 for i , v in pairs( wi ) do SIKeyw[SITypes[v]] = v end
 
+
+
 -- 三个参数必须填全
 function SITypes.CreateName( ConstantsData , baseName , type )
 	local keyw = SIKeyw[type]
