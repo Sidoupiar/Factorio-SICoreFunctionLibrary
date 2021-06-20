@@ -375,8 +375,8 @@ function SIGen.GetCurrentEntityItem()
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetCurrentEntityItemName 方法" )
 		return nil
 	end
-	if not currentEntity:HasCodeName( "entity" ) then
-		e( "模块构建 : 只有实体(Entity)类型的实体才能使用 GetCurrentEntityItemName 方法" )
+	if not currentEntity:HasCodeName( "entity" ) and not currentEntity:HasCodeName( "equipment" ) then
+		e( "模块构建 : 只有实体(Entity)和模块(equipment)类型的实体才能使用 GetCurrentEntityItemName 方法" )
 		return nil
 	end
 	if not currentEntity:HasFill() then currentEntity:Fill() end
@@ -388,8 +388,8 @@ function SIGen.GetCurrentEntityItemName()
 		e( "模块构建 : 当前没有创建过实体时不能使用 GetCurrentEntityItemName 方法" )
 		return nil
 	end
-	if not currentEntity:HasCodeName( "entity" ) then
-		e( "模块构建 : 只有实体(Entity)类型的实体才能使用 GetCurrentEntityItemName 方法" )
+	if not currentEntity:HasCodeName( "entity" ) and not currentEntity:HasCodeName( "equipment" ) then
+		e( "模块构建 : 只有实体(Entity)和模块(equipment)类型的实体才能使用 GetCurrentEntityItemName 方法" )
 		return nil
 	end
 	if not currentEntity:HasFill() then currentEntity:Fill() end

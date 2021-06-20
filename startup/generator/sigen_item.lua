@@ -89,7 +89,7 @@ function entity:SetResults( resultOrResultsOrPack , resultType , count )
 		if resultType == SIGen.resultType.entity then
 			return self:SetParam( "place_result" , function() return true , SIGen.autoFillType.entity , resultOrResultsOrPack end )
 		elseif resultType == SIGen.resultType.equipment then
-			return self:SetParam( "place_as_equipment_result" , function() return true , SIGen.autoFillType.entity , resultOrResultsOrPack end )
+			return self:SetParam( "placed_as_equipment_result" , function() return true , SIGen.autoFillType.entity , resultOrResultsOrPack end )
 		elseif resultType == SIGen.resultType.burnt then
 			return self:SetParam( "burnt_result" , function() return true , SIGen.autoFillType.item , resultOrResultsOrPack end )
 		else
