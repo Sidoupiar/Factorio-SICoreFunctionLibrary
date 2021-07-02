@@ -32,10 +32,12 @@ if SIStartup.SICFL.debug_tools() then
 	SICFL.canGetDebugTools = SIStartup.SICFL.can_get_debug_tools()
 	SIGen.NewSubGroup( "debug-tools" )
 	needlist( "zprototype/debug" , "common" , "delmap" , "oremap" ) -- "reqmap"
+	SIGen.NewSubGroup( "debug-capsule" )
+	needlist( "zprototype/debug" , "capsule" )
 	SIGen.NewSubGroup( "debug-modules" )
 	needlist( "zprototype/debug" , "modules" )
 	SIGen.NewSubGroup( "debug-machines" )
-	needlist( "zprototype/debug" , "beacon" , "radars" , "roboports" , "robots" )
+	needlist( "zprototype/debug" , "beacon" , "radars" , "roboports" , "robots" , "turrent" )
 end
 
 SIGen.NewGroup( "extensions" ).Finish()
